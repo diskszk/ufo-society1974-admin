@@ -7,19 +7,15 @@ import App from './App';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { ConnectedRouter } from 'connected-react-router';
-import { Router } from 'react-router';
-// import {Routes } from './Routes';
 
-const history = History.createBrowserHistory();
+const history: History.History<any> = History.createBrowserHistory();
 export const store = createStore(history);
 
 ReactDOM.render(
   <Provider store={store}>
-    {/* <ConnectedRouter history={history}> */}
-    <Router history={history}>
+    <ConnectedRouter history={history}>
       <App />
-      {/* <Routes /> */}
-    </Router>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 );

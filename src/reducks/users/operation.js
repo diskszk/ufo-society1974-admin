@@ -8,7 +8,6 @@ export const signin = () => {
     // const state: RootState = getState();
     const isSignedIn = state.users.isSignedIn;
 
-    console.log("SIGNIN");
 
     if (!isSignedIn) {
       const url = "https://api.github.com/users/diskszk";
@@ -22,6 +21,9 @@ export const signin = () => {
         uid: "007",
         username: name,
       }));
+
+      console.log("SIGNIN");
+
       dispatch(push("/"));
     };
   }

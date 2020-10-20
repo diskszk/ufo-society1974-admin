@@ -1,10 +1,10 @@
-import { IUser } from '../users/types';
+import { User } from '../users/types';
 
-export type RootState = {
-  users: IUser;
+export type RootStore = {
+  users: User;
 }
 
-export const initialState: { users: IUser } = {
+export const initialState: { users: User } = {
   users: {
     isSignedIn: false,
     uid: "",

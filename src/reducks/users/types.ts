@@ -1,4 +1,4 @@
-export type IUser = {
+export type User = {
   isSignedIn: boolean;
   uid: string;
   username: string;

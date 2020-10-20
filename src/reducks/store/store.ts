@@ -10,7 +10,7 @@ import * as History from 'history';
 // import reducers
 import { UsersReducer } from '../users/reducers';
 
-export const createStore = (history: History.BrowserHistory<History.State>) => {
+export const createStore = (history: History.History<any>) => {
   return reduxCreateStore(
     combineReducers({
       router: connectRouter(history),

@@ -1,4 +1,4 @@
-import { IUser } from './types';
+import { User } from './types';
 
 export type I_SIGN_IN = "SIGN_IN";
 export type I_SIGN_OUT = "SIGN_OUT";
@@ -6,13 +6,14 @@ export const SIGN_IN = "SIGN_IN", SIGN_OUT = "SIGN_OUT";
 
 export type UserActions = {
   type: I_SIGN_IN;
-  payload: IUser;
+  payload: User;
 } | {
   type: I_SIGN_OUT;
-  payload: IUser;
+  payload: User;
 }
 
-// export const signinAction = (userState: IUser): UserActions => {
+// 引数の型をUserにすると全ての値を埋めないといけなくなる
+// export const signinAction = (userState: User): UserActions => {
 export const signinAction = (userState: any): UserActions => {
   return {
     type: SIGN_IN,

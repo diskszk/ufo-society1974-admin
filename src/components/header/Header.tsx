@@ -11,6 +11,11 @@ const Header = () => {
           ろぐいんはこちら
         </button>
       </Link>
+      <Link to="/signup">
+        <button>
+          管理者登録
+        </button>
+      </Link>
     </header >
   );
 }

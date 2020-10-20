@@ -11,8 +11,8 @@ const Home = () => {
   const UF_SOCIETY_OFFISIAL = "https://ufo-society-1974.web.app/";
 
   return (
-    <div className="home">
-      <h1>管理者ページ</h1>
+    <div className="home page">
+      <h1>HOME</h1>
       <div>
         <p>id: {}</p>
         <h2>おかえりなさいませ{}さま！</h2>

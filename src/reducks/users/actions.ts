@@ -14,7 +14,7 @@ export type UserActions = {
 
 // 引数の型をUserにすると全ての値を埋めないといけなくなる
 // export const signinAction = (userState: User): UserActions => {
-export const signinAction = (userState: any): UserActions => {
+export const signinAction = (userState: User): UserActions => {
   return {
     type: SIGN_IN,
     payload: {

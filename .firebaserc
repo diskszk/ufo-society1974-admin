@@ -1,5 +1,14 @@
 {
   "projects": {
-    "default": "ufo-society1974-admin"
+    "default": "ufo-society-1974"
+  },
+  "targets": {
+    "ufo-society-1974": {
+      "hosting": {
+        "ufo-society1974admin": [
+          "ufo-society1974admin"
+        ]
+      }
+    }
   }
 }

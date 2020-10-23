@@ -79,10 +79,12 @@ const SignUp = () => {
           onChange={selectRole}
         />
 
-        <PrimalyButton
-          label="登録する"
-          onClick={() => dispatch(signUp(username, email, password, confirmPassword, role))}
-        />
+        <div className="button-container">
+          <PrimalyButton
+            label="登録する"
+            onClick={() => dispatch(signUp(username, email, password, confirmPassword, role))}
+          />
+        </div>
       </div>
     </div>
   );

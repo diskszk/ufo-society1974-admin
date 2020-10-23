@@ -10,12 +10,17 @@ const Home = () => {
 
   const UF_SOCIETY_OFFISIAL = "https://ufo-society-1974.web.app/";
 
+  const users = useSelector<RootStore, User>(state => state.users);
+  const username = users.username;
+
+  console.log(users);
+
+
   return (
     <div className="home page">
       <h1>HOME</h1>
       <div>
-        <p>id: {}</p>
-        <h2>おかえりなさいませ{}さま！</h2>
+        <h2>おかえりなさいませ{username}さま！</h2>
       </div>
       <div>
         <img alt="メイドさん" src={meido} />

@@ -1,0 +1,32 @@
+@import './home';
+@import './signUp';
+
+body {
+  background-image: url('../images/nasa2.jpg');
+  color: red;
+
+  margin: 0 auto;
+  text-align: center;
+  * {
+    margin: 0;
+  }
+
+  h1 {
+    background-color: black;
+    height: 80px;
+    line-height: 80px;
+    
+  }
+}
+.spacing-div {
+  height: 2em;
+}
+
+.page {
+  margin-bottom: 2em;
+
+  h1 {
+    margin-top: .2em;
+  }
+ 
+}

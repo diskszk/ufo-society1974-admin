@@ -36,10 +36,12 @@
   },
   "devDependencies": {
     "@material-ui/core": "^4.11.0",
+    "@material-ui/styles": "^4.10.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.6",
+    "@types/redux": "^3.6.0",
     "connected-react-router": "^6.8.0",
     "firebase": "^7.24.0",
     "history": "^4.10.1",

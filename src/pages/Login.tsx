@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { PrimalyButton, TextInput } from '../components/UIKit';
 import { login } from '../reducks/users/operation';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 // Login with e-mail & password
 const Login = () => {
@@ -34,12 +35,15 @@ const Login = () => {
           type={"password"} onChange={inputPassword}
         />
 
+        <div className="spacing-div" />
         <div className="button-container">
           <PrimalyButton
             label="ログイン"
             onClick={() => dispatch(login(email, password))}
           />
         </div>
+        <div className="spacing-div" />
+        <Link to='/reset'><p>パスワードをリセットする</p></Link>
       </div>
     </div>
   );

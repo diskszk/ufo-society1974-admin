@@ -6,14 +6,14 @@ type Props = {
   label: string;
   onClick: () => void;
 }
-
+[]
 const useStyles = makeStyles({
   button: {
     backgroundColor: "#efefef",
     color: "#000",
     fontSize: "1em",
     height: "3em",
-    marginBottom: "1em",
+    marginBottom: "2.25em",
     width: "16em"
   }
 })

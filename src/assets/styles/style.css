@@ -1,17 +1,19 @@
-.home .button-container button {
-  width: 13.5em;
-  height: 2.5em;
-  text-align: center;
-  border: 2px solid #333;
-  font-size: 16px;
-  color: #333;
-  font-weight: bold;
-  padding: 8px 16px;
-  border-radius: 4px;
-  -webkit-transition: .4s;
-  transition: .4s;
-  cursor: pointer;
-  margin-bottom: 12px;
+.button-container {
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.button-container .home-link {
+  text-decoration: none;
 }
 
 .inputs-container {
@@ -22,7 +24,16 @@
   margin-top: 16px;
   height: 140%;
   border-radius: 4px;
-  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 body {

@@ -1,19 +1,18 @@
 import { User } from './types';
 
 export type I_SIGN_IN = "SIGN_IN";
-export type I_SIGN_OUT = "SIGN_OUT";
-export const SIGN_IN = "SIGN_IN", SIGN_OUT = "SIGN_OUT";
+export type I_LOG_OUT = "LOG_OUT";
+export const SIGN_IN = "SIGN_IN", LOG_OUT = "LOG_OUT";
 
 export type UserActions = {
   type: I_SIGN_IN;
   payload: User;
 } | {
-  type: I_SIGN_OUT;
+  type: I_LOG_OUT;
   payload: User;
 }
 
 // 引数の型をUserにすると全ての値を埋めないといけなくなる
-// export const signinAction = (userState: User): UserActions => {
 export const signinAction = (userState: User): UserActions => {
   return {
     type: SIGN_IN,
@@ -26,9 +25,9 @@ export const signinAction = (userState: User): UserActions => {
   }
 };
 
-export const signoutAction = (): UserActions => {
+export const logOutAction = (): UserActions => {
   return {
-    type: SIGN_OUT,
+    type: LOG_OUT,
     payload: {
       isSignedIn: false,
       uid: "",

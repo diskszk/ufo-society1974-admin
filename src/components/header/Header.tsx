@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { logOut } from '../../reducks/users/operation';
 
-import Users from './users';
 const Header = () => {
+  const dispatch = useDispatch();
+
   return (
     <header>
       <p>ヘッダー</p>
@@ -17,7 +20,10 @@ const Header = () => {
           管理者登録
         </button>
       </Link>
-      <Users />
+      test@example.com
+      <button onClick={() => dispatch(logOut())}>
+        ログアウト
+      </button>
     </header >
   );
 }

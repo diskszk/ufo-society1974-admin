@@ -1,10 +1,10 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import meido from '../assets/images/job_maid_meido_kissa.png'
 import { useSelector } from 'react-redux';
-// import { getUserId, getUserName } from '../reducks/users/selectors';
 import { User } from '../reducks/users/types';
 import { RootStore } from '../reducks/store/initialState';
+import { PrimalyButton } from '../components/UIKit';
 
 const Home = () => {
 
@@ -30,25 +30,24 @@ const Home = () => {
       <div className="spacing-div"></div>
 
       <div className="button-container">
-        <div>
-          {/* <Link to="/admin/add-user"> */}
-          <button>管理者情報</button>
-          {/* </Link> */}
-        </div>
-        <div>
-          {/* <Link to="admin/add-song"> */}
-          <button>歌詞を追加・変種</button>
-          {/* </Link> */}
-          {/* <Link to="login">
-            <button>ログイン</button>
-          </Link> */}
-          {/* <button onClick={() => dispatch(push("/login"))}></button> */}
-        </div>
-        <div>
-          <a href={UF_SOCIETY_OFFISIAL} target="_blank" rel="noopener noreferrer">
-            <button>ﾎｰﾑﾍﾟｰｼﾞへ移動</button>
-          </a>
-        </div>
+        <Link className="home-link" to="/add-user">
+          <PrimalyButton
+            label={'管理者登録'}
+            onClick={() => { }}
+          />
+        </Link>
+        <Link className="home-link" to="/add-user">
+          <PrimalyButton
+            label={'歌詞を追加・変種'}
+            onClick={() => { }}
+          />
+        </Link>
+        <a className="home-link" href={UF_SOCIETY_OFFISIAL} target="_blank" rel="noopener noreferrer">
+          <PrimalyButton
+            label={'ﾎｰﾑﾍﾟｰｼﾞへ移動'}
+            onClick={() => { }}
+          />
+        </a>
       </div>
 
     </div>

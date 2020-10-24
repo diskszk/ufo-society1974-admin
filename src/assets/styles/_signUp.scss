@@ -7,7 +7,7 @@
   margin-top: 16px;
   height: 140%;
   border-radius: 4px;
-  display: block;
-  // flex-direction: column;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

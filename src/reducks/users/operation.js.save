@@ -1,6 +1,11 @@
+
+
+
+xt
 import { logOutAction, signinAction } from './actions';
 import { push } from 'connected-react-router'
 import { auth, db, FirebaseTimestamp } from '../../firebase';
+
 
 export const listenAuthState = () => {
   return async (dispatch) => {
@@ -26,33 +31,6 @@ export const listenAuthState = () => {
           dispatch(push('/'));
         })
     })
-  }
-}
-
-export const resetPassword = (email) => {
-  return async (dispatch) => {
-
-    // valldert
-    if (email === "") {
-      alert('必須項目が未入力です。');
-      return false;
-    }
-    db.collection('users').where('email', '==', email).get()
-      .then(snapshot => {
-
-        if (snapshot.empty) {
-          alert('入力されたメールアドレスが登録されていません。.');
-          return false;
-        } else {
-          auth.sendPasswordResetEmail(email)
-            .then(() => {
-              alert('入力されたアドレスにパスワードリセット用のメールを送信しました。');
-              dispatch(push('/login'));
-            }).catch(e => {
-              alert('パスワードリセットに失敗しました。');
-            });
-        }
-      })
   }
 }
 
@@ -148,9 +126,8 @@ export const logOut = () => {
   return async (dispatch) => {
     auth.signOut()
       .then(() => {
-        dispatch(logOutAction());
-        alert('ログアウトします。')
-        dispatch(push('/login'));
-      });
+        // dispatch(logOutAction())
+        dispatch(push('/'));
+      })
   }
 }

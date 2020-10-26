@@ -49,7 +49,7 @@ const SignUp = () => {
   }, [setRole])
 
   return (
-    <div className="sign-up page">
+    <section className="sign-up page">
       <h1>管理者登録</h1>
       <div className="inputs-container">
         <TextInput
@@ -86,7 +86,7 @@ const SignUp = () => {
           />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 export default SignUp;

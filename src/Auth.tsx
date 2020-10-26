@@ -1,6 +1,5 @@
 import React, { useEffect, ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { JsxElement } from 'typescript';
 import { RootStore } from './reducks/store/initialState';
 import { listenAuthState } from './reducks/users/operation';
 import { User } from './reducks/users/types';

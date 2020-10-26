@@ -9,6 +9,11 @@ service cloud.firestore {
       allow delete: if request.auth.uid == userId;
     }
 
+    match /songs/{id} {
+      allow read: if request.auth.uid != null;
+      allow write: if request.auth.uid != null;
+    }
+
     // This rule allows anyone on the internet to view, edit, and delete
     // all data in your Firestore database. It is useful for getting
     // started, but it is configured to expire after 30 days because it

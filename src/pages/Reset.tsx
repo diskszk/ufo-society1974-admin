@@ -13,7 +13,7 @@ const Reset = () => {
   }, [setEmail]);
 
   return (
-    <div className="reset page">
+    <section className="reset page">
       <h1>パスワードリセット</h1>
       <div className="inputs-container">
 
@@ -30,7 +30,7 @@ const Reset = () => {
           />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 export default Reset;

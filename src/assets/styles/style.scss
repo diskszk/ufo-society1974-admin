@@ -1,5 +1,5 @@
-@import './home';
-@import './signUp';
+@import './input';
+@import './button';
 
 body {
   background-image: url('../images/nasa2.jpg');
@@ -22,7 +22,7 @@ body {
   height: 2em;
 }
 
-.page {
+section {
   margin-bottom: 2em;
 
   h1 {

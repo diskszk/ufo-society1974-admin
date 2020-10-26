@@ -23,7 +23,6 @@ export const listenAuthState = () => {
             role: data.data,
           }))
 
-          dispatch(push('/'));
         })
     })
   }

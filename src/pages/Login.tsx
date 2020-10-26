@@ -20,7 +20,7 @@ const Login = () => {
   }, [setPassword]);
 
   return (
-    <div className="login page">
+    <section className="login page">
       <h1>ログイン</h1>
       <div className="inputs-container">
 
@@ -45,7 +45,7 @@ const Login = () => {
         <div className="spacing-div" />
         <Link to='/reset'><p>パスワードをリセットする</p></Link>
       </div>
-    </div>
+    </section>
   );
 }
 export default Login;

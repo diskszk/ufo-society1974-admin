@@ -12,6 +12,7 @@ const Auth = ({ children }: any) => {
 
   const dispatch = useDispatch();
   const user = useSelector<RootStore, User>(state => state.users);
+
   const isSignedIn = user.isSignedIn;
 
   useEffect(() => {
@@ -20,8 +21,9 @@ const Auth = ({ children }: any) => {
     }
   }, []);
 
+
   if (!isSignedIn) {
-    return <></>;
+    return <h2 className="loading">Loading...</h2>
   } else {
     return children;
   }

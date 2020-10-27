@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Auth from './Auth';
-import { Home, Login, NotFound, SignUp, Reset, Songs, SongAdd } from './pages';
+import { Home, Login, NotFound, SignUp, Reset, Songs, SongEdit } from './pages';
 
 const Routes = () => {
   return (
@@ -14,8 +14,7 @@ const Routes = () => {
 
         {/* SongsCRUD */}
         <Route exact path='/songs' component={Songs} />
-        <Route exact path='/songs/add' component={SongAdd} />
-        {/* <Route exact path='/songs/edit' component={SongEdit} /> */}
+        <Route path='/songs/edit(/:id)?' component={SongEdit} />
 
         {/* <Route component={NotFound} /> */}
       </Auth>

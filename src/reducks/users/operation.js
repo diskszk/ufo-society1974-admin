@@ -7,7 +7,9 @@ export const listenAuthState = () => {
     return auth.onAuthStateChanged(user => {
 
       if (!user) {
+        console.log("not logined");
         dispatch(push('/login'));
+        return false;
       }
 
       const uid = user.uid;

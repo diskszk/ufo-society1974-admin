@@ -1,11 +1,13 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import { PrimalyButton, TextInput } from '../components/UIKit';
 import ConfirmLyricModal from '../components/songs/ConfirmLyricModal';
 import { saveSong } from '../components/songs/saveSong';
+import { fetchSongs } from '../components/songs/fetchSongs';
+import { db } from '../firebase';
 
-const SongAdd = () => {
+const SongEdit = () => {
   const dispatch = useDispatch();
 
   const [modal, setModal] = useState(false);
@@ -18,6 +20,11 @@ const SongAdd = () => {
     [titleKana, setTitleKana] = useState(""),
     [story, setStory] = useState("無し"),
     [lyric, setLyric] = useState("");
+
+  let idx = window.location.pathname.split('/songs/edit')[1];
+  if (idx !== "") {
+    idx = idx.split('/')[1];
+  }
 
   const inputId = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
@@ -35,7 +42,35 @@ const SongAdd = () => {
   }, [setStory])
   const inputLyric = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setLyric(e.target.value);
-  }, [setLyric])
+  }, [setLyric]);
+
+  useEffect(() => {
+    fetchSongs()
+      .then((songList) => {
+        const latestId = (songList.length + 1).toString();
+        setId(latestId);
+      })
+  }, [setId]);
+
+  useEffect(() => {
+    if (idx !== "") {
+      console.log("idx:", idx);
+
+      db.collection("songs").doc(idx).get()
+        .then((snapshot) => {
+          const data = snapshot.data();
+          console.log(data);
+
+          if (!data) return false;
+
+          setId(data.id);
+          setTitle(data.title);
+          setTitleKana(data.titleKana);
+          setStory(data.story);
+          setLyric(data.lyric);
+        })
+    }
+  }, []);
 
   return (
     <section>
@@ -93,4 +128,4 @@ const SongAdd = () => {
   );
 }
 
-export default SongAdd;
+export default SongEdit;

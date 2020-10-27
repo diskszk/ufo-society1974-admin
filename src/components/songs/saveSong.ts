@@ -19,9 +19,10 @@ export const saveSong = (
   return async (dispatch: any) => {
 
     const timestamp = FirebaseTimestamp.now();
+    const numId = id;
 
     const data: Song = {
-      id: parseInt(id, 10),
+      id: parseInt(numId, 10),
       title: title,
       titleKana: titleKana,
       story: story,
@@ -29,9 +30,11 @@ export const saveSong = (
       created_at: timestamp
     }
 
-    songRef.doc(id).set(data)
+    const strId = id.toString();
+    console.log(typeof id);
+
+    songRef.doc(strId).set(data, { merge: true })
       .then(() => {
-        console.log(data);
         dispatch(push('/songs'));
       }).catch((e: string) => {
         console.error(`Error: ${e}`);

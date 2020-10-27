@@ -16,8 +16,7 @@ export { default as Reset } from './Reset';
 
 // Songs CRUD
 export { default as Songs } from './Songs';
-export { default as SongAdd } from './SongAdd';
-// export { default as EditSong } from './EditSong';
+export { default as SongEdit } from './SongEdit';
 
 
 export { default as NotFound } from './NotFound';

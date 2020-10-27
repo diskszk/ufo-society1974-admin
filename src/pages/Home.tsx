@@ -8,7 +8,7 @@ import { LinkButton, PrimalyButton } from '../components/UIKit';
 
 const Home = () => {
 
-  const UF_SOCIETY_OFFISIAL = "https://ufo-society-1974.web.app/";
+  const UFO_SOCIETY_OFFISIAL = "https://ufo-society-1974.web.app/";
 
   const users = useSelector<RootStore, User>(state => state.users);
   const username = users.username;

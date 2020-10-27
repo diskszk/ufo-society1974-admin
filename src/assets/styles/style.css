@@ -57,8 +57,71 @@
 
 .button-container__right-fixed {
   position: fixed;
-  right: 300px;
+  right: 20%;
   top: 160px;
+}
+
+.icon-button {
+  cursor: pointer;
+}
+
+.song-table {
+  max-width: 1300px;
+  margin: 24px auto;
+  font-size: 24px;
+}
+
+.song-table .song-element {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  text-align: left;
+  padding: 0 5%;
+}
+
+.song-table .song-element > p, .song-table .song-element div {
+  border: 1px solid #444;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: #eee;
+  color: #444;
+  padding-left: 4px;
+}
+
+.song-table .song-element .number {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  text-align: right;
+  padding-left: 0;
+  padding-right: 8px;
+}
+
+.song-table .song-element .id {
+  width: 5%;
+}
+
+.song-table .song-element .title {
+  width: 25%;
+}
+
+.song-table .song-element .title-kana {
+  width: 25%;
+}
+
+.song-table .song-element .story {
+  width: 25%;
+}
+
+.song-table .song-element .edit, .song-table .song-element .delete {
+  width: 5%;
+  text-align: center;
 }
 
 body {
@@ -88,5 +151,10 @@ section {
 
 section h1 {
   margin-top: .2em;
+}
+
+.loading {
+  line-height: 80vh;
+  font-size: 48px;
 }
 /*# sourceMappingURL=style.css.map */

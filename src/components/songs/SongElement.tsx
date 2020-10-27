@@ -1,11 +1,10 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 type Props = {
-  key: number;
   id: number;
   title: string;
   titleKana: string;
@@ -19,7 +18,7 @@ const SongElement = (props: Props) => {
   const dispatch = useDispatch();
 
   return (
-    <li key={props.key}>
+    <li>
       <div className="song-element">
         <p className="id number">{props.id}</p>
         <p className="title">{props.title}</p>

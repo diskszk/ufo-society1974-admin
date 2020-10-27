@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+
+  margin-right: 24px;
+
+  &-content {
+    text-align: left;
+    
+    > a {
+      text-decoration: none;
+      margin-left: 16px;
+      color: red;
+      cursor: pointer;
+    }
+  }
+}

@@ -1,42 +1,43 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import meido from '../assets/images/job_maid_meido_kissa.png'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { push } from 'connected-react-router';
 import { User } from '../reducks/users/types';
 import { RootStore } from '../reducks/store/initialState';
-import { LinkButton, PrimalyButton } from '../components/UIKit';
+import { PrimalyButton } from '../components/UIKit';
 
 const Home = () => {
 
-  const UFO_SOCIETY_OFFISIAL = "https://ufo-society-1974.web.app/";
 
+  const dispatch = useDispatch();
   const users = useSelector<RootStore, User>(state => state.users);
   const username = users.username;
 
   return (
     <section className="home page">
       <h1>HOME</h1>
+      <div className="spacing-div"></div>
       <div>
         <h2>おかえりなさいませ{username}さま！</h2>
       </div>
+      <div className="spacing-div"></div>
+
       <div>
         <img alt="メイドさん" src={meido} />
       </div>
-      <p>ご注文はどちらになさいますか？</p>
+      <div className="spacing-div"></div>
+      <h2>ご注文はどちらになさいますか？</h2>
 
       <div className="spacing-div"></div>
 
       <div className="button-container">
-        <Link className="link-button" to="/">
-          {/* primaly(?)buttonに統合する */}
-          <LinkButton
-            path="/#"
-            label={'管理者登録'}
-          />
-        </Link>
-        <LinkButton
-          path="/songs"
-          label={'歌詞を追加・変種'}
+        <PrimalyButton
+          label="ユーザー管理"
+          onClick={() => dispatch(push('/users'))}
+        />
+        <PrimalyButton
+          label="曲を管理"
+          onClick={() => dispatch(push('/songs'))}
         />
       </div>
     </section>

@@ -1,3 +1,28 @@
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  margin-right: 24px;
+}
+
+.header-content {
+  text-align: left;
+}
+
+.header-content > a {
+  text-decoration: none;
+  margin-left: 16px;
+  color: red;
+  cursor: pointer;
+}
+
 .inputs-container {
   background-color: rgba(255, 255, 255, 0.8);
   padding: 40px 72px;
@@ -93,6 +118,7 @@
   background-color: #eee;
   color: #444;
   padding-left: 4px;
+  min-height: 36px;
 }
 
 .song-table .song-element .number {
@@ -121,6 +147,58 @@
 
 .song-table .song-element .edit, .song-table .song-element .delete {
   width: 5%;
+  text-align: center;
+}
+
+.user-table {
+  max-width: 1300px;
+  margin: 24px auto;
+  font-size: 24px;
+}
+
+.user-table .user-element {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: left;
+  padding: 0 10%;
+}
+
+.user-table .user-element > p, .user-table .user-element div {
+  border: 1px solid #444;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: #eee;
+  color: #444;
+  padding-left: 4px;
+  min-height: 36px;
+}
+
+.user-table .user-element .number {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  text-align: right;
+  padding-left: 0;
+  padding-right: 8px;
+}
+
+.user-table .user-element .username {
+  width: 33%;
+}
+
+.user-table .user-element .role {
+  width: 33%;
+}
+
+.user-table .user-element .delete {
+  width: 6%;
   text-align: center;
 }
 

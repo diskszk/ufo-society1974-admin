@@ -1,6 +1,6 @@
 import { db } from '../../firebase';
 export const fetchSongs = async () => {
-  const res = await db.collection("songs").get();
+  const res = await db.collection("songs").orderBy('id').get();
 
   if (res.empty) return [];
   const songList: firebase.firestore.DocumentData[] = [];

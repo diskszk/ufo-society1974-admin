@@ -1,13 +1,13 @@
 import React from 'react';
 import { PrimalyButton } from '../components/UIKit';
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
-import SongTable from '../components/songs/SongTable';
+import UserTable from '../components/users/UserTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { User } from '../reducks/users/types';
 import { RootStore } from '../reducks/store/initialState';
 
-const Songs = () => {
+const Users = () => {
   const dispatch = useDispatch();
 
   const currentUser = useSelector<RootStore, User>(state => state.users);
@@ -15,21 +15,21 @@ const Songs = () => {
 
   return (
     <section className="page">
-      <h1>曲の管理ページ</h1>
+      <h1>ユーザー管理ページ</h1>
       <div className="spacing-div"></div>
 
-      {currentRole === "editer" && (
+      {currentRole === "master" && (
         <div className="button-container__right-fixed">
           <div
             className="icon-button" role="button"
-            onClick={() => dispatch(push("/songs/edit"))}
+            onClick={() => dispatch(push("/signup"))}
           >
             <LibraryAddOutlinedIcon fontSize="large" />
           </div>
         </div>
       )}
 
-      < SongTable />
+      <UserTable />
 
       <PrimalyButton
         label="もどる"
@@ -39,4 +39,4 @@ const Songs = () => {
   );
 }
 
-export default Songs;
+export default Users;

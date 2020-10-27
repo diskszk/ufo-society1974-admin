@@ -1,21 +1,34 @@
 import React, { useCallback, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import SongElement from './SongElement';
 import { fetchSongs } from './fetchSongs';
 import { Song } from './saveSong';
-import SongElement from './SongElement';
 import { deleteSong } from './deleteSong';
+import { RootStore } from '../../reducks/store/initialState';
+import { User } from '../../reducks/users/types';
 
 const SongTable = () => {
+
+  const currentUser = useSelector<RootStore, User>(state => state.users);
+  const currentRole = currentUser.role;
+
   const [songs, setSongs] = useState<Song[]>([]);
   const [amount, setAmount] = useState(0);
 
   const clickDelete = useCallback((id: number, titleKana: string) => {
+
+    // editer only
+    if (currentRole !== "master") {
+      alert("編集者のみ曲を削除できます。");
+      return false;
+    }
+    
     const deleteId = id.toString();
     if (window.confirm(`${titleKana}を削除しますか？`)) {
       deleteSong(deleteId);
 
       fetchSongs()
         .then((songList) => {
-          console.log(songList.length);
 
           setAmount(songList.length);
           const datas: Song[] = songList.map((song: firebase.firestore.DocumentData) => {

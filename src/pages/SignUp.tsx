@@ -1,7 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { PrimalyButton, TextInput, TypeSelector } from '../components/UIKit';
 import { signUp } from '../reducks/users/operation';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { push } from 'connected-react-router';
+import { auth } from '../firebase';
+import { User } from '../reducks/users/types';
+import { RootStore } from '../reducks/store/initialState';
 
 const roles = [
   {
@@ -20,6 +24,10 @@ const roles = [
 
 const SignUp = () => {
   const dispatch = useDispatch();
+
+  const user = useSelector<RootStore, User>(state => state.users);
+
+  const [isDisable, setIsDisable] = useState(false);
 
   const [username, setUsername] = useState(""),
     [email, setEmail] = useState(""),
@@ -45,8 +53,15 @@ const SignUp = () => {
 
   const selectRole = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setRole(e.target.value);
-    console.log(`role: ${role}`);
   }, [setRole])
+
+  useEffect(() => {
+    if (user.role != "master") {
+      console.log(user);
+
+      setIsDisable(true);
+    }
+  }, [setIsDisable])
 
   return (
     <section className="sign-up page">
@@ -79,10 +94,15 @@ const SignUp = () => {
           onChange={selectRole}
         />
 
-        <div className="button-container">
+        <div className="button-container-row">
           <PrimalyButton
+            isDisable={isDisable}
             label="登録する"
             onClick={() => dispatch(signUp(username, email, password, confirmPassword, role))}
+          />
+          <PrimalyButton
+            label="もどる"
+            onClick={() => dispatch(push('/users'))}
           />
         </div>
       </div>

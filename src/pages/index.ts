@@ -12,7 +12,7 @@ export { default as Reset } from './Reset';
   Dalete
 */
 // Users CRUD
-// export { default as Users } from './Users';
+export { default as Users } from './Users';
 
 // Songs CRUD
 export { default as Songs } from './Songs';

@@ -2,18 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import { PrimalyButton, TextInput } from '../components/UIKit';
-import ConfirmLyricModal from '../components/songs/ConfirmLyricModal';
 import { saveSong } from '../components/songs/saveSong';
 import { fetchSongs } from '../components/songs/fetchSongs';
 import { db } from '../firebase';
 
 const SongEdit = () => {
   const dispatch = useDispatch();
-
-  const [modal, setModal] = useState(false);
-  const closeModal = useCallback(() => {
-    setModal(false);
-  }, [setModal]);
 
   const [id, setId] = useState(""),
     [title, setTitle] = useState(""),
@@ -52,6 +46,7 @@ const SongEdit = () => {
       })
   }, [setId]);
 
+  // only edit
   useEffect(() => {
     if (idx !== "") {
       console.log("idx:", idx);
@@ -59,8 +54,6 @@ const SongEdit = () => {
       db.collection("songs").doc(idx).get()
         .then((snapshot) => {
           const data = snapshot.data();
-          console.log(data);
-
           if (!data) return false;
 
           setId(data.id);
@@ -74,10 +67,7 @@ const SongEdit = () => {
 
   return (
     <section>
-      <h1>曲を追加</h1>
-      {modal && (
-        <ConfirmLyricModal onClick={closeModal} />
-      )}
+      <h1>曲を追加・編集</h1>
       <div className="inputs-container">
         <TextInput
           fullWidth={false} label={"トラックID(表示する順番)"}
@@ -115,7 +105,7 @@ const SongEdit = () => {
             }}
           />
           <PrimalyButton
-            label="追加する"
+            label="保存する"
             onClick={() => dispatch(saveSong(id, title, titleKana, story, lyric))}
           />
           <PrimalyButton

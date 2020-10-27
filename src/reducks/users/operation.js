@@ -22,7 +22,7 @@ export const listenAuthState = () => {
             isSignedIn: true,
             uid: uid,
             username: data.username,
-            role: data.data,
+            role: data.role,
           }))
 
         })
@@ -86,14 +86,25 @@ export const login = (email, password) => {
 
             const data = snapshot.data();
 
-            dispatch(signinAction({
-              isSignedIn: true,
-              uid: uid,
-              username: data.username,
-              role: data.data,
-            }));
+            if (data.isDelete) {
+              alert('削除されたユーザーです。');
+              return false;
+            } else {
+              console.log(`role: ${data.role}`);
 
-            dispatch(push('/'));
+              dispatch(signinAction({
+                isSignedIn: true,
+                uid: uid,
+                username: data.username,
+                role: data.role,
+              }));
+
+              // if (data.role == 'master') {
+              //   dispatch(push('/signup'));
+              // } else {
+              dispatch(push('/'));
+              // }
+            }
           })
       })
       .catch(e => {
@@ -105,6 +116,8 @@ export const login = (email, password) => {
 }
 
 export const signUp = (username, email, password, confirmPassword, role) => {
+
+  console.log(`role: ${role}`);
   return async (dispatch) => {
     if (username === "" || email === "" || password === "" || confirmPassword === "" || role === "") {
       alert("必須項目が未入力です。");
@@ -133,7 +146,8 @@ export const signUp = (username, email, password, confirmPassword, role) => {
           role: role,
           uid: uid,
           updated_at: timestamp,
-          username: username
+          username: username,
+          isDelete: false
         }
 
         db.collection('users').doc(uid).set(userInitialData)
@@ -142,6 +156,33 @@ export const signUp = (username, email, password, confirmPassword, role) => {
             dispatch(push('/'));
           })
       }))
+  }
+}
+
+export const deleteUser = (id) => {
+
+  const userRef = db.collection('users').doc(id);
+  return async () => {
+    // role: masterは消せない
+    userRef.get()
+      .then(snapshot => {
+        const doc = snapshot.data();
+        if (doc.role == 'master') {
+          alert('このユーザーは削除できません。');
+          return false;
+        } else {
+          const data = {
+            isDelete: true
+          }
+          userRef.set(data, { merge: true })
+            .then(() => {
+              alert('ユーザーが削除されました。')
+            })
+            .catch(() => {
+              throw new Error;
+            })
+        }
+      })
   }
 }
 

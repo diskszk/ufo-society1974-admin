@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
@@ -24,17 +24,14 @@ const useStyles = makeStyles({
   }
 });
 
-
-
 const UserTable = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const currentUser = useSelector<RootStore, UserType>(state => state.users);
   const currentRole = currentUser.role;
 
   const [rows, setRows] = useState<User[]>([]);
-  const [amount, setAmount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const clickDelete = useCallback((id: string, username: string, role: string) => {
 
@@ -50,7 +47,6 @@ const UserTable = () => {
           getUsers()
             .then((list) => {
               setRows(list);
-              setAmount(list.length);
             });
         })
     } else {
@@ -62,13 +58,13 @@ const UserTable = () => {
     getUsers()
       .then((list) => {
         setRows(list);
-        setAmount(list.length)
+        setLoading(false);
       })
   }, [setRows])
 
   return (
     <div className="user-table">
-      {!rows.length && rows.length <= amount ? (
+      {loading ? (
         <h2>Loading...</h2>
       ) : (
           <TableContainer component={Paper}>

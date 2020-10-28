@@ -7,7 +7,6 @@ export const listenAuthState = () => {
     return auth.onAuthStateChanged(user => {
 
       if (!user) {
-        console.log("not login");
         dispatch(push('/login'));
         return false;
       }
@@ -38,7 +37,7 @@ export const resetPassword = (email) => {
       alert('必須項目が未入力です。');
       return false;
     }
-    db.collection('users').where('email', '==', email).get()
+    db.collection('users').where('email', '===', email).get()
       .then(snapshot => {
 
         if (snapshot.empty) {
@@ -80,7 +79,6 @@ export const login = (email, password) => {
           .then(snapshot => {
 
             if (!snapshot.exists) {
-              console.log('No such document!');
               return false
             }
 
@@ -97,7 +95,7 @@ export const login = (email, password) => {
                 role: data.role,
               }));
 
-              if (data.role == 'master') {
+              if (data.role === 'master') {
                 dispatch(push('/signup'));
               } else {
                 dispatch(push('/'));
@@ -131,7 +129,6 @@ export const signUp = (username, email, password, confirmPassword, role) => {
         const user = result.user;
 
         if (!user) {
-          console.log("失敗");
           return false;
         }
         const uid = user.uid;
@@ -149,10 +146,12 @@ export const signUp = (username, email, password, confirmPassword, role) => {
 
         db.collection('users').doc(uid).set(userInitialData)
           .then(() => {
-            console.log("login success");
             dispatch(push('/'));
           })
-      }))
+      })).catch(e => {
+        alert(`Error: ${e}`);
+        throw new Error(e);
+      })
   }
 }
 
@@ -165,7 +164,7 @@ export const deleteUser = (id) => {
     userRef.get()
       .then(snapshot => {
         const doc = snapshot.data();
-        if (doc.role == 'master') {
+        if (doc.role === 'master') {
           alert('このユーザーは削除できません。');
           return false;
         } else {
@@ -176,8 +175,8 @@ export const deleteUser = (id) => {
             .then(() => {
               alert('ユーザーが削除されました。')
             })
-            .catch(() => {
-              throw new Error;
+            .catch((e) => {
+              throw new Error(e);
             })
         }
       })

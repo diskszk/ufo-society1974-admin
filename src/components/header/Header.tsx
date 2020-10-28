@@ -4,14 +4,14 @@ import { push } from 'connected-react-router';
 import { RootStore } from '../../reducks/store/initialState';
 import { logOut } from '../../reducks/users/operation';
 import { User } from '../../reducks/users/types';
+import { changeRoleName } from '../users/changeRoleName';
 
 const Header = () => {
   const dispatch = useDispatch();
   const user = useSelector<RootStore, User>(state => state.users);
+  const roleName = changeRoleName(user.role)
 
   const UFO_SOCIETY_OFFISIAL = "https://ufo-society-1974.web.app/";
-
-
 
   return (
     <header>
@@ -27,7 +27,7 @@ const Header = () => {
         {user.isSignedIn && (
           <div className="header-content-right">
             <p>ユーザー: {user.username}</p>
-            <p>役職　　: {user.role}</p>
+            <p>権限　　: {roleName}</p>
           </div>
         )}
       </div>

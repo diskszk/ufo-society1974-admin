@@ -6,12 +6,14 @@ service cloud.firestore {
       allow read: if request.auth.uid != null;
       allow create;
       allow update: if request.auth.uid == userId;
-      allow delete: if request.auth.uid == userId;
+      allow delete: if request.auth.role == "master";
     }
 
     match /songs/{id} {
       allow read: if request.auth.uid != null;
+      allow create: if request.role == "editer";
       allow write: if request.auth.uid != null;
+      allow delete: if request.role == "editer";
     }
 
     // This rule allows anyone on the internet to view, edit, and delete

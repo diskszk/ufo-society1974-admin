@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 type Props = {
   label: string;
   onClick: () => void;
+  isDisable?: boolean;
 }
 
 const useStyles = makeStyles({
@@ -13,8 +14,8 @@ const useStyles = makeStyles({
     color: "#000",
     fontSize: "1em",
     height: "3em",
-    marginBottom: "1em",
-    width: "16em"
+    marginBottom: "2.25em",
+    width: "12em"
   }
 })
 
@@ -23,6 +24,7 @@ const PrimalyButton = (props: Props) => {
 
   return (
     <Button
+      disabled={props.isDisable}
       className={classes.button}
       variant="contained" onClick={() => props.onClick()}
     >

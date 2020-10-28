@@ -1,17 +1,38 @@
-.home .button-container button {
-  width: 13.5em;
-  height: 2.5em;
-  text-align: center;
-  border: 2px solid #333;
-  font-size: 16px;
-  color: #333;
-  font-weight: bold;
-  padding: 8px 16px;
-  border-radius: 4px;
-  -webkit-transition: .4s;
-  transition: .4s;
+.header {
+  height: 48px;
+  padding: 4px 24px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.header-content-left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: left;
+}
+
+.header-content-left > a {
+  margin-top: 4px;
+  text-decoration: none;
+  color: red;
   cursor: pointer;
-  margin-bottom: 12px;
+}
+
+.header-content-right {
+  text-align: left;
+}
+
+.header-content-right > p {
+  margin-top: 4px;
 }
 
 .inputs-container {
@@ -22,7 +43,175 @@
   margin-top: 16px;
   height: 140%;
   border-radius: 4px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.inputs-container p {
+  width: 40em;
+  color: #444;
   display: block;
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.button-container {
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.button-container-row {
+  width: 40em;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.button-container__right-fixed {
+  position: fixed;
+  right: 20%;
+  top: 160px;
+}
+
+.icon-button {
+  cursor: pointer;
+}
+
+.song-table {
+  max-width: 1300px;
+  margin: 24px auto;
+  font-size: 24px;
+}
+
+.song-table .song-element {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  text-align: left;
+  padding: 0 5%;
+}
+
+.song-table .song-element > p, .song-table .song-element div {
+  border: 1px solid #444;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: #eee;
+  color: #444;
+  padding-left: 4px;
+  min-height: 36px;
+}
+
+.song-table .song-element .number {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  text-align: right;
+  padding-left: 0;
+  padding-right: 8px;
+}
+
+.song-table .song-element .id {
+  width: 5%;
+}
+
+.song-table .song-element .title {
+  width: 25%;
+}
+
+.song-table .song-element .title-kana {
+  width: 25%;
+}
+
+.song-table .song-element .story {
+  width: 25%;
+}
+
+.song-table .song-element .edit, .song-table .song-element .delete {
+  width: 5%;
+  text-align: center;
+}
+
+.user-table {
+  max-width: 1300px;
+  margin: 24px auto;
+  font-size: 24px;
+}
+
+.user-table .user-element {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: left;
+  padding: 0 10%;
+}
+
+.user-table .user-element > p, .user-table .user-element div {
+  border: 1px solid #444;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: #eee;
+  color: #444;
+  padding-left: 4px;
+  min-height: 36px;
+}
+
+.user-table .user-element .number {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  text-align: right;
+  padding-left: 0;
+  padding-right: 8px;
+}
+
+.user-table .user-element .username {
+  width: 33%;
+}
+
+.user-table .user-element .role {
+  width: 33%;
+}
+
+.user-table .user-element .delete {
+  width: 6%;
+  text-align: center;
 }
 
 body {
@@ -46,11 +235,20 @@ body h1 {
   height: 2em;
 }
 
-.page {
+section {
   margin-bottom: 2em;
 }
 
-.page h1 {
+section h1 {
   margin-top: .2em;
+}
+
+.loading {
+  line-height: 80vh;
+  font-size: 48px;
+}
+
+.home .username {
+  font-size: 1.6em;
 }
 /*# sourceMappingURL=style.css.map */

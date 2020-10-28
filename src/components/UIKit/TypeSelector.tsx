@@ -16,7 +16,7 @@ type Props = {
 const useSrtyles = makeStyles({
   selector: {
     margin: "1.5em 0",
-    width: "32em"
+    width: "40em"
   }
 })
 
@@ -26,7 +26,7 @@ const TypeSelector = (props: Props) => {
 
   return (
     <TextField
-    className={classes.selector}
+      className={classes.selector}
       id="standard-select-currency-native"
       select
       label={props.label}

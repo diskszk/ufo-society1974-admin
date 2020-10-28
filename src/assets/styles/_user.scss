@@ -1,0 +1,41 @@
+.user-table {
+  max-width: 1300px;
+  margin: 24px auto;
+  font-size: 24px;
+
+
+  .user-element {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;;
+    text-align: left;
+    padding: 0 10%;
+
+    > p, div {
+      border: 1px solid #444;
+      box-sizing: border-box;
+      background-color: #eee;
+      color: #444;
+      padding-left: 4px;
+      min-height: 36px;
+    }
+
+    .number {
+      box-sizing: border-box;
+      text-align: right;
+      padding-left: 0;
+      padding-right: 8px;
+    }
+
+    .username {
+      width: 33%;
+    }
+    .role {
+      width: 33%;
+    }
+   .delete {
+      width: 6%;
+      text-align: center;
+    }
+  }
+}

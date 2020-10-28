@@ -11,9 +11,8 @@ export const UsersReducer: Reducer<User, Actions.UserActions> = (state = initial
         ...action.payload
       };
 
-    case Actions.SIGN_OUT:
+    case Actions.LOG_OUT:
       return {
-        ...state,
         ...action.payload
       }
 

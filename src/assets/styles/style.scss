@@ -1,5 +1,8 @@
-@import './home';
-@import './signUp';
+@import './header';
+@import './input';
+@import './button';
+@import './song';
+@import './user';
 
 body {
   background-image: url('../images/nasa2.jpg');
@@ -22,11 +25,21 @@ body {
   height: 2em;
 }
 
-.page {
+section {
   margin-bottom: 2em;
 
   h1 {
     margin-top: .2em;
+  }  
+}
+.loading {
+  line-height: 80vh;
+  font-size: 48px;
+}
+
+.home {
+
+  .username {
+    font-size: 1.6em;
   }
- 
 }

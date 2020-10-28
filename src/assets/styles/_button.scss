@@ -1,0 +1,25 @@
+.button-container {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  &-row {
+    width: 40em;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__right-fixed {
+    position: fixed;
+    right: 20%;
+    top: 160px;
+  }
+}
+
+.icon-button {
+  cursor: pointer;
+}
+

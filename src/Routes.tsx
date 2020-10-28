@@ -1,18 +1,28 @@
 import * as React from 'react';
-// import { Switch } from 'react-router';
 import { Switch, Route } from 'react-router-dom';
-import { Home, Login, NotFound, SignUp } from './pages';
+import Auth from './Auth';
+import { Home, Login, NotFound, SignUp, Reset, Songs, SongEdit, Users } from './pages';
 
 const Routes = () => {
   return (
-    <div>
-      <Switch>
-        <Route exact path='(/)?'><Home /></Route>
-        <Route exact path='/login' component={Login} />
+    <Switch>
+      <Route exact path='/login' component={Login} />
+      <Route exact path='/reset' component={Reset} />
+
+      <Auth>
+        <Route exact path='(/)?' component={Home} />
+
+
+        {/* UasersCRUD */}
+        <Route exact path="/users" component={Users} />
         <Route exact path='/signup' component={SignUp} />
-        <Route component={NotFound} />
-      </Switch>
-    </div>
+
+        {/* SongsCRUD */}
+        <Route exact path='/songs' component={Songs} />
+        <Route path='/songs/edit(/:id)?' component={SongEdit} />
+
+      </Auth>
+    </Switch>
   )
 };
 export default Routes;

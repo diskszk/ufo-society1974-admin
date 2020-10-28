@@ -5,7 +5,7 @@ service cloud.firestore {
     match /users/{userId} {
       allow read: if request.auth.uid != null;
       allow create;
-      allow update: if request.auth.uid == userId;
+      allow update;
       allow delete: if request.auth.role == "master";
     }
 

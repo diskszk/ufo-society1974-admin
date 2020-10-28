@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Auth from './Auth';
-import { Home, Login, NotFound, SignUp, Reset, Songs, SongEdit, Users } from './pages';
+import { Home, Login, SignUp, Reset, Songs, SongEdit, Users } from './pages';
 
 const Routes = () => {
   return (
@@ -20,7 +20,6 @@ const Routes = () => {
         {/* SongsCRUD */}
         <Route exact path='/songs' component={Songs} />
         <Route path='/songs/edit(/:id)?' component={SongEdit} />
-
       </Auth>
     </Switch>
   )

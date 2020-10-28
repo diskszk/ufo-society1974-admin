@@ -2,7 +2,7 @@ import { db, FirebaseTimestamp } from '../../firebase';
 import { Song } from "./types";
 import { push } from 'connected-react-router';
 
-const songRef = db.collection('songs');
+const unpublishedSongsRef = db.collection('unpublished_songs');
 
 export const saveSong = (
   id: string, title: string, titleKana: string, story: string, lyric: string
@@ -24,7 +24,7 @@ export const saveSong = (
 
     const strId = id.toString();
 
-    songRef.doc(strId).set(data, { merge: true })
+    unpublishedSongsRef.doc(strId).set(data, { merge: true })
       .then(() => {
         dispatch(push('/songs'));
       }).catch((e: string) => {

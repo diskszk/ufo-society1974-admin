@@ -6,12 +6,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { User } from '../reducks/users/types';
 import { RootStore } from '../reducks/store/initialState';
+import { publishSongs } from '../components/songs/publishSongs';
 
 const Songs = () => {
   const dispatch = useDispatch();
 
   const currentUser = useSelector<RootStore, User>(state => state.users);
   const currentRole = currentUser.role;
+  const isDisable = (currentRole !== "editer");
+
+  const clickPublish = () => {
+    publishSongs()
+      .then(() => {
+        alert('曲を公開しました。')
+      }).catch(e => {
+        alert(e)
+      })
+  }
 
   return (
     <section className="page">
@@ -32,10 +43,18 @@ const Songs = () => {
       <div className="spacing-div"></div>
       <SongTable />
 
-      <PrimalyButton
-        label="もどる"
-        onClick={() => dispatch(push("/"))}
-      />
+      <div className="button-container-row">
+        <PrimalyButton
+          label="もどる"
+          onClick={() => dispatch(push("/"))}
+        />
+        <PrimalyButton
+          isDisable={isDisable}
+          label="公開する"
+          onClick={clickPublish}
+        />
+      </div>
+
     </section >
   );
 }

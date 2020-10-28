@@ -1,18 +1,5 @@
-import { db } from '../../firebase';
 import { Song } from "./types";
-
-const fetchSongs = async () => {
-  const res = await db.collection("songs").orderBy('id').get();
-
-  if (res.empty) return [];
-  const songList: firebase.firestore.DocumentData[] = [];
-
-  res.forEach((doc) => {
-    songList.push(doc.data());
-  })
-
-  return songList;
-}
+import { fetchSongs } from './fetchSongs';
 
 export const getSongs = async () => {
   return await fetchSongs()

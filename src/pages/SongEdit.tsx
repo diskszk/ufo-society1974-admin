@@ -37,18 +37,17 @@ const SongEdit = () => {
   }, [setLyric]);
 
   useEffect(() => {
-    getSongs()
-      .then((songList) => {
-        const latestId = (songList.length + 1).toString();
-        setId(latestId);
-      })
-  }, [setId]);
 
-  // only edit
-  useEffect(() => {
-    if (idx !== "") {
-
-      db.collection("songs").doc(idx).get()
+    if (idx === "") {
+      // New
+      getSongs()
+        .then((songList) => {
+          const latestId = (songList.length + 1).toString();
+          setId(latestId);
+        })
+    } else {
+      // Edit
+      db.collection("unpublished_songs").doc(idx).get()
         .then((snapshot) => {
           const data = snapshot.data();
           if (!data) return false;
@@ -60,7 +59,8 @@ const SongEdit = () => {
           setLyric(data.lyric);
         })
     }
-  }, []);
+
+  }, [setId]);
 
   return (
     <section>

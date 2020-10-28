@@ -24,8 +24,6 @@ const useStyles = makeStyles({
   }
 });
 
-
-
 const SongTable = () => {
   const classes = useStyles();
 
@@ -33,7 +31,7 @@ const SongTable = () => {
   const currentRole = currentUser.role;
 
   const [rows, setRows] = useState<Song[]>([]);
-  const [amount, setAmount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const clickDelete = useCallback((id: number, titleKana: string) => {
 
@@ -51,7 +49,6 @@ const SongTable = () => {
           getSongs()
             .then((list) => {
               setRows(list);
-              setAmount(list.length);
             })
         })
     } else {
@@ -64,13 +61,13 @@ const SongTable = () => {
     getSongs()
       .then((list) => {
         setRows(list);
-        setAmount(list.length)
+        setLoading(false);
       })
   }, [setRows])
 
   return (
     <div className="song-table">
-      {!rows.length && rows.length <= amount ? (
+      {loading ? (
         <h2>Loading...</h2>
       ) : (
           <TableContainer component={Paper}>

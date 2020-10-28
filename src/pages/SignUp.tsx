@@ -55,8 +55,7 @@ const SignUp = () => {
   }, [setRole])
 
   useEffect(() => {
-    if (user.role != "master") {
-      // console.log(user);
+    if (user.role !== "master") {
 
       setIsDisable(true);
     }

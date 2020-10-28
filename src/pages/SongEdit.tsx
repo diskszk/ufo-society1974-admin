@@ -84,7 +84,7 @@ const SongEdit = () => {
         />
         <TextInput
           fullWidth={false} label={"元ネタ"}
-          multiline={true} required={true} rows={2}
+          multiline={true} required={true} rows={1}
           value={story} type={"text"} onChange={inputStory}
         />
         <p></p>

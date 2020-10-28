@@ -13,7 +13,7 @@ import { RootStore } from '../../reducks/store/initialState';
 import { User as UserType } from '../../reducks/users/types';
 import { User } from './types';
 import { getUsers } from './getUsers';
-import { deleteUser } from '../../reducks/users/operation';
+import { deleteUser } from './deleteUser';
 
 const useStyles = makeStyles({
   table: {
@@ -36,7 +36,7 @@ const UserTable = () => {
   const [rows, setRows] = useState<User[]>([]);
   const [amount, setAmount] = useState(0);
 
-  const clickDelete = useCallback((id: string, username: string) => {
+  const clickDelete = useCallback((id: string, username: string, role: string) => {
 
     // maste only
     if (currentRole !== "master") {
@@ -45,12 +45,14 @@ const UserTable = () => {
     }
 
     if (window.confirm(`${username}さんを削除しますか？`)) {
-      dispatch(deleteUser(id));
-      getUsers()
-        .then((list) => {
-          setRows(list);
-          setAmount(list.length);
-        });
+      deleteUser(id, role)
+        .then(() => {
+          getUsers()
+            .then((list) => {
+              setRows(list);
+              setAmount(list.length);
+            });
+        })
     } else {
       return
     }

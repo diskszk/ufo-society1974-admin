@@ -3,14 +3,13 @@ import { PrimalyButton, TextInput, TypeSelector } from '../components/UIKit';
 import { signUp } from '../reducks/users/operation';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { auth } from '../firebase';
 import { User } from '../reducks/users/types';
 import { RootStore } from '../reducks/store/initialState';
 
 const roles = [
   {
     value: 'editer',
-    label: '編集'
+    label: '編集者'
   },
   {
     value: 'master',

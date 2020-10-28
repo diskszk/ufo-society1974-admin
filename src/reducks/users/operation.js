@@ -7,7 +7,7 @@ export const listenAuthState = () => {
     return auth.onAuthStateChanged(user => {
 
       if (!user) {
-        console.log("not logined");
+        console.log("not login");
         dispatch(push('/login'));
         return false;
       }
@@ -90,8 +90,6 @@ export const login = (email, password) => {
               alert('削除されたユーザーです。');
               return false;
             } else {
-              console.log(`role: ${data.role}`);
-
               dispatch(signinAction({
                 isSignedIn: true,
                 uid: uid,
@@ -99,11 +97,11 @@ export const login = (email, password) => {
                 role: data.role,
               }));
 
-              // if (data.role == 'master') {
-              //   dispatch(push('/signup'));
-              // } else {
-              dispatch(push('/'));
-              // }
+              if (data.role == 'master') {
+                dispatch(push('/signup'));
+              } else {
+                dispatch(push('/'));
+              }
             }
           })
       })
@@ -117,7 +115,6 @@ export const login = (email, password) => {
 
 export const signUp = (username, email, password, confirmPassword, role) => {
 
-  console.log(`role: ${role}`);
   return async (dispatch) => {
     if (username === "" || email === "" || password === "" || confirmPassword === "" || role === "") {
       alert("必須項目が未入力です。");
@@ -152,7 +149,7 @@ export const signUp = (username, email, password, confirmPassword, role) => {
 
         db.collection('users').doc(uid).set(userInitialData)
           .then(() => {
-            console.log("success");
+            console.log("login success");
             dispatch(push('/'));
           })
       }))
@@ -163,6 +160,7 @@ export const deleteUser = (id) => {
 
   const userRef = db.collection('users').doc(id);
   return async () => {
+
     // role: masterは消せない
     userRef.get()
       .then(snapshot => {
@@ -191,7 +189,7 @@ export const logOut = () => {
     auth.signOut()
       .then(() => {
         dispatch(logOutAction());
-        alert('ログアウトします。')
+        alert('ログアウトしました。')
         dispatch(push('/login'));
       });
   }

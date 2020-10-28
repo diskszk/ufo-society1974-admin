@@ -1,14 +1,6 @@
 import { db, FirebaseTimestamp } from '../../firebase';
+import { Song } from "./types";
 import { push } from 'connected-react-router';
-
-export type Song = {
-  id: number;
-  title: string;
-  titleKana: string;
-  story: string;
-  lyric: string;
-  created_at: firebase.firestore.Timestamp;
-}
 
 const songRef = db.collection('songs');
 
@@ -31,7 +23,6 @@ export const saveSong = (
     }
 
     const strId = id.toString();
-    console.log(typeof id);
 
     songRef.doc(strId).set(data, { merge: true })
       .then(() => {

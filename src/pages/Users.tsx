@@ -1,7 +1,7 @@
 import React from 'react';
 import { PrimalyButton } from '../components/UIKit';
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
-import UserTable from '../components/users/UserTable';
+import UserTable from '../components/users/UaerTble';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { User } from '../reducks/users/types';
@@ -29,6 +29,7 @@ const Users = () => {
         </div>
       )}
 
+      <div className="spacing-div"></div>
       <UserTable />
 
       <PrimalyButton

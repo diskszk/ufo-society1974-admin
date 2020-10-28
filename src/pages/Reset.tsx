@@ -25,7 +25,7 @@ const Reset = () => {
 
         <div className="button-container">
           <PrimalyButton
-            label="パスワードをリセット"
+            label="リセット"
             onClick={() => dispatch(resetPassword(email))}
           />
         </div>

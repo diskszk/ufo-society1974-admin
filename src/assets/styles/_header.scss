@@ -1,18 +1,30 @@
 .header {
+  height: 48px;
+  padding: 4px 24px;
   display: flex;
-  flex-direction: row-reverse;
-  align-items: flex-end;
-
-  margin-right: 24px;
+  justify-content: space-between;
 
   &-content {
-    text-align: left;
-    
-    > a {
-      text-decoration: none;
-      margin-left: 16px;
-      color: red;
-      cursor: pointer;
+
+    &-left {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+
+      > a {
+        margin-top: 4px;
+        text-decoration: none;
+        color: red;
+        cursor: pointer;
+      }
+    }
+
+    &-right {
+      text-align: left;
+
+      > p {
+        margin-top: 4px;
+      }
     }
   }
 }

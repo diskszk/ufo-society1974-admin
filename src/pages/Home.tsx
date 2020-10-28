@@ -18,7 +18,7 @@ const Home = () => {
       <h1>HOME</h1>
       <div className="spacing-div"></div>
       <div>
-        <h2>おかえりなさいませ{username}さま！</h2>
+        <h2>おかえりなさいませ <span className="username">{username}</span> さま！</h2>
       </div>
       <div className="spacing-div"></div>
 

@@ -57,7 +57,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (user.role != "master") {
-      console.log(user);
+      // console.log(user);
 
       setIsDisable(true);
     }
@@ -96,13 +96,13 @@ const SignUp = () => {
 
         <div className="button-container-row">
           <PrimalyButton
+            label="もどる"
+            onClick={() => dispatch(push('/users'))}
+          />
+          <PrimalyButton
             isDisable={isDisable}
             label="登録する"
             onClick={() => dispatch(signUp(username, email, password, confirmPassword, role))}
-          />
-          <PrimalyButton
-            label="もどる"
-            onClick={() => dispatch(push('/users'))}
           />
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,12 +8,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-import SongTableBody from './SongTableBody';
+import UserTableBody from './UserTableBody';
 import { RootStore } from '../../reducks/store/initialState';
-import { User } from '../../reducks/users/types';
-import { Song } from './types';
-import { getSongs } from './getSongs';
-import { deleteSong } from './deleteSong';
+import { User as UserType } from '../../reducks/users/types';
+import { User } from './types';
+import { getUsers } from './getUsers';
+import { deleteUser } from '../../reducks/users/operation';
 
 const useStyles = makeStyles({
   table: {
@@ -26,42 +26,38 @@ const useStyles = makeStyles({
 
 
 
-const SongTable = () => {
+const UserTable = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const currentUser = useSelector<RootStore, User>(state => state.users);
+  const currentUser = useSelector<RootStore, UserType>(state => state.users);
   const currentRole = currentUser.role;
 
-  const [rows, setRows] = useState<Song[]>([]);
+  const [rows, setRows] = useState<User[]>([]);
   const [amount, setAmount] = useState(0);
 
-  const clickDelete = useCallback((id: number, titleKana: string) => {
+  const clickDelete = useCallback((id: string, username: string) => {
 
-    // edditer only
-    if (currentRole !== "editer") {
-      alert("編集者のみ曲を削除できます。");
+    // maste only
+    if (currentRole !== "master") {
+      alert("ユーザー管理者のみユーザーを削除できます。");
       return false;
     }
 
-    if (window.confirm(`${titleKana}を削除しますか?`)) {
-      deleteSong(id)
-        .then(() => {
-
-          // do refresh
-          getSongs()
-            .then((list) => {
-              setRows(list);
-              setAmount(list.length);
-            })
-        })
+    if (window.confirm(`${username}さんを削除しますか？`)) {
+      dispatch(deleteUser(id));
+      getUsers()
+        .then((list) => {
+          setRows(list);
+          setAmount(list.length);
+        });
     } else {
       return
     }
-
-  }, [setRows])
+  }, [setRows]);
 
   useEffect(() => {
-    getSongs()
+    getUsers()
       .then((list) => {
         setRows(list);
         setAmount(list.length)
@@ -69,7 +65,7 @@ const SongTable = () => {
   }, [setRows])
 
   return (
-    <div className="song-table">
+    <div className="user-table">
       {!rows.length && rows.length <= amount ? (
         <h2>Loading...</h2>
       ) : (
@@ -77,16 +73,14 @@ const SongTable = () => {
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="right">No.</TableCell>
-                  <TableCell>Title</TableCell>
-                  <TableCell>タイトル(カタカナ)</TableCell>
-                  <TableCell>元ネタ</TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>ユーザーID</TableCell>
+                  <TableCell>お名前</TableCell>
+                  <TableCell>役職</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
 
-              <SongTableBody
+              <UserTableBody
                 rows={rows}
                 onClick={clickDelete}
               />
@@ -98,4 +92,4 @@ const SongTable = () => {
   );
 }
 
-export default SongTable;
+export default UserTable;

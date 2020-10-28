@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import { PrimalyButton, TextInput } from '../components/UIKit';
 import { saveSong } from '../components/songs/saveSong';
-import { fetchSongs } from '../components/songs/fetchSongs';
+import { getSongs } from '../components/songs/getSongs';
 import { db } from '../firebase';
 
 const SongEdit = () => {
@@ -31,15 +31,13 @@ const SongEdit = () => {
   }, [setTitleKana])
   const inputStory = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setStory(e.target.value);
-    console.log(story);
-
   }, [setStory])
   const inputLyric = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setLyric(e.target.value);
   }, [setLyric]);
 
   useEffect(() => {
-    fetchSongs()
+    getSongs()
       .then((songList) => {
         const latestId = (songList.length + 1).toString();
         setId(latestId);
@@ -49,7 +47,6 @@ const SongEdit = () => {
   // only edit
   useEffect(() => {
     if (idx !== "") {
-      console.log("idx:", idx);
 
       db.collection("songs").doc(idx).get()
         .then((snapshot) => {
@@ -87,7 +84,7 @@ const SongEdit = () => {
         />
         <TextInput
           fullWidth={false} label={"元ネタ"}
-          multiline={true} required={true} rows={1}
+          multiline={true} required={true} rows={2}
           value={story} type={"text"} onChange={inputStory}
         />
         <p></p>
@@ -99,18 +96,12 @@ const SongEdit = () => {
 
         <div className="button-container-row">
           <PrimalyButton
-            label="確認する"
-            onClick={() => {
-              console.log(story);
-            }}
+            label="もどる"
+            onClick={() => dispatch(push("/songs"))}
           />
           <PrimalyButton
             label="保存する"
             onClick={() => dispatch(saveSong(id, title, titleKana, story, lyric))}
-          />
-          <PrimalyButton
-            label="もどる"
-            onClick={() => dispatch(push("/songs"))}
           />
         </div>
       </div>

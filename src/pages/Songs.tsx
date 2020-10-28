@@ -29,7 +29,8 @@ const Songs = () => {
         </div>
       )}
 
-      < SongTable />
+      <div className="spacing-div"></div>
+      <SongTable />
 
       <PrimalyButton
         label="もどる"

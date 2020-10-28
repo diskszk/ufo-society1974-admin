@@ -1,11 +1,8 @@
 import { db } from '../../firebase';
-import { fetchSongs } from './fetchSongs';
 
-export const deleteSong = (id: string) => {
-  db.collection('songs').doc(id).delete()
+export const deleteSong = async (id: number) => {
+  return db.collection('songs').doc(id.toString()).delete()
     .catch(() => {
       throw new Error;
     })
-
-  fetchSongs();
 }

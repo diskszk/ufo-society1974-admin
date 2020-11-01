@@ -36,6 +36,15 @@ const SongEdit = () => {
     setLyric(e.target.value);
   }, [setLyric]);
 
+  const clickSave = () => {
+    if (id == "") {
+      alert("IDを入力してください");
+      return false;
+    }
+
+    dispatch(saveSong(id, title, titleKana, story, lyric))
+  }
+
   useEffect(() => {
 
     if (idx === "") {
@@ -74,20 +83,19 @@ const SongEdit = () => {
         <p>デフォルトのIDで一番下に表示されます。</p>
         <TextInput
           fullWidth={false} label={"タイトル(ローマ字)"}
-          multiline={false} required={true} rows={1}
+          multiline={false} required={false} rows={1}
           value={title} type={"text"} onChange={inputTitle}
         />
         <TextInput
           fullWidth={false} label={"タイトル(カタカナ)"}
-          multiline={false} required={true} rows={1}
+          multiline={false} required={false} rows={1}
           value={titleKana} type={"text"} onChange={InputTitleKana}
         />
         <TextInput
           fullWidth={false} label={"元ネタ"}
-          multiline={true} required={true} rows={1}
+          multiline={false} required={false} rows={1}
           value={story} type={"text"} onChange={inputStory}
         />
-        <p></p>
         <TextInput
           fullWidth={false} label={"歌詞"}
           multiline={true} required={false} rows={16}
@@ -101,7 +109,7 @@ const SongEdit = () => {
           />
           <PrimalyButton
             label="保存する"
-            onClick={() => dispatch(saveSong(id, title, titleKana, story, lyric))}
+            onClick={() => clickSave()}
           />
         </div>
       </div>

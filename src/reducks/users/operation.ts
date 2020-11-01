@@ -3,7 +3,7 @@ import { push } from 'connected-react-router'
 import { auth, db, FirebaseTimestamp } from '../../firebase';
 
 export const listenAuthState = () => {
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     return auth.onAuthStateChanged(user => {
 
       if (!user) {
@@ -17,6 +17,8 @@ export const listenAuthState = () => {
         .then(snapshot => {
           const data = snapshot.data();
 
+          if (!data) return false;
+
           dispatch(signinAction({
             isSignedIn: true,
             uid: uid,
@@ -29,15 +31,15 @@ export const listenAuthState = () => {
   }
 }
 
-export const resetPassword = (email) => {
-  return async (dispatch) => {
+export const resetPassword = (email: string) => {
+  return async (dispatch: any) => {
 
     // valldert
     if (email === "") {
       alert('必須項目が未入力です。');
       return false;
     }
-    db.collection('users').where('email', '===', email).get()
+    db.collection('users').where('email', '==', email).get()
       .then(snapshot => {
 
         if (snapshot.empty) {
@@ -56,8 +58,8 @@ export const resetPassword = (email) => {
   }
 }
 
-export const login = (email, password) => {
-  return async (dispatch) => {
+export const login = (email: string, password: string) => {
+  return async (dispatch: any) => {
 
     // Validation
     if (email === "" || password === "") {
@@ -82,7 +84,8 @@ export const login = (email, password) => {
               return false
             }
 
-            const data = snapshot.data();
+            const data = snapshot.data()
+            if (!data) return false;
 
             if (data.isDelete) {
               alert('削除されたユーザーです。');
@@ -111,9 +114,9 @@ export const login = (email, password) => {
 
 }
 
-export const signUp = (username, email, password, confirmPassword, role) => {
+export const signUp = (username: string, email: string, password: string, confirmPassword: string, role: string) => {
 
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     if (username === "" || email === "" || password === "" || confirmPassword === "" || role === "") {
       alert("必須項目が未入力です。");
       return false;
@@ -155,7 +158,7 @@ export const signUp = (username, email, password, confirmPassword, role) => {
   }
 }
 
-export const deleteUser = (id) => {
+export const deleteUser = (id: string) => {
 
   const userRef = db.collection('users').doc(id);
   return async () => {
@@ -163,15 +166,17 @@ export const deleteUser = (id) => {
     // role: masterは消せない
     userRef.get()
       .then(snapshot => {
-        const doc = snapshot.data();
-        if (doc.role === 'master') {
+        const data = snapshot.data();
+        if (!data) return false;
+
+        if (data.role === 'master') {
           alert('このユーザーは削除できません。');
           return false;
         } else {
-          const data = {
+          const userData = {
             isDelete: true
           }
-          userRef.set(data, { merge: true })
+          userRef.set(userData, { merge: true })
             .then(() => {
               alert('ユーザーが削除されました。')
             })
@@ -184,7 +189,7 @@ export const deleteUser = (id) => {
 }
 
 export const logOut = () => {
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     auth.signOut()
       .then(() => {
         dispatch(logOutAction());

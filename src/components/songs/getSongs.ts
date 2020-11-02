@@ -9,7 +9,10 @@ export const getSongs = async () => {
         return {
           id: song.id,
           title: song.title,
-          titleKana: song.titleKana,
+          music: {
+            filename: song.music.filename,
+            path: song.music.path,
+          },
           story: song.story,
           lyric: song.lyric,
           created_at: song.created_at

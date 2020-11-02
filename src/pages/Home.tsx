@@ -8,7 +8,6 @@ import { PrimalyButton } from '../components/UIKit';
 
 const Home = () => {
 
-
   const dispatch = useDispatch();
   const users = useSelector<RootStore, User>(state => state.users);
   const username = users.username;

@@ -17,4 +17,32 @@
     text-align: left;
     margin-bottom: 12px;
   }
+
+  .input-author {
+    width: 40em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;;
+    
+
+    > div {
+      max-width: 18em;
+    }
+  }
+
+  .upload-song-form {
+    
+    height: 48px;
+    line-height: 48px;
+    
+    width: 40em;
+    display: flex;
+    flex-direction: row;
+    p {
+      width: 140px;
+    }
+    .display-none {
+      display: none;
+    }
+  }
 }

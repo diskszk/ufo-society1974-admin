@@ -1,11 +1,11 @@
 import { db, FirebaseTimestamp } from '../../firebase';
-import { Song } from "./types";
+import { Song, Music } from "./types";
 import { push } from 'connected-react-router';
 
 const unpublishedSongsRef = db.collection('unpublished_songs');
 
 export const saveSong = (
-  id: string, title: string, titleKana: string, story: string, lyric: string
+  id: string, title: string, music: Music, story: string, lyric: string
 ) => {
 
   return async (dispatch: any) => {
@@ -16,10 +16,15 @@ export const saveSong = (
     const data: Song = {
       id: parseInt(numId, 10),
       title: title,
-      titleKana: titleKana,
+      music: {
+        filename: music.filename,
+        path: music.path
+      },
       story: story,
       lyric: lyric,
-      created_at: timestamp
+      created_at: timestamp,
+
+      // thumbnail: 
     }
 
     const strId = id.toString();

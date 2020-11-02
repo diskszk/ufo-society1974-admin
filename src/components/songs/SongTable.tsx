@@ -33,7 +33,7 @@ const SongTable = () => {
   const [rows, setRows] = useState<Song[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const clickDelete = useCallback((id: number, titleKana: string) => {
+  const clickDelete = useCallback((id: number, title: string) => {
 
     // edditer only
     if (currentRole !== "editer") {
@@ -41,7 +41,7 @@ const SongTable = () => {
       return false;
     }
 
-    if (window.confirm(`${titleKana}を削除しますか?`)) {
+    if (window.confirm(`${title}を削除しますか?`)) {
       deleteSong(id)
         .then(() => {
 
@@ -52,7 +52,7 @@ const SongTable = () => {
             })
         })
     } else {
-      return
+      return false;
     }
 
   }, [setRows])
@@ -75,9 +75,9 @@ const SongTable = () => {
               <TableHead>
                 <TableRow>
                   <TableCell align="right">No.</TableCell>
-                  <TableCell>Title</TableCell>
-                  <TableCell>タイトル(カタカナ)</TableCell>
+                  <TableCell>タイトル</TableCell>
                   <TableCell>元ネタ</TableCell>
+                  <TableCell>再生</TableCell>
                   <TableCell></TableCell>
                   <TableCell></TableCell>
                 </TableRow>

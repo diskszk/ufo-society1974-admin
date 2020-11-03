@@ -86,7 +86,7 @@ const SongEdit = () => {
           })
         })
     }
-  }, [setId, setLoading]);
+  }, [setId, setLoading, setMusic]);
 
   return (
     <section>
@@ -116,11 +116,16 @@ const SongEdit = () => {
               isUploaded={isUploaded}
               setIsUploaded={setIsUploaded}
             />
-            <div>
-              <button onClick={() => { alert(`music: ${JSON.stringify(music)}`) }}>
-                再生
-          </button>
-            </div>
+            {music.filename && (
+              <div className="music=player">
+                <audio
+                  controls
+                  // controlsList="nodownload"
+                  src={music.path}
+                />
+              </div>
+            )}
+
             <div className="input-author">
               <TextInput
                 fullWidth={false} label={"作詞者"}

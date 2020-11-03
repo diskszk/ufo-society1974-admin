@@ -264,6 +264,10 @@ body * {
   margin: 0;
 }
 
+body *:focus {
+  outline: none;
+}
+
 body h1 {
   background-color: black;
   height: 80px;

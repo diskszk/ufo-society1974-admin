@@ -26,7 +26,6 @@ type Props = {
 
 const UploadMusicForm = (props: Props) => {
   const classes = useStyles();
-  // const [isUploaded, setIsUploaded] = useState(false);
 
   const uploadMusic = useCallback((event: React.ChangeEvent<HTMLInputElement>, filename: string) => {
     const fileList = event.target.files;

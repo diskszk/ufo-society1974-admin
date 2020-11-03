@@ -23,7 +23,10 @@ export const publishSongs = async () => {
     return {
       id: doc.id,
       title: doc.title,
-      titleKana: doc.titleKana,
+      music: {
+        filename: doc.music.filename,
+        path: doc.music.path,
+      },
       story: doc.story,
       lyric: doc.lyric,
       created_at: timestamp

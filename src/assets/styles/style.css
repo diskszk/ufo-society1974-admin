@@ -63,6 +63,45 @@
   margin-bottom: 12px;
 }
 
+.inputs-container .input-author {
+  width: 40em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.inputs-container .input-author > div {
+  max-width: 18em;
+}
+
+.inputs-container .upload-song-form {
+  height: 48px;
+  line-height: 48px;
+  width: 40em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.inputs-container .upload-song-form p {
+  width: 140px;
+}
+
+.inputs-container .upload-song-form .display-none {
+  display: none;
+}
+
 .button-container {
   margin: 0 auto;
   display: -webkit-box;
@@ -223,6 +262,10 @@ body {
 
 body * {
   margin: 0;
+}
+
+body *:focus {
+  outline: none;
 }
 
 body h1 {

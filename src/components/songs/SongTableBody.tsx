@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 
 type Props = {
   rows: Song[];
-  onClick: (id: number, titleKana: string) => void;
+  onClick: (id: number, title: string) => void;
 }
 
 const SongTableBody = (props: Props) => {
@@ -34,8 +34,10 @@ const SongTableBody = (props: Props) => {
             {row.id}
           </TableCell>
           <TableCell>{row.title}</TableCell>
-          <TableCell>{row.titleKana}</TableCell>
           <TableCell>{row.story}</TableCell>
+          <TableCell>
+            再生
+          </TableCell>
           <TableCell
             className={classes.actionBtn}
             onClick={() => dispatch(push(`/songs/edit/${row.id}`))}
@@ -43,7 +45,7 @@ const SongTableBody = (props: Props) => {
                 </TableCell>
           <TableCell
             className={classes.actionBtn}
-            onClick={() => props.onClick(row.id, row.titleKana)}
+            onClick={() => props.onClick(row.id, row.title)}
           >削除</TableCell>
         </TableRow>
       ))}

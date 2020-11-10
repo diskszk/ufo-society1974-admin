@@ -1,32 +1,36 @@
-import { logOutAction, signinAction } from './actions';
 import { push } from 'connected-react-router'
-import { auth, db, FirebaseTimestamp } from '../../firebase';
+import { logOutAction, signinAction } from '../../store/UsersReducer';
+import { auth, db, FirebaseTimestamp, userRef } from '../../firebase';
 
 export const listenAuthState = () => {
   return async (dispatch: any) => {
     return auth.onAuthStateChanged(user => {
 
       if (!user) {
+        console.log('not sign in !');
         dispatch(push('/login'));
         return false;
+      } else {
+        console.log('sign in !');
+
+        const uid = user.uid;
+
+        userRef.doc(uid).get()
+          .then(snapshot => {
+            const data = snapshot.data();
+            console.log(JSON.stringify(data));
+
+            if (!data) return false;
+
+            dispatch(signinAction({
+              isSignedIn: true,
+              uid: uid,
+              username: data.username,
+              role: data.role,
+            }))
+
+          })
       }
-
-      const uid = user.uid;
-
-      db.collection('users').doc(uid).get()
-        .then(snapshot => {
-          const data = snapshot.data();
-
-          if (!data) return false;
-
-          dispatch(signinAction({
-            isSignedIn: true,
-            uid: uid,
-            username: data.username,
-            role: data.role,
-          }))
-
-        })
     })
   }
 }
@@ -91,6 +95,8 @@ export const login = (email: string, password: string) => {
               alert('削除されたユーザーです。');
               return false;
             } else {
+              console.log(JSON.stringify(data));
+
               dispatch(signinAction({
                 isSignedIn: true,
                 uid: uid,

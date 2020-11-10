@@ -9,11 +9,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import SongTableBody from './SongTableBody';
-import { RootStore } from '../../reducks/store/initialState';
-import { User } from '../../reducks/users/types';
-import { Song } from './types';
-import { getSongs } from './getSongs';
-import { deleteSong } from './deleteSong';
+import { RootStore, User, Song } from '../../lib/types';
+// import {  } from '../../store/_users/types';
+// import { Song } from './types';
+// import {  } from './getSongs';
+import { deleteSong, getSongs } from '../../lib/songs';
+import { ROLE } from '../../constans';
 
 const useStyles = makeStyles({
   table: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
 const SongTable = () => {
   const classes = useStyles();
 
-  const currentUser = useSelector<RootStore, User>(state => state.users);
+  const currentUser = useSelector<RootStore, User>(state => state.user);
   const currentRole = currentUser.role;
 
   const [rows, setRows] = useState<Song[]>([]);
@@ -36,7 +37,7 @@ const SongTable = () => {
   const clickDelete = useCallback((id: number, title: string) => {
 
     // edditer only
-    if (currentRole !== "editer") {
+    if (currentRole !== ROLE.EDITOR) {
       alert("編集者のみ曲を削除できます。");
       return false;
     }

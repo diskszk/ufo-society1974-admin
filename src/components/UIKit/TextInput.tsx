@@ -16,7 +16,7 @@ type Props = {
 const useStyles = makeStyles({
   input: {
     margin: "1.5em 0",
-    width: "40em",
+    width: "80%"
   }
 });
 

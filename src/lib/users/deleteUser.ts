@@ -1,7 +1,7 @@
-import { db } from '../../firebase';
+import { db, userRef } from '../../firebase';
 
 export const deleteUser = async (id: string, role: string) => {
-  const userRef = db.collection('users').doc(id);
+  const deleteRef = userRef.doc(id);
 
   // role: masterは消せない
   if (role == 'master') {
@@ -11,7 +11,7 @@ export const deleteUser = async (id: string, role: string) => {
     const data = {
       isDelete: true
     }
-    return userRef.set(data, { merge: true })
+    return deleteRef.set(data, { merge: true })
       .then(() => {
         alert('ユーザーが削除されました。')
       })

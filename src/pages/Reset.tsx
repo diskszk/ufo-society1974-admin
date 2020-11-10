@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { PrimalyButton, TextInput } from '../components/UIKit';
-import { resetPassword } from '../reducks/users/operation';
+import { resetPassword } from '../lib/users/operation';
 import { useDispatch } from 'react-redux';
 
 const Reset = () => {

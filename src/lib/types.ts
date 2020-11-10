@@ -1,6 +1,7 @@
 // redux
 export type RootStore = {
   user: User;
+  image: Image,
 }
 
 export type User = {

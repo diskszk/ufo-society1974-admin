@@ -9,12 +9,14 @@ import * as History from 'history';
 
 // import reducers
 import { UsersReducer } from './UsersReducer';
+import { ImagesReducer } from './ImgaesReducer';
 
 export const createStore = (history: History.History<any>) => {
   return reduxCreateStore(
     combineReducers({
       router: connectRouter(history),
-      user: UsersReducer
+      user: UsersReducer,
+      image: ImagesReducer,
     }),
     applyMiddleware(
       routerMiddleware(history),

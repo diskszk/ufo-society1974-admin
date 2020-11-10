@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { PrimalyButton, TextInput } from '../components/UIKit';
-import { login } from '../reducks/users/operation';
+import { login } from '../lib/users/operation';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { URL } from '../constans';
 
 // Login with e-mail & password
 const Login = () => {
@@ -43,7 +44,7 @@ const Login = () => {
           />
         </div>
         <div className="spacing-div" />
-        <Link to='/reset'><p>パスワードをリセットする</p></Link>
+        <Link to={URL.RESET}><p>パスワードをリセットする</p></Link>
       </div>
     </section>
   );

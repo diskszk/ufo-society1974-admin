@@ -3,6 +3,9 @@
 @import './button';
 @import './song';
 @import './user';
+@import './albums';
+@import './albumEddit';
+@import './page';
 
 body {
   background-image: url('../images/nasa2.jpg');
@@ -12,6 +15,7 @@ body {
   text-align: center;
   * {
     margin: 0;
+    box-sizing: border-box;
 
     &:focus {
       outline: none;
@@ -46,4 +50,8 @@ section {
   .username {
     font-size: 1.6em;
   }
+}
+
+.display-none {
+  display: none;
 }

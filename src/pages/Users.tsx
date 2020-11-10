@@ -4,13 +4,14 @@ import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import UserTable from '../components/users/UaerTble';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { User } from '../reducks/users/types';
-import { RootStore } from '../reducks/store/initialState';
+import { URL, ROLE } from '../constans';
+import { RootStore, User } from '../lib/types';
+import { IconButton } from '@material-ui/core';
 
 const Users = () => {
   const dispatch = useDispatch();
 
-  const currentUser = useSelector<RootStore, User>(state => state.users);
+  const currentUser = useSelector<RootStore, User>(state => state.user);
   const currentRole = currentUser.role;
 
   return (
@@ -18,14 +19,11 @@ const Users = () => {
       <h1>ユーザー管理ページ</h1>
       <div className="spacing-div"></div>
 
-      {currentRole === "master" && (
+      {currentRole === ROLE.MASTER && (
         <div className="button-container__right-fixed">
-          <div
-            className="icon-button" role="button"
-            onClick={() => dispatch(push("/signup"))}
-          >
+          <IconButton onClick={() => dispatch(push(URL.SIGN_UP))}>
             <LibraryAddOutlinedIcon fontSize="large" />
-          </div>
+          </IconButton>
         </div>
       )}
 
@@ -34,7 +32,7 @@ const Users = () => {
 
       <PrimalyButton
         label="もどる"
-        onClick={() => dispatch(push("/"))}
+        onClick={() => dispatch(push('/'))}
       />
     </section >
   );

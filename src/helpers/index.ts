@@ -1,1 +1,0 @@
-export { timeConvert } from './timeConvert';

@@ -1,31 +1,32 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { PrimalyButton, TextInput, TypeSelector } from '../components/UIKit';
-import { signUp } from '../reducks/users/operation';
+import { signUp } from '../lib/users/operation';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { User } from '../reducks/users/types';
-import { RootStore } from '../reducks/store/initialState';
+import { RootStore, User } from '../lib/types';
+import { ROLE, URL } from '../constans';
 
 const roles = [
   {
-    value: 'editer',
-    label: '編集者'
+    value: ROLE.EDITOR,
+    label: ROLE.EDITOR
   },
   {
-    value: 'master',
-    label: 'ユーザー管理'
+    value: ROLE.MASTER,
+    label: ROLE.MASTER
   },
   {
-    value: 'test',
-    label: 'テスト'
+    value: ROLE.WATCHER,
+    label: ROLE.WATCHER
   }
 ]
 
 const SignUp = () => {
   const dispatch = useDispatch();
 
-  const user = useSelector<RootStore, User>(state => state.users);
+  const user = useSelector<RootStore, User>(state => state.user);
 
+  // tode: reduxで管理
   const [isDisable, setIsDisable] = useState(false);
 
   const [username, setUsername] = useState(""),
@@ -55,7 +56,7 @@ const SignUp = () => {
   }, [setRole])
 
   useEffect(() => {
-    if (user.role !== "master") {
+    if (user.role !== ROLE.MASTER) {
 
       setIsDisable(true);
     }
@@ -95,7 +96,7 @@ const SignUp = () => {
         <div className="button-container-row">
           <PrimalyButton
             label="もどる"
-            onClick={() => dispatch(push('/users'))}
+            onClick={() => dispatch(push(URL.USERS))}
           />
           <PrimalyButton
             isDisable={isDisable}

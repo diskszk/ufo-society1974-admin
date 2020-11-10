@@ -1,0 +1,68 @@
+.add-icon-button {
+  text-align: right;
+
+  span {
+    font-size: 18px;
+    color: #444;
+  }
+}
+
+
+
+.album {
+  
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 48px;
+
+  &-container {
+    display: flex;
+    flex-direction: row;
+  }
+  // &-image {
+
+  //   width: 45%;
+  //   display: flex;
+  //   flex-direction: column;
+
+  //   &__header {
+  //     text-align: left;
+  //     height: 48px;
+      
+  //     span {
+  //       line-height: 48px;
+  //       color: #444;
+  //     }
+  //   }
+
+  //   img {
+  //     object-fit: contain;
+  //   }
+  // }
+
+  &-info {
+
+    width: 55%;
+    padding: 0 12px 12px;
+
+    &__header {
+      text-align: left;
+      display: flex;
+      flex-direction: row;
+    }
+    &__discription {
+      p {
+        margin: 8px 0;
+      }
+
+      &__text-area {
+        background-color: rgba(255, 255, 255, .6);
+        border-radius: 4px;
+        padding: 0 4px;
+        min-height: 360px;
+      }
+    }
+
+  }
+}

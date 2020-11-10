@@ -4,16 +4,16 @@ import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import SongTable from '../components/songs/SongTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { User } from '../reducks/users/types';
-import { RootStore } from '../reducks/store/initialState';
-import { publishSongs } from '../components/songs/publishSongs';
+import { URL, ROLE } from '../constans';
+import { RootStore, User } from '../lib/types';
+import { publishSongs } from '../lib/songs';
 
 const Songs = () => {
   const dispatch = useDispatch();
 
-  const currentUser = useSelector<RootStore, User>(state => state.users);
+  const currentUser = useSelector<RootStore, User>(state => state.user);
   const currentRole = currentUser.role;
-  const isDisable = (currentRole !== "editer");
+  const isDisable = (currentRole !== ROLE.EDITOR);
 
   const clickPublish = () => {
     publishSongs()
@@ -29,7 +29,7 @@ const Songs = () => {
       <h1>曲の管理ページ</h1>
       <div className="spacing-div"></div>
 
-      {currentRole === "editer" && (
+      {currentRole === ROLE.EDITOR && (
         <div className="button-container__right-fixed">
           <div
             className="icon-button" role="button"
@@ -46,7 +46,7 @@ const Songs = () => {
       <div className="button-container-row">
         <PrimalyButton
           label="もどる"
-          onClick={() => dispatch(push("/"))}
+          onClick={() => dispatch(push(URL.HOME))}
         />
         <PrimalyButton
           isDisable={isDisable}

@@ -236,8 +236,14 @@
   color: #444;
 }
 
-.album {
-  width: 100%;
+.album-container {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 40px 72px;
+  width: 75vw;
+  margin: 0 auto;
+  margin-top: 16px;
+  height: 140%;
+  border-radius: 4px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -245,44 +251,51 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  margin-bottom: 48px;
 }
 
-.album-container {
+.album-list {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
-.album-info {
-  width: 55%;
-  padding: 0 12px 12px;
+.album-list li {
+  width: 50%;
+  padding: 16px;
 }
 
-.album-info__header {
+.album-list .album-image {
+  position: relative;
+}
+
+.album-list .album-image :hover {
+  cursor: pointer;
+}
+
+.album-list .album-image:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.album-list img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.album-list p {
   text-align: left;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-}
-
-.album-info__discription p {
-  margin: 8px 0;
-}
-
-.album-info__discription__text-area {
-  background-color: rgba(255, 255, 255, 0.6);
-  border-radius: 4px;
-  padding: 0 4px;
-  min-height: 360px;
+  color: #444;
 }
 
 .album-edit-image {

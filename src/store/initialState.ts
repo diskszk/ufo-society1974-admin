@@ -1,4 +1,5 @@
 import { RootStore } from '../lib/types';
+import { noImage } from '../constans';
 
 export const initialState: RootStore = {
   user: {
@@ -6,5 +7,9 @@ export const initialState: RootStore = {
     uid: "",
     username: "",
     role: ""
+  },
+  image: {
+    filename: "",
+    path: noImage,
   }
 };

@@ -11,7 +11,6 @@ import { IconButton } from '@material-ui/core';
 
 // Components
 import AlbumTable from '../components/albums/AlbumTable';
-import AlbumTableItmelbum from '../components/albums/AlbumTableItem';
 
 import { ROLE, URL } from '../constans';
 import { albumsData } from '../components/albums/testData';
@@ -39,24 +38,21 @@ const Albums = () => {
 
       <div className="spacing-div"></div>
 
-      <ul className="inputs-container">
-        <div className="add-icon-button">
-          {currentRole === ROLE.EDITOR && (
-            <div>
-              <span>アルバムを追加</span>
-              <IconButton
-                onClick={() => dispatch(push(URL.ALBUM_EDIT))}
-              >
-                <LibraryAddOutlinedIcon fontSize="large" />
-              </IconButton>
-            </div>
-          )}
-        </div>
+      <div className="album-container">
 
-        {albumsData.map((album: Album) => {
-          return <AlbumTableItmelbum album={{ ...album }} />
-        })}
-      </ul>
+        {currentRole === ROLE.EDITOR && (
+          <div className="add-icon-button">
+            <span>アルバムを追加</span>
+            <IconButton
+              onClick={() => dispatch(push(URL.ALBUM_EDIT))}
+            >
+              <LibraryAddOutlinedIcon fontSize="large" />
+            </IconButton>
+            <div className="spacing-div"></div>
+          </div>
+        )}
+        <AlbumTable albums={albumsData} />
+      </div>
 
       <div className="spacing-div"></div>
 

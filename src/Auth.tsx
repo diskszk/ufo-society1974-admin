@@ -14,11 +14,13 @@ const Auth = ({ children }: any) => {
     }
   }, []);
 
-  if (!isSignedIn) {
-    return <h2 className="loading">Loading...</h2>
-  } else {
-    return children;
-  }
+  // if (!isSignedIn) {
+  //   return <h2 className="loading">Loading...</h2>
+  // } else {
+  //   return children;
+  // }
+
+  return children;
 
 }
 

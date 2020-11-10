@@ -5,11 +5,11 @@
   align-items: center;
   
   &-row {
-    width: 40em;
-    margin: 0 auto;
+    width: 100%;
+    margin: 28px auto 0;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
   }
 
   &__right-fixed {

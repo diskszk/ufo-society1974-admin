@@ -9,11 +9,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import UserTableBody from './UserTableBody';
-import { RootStore } from '../../reducks/store/initialState';
-import { User as UserType } from '../../reducks/users/types';
-import { User } from './types';
-import { getUsers } from './getUsers';
-import { deleteUser } from './deleteUser';
+import { RootStore, User } from '../../lib/types';
+import { getUsers } from '../../lib/users/getUsers';
+import { deleteUser } from '../../lib/users/deleteUser';
 
 const useStyles = makeStyles({
   table: {
@@ -27,7 +25,7 @@ const useStyles = makeStyles({
 const UserTable = () => {
   const classes = useStyles();
 
-  const currentUser = useSelector<RootStore, UserType>(state => state.users);
+  const currentUser = useSelector<RootStore, User>(state => state.user);
   const currentRole = currentUser.role;
 
   const [rows, setRows] = useState<User[]>([]);

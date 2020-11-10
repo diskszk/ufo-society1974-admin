@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { db } from '../firebase';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import { PrimalyButton, TextInput } from '../components/UIKit';
-import { saveSong } from '../components/songs/saveSong';
-import { getSongs } from '../components/songs/getSongs';
-import { db } from '../firebase';
+import { getSongs, saveSongs } from '../lib/songs';
 import UploadSongForm from '../components/songs/UploadSongForm';
-import { Music } from '../components/songs/types';
+import { SongFile } from '../lib/types';
 
 const SongEdit = () => {
   const dispatch = useDispatch();
@@ -15,15 +14,13 @@ const SongEdit = () => {
     [title, setTitle] = useState(""),
     [story, setStory] = useState("無し"),
     [lyric, setLyric] = useState(""),
-    [selectedThumbnail, setSelectedSumbnail] = useState(""),
-    [addedThumbnail, setAddedSumbnail] = useState(""),
     [wordsRights, setWordsRights] = useState("amane toda"),
     [musicRights, setMusicRights] = useState("amane toda");
 
   const [isUploaded, setIsUploaded] = useState(false),
     [loading, setLoading] = useState(false);
 
-  const [music, setMusic] = useState<Music>({
+  const [songFile, setSongFile] = useState<SongFile>({
     filename: "",
     path: ""
   });
@@ -58,7 +55,7 @@ const SongEdit = () => {
       return false;
     }
 
-    dispatch(saveSong(id, title, music, story, lyric))
+    dispatch(saveSongs(id, title, songFile, story, lyric))
   }
 
   useEffect(() => {
@@ -80,13 +77,13 @@ const SongEdit = () => {
           setTitle(data.title);
           setStory(data.story);
           setLyric(data.lyric);
-          setMusic({
-            filename: data.music.filename,
-            path: data.music.path
-          })
+          // setMusic({
+          //   filename: data.music.filename,
+          //   path: data.music.path
+          // })
         })
     }
-  }, [setId, setLoading, setMusic]);
+  }, [setId, setLoading, setSongFile]);
 
   return (
     <section>
@@ -110,18 +107,18 @@ const SongEdit = () => {
             />
             <UploadSongForm
               id={id.toString()}
-              music={music}
-              setMusic={setMusic}
+              songFile={songFile}
+              setSongFile={setSongFile}
               setLoading={setLoading}
               isUploaded={isUploaded}
               setIsUploaded={setIsUploaded}
             />
-            {music.filename && (
+            {songFile.filename && (
               <div className="music=player">
                 <audio
                   controls
                   // controlsList="nodownload"
-                  src={music.path}
+                  src={songFile.path}
                 />
               </div>
             )}

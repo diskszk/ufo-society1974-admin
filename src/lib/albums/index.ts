@@ -1,0 +1,1 @@
+export { deleteAlbumImage } from './deleteAlbumImage';

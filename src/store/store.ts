@@ -8,13 +8,13 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import * as History from 'history';
 
 // import reducers
-import { UsersReducer } from '../users/reducers';
+import { UsersReducer } from './UsersReducer';
 
 export const createStore = (history: History.History<any>) => {
   return reduxCreateStore(
     combineReducers({
       router: connectRouter(history),
-      users: UsersReducer
+      user: UsersReducer
     }),
     applyMiddleware(
       routerMiddleware(history),

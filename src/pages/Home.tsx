@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import meido from '../assets/images/job_maid_meido_kissa.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { User } from '../reducks/users/types';
-import { RootStore } from '../reducks/store/initialState';
+import { RootStore, User } from '../lib/types';
 import { PrimalyButton } from '../components/UIKit';
+import { URL } from '../constans';
 
 const Home = () => {
 
   const dispatch = useDispatch();
-  const users = useSelector<RootStore, User>(state => state.users);
-  const username = users.username;
+  const { username } = useSelector<RootStore, User>(state => state.user);
 
   return (
     <section className="home page">
@@ -32,11 +31,11 @@ const Home = () => {
       <div className="button-container">
         <PrimalyButton
           label="ユーザー管理"
-          onClick={() => dispatch(push('/users'))}
+          onClick={() => dispatch(push(URL.USERS))}
         />
         <PrimalyButton
-          label="曲を管理"
-          onClick={() => dispatch(push('/songs'))}
+          label="アルバムを管理"
+          onClick={() => dispatch(push(URL.ALBUMS))}
         />
       </div>
     </section>

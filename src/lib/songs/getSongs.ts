@@ -1,4 +1,4 @@
-import { Song } from "./types";
+import { Song } from "../../lib/types";
 import { fetchSongs } from './fetchSongs';
 
 export const getSongs = async () => {
@@ -9,9 +9,9 @@ export const getSongs = async () => {
         return {
           id: song.id,
           title: song.title,
-          music: {
-            filename: song.music.filename,
-            path: song.music.path,
+          songFile: {
+            filename: song.songFile.filename,
+            path: song.songFile.path,
           },
           story: song.story,
           lyric: song.lyric,

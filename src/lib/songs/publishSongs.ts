@@ -1,6 +1,6 @@
 import { db, FirebaseTimestamp } from '../../firebase'
 import { fetchSongs } from './fetchSongs';
-import { Song } from './types';
+import { Song } from "../../lib/types";
 
 const publishedSongsRef = db.collection('songs');
 
@@ -23,9 +23,9 @@ export const publishSongs = async () => {
     return {
       id: doc.id,
       title: doc.title,
-      music: {
-        filename: doc.music.filename,
-        path: doc.music.path,
+      songFile: {
+        filename: doc.songFile.filename,
+        path: doc.songFile.path,
       },
       story: doc.story,
       lyric: doc.lyric,

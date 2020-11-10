@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { User } from './types';
+import { User } from '../../lib/types';
 
 const useStyles = makeStyles({
   table: {
@@ -31,7 +31,7 @@ const UserTableBody = (props: Props) => {
             {row.uid}
           </TableCell>
           <TableCell>{row.username}</TableCell>
-          <TableCell>{row.roleName}</TableCell>
+          <TableCell>{row.role}</TableCell>
           <TableCell
             className={classes.actionBtn}
             onClick={() => props.onClick(row.uid, row.username, row.role)}

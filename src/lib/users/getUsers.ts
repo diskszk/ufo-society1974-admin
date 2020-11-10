@@ -1,9 +1,9 @@
-import { db } from '../../firebase';
-import { User } from './types';
-import { changeRoleName } from './changeRoleName';
+import { db, userRef } from '../../firebase';
+import { User } from '../types';
+// import { changeRoleName } from './changeRoleName';
 
 const fetchUsers = async () => {
-  const res = await db.collection("users").where("isDelete", "!=", true).get();
+  const res = await userRef.where("isDelete", "!=", true).get();
 
   if (res.empty) return [];
   const userList: firebase.firestore.DocumentData[] = [];
@@ -18,13 +18,11 @@ const fetchUsers = async () => {
 export const getUsers = async () => {
   return await fetchUsers()
     .then(userList => {
-      const dataList: User[] = userList.map((user: firebase.firestore.DocumentData) => {
-        const roleName = changeRoleName(user.role);
+      const dataList: (User[] | any) = userList.map((user: firebase.firestore.DocumentData) => {
         return {
           uid: user.uid,
           username: user.username,
           role: user.role,
-          roleName: roleName
         }
       })
 

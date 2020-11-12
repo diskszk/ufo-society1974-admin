@@ -8,7 +8,8 @@ import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import { generateRandomStrings } from '../../lib/generateRandomStrings';
 import { deleteAlbumImage } from '../../lib/albums'
 import { Image } from '../../lib/types';
-import { noImage } from '../../constans';
+import { useDispatch } from 'react-redux';
+import { updateImageAction, deleteImageAction } from '../../store/ImgaesReducer';
 
 const useStyles = makeStyles({
   icon: {
@@ -19,13 +20,13 @@ const useStyles = makeStyles({
 
 type Props = {
   image: Image;
-  setImage: React.Dispatch<React.SetStateAction<Image>>;
 }
 
-const UploadImageForm: React.FC<Props> = (props) => {
+const UploadImageForm: React.FC<Props> = ({ image }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const uploadImage = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
 
     const fileList = e.target.files;
 
@@ -34,16 +35,14 @@ const UploadImageForm: React.FC<Props> = (props) => {
       return false;
     } else {
       // すでにローカルステートに登録されている場合はstorageの元の画像を削除
-      if (props.image.filename !== "") {
-        console.log(`${props.image.filename} delete`);
+      if (image.filename !== "") {
+        console.log(`${image.filename} delete`);
 
-        await deleteAlbumImage(props.image.filename);
+        await deleteAlbumImage(image.filename);
       } else {
 
         const file = fileList[0];
-
         const filename = generateRandomStrings();
-
         const uploadRef = imagesRef.child(filename);
         const uploadTask = uploadRef.put(file);
 
@@ -52,35 +51,18 @@ const UploadImageForm: React.FC<Props> = (props) => {
         console.log(downloadURL);
         const newImage = {
           filename: filename,
-          path: downloadURL
+          path: downloadURL,
         };
-        props.setImage(newImage);
+        dispatch(updateImageAction(newImage));
         console.log(`url: ${downloadURL}`);
 
         alert("画像のアップロードが完了しました。")
-
-
-        // uploadTask.then(() => {
-        //   uploadTask.snapshot.ref.getDownloadURL().then((downloadURL: string) => {
-        //     const newImage = {
-        //       filename: filename,
-        //       path: downloadURL
-        //     };
-        //     props.setImage(newImage);
-        //     console.log(`url: ${downloadURL}`);
-
-        //     alert("画像のアップロードが完了しました。")
-        //   }).catch((e) => {
-        //     alert("画像のアップロードに失敗しました。");
-        //   })
-        // })
       }
     }
-  }, [props.setImage]);
-
+  };
 
   const handleDelete = async () => {
-    if (!props.image.filename) {
+    if (!image.filename) {
       alert('画像が登録されていません。');
       return false;
     }
@@ -88,19 +70,18 @@ const UploadImageForm: React.FC<Props> = (props) => {
       return false;
     }
     console.log('start');
-    await deleteAlbumImage(props.image.filename);
+    await deleteAlbumImage(image.filename);
     console.log('end');
-    props.setImage({ filename: '', path: noImage });
+    dispatch(deleteImageAction());
     alert('削除されました。')
-
   }
 
   return (
     <div className="album-edit-image">
 
       <button onClick={() => {
-        console.log(`filename: ${props.image.filename}
-      path: ${props.image.path}
+        console.log(`filename: ${image.filename}
+      path: ${image.path}
       `)
       }}>ろがー
       </button>
@@ -121,7 +102,7 @@ const UploadImageForm: React.FC<Props> = (props) => {
           </label>
         </IconButton>
       </div>
-      <img src={props.image.path} alt={`アルバムイメージ`} />
+      <img src={image.path} alt={`アルバムのイメージ`} />
     </div>
   );
 }

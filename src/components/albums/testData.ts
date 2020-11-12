@@ -3,7 +3,7 @@ import { Album } from "../../lib/types";
 export const albumsData: Album[] = [
   {
     discription: "30曲入り",
-    id: "0001",
+    id: "chn_puri_1st",
     image: {
       filename: "ufo",
       path: "https://1.bp.blogspot.com/-8vjnbp_AXMM/USSkq9AIKTI/AAAAAAAANV0/PQ6FLf-xUks/s1600/alien_ufo.png",

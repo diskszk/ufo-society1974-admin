@@ -44,7 +44,7 @@ const Albums = () => {
           <div className="add-icon-button">
             <span>アルバムを追加</span>
             <IconButton
-              onClick={() => dispatch(push(URL.ALBUM_EDIT))}
+              onClick={() => dispatch(push('/albums/edit'))}
             >
               <LibraryAddOutlinedIcon fontSize="large" />
             </IconButton>

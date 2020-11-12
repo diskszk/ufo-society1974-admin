@@ -5,7 +5,7 @@ import { push } from 'connected-react-router';
 import { PrimalyButton, TextInput } from '../components/UIKit';
 import { getSongs, saveSongs } from '../lib/songs';
 import UploadSongForm from '../components/songs/UploadSongForm';
-import { SongFile } from '../lib/types';
+import { File } from '../lib/types';
 
 const SongEdit = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const SongEdit = () => {
   const [isUploaded, setIsUploaded] = useState(false),
     [loading, setLoading] = useState(false);
 
-  const [songFile, setSongFile] = useState<SongFile>({
+  const [songFile, setSongFile] = useState<File>({
     filename: "",
     path: ""
   });

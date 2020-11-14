@@ -4,7 +4,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import BackupIcon from '@material-ui/icons/Backup';
 import { makeStyles } from '@material-ui/core';
 import { db, storage, } from '../../firebase';
-import { SongFile } from '../../lib/types';
+import { File } from '../../lib/types';
 import { generateRandomStrings } from '../../lib/generateRandomStrings';
 
 
@@ -18,8 +18,8 @@ const useStyles = makeStyles({
 
 type Props = {
   id: string;
-  songFile: SongFile;
-  setSongFile: React.Dispatch<React.SetStateAction<SongFile>>;
+  musicFile: File;
+  setSongFile: React.Dispatch<React.SetStateAction<File>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   isUploaded: boolean;
   setIsUploaded: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,9 +39,6 @@ const UploadMusicForm = (props: Props) => {
       const file = fileList[0];
 
       if (filename === "") {
-        // const S = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        // const N = 16;
-        // filename = Array.from(crypto.getRandomValues(new Uint32Array(N))).map((n) => S[n % S.length]).join('');
         filename = generateRandomStrings();
       }
 
@@ -50,7 +47,7 @@ const UploadMusicForm = (props: Props) => {
 
       uploadTask.then(() => {
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          const newSongFile: SongFile = { filename: filename, path: downloadURL };
+          const newSongFile: File = { filename: filename, path: downloadURL };
           props.setSongFile(newSongFile);
           alert("曲がのデータがアップロードされました。")
           props.setIsUploaded(true);
@@ -104,13 +101,13 @@ const UploadMusicForm = (props: Props) => {
     } else {
       return false;
     }
-  }, [props.songFile]);
+  }, [props.musicFile]);
 
   useEffect(() => {
-    if (props.songFile.filename !== "") {
+    if (props.musicFile.filename !== "") {
       props.setIsUploaded(true);
     }
-  }, [props.songFile])
+  }, [props.musicFile])
 
   return (
     <div className="upload-song-form">
@@ -119,11 +116,11 @@ const UploadMusicForm = (props: Props) => {
         <label htmlFor="upload-music">
           <BackupIcon />
           <input type="file" className="display-none" accept=".mp3"
-            id={"upload-music"} onChange={(e) => uploadMusic(e, props.songFile.filename)} />
+            id={"upload-music"} onChange={(e) => uploadMusic(e, props.musicFile.filename)} />
         </label>
       </IconButton>
       <IconButton disabled={!props.isUploaded} className={classes.icon}
-        onClick={() => deleteMusic(props.songFile.filename, props.id)}>
+        onClick={() => deleteMusic(props.musicFile.filename, props.id)}>
         <DeleteOutlineIcon />
       </IconButton>
     </div>

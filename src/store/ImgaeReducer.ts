@@ -1,4 +1,4 @@
-import { Image } from '../lib/types';
+import { File } from '../lib/types';
 import { initialState } from './initialState';
 import { noImage } from '../constans';
 
@@ -7,7 +7,7 @@ const UPDATE_IMAGE = "UPDATE_IMAGE", DELETE_IMAGE = "DELETE_IMAGE";
 const imageInitialState = initialState.image;
 
 // action
-export const updateImageAction = (imageState: Image): { type: string; payload: Image } => {
+export const updateImageAction = (imageState: File): { type: string; payload: File } => {
   return {
     type: UPDATE_IMAGE,
     payload: {
@@ -17,7 +17,7 @@ export const updateImageAction = (imageState: Image): { type: string; payload: I
   }
 };
 
-export const deleteImageAction = (): { type: string; payload: Image } => {
+export const deleteImageAction = (): { type: string; payload: File } => {
   return {
     type: DELETE_IMAGE,
     payload: {

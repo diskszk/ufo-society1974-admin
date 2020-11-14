@@ -107,7 +107,7 @@ const SongEdit = () => {
             />
             <UploadSongForm
               id={id.toString()}
-              songFile={songFile}
+              musicFile={songFile}
               setSongFile={setSongFile}
               setLoading={setLoading}
               isUploaded={isUploaded}

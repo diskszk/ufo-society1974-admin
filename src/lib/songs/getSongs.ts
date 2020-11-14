@@ -9,7 +9,7 @@ export const getSongs = async () => {
         return {
           id: song.id,
           title: song.title,
-          songFile: {
+          musicFile: {
             filename: song.songFile.filename,
             path: song.songFile.path,
           },

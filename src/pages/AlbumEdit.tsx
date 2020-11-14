@@ -6,26 +6,28 @@ import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import { makeStyles } from '@material-ui/core';
 import { PrimalyButton, TextInput } from '../components/UIKit';
 import UploadImageForm from '../components/albumEdit/UploadImageForm';
-import { RootStore, Image, User } from '../lib/types';
+import { RootStore, File, User, Album } from '../lib/types';
 import { saveAlbum, deleteAlbum } from '../lib/albums';
 import { push } from 'connected-react-router';
 import { db } from '../firebase';
-import { updateImageAction, deleteImageAction } from '../store/ImgaesReducer';
+import { updateImageAction, deleteImageAction } from '../store/ImgaeReducer';
 import { noImage, ROLE } from '../constans';
+import TestButton from '../components/albumEdit/TestButton';
 
 // Edit or Add Album only
 const AlbumEdit: React.FC = () => {
   const dispatch = useDispatch();
+
   let id = window.location.pathname.split('/albums/edit')[1];
   if (id !== "") {
     id = id.split('/')[1];
   };
   const { role } = useSelector<RootStore, User>(state => state.user);
-  const state = useSelector<RootStore, Image>(state => state.image);
+  const album = useSelector<RootStore, Album>(state => state.album);
 
   const [discription, setDiscription] = useState(""),
     [publish_date, setPublish_date] = useState(""),
-    [image, setImage] = useState({
+    [image, setImage] = useState<File>({
       filename: "",
       path: noImage
     }),
@@ -80,26 +82,34 @@ const AlbumEdit: React.FC = () => {
   }
 
   useEffect(() => {
+    console.log(album);
+
     if (id === "") {
       // New
 
     } else {
       // Edit
 
-      db.collection('albums').doc(id).get()
-        .then((snapshot) => {
-          const data = snapshot.data();
-          if (!data) return false;
-          console.log(JSON.stringify(data));
+      // db.collection('albums').doc(id).get()
+      //   .then((snapshot) => {
+      //     const data = snapshot.data();
+      //     if (!data) return false;
+      //     console.log(JSON.stringify(data));
 
-          setTitle(data.title);
-          setDiscription(data.discription);
-          setPublish_date(data.publish_date);
-          // dispatch(updateImageAction({ ...data.image }));
-          setImage({ ...state });
-        })
+      //     setTitle(data.title);
+      //     setDiscription(data.discription);
+      //     setPublish_date(data.publish_date);
+      //     // dispatch(updateImageAction({ ...data.image }));
+      //     setImage({ ...data.image });
+      //   })
+
+      setTitle(album.title);
+      setDiscription(album.discription);
+      setPublish_date(album.publish_date);
+      setImage({ ...album.imageFile });
+
     }
-  }, [setTitle, setDiscription, setPublish_date]);
+  }, [setTitle, setDiscription, setPublish_date, setImage]);
 
   return (
     <section className="album-edit">
@@ -122,6 +132,7 @@ const AlbumEdit: React.FC = () => {
         />
         <UploadImageForm
           image={image}
+          setImage={setImage}
         />
         <div className="spacing-div" />
 

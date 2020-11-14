@@ -7,9 +7,10 @@ import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 
 import { generateRandomStrings } from '../../lib/generateRandomStrings';
 import { deleteAlbumImage } from '../../lib/albums'
-import { Image } from '../../lib/types';
+import { File } from '../../lib/types';
 import { useDispatch } from 'react-redux';
-import { updateImageAction, deleteImageAction } from '../../store/ImgaesReducer';
+import { updateImageAction, deleteImageAction } from '../../store/ImgaeReducer';
+import { noImage } from '../../constans';
 
 const useStyles = makeStyles({
   icon: {
@@ -19,10 +20,17 @@ const useStyles = makeStyles({
 });
 
 type Props = {
-  image: Image;
+  image: File;
+  setImage: React.Dispatch<React.SetStateAction<File>>;
+
 }
 
-const UploadImageForm: React.FC<Props> = ({ image }) => {
+const initialImage = {
+  filename: "",
+  path: noImage,
+}
+
+const UploadImageForm: React.FC<Props> = ({ image, setImage }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -53,7 +61,8 @@ const UploadImageForm: React.FC<Props> = ({ image }) => {
           filename: filename,
           path: downloadURL,
         };
-        dispatch(updateImageAction(newImage));
+        // dispatch(updateImageAction(newImage));
+        setImage(newImage);
         console.log(`url: ${downloadURL}`);
 
         alert("画像のアップロードが完了しました。")
@@ -72,7 +81,8 @@ const UploadImageForm: React.FC<Props> = ({ image }) => {
     console.log('start');
     await deleteAlbumImage(image.filename);
     console.log('end');
-    dispatch(deleteImageAction());
+    // dispatch(deleteImageAction());
+    setImage(initialImage);
     alert('削除されました。')
   }
 

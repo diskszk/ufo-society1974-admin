@@ -1,11 +1,11 @@
 import { db, FirebaseTimestamp } from '../../firebase';
-import { Song, SongFile } from "../types";
+import { Song, File } from "../types";
 import { push } from 'connected-react-router';
 
 const unpublishedSongsRef = db.collection('unpublished_songs');
 
 export const saveSongs = (
-  id: string, title: string, songFile: SongFile, story: string, lyric: string
+  id: string, title: string, songFile: File, story: string, lyric: string
 ) => {
 
   return async (dispatch: any) => {

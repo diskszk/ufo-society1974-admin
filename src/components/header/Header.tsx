@@ -9,10 +9,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const { isSignedIn, username, role } = useSelector<RootStore, User>(state => state.user);
 
-  useEffect(() => {
-    console.log(`user: ${isSignedIn}`)
-  }, [isSignedIn]);
-
   return (
     <header>
       <div className="header">

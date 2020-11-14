@@ -9,7 +9,8 @@ import * as History from 'history';
 
 // import reducers
 import { UsersReducer } from './UsersReducer';
-import { ImagesReducer } from './ImgaesReducer';
+import { ImagesReducer } from './ImgaeReducer';
+import { AlbumReducer } from './AlbumReducer';
 
 export const createStore = (history: History.History<any>) => {
   return reduxCreateStore(
@@ -17,6 +18,7 @@ export const createStore = (history: History.History<any>) => {
       router: connectRouter(history),
       user: UsersReducer,
       image: ImagesReducer,
+      album: AlbumReducer,
     }),
     applyMiddleware(
       routerMiddleware(history),

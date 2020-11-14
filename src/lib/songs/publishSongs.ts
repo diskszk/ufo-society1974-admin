@@ -23,7 +23,7 @@ export const publishSongs = async () => {
     return {
       id: doc.id,
       title: doc.title,
-      songFile: {
+      musicFile: {
         filename: doc.songFile.filename,
         path: doc.songFile.path,
       },

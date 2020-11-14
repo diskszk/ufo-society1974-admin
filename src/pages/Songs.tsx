@@ -11,9 +11,8 @@ import { publishSongs } from '../lib/songs';
 const Songs = () => {
   const dispatch = useDispatch();
 
-  const currentUser = useSelector<RootStore, User>(state => state.user);
-  const currentRole = currentUser.role;
-  const isDisable = (currentRole !== ROLE.EDITOR);
+  const { role } = useSelector<RootStore, User>(state => state.user);
+  const isDisable = (role !== ROLE.EDITOR);
 
   const clickPublish = () => {
     publishSongs()
@@ -29,7 +28,7 @@ const Songs = () => {
       <h1>曲の管理ページ</h1>
       <div className="spacing-div"></div>
 
-      {currentRole === ROLE.EDITOR && (
+      {role === ROLE.EDITOR && (
         <div className="button-container__right-fixed">
           <div
             className="icon-button" role="button"

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { RootStore, User, Album } from '../lib/types';
@@ -14,6 +14,8 @@ import AlbumTable from '../components/albums/AlbumTable';
 
 import { ROLE, URL } from '../constans';
 import { albumsData } from '../components/albums/testData';
+import { getAlbums } from '../lib/albums/getAlbums';
+import { clearAlbumAction } from '../store/AlbumReducer';
 
 const Albums = () => {
   const dispatch = useDispatch();
@@ -21,6 +23,7 @@ const Albums = () => {
   const currentUser = useSelector<RootStore, User>(state => state.user);
   const currentRole = currentUser.role;
   const isDisable = (currentRole !== ROLE.EDITOR);
+  // const [albums, setAlbums] = useState<Album[]>([]);
 
   const clickPublish = () => {
     publishSongs()
@@ -30,6 +33,21 @@ const Albums = () => {
         alert(e)
       })
   }
+
+  const clickAddAlbum = () => {
+    console.log('store clear');
+
+    dispatch(clearAlbumAction());
+    dispatch(push('/albums/edit'))
+  }
+
+  // useEffect(() => {
+  //   getAlbums()
+  //     .then((albumList) => {
+  //       setAlbums(albumList);
+  //     });
+
+  // }, [setAlbums]);
 
   return (
     <section className="page">
@@ -44,14 +62,14 @@ const Albums = () => {
           <div className="add-icon-button">
             <span>アルバムを追加</span>
             <IconButton
-              onClick={() => dispatch(push('/albums/edit'))}
+              onClick={() => clickAddAlbum()}
             >
               <LibraryAddOutlinedIcon fontSize="large" />
             </IconButton>
             <div className="spacing-div"></div>
           </div>
         )}
-        <AlbumTable albums={albumsData} />
+        <AlbumTable />
       </div>
 
       <div className="spacing-div"></div>

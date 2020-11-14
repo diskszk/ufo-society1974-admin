@@ -11,5 +11,16 @@ export const initialState: RootStore = {
   image: {
     filename: "",
     path: noImage,
+  },
+  album: {
+    discription: "",
+    imageFile: {
+      filename: "",
+      path: noImage,
+    },
+    id: "",
+    publish_date: "",
+    // songs?: 
+    title: "",
   }
 };

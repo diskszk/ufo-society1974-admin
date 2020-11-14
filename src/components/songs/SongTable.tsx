@@ -10,9 +10,6 @@ import Paper from '@material-ui/core/Paper';
 
 import SongTableBody from './SongTableBody';
 import { RootStore, User, Song } from '../../lib/types';
-// import {  } from '../../store/_users/types';
-// import { Song } from './types';
-// import {  } from './getSongs';
 import { deleteSong, getSongs } from '../../lib/songs';
 import { ROLE } from '../../constans';
 
@@ -28,8 +25,7 @@ const useStyles = makeStyles({
 const SongTable = () => {
   const classes = useStyles();
 
-  const currentUser = useSelector<RootStore, User>(state => state.user);
-  const currentRole = currentUser.role;
+  const { role } = useSelector<RootStore, User>(state => state.user);
 
   const [rows, setRows] = useState<Song[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,7 +33,7 @@ const SongTable = () => {
   const clickDelete = useCallback((id: number, title: string) => {
 
     // edditer only
-    if (currentRole !== ROLE.EDITOR) {
+    if (role !== ROLE.EDITOR) {
       alert("編集者のみ曲を削除できます。");
       return false;
     }

@@ -1,5 +1,5 @@
 import { db, FirebaseTimestamp } from '../../firebase';
-import { Image } from '../types';
+import { File } from '../types';
 import { push } from 'connected-react-router';
 
 const albumsRef = db.collection('albums');
@@ -7,7 +7,7 @@ const albumsRef = db.collection('albums');
 // push un_published albums
 export const saveAlbum = (
   title: string,
-  image: Image,
+  image: File,
   discription: string,
   publish_date: string,
 ) => {
@@ -19,7 +19,7 @@ export const saveAlbum = (
       created_at: timestamp,
       discription: discription,
       id: id,
-      image: {
+      imageFile: {
         filename: image.filename,
         path: image.path,
       },

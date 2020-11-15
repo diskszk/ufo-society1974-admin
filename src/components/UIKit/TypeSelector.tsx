@@ -11,17 +11,16 @@ type Props = {
   role: string;
   required: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
 const useSrtyles = makeStyles({
   selector: {
-    margin: "1.5em 0",
-    width: "40em"
-  }
-})
+    margin: '1.5em 0',
+    width: '40em',
+  },
+});
 
 const TypeSelector = (props: Props) => {
-
   const classes = useSrtyles();
 
   return (
@@ -44,6 +43,6 @@ const TypeSelector = (props: Props) => {
       ))}
     </TextField>
   );
-}
+};
 
 export default TypeSelector;

@@ -10,7 +10,7 @@ import { deleteAlbumImage } from '../../lib/albums'
 import { File } from '../../lib/types';
 import { useDispatch } from 'react-redux';
 import { updateImageAction, deleteImageAction } from '../../store/ImgaeReducer';
-import { noImage } from '../../constans';
+import { NO_IMAGE } from '../../constans';
 
 const useStyles = makeStyles({
   icon: {
@@ -27,7 +27,7 @@ type Props = {
 
 const initialImage = {
   filename: "",
-  path: noImage,
+  path: NO_IMAGE,
 }
 
 const UploadImageForm: React.FC<Props> = ({ image, setImage }) => {

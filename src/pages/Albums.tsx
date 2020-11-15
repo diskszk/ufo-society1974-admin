@@ -12,9 +12,7 @@ import { IconButton } from '@material-ui/core';
 // Components
 import AlbumTable from '../components/albums/AlbumTable';
 
-import { ROLE, URL } from '../constans';
-import { albumsData } from '../components/albums/testData';
-import { getAlbums } from '../lib/albums/getAlbums';
+import { ROLE, ROUTER_PATHS } from '../constans';
 import { clearAlbumAction } from '../store/AlbumReducer';
 
 const Albums = () => {
@@ -39,15 +37,7 @@ const Albums = () => {
 
     dispatch(clearAlbumAction());
     dispatch(push('/albums/edit'))
-  }
-
-  // useEffect(() => {
-  //   getAlbums()
-  //     .then((albumList) => {
-  //       setAlbums(albumList);
-  //     });
-
-  // }, [setAlbums]);
+  };
 
   return (
     <section className="page">

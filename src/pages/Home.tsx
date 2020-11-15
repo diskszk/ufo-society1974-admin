@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { RootStore, User } from '../lib/types';
 import { PrimalyButton } from '../components/UIKit';
-import { URL } from '../constans';
+import { ROUTER_PATHS } from '../constans';
 
 const Home = () => {
 
@@ -31,11 +31,11 @@ const Home = () => {
       <div className="button-container">
         <PrimalyButton
           label="ユーザー管理"
-          onClick={() => dispatch(push(URL.USERS))}
+          onClick={() => dispatch(push(ROUTER_PATHS.USERS))}
         />
         <PrimalyButton
           label="アルバムを管理"
-          onClick={() => dispatch(push(URL.ALBUMS))}
+          onClick={() => dispatch(push(ROUTER_PATHS.ALBUMS))}
         />
       </div>
     </section>

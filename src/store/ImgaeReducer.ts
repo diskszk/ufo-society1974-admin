@@ -1,6 +1,6 @@
 import { File } from '../lib/types';
 import { initialState } from './initialState';
-import { noImage } from '../constans';
+import { NO_IMAGE } from '../constans';
 
 const UPDATE_IMAGE = "UPDATE_IMAGE", DELETE_IMAGE = "DELETE_IMAGE";
 
@@ -22,7 +22,7 @@ export const deleteImageAction = (): { type: string; payload: File } => {
     type: DELETE_IMAGE,
     payload: {
       filename: "",
-      path: noImage
+      path: NO_IMAGE
     }
   }
 };

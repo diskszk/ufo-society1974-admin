@@ -10,20 +10,19 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
   actionBtn: {
-    cursor: "pointer"
-  }
+    cursor: 'pointer',
+  },
 });
 
 type Props = {
   rows: User[];
   onClick: (uid: string, username: string, role: string) => void;
-}
+};
 
 const UserTableBody = (props: Props) => {
   const classes = useStyles();
 
   return (
-
     <TableBody>
       {props.rows.map((row) => (
         <TableRow key={row.uid}>
@@ -35,11 +34,13 @@ const UserTableBody = (props: Props) => {
           <TableCell
             className={classes.actionBtn}
             onClick={() => props.onClick(row.uid, row.username, row.role)}
-          >削除</TableCell>
+          >
+            削除
+          </TableCell>
         </TableRow>
       ))}
     </TableBody>
   );
-}
+};
 
 export default UserTableBody;

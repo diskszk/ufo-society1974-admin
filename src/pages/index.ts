@@ -10,7 +10,7 @@ export { default as SignUp } from './SignUp';
 
 // Albums
 export { default as Albums } from './Albums';
-export { default as AlbumEdit } from './AlbumEdit'
+export { default as AlbumEdit } from './AlbumEdit';
 
 // Songs
 export { default as Songs } from './Songs';

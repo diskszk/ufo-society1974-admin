@@ -18,74 +18,69 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
   actionBtn: {
-    cursor: "pointer"
-  }
+    cursor: 'pointer',
+  },
 });
 
 const UserTable = () => {
   const classes = useStyles();
 
-  const currentUser = useSelector<RootStore, User>(state => state.user);
+  const currentUser = useSelector<RootStore, User>((state) => state.user);
   const currentRole = currentUser.role;
 
   const [rows, setRows] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const clickDelete = useCallback((id: string, username: string, role: string) => {
+  const clickDelete = useCallback(
+    (id: string, username: string, role: string) => {
+      // maste only
+      if (currentRole !== 'master') {
+        alert('ユーザー管理者のみユーザーを削除できます。');
+        return false;
+      }
 
-    // maste only
-    if (currentRole !== "master") {
-      alert("ユーザー管理者のみユーザーを削除できます。");
-      return false;
-    }
-
-    if (window.confirm(`${username}さんを削除しますか？`)) {
-      deleteUser(id, role)
-        .then(() => {
-          getUsers()
-            .then((list) => {
-              setRows(list);
-            });
-        })
-    } else {
-      return
-    }
-  }, [setRows]);
+      if (window.confirm(`${username}さんを削除しますか？`)) {
+        deleteUser(id, role).then(() => {
+          getUsers().then((list) => {
+            setRows(list);
+          });
+        });
+      } else {
+        return;
+      }
+    },
+    [setRows]
+  );
 
   useEffect(() => {
-    getUsers()
-      .then((list) => {
-        setRows(list);
-        setLoading(false);
-      })
-  }, [setRows])
+    getUsers().then((list) => {
+      setRows(list);
+      setLoading(false);
+    });
+  }, [setRows]);
 
   return (
     <div className="user-table">
       {loading ? (
         <h2>Loading...</h2>
       ) : (
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>ユーザーID</TableCell>
-                  <TableCell>お名前</TableCell>
-                  <TableCell>役職</TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableHead>
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>ユーザーID</TableCell>
+                <TableCell>お名前</TableCell>
+                <TableCell>役職</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
 
-              <UserTableBody
-                rows={rows}
-                onClick={clickDelete}
-              />
-
-            </Table>
-          </TableContainer>
-        )}
+            <UserTableBody rows={rows} onClick={clickDelete} />
+          </Table>
+        </TableContainer>
+      )}
     </div>
   );
-}
+};
 
 export default UserTable;

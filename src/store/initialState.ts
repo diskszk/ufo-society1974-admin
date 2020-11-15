@@ -1,5 +1,5 @@
 import { RootStore } from '../lib/types';
-import { noImage } from '../constans';
+import { NO_IMAGE } from '../constans';
 
 export const initialState: RootStore = {
   user: {
@@ -10,13 +10,13 @@ export const initialState: RootStore = {
   },
   image: {
     filename: "",
-    path: noImage,
+    path: NO_IMAGE,
   },
   album: {
     discription: "",
     imageFile: {
       filename: "",
-      path: noImage,
+      path: NO_IMAGE,
     },
     id: "",
     publish_date: "",

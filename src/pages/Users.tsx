@@ -4,7 +4,7 @@ import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import UserTable from '../components/users/UaerTble';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { URL, ROLE } from '../constans';
+import { ROUTER_PATHS, ROLE } from '../constans';
 import { RootStore, User } from '../lib/types';
 import { IconButton } from '@material-ui/core';
 
@@ -21,7 +21,7 @@ const Users = () => {
 
       {currentRole === ROLE.MASTER && (
         <div className="button-container__right-fixed">
-          <IconButton onClick={() => dispatch(push(URL.SIGN_UP))}>
+          <IconButton onClick={() => dispatch(push(ROUTER_PATHS.SIGN_UP))}>
             <LibraryAddOutlinedIcon fontSize="large" />
           </IconButton>
         </div>

@@ -1,5 +1,5 @@
 // variables
-export const URL = {
+export const ROUTER_PATHS = {
   LOGIN: '/login',
   RESET: '/reset',
   HOME: '(/)?',
@@ -10,7 +10,7 @@ export const URL = {
   ALBUM_EDIT: '/albums/edit/(:id)?',
   SONGS: '/songs',
   SONG_EDIT: '/songs/edit(/:id)?',
-}
+} as const;
 
 export const ROLE = {
   MASTER: 'master',
@@ -18,6 +18,6 @@ export const ROLE = {
   WATCHER: 'watcher',
 };
 
-export { default as noImage } from './assets/images/no_image.jpg';
+export { default as NO_IMAGE } from './assets/images/no_image.jpg'
 
-export const UFO_SOCIETY_OFFISIAL = "https://ufo-society-1974.web.app/";
+export const UFO_SOCIETY_OFFISIAL = "https://ufo-society-1974.web.app/" as const;

@@ -4,7 +4,7 @@ import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import SongTable from '../components/songs/SongTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { URL, ROLE } from '../constans';
+import { ROUTER_PATHS, ROLE } from '../constans';
 import { RootStore, User } from '../lib/types';
 import { publishSongs } from '../lib/songs';
 
@@ -45,7 +45,7 @@ const Songs = () => {
       <div className="button-container-row">
         <PrimalyButton
           label="もどる"
-          onClick={() => dispatch(push(URL.HOME))}
+          onClick={() => dispatch(push(ROUTER_PATHS.HOME))}
         />
         <PrimalyButton
           isDisable={isDisable}

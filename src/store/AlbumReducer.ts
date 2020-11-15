@@ -1,6 +1,6 @@
 import { initialState } from './initialState';
 import { Album } from '../lib/types';
-import { noImage } from '../constans';
+import { NO_IMAGE } from '../constans';
 
 const UPDATE_ALBUM = "UPDATE_ALBUM";
 const CLEAR_ALBUM = "CLEAR_ALBUM";

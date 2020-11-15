@@ -4,7 +4,7 @@ import { signUp } from '../lib/users/operation';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { RootStore, User } from '../lib/types';
-import { ROLE, URL } from '../constans';
+import { ROLE, ROUTER_PATHS } from '../constans';
 
 const roles = [
   {
@@ -96,7 +96,7 @@ const SignUp = () => {
         <div className="button-container-row">
           <PrimalyButton
             label="もどる"
-            onClick={() => dispatch(push(URL.USERS))}
+            onClick={() => dispatch(push(ROUTER_PATHS.USERS))}
           />
           <PrimalyButton
             isDisable={isDisable}

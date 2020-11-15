@@ -3,7 +3,7 @@ import { PrimalyButton, TextInput } from '../components/UIKit';
 import { login } from '../lib/users/operation';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { URL } from '../constans';
+import { ROUTER_PATHS } from '../constans';
 
 // Login with e-mail & password
 const Login = () => {
@@ -44,7 +44,7 @@ const Login = () => {
           />
         </div>
         <div className="spacing-div" />
-        <Link to={URL.RESET}><p>パスワードをリセットする</p></Link>
+        <Link to={ROUTER_PATHS.RESET}><p>パスワードをリセットする</p></Link>
       </div>
     </section>
   );

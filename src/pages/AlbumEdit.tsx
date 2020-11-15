@@ -11,7 +11,7 @@ import { saveAlbum, deleteAlbum } from '../lib/albums';
 import { push } from 'connected-react-router';
 import { db } from '../firebase';
 import { updateImageAction, deleteImageAction } from '../store/ImgaeReducer';
-import { noImage, ROLE } from '../constans';
+import { NO_IMAGE, ROLE } from '../constans';
 import TestButton from '../components/albumEdit/TestButton';
 
 // Edit or Add Album only
@@ -29,7 +29,7 @@ const AlbumEdit: React.FC = () => {
     [publish_date, setPublish_date] = useState(""),
     [image, setImage] = useState<File>({
       filename: "",
-      path: noImage,
+      path: NO_IMAGE,
     }),
     [title, setTitle] = useState("");
 

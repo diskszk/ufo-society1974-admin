@@ -29,7 +29,7 @@ const AlbumEdit: React.FC = () => {
     [publish_date, setPublish_date] = useState(""),
     [image, setImage] = useState<File>({
       filename: "",
-      path: noImage
+      path: noImage,
     }),
     [title, setTitle] = useState("");
 

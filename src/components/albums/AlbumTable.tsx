@@ -7,7 +7,7 @@ import { updateAlbumAction } from '../../store/AlbumReducer';
 
 type Props = {
   album: Album;
-}
+};
 
 const AlbumTableItem: React.FC<Props> = (props: Props) => {
   const { id, imageFile, title } = props.album;
@@ -15,8 +15,8 @@ const AlbumTableItem: React.FC<Props> = (props: Props) => {
 
   const handleImageClick = () => {
     dispatch(updateAlbumAction(props.album));
-    dispatch(push(`/albums/edit/${id}`))
-  }
+    dispatch(push(`/albums/edit/${id}`));
+  };
   return (
     <li className="album-item">
       <div className="album-image" onClick={() => handleImageClick()}>
@@ -25,32 +25,25 @@ const AlbumTableItem: React.FC<Props> = (props: Props) => {
 
       <p className="album-title">{title}</p>
     </li>
-
   );
-}
+};
 
 const AlbumTable: React.FC = () => {
   const [albums, setAlbums] = useState<Album[]>([]);
 
   useEffect(() => {
-    getAlbums()
-      .then((albumList) => {
-        setAlbums(albumList);
-      })
+    getAlbums().then((albumList) => {
+      setAlbums(albumList);
+    });
   }, [setAlbums]);
 
   return (
     <ul className="album-list">
       {albums.map((album: Album) => {
-        return (
-          <AlbumTableItem
-            key={album.id}
-            album={album}
-          />
-        )
+        return <AlbumTableItem key={album.id} album={album} />;
       })}
     </ul>
-  )
-}
+  );
+};
 
 export default AlbumTable;

@@ -9,87 +9,123 @@ import { ROLE, ROUTER_PATHS } from '../constans';
 const roles = [
   {
     value: ROLE.EDITOR,
-    label: ROLE.EDITOR
+    label: ROLE.EDITOR,
   },
   {
     value: ROLE.MASTER,
-    label: ROLE.MASTER
+    label: ROLE.MASTER,
   },
   {
     value: ROLE.WATCHER,
-    label: ROLE.WATCHER
-  }
-]
+    label: ROLE.WATCHER,
+  },
+];
 
 const SignUp = () => {
   const dispatch = useDispatch();
 
-  const user = useSelector<RootStore, User>(state => state.user);
+  const user = useSelector<RootStore, User>((state) => state.user);
 
   // tode: reduxで管理
   const [isDisable, setIsDisable] = useState(false);
 
-  const [username, setUsername] = useState(""),
-    [email, setEmail] = useState(""),
-    [password, setPassword] = useState(""),
-    [confirmPassword, setConfirmPasswod] = useState(""),
-    [role, setRole] = useState("editer");
+  const [username, setUsername] = useState(''),
+    [email, setEmail] = useState(''),
+    [password, setPassword] = useState(''),
+    [confirmPassword, setConfirmPasswod] = useState(''),
+    [role, setRole] = useState('editer');
 
-  const inputUsername = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-  }, [setUsername]);
+  const inputUsername = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setUsername(e.target.value);
+    },
+    [setUsername]
+  );
 
-  const inputEmail = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  }, [setEmail]);
+  const inputEmail = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEmail(e.target.value);
+    },
+    [setEmail]
+  );
 
-  const inputPassword = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  }, [setPassword]);
+  const inputPassword = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPassword(e.target.value);
+    },
+    [setPassword]
+  );
 
-  const inputConfirmPassword = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setConfirmPasswod(e.target.value);
-  }, [setConfirmPasswod]);
+  const inputConfirmPassword = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setConfirmPasswod(e.target.value);
+    },
+    [setConfirmPasswod]
+  );
 
-  const selectRole = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setRole(e.target.value);
-  }, [setRole])
+  const selectRole = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setRole(e.target.value);
+    },
+    [setRole]
+  );
 
   useEffect(() => {
     if (user.role !== ROLE.MASTER) {
-
       setIsDisable(true);
     }
-  }, [setIsDisable])
+  }, [setIsDisable]);
 
   return (
     <section className="sign-up page">
       <h1>管理者登録</h1>
       <div className="inputs-container">
         <TextInput
-          fullWidth={false} label={"お名前"} multiline={false}
-          required={true} rows={1} value={username}
-          type={"text"} onChange={inputUsername}
+          fullWidth={false}
+          label={'お名前'}
+          multiline={false}
+          required={true}
+          rows={1}
+          value={username}
+          type={'text'}
+          onChange={inputUsername}
         />
         <TextInput
-          fullWidth={true} label={"E-mail"} multiline={false}
-          required={true} rows={1} value={email}
-          type={"email"} onChange={inputEmail}
+          fullWidth={true}
+          label={'E-mail'}
+          multiline={false}
+          required={true}
+          rows={1}
+          value={email}
+          type={'email'}
+          onChange={inputEmail}
         />
         <TextInput
-          fullWidth={true} label={"パスワード"} multiline={false}
-          required={true} rows={1} value={password}
-          type={"password"} onChange={inputPassword}
+          fullWidth={true}
+          label={'パスワード'}
+          multiline={false}
+          required={true}
+          rows={1}
+          value={password}
+          type={'password'}
+          onChange={inputPassword}
         />
         <TextInput
-          fullWidth={true} label={"パスワード(確認)"} multiline={false}
-          required={true} rows={1} value={confirmPassword}
-          type={"password"} onChange={inputConfirmPassword}
+          fullWidth={true}
+          label={'パスワード(確認)'}
+          multiline={false}
+          required={true}
+          rows={1}
+          value={confirmPassword}
+          type={'password'}
+          onChange={inputConfirmPassword}
         />
 
         <TypeSelector
-          roles={roles} label={"役職"}
-          role={role} required={true}
+          roles={roles}
+          label={'役職'}
+          role={role}
+          required={true}
           onChange={selectRole}
         />
 
@@ -101,11 +137,13 @@ const SignUp = () => {
           <PrimalyButton
             isDisable={isDisable}
             label="登録する"
-            onClick={() => dispatch(signUp(username, email, password, confirmPassword, role))}
+            onClick={() =>
+              dispatch(signUp(username, email, password, confirmPassword, role))
+            }
           />
         </div>
       </div>
     </section>
   );
-}
+};
 export default SignUp;

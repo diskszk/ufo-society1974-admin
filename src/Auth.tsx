@@ -4,9 +4,8 @@ import { listenAuthState } from './lib/users/operation';
 import { RootStore, User } from './lib/types';
 
 const Auth = ({ children }: any) => {
-
   const dispatch = useDispatch();
-  const { isSignedIn } = useSelector<RootStore, User>(state => state.user);
+  const { isSignedIn } = useSelector<RootStore, User>((state) => state.user);
 
   useEffect(() => {
     if (!isSignedIn) {
@@ -21,7 +20,6 @@ const Auth = ({ children }: any) => {
   // }
 
   return children;
-
-}
+};
 
 export default Auth;

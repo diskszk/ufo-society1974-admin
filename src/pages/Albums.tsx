@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { RootStore, User, Album } from '../lib/types';
+import { RootStore, User } from '../lib/types';
 import { publishSongs } from '../lib/songs';
 
 // UI
@@ -12,31 +12,29 @@ import { IconButton } from '@material-ui/core';
 // Components
 import AlbumTable from '../components/albums/AlbumTable';
 
-import { ROLE, ROUTER_PATHS } from '../constans';
+import { ROLE } from '../constans';
 import { clearAlbumAction } from '../store/AlbumReducer';
 
 const Albums = () => {
   const dispatch = useDispatch();
 
-  const currentUser = useSelector<RootStore, User>(state => state.user);
+  const currentUser = useSelector<RootStore, User>((state) => state.user);
   const currentRole = currentUser.role;
-  const isDisable = (currentRole !== ROLE.EDITOR);
-  // const [albums, setAlbums] = useState<Album[]>([]);
+  const isDisable = currentRole !== ROLE.EDITOR;
 
   const clickPublish = () => {
     publishSongs()
       .then(() => {
-        alert('編集内容をHPに公開しました。')
-      }).catch(e => {
-        alert(e)
+        alert('編集内容をHPに公開しました。');
       })
-  }
+      .catch((e) => {
+        alert(e);
+      });
+  };
 
   const clickAddAlbum = () => {
-    console.log('store clear');
-
     dispatch(clearAlbumAction());
-    dispatch(push('/albums/edit'))
+    dispatch(push('/albums/edit'));
   };
 
   return (
@@ -47,13 +45,10 @@ const Albums = () => {
       <div className="spacing-div"></div>
 
       <div className="album-container">
-
         {currentRole === ROLE.EDITOR && (
           <div className="add-icon-button">
             <span>アルバムを追加</span>
-            <IconButton
-              onClick={() => clickAddAlbum()}
-            >
+            <IconButton onClick={() => clickAddAlbum()}>
               <LibraryAddOutlinedIcon fontSize="large" />
             </IconButton>
             <div className="spacing-div"></div>
@@ -65,19 +60,15 @@ const Albums = () => {
       <div className="spacing-div"></div>
 
       <div className="button-container-row">
-        <PrimalyButton
-          label="もどる"
-          onClick={() => dispatch(push('/'))}
-        />
+        <PrimalyButton label="もどる" onClick={() => dispatch(push('/'))} />
         <PrimalyButton
           isDisable={isDisable}
           label="公開する"
           onClick={clickPublish}
         />
       </div>
-
-    </section >
+    </section>
   );
-}
+};
 
 export default Albums;

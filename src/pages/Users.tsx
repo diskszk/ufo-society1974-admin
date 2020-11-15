@@ -11,7 +11,7 @@ import { IconButton } from '@material-ui/core';
 const Users = () => {
   const dispatch = useDispatch();
 
-  const currentUser = useSelector<RootStore, User>(state => state.user);
+  const currentUser = useSelector<RootStore, User>((state) => state.user);
   const currentRole = currentUser.role;
 
   return (
@@ -30,12 +30,9 @@ const Users = () => {
       <div className="spacing-div"></div>
       <UserTable />
 
-      <PrimalyButton
-        label="もどる"
-        onClick={() => dispatch(push('/'))}
-      />
-    </section >
+      <PrimalyButton label="もどる" onClick={() => dispatch(push('/'))} />
+    </section>
   );
-}
+};
 
 export default Users;

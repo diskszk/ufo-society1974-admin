@@ -6,6 +6,6 @@ const AlbumDetails = () => {
       <p>aaaaa</p>
     </div>
   );
-}
+};
 
 export default AlbumDetails;

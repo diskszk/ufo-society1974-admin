@@ -11,17 +11,18 @@ import { publishSongs } from '../lib/songs';
 const Songs = () => {
   const dispatch = useDispatch();
 
-  const { role } = useSelector<RootStore, User>(state => state.user);
-  const isDisable = (role !== ROLE.EDITOR);
+  const { role } = useSelector<RootStore, User>((state) => state.user);
+  const isDisable = role !== ROLE.EDITOR;
 
   const clickPublish = () => {
     publishSongs()
       .then(() => {
-        alert('曲を公開しました。')
-      }).catch(e => {
-        alert(e)
+        alert('曲を公開しました。');
       })
-  }
+      .catch((e) => {
+        alert(e);
+      });
+  };
 
   return (
     <section className="page">
@@ -31,8 +32,9 @@ const Songs = () => {
       {role === ROLE.EDITOR && (
         <div className="button-container__right-fixed">
           <div
-            className="icon-button" role="button"
-            onClick={() => dispatch(push("/songs/edit"))}
+            className="icon-button"
+            role="button"
+            onClick={() => dispatch(push('/songs/edit'))}
           >
             <LibraryAddOutlinedIcon fontSize="large" />
           </div>
@@ -53,9 +55,8 @@ const Songs = () => {
           onClick={clickPublish}
         />
       </div>
-
-    </section >
+    </section>
   );
-}
+};
 
 export default Songs;

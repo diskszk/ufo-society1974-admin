@@ -1,7 +1,17 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Auth from './Auth';
-import { Home, Login, SignUp, Reset, Songs, SongEdit, Users, Albums, AlbumEdit } from './pages';
+import {
+  Home,
+  Login,
+  SignUp,
+  Reset,
+  Songs,
+  SongEdit,
+  Users,
+  Albums,
+  AlbumEdit,
+} from './pages';
 import { ROUTER_PATHS } from './constans';
 
 const Routes = () => {
@@ -26,6 +36,6 @@ const Routes = () => {
         <Route path={ROUTER_PATHS.SONG_EDIT} component={SongEdit} />
       </Auth>
     </Switch>
-  )
+  );
 };
 export default Routes;

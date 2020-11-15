@@ -16,8 +16,8 @@ export const ROLE = {
   MASTER: 'master',
   EDITOR: 'editor',
   WATCHER: 'watcher',
-}
+};
 
-export const noImage = "https://1.bp.blogspot.com/-D2I7Z7-HLGU/Xlyf7OYUi8I/AAAAAAABXq4/jZ0035aDGiE5dP3WiYhlSqhhMgGy8p7zACNcBGAsYHQ/s1600/no_image_square.jpg";
+export { default as noImage } from './assets/images/no_image.jpg';
 
 export const UFO_SOCIETY_OFFISIAL = "https://ufo-society-1974.web.app/";

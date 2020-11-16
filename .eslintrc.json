@@ -32,11 +32,6 @@
 		}
 	},
 	"rules": {
-		"indent": [
-			{
-				"MemberExpression": "off"
-			}
-		],
 		"semi": "error",
 		"no-unused-vars": "warn",
 		"no-console": "warn",

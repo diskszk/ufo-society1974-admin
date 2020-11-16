@@ -6,9 +6,14 @@ export const deleteAlbum = async (id: string) => {
   // const dispatch = useDispatch();
   // return async (dispatch: any) => {
   return (
-    db.collection('albums').doc(id).delete()
+    db
+      .collection('albums')
+      .doc(id)
+      .delete()
+      // .then(() => dispatch(push('/albums')))
       .catch((e) => {
         alert(`${e}: エラーが発生しました。`);
       })
   );
+  // }
 };

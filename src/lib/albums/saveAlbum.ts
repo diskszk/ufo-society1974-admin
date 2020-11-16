@@ -1,6 +1,7 @@
 import { db, FirebaseTimestamp } from '../../firebase';
 import { File } from '../types';
 import { push } from 'connected-react-router';
+import { generateRandomStrings } from '../generateRandomStrings';
 
 const albumsRef = db.collection('albums');
 
@@ -13,7 +14,7 @@ export const saveAlbum = (
 ) => {
   return async (dispatch: any) => {
     const timestamp = FirebaseTimestamp.now();
-    const id = title.replace(/\s+/g, '_');
+    const id = generateRandomStrings();
 
     const data = {
       created_at: timestamp,

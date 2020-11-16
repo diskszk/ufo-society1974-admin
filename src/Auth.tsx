@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listenAuthState } from './lib/users/operation';
 import { RootStore, User } from './lib/types';
 
-const Auth = (children: ReactNode) => {
+const Auth: React.FC = ({ children }): any => {
   const dispatch = useDispatch();
   const { isSignedIn } = useSelector<RootStore, User>((state) => state.user);
 

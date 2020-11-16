@@ -6,12 +6,9 @@ export const listenAuthState = () => {
   return async (dispatch: any) => {
     return auth.onAuthStateChanged((user) => {
       if (!user) {
-        console.log('not sign in !');
         dispatch(push('/login'));
         return false;
       } else {
-        console.log('sign in !');
-
         const uid = user.uid;
 
         userRef
@@ -19,8 +16,6 @@ export const listenAuthState = () => {
           .get()
           .then((snapshot) => {
             const data = snapshot.data();
-            console.log(JSON.stringify(data));
-
             if (!data) return false;
 
             dispatch(

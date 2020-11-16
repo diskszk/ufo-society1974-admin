@@ -8,6 +8,9 @@ import { RootStore, File, User, Album } from '../lib/types';
 import { saveAlbum, deleteAlbum } from '../lib/albums';
 import { push } from 'connected-react-router';
 import { NO_IMAGE, ROLE } from '../constans';
+import { db } from '../firebase';
+import { getAlbums } from '../lib/albums/getAlbums';
+import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
 
 // Edit or Add Album only
 const AlbumEdit: React.FC = () => {
@@ -18,7 +21,7 @@ const AlbumEdit: React.FC = () => {
     id = id.split('/')[1];
   }
   const { role } = useSelector<RootStore, User>((state) => state.user);
-  const album = useSelector<RootStore, Album>((state) => state.album);
+  // const album = useSelector<RootStore, Album>((state) => state.album);
 
   const [discription, setDiscription] = useState(''),
     [publish_date, setPublish_date] = useState(''),
@@ -83,11 +86,20 @@ const AlbumEdit: React.FC = () => {
       // New
     } else {
       // Edit
+      getSingleAlbum(id)
+        .then((album) => {
+          if (!album) {
+            return;
+          }
 
-      setTitle(album.title);
-      setDiscription(album.discription);
-      setPublish_date(album.publish_date);
-      setImage({ ...album.imageFile });
+          setTitle(album.title);
+          setDiscription(album.discription);
+          setPublish_date(album.publish_date);
+          setImage({ ...album.imageFile });
+        })
+        .catch((e) => {
+          console.error(e);
+        });
     }
   }, [setTitle, setDiscription, setPublish_date, setImage]);
 

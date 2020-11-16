@@ -1,7 +1,7 @@
 import {
   createStore as reduxCreateStore,
   combineReducers,
-  applyMiddleware
+  applyMiddleware,
 } from 'redux';
 import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
@@ -20,9 +20,6 @@ export const createStore = (history: History.History<any>) => {
       image: ImagesReducer,
       album: AlbumReducer,
     }),
-    applyMiddleware(
-      routerMiddleware(history),
-      thunk
-    )
+    applyMiddleware(routerMiddleware(history), thunk)
   );
 };

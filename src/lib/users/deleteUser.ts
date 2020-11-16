@@ -9,15 +9,15 @@ export const deleteUser = async (id: string, role: string) => {
     return false;
   } else {
     const data = {
-      isDelete: true
-    }
-    return deleteRef.set(data, { merge: true })
+      isDelete: true,
+    };
+    return deleteRef
+      .set(data, { merge: true })
       .then(() => {
-        alert('ユーザーが削除されました。')
+        alert('ユーザーが削除されました。');
       })
       .catch(() => {
-        throw new Error;
-      })
+        throw new Error();
+      });
   }
-}
-
+};

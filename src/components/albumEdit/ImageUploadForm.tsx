@@ -81,17 +81,6 @@ const ImageUploadForm: React.FC<Props> = ({ image, setImage }) => {
 
   return (
     <div className="album-edit-image">
-      <button
-        onClick={() => {
-          console.log(`filename: ${image.filename}
-      path: ${image.path}
-      `);
-        }}
-      >
-        ろがー
-      </button>
-      <button onClick={handleDelete}>del</button>
-
       <div className="album-edit-image__select">
         <span>画像を変更する</span>
         <IconButton className={classes.icon}>

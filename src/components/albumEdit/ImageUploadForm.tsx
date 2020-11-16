@@ -28,7 +28,7 @@ const initialImage = {
   path: NO_IMAGE,
 };
 
-const UploadImageForm: React.FC<Props> = ({ image, setImage }) => {
+const ImageUploadForm: React.FC<Props> = ({ image, setImage }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -51,15 +51,15 @@ const UploadImageForm: React.FC<Props> = ({ image, setImage }) => {
         const snapshot = await uploadTask;
         const downloadURL: string = await snapshot.ref
           .getDownloadURL()
-          .catch((e) => console.error(e, '画像のアップロードに失敗しました。'));
-        console.log(downloadURL);
+          .catch((e) => {
+            throw new Error(e);
+          });
         const newImage = {
           filename: filename,
           path: downloadURL,
         };
         // dispatch(updateImageAction(newImage));
         setImage(newImage);
-        console.log(`url: ${downloadURL}`);
 
         alert('画像のアップロードが完了しました。');
       }
@@ -74,10 +74,7 @@ const UploadImageForm: React.FC<Props> = ({ image, setImage }) => {
     if (!window.confirm('画像を削除します。')) {
       return false;
     }
-    console.log('start');
     await deleteAlbumImage(image.filename);
-    console.log('end');
-    // dispatch(deleteImageAction());
     setImage(initialImage);
     alert('削除されました。');
   };
@@ -115,4 +112,4 @@ const UploadImageForm: React.FC<Props> = ({ image, setImage }) => {
   );
 };
 
-export default UploadImageForm;
+export default ImageUploadForm;

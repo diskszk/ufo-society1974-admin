@@ -24,7 +24,7 @@ type Props = {
   setIsUploaded: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const UploadMusicForm = (props: Props) => {
+const SongUploadForm = (props: Props) => {
   const classes = useStyles();
 
   const uploadMusic = useCallback(
@@ -145,4 +145,4 @@ const UploadMusicForm = (props: Props) => {
   );
 };
 
-export default UploadMusicForm;
+export default SongUploadForm;

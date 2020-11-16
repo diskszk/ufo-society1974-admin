@@ -24,5 +24,6 @@ yarn-error.log*
 
 .firebase
 
+# build css files
 /src/assets/styles/style.css
 /src/assets/styles/style.css.map

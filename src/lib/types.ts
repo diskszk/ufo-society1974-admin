@@ -1,21 +1,21 @@
 // redux
 export type RootStore = {
   user: User;
-  image: File,
-  album: Album,
-}
+  image: File;
+  album: Album;
+};
 
 export type User = {
   isSignedIn: boolean;
   uid: string;
   username: string;
   role: string;
-}
+};
 
 export type File = {
   filename: string;
   path: string;
-}
+};
 
 // export type Image = {
 //   filename: string;
@@ -25,11 +25,11 @@ export type File = {
 export type Album = {
   discription: string;
   imageFile: File;
-  id: string;             // random
-  publish_date: string;   // YYYY-MM-DD
+  id: string; // random
+  publish_date: string; // YYYY-MM-DD
   songs?: Song[];
   title: string;
-}
+};
 
 export type Song = {
   musicFile: File;
@@ -38,4 +38,4 @@ export type Song = {
   story: string;
   lyric: string;
   created_at: firebase.firestore.Timestamp;
-}
+};

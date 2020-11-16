@@ -21,6 +21,11 @@
     "lint": "eslint --fix 'src/**/*.{tsx, ts}'",
     "precommit": "lint-staged"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
     "*.{ts,tsx}": [
       "tsc --noEmit",

@@ -10,7 +10,7 @@ export const fetchSongs = async () => {
 
   res.forEach((doc) => {
     songList.push(doc.data());
-  })
+  });
 
   return songList;
-}
+};

@@ -4,23 +4,23 @@ import { NO_IMAGE } from '../constans';
 export const initialState: RootStore = {
   user: {
     isSignedIn: false,
-    uid: "",
-    username: "",
-    role: ""
+    uid: '',
+    username: '',
+    role: '',
   },
   image: {
-    filename: "",
+    filename: '',
     path: NO_IMAGE,
   },
   album: {
-    discription: "",
+    discription: '',
     imageFile: {
-      filename: "",
+      filename: '',
       path: NO_IMAGE,
     },
-    id: "",
-    publish_date: "",
-    // songs?: 
-    title: "",
-  }
+    id: '',
+    publish_date: '',
+    // songs?:
+    title: '',
+  },
 };

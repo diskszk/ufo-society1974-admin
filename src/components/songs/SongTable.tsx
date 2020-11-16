@@ -61,22 +61,26 @@ const SongTable = () => {
 
   return (
     <div className="song-table">
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="right">No.</TableCell>
-              <TableCell>タイトル</TableCell>
-              <TableCell>元ネタ</TableCell>
-              <TableCell>再生</TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
+      {loading ? (
+        <h2>Loading...</h2>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="right">No.</TableCell>
+                <TableCell>タイトル</TableCell>
+                <TableCell>元ネタ</TableCell>
+                <TableCell>再生</TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
 
-          <SongTableBody rows={rows} onClick={clickDelete} />
-        </Table>
-      </TableContainer>
+            <SongTableBody rows={rows} onClick={clickDelete} />
+          </Table>
+        </TableContainer>
+      )}
     </div>
   );
 };

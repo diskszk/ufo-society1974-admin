@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listenAuthState } from './lib/users/operation';
 import { RootStore, User } from './lib/types';
 
-const Auth: React.FC<ReactNode> = ({ children }): any => {
+const Auth = (children: ReactNode) => {
   const dispatch = useDispatch();
   const { isSignedIn } = useSelector<RootStore, User>((state) => state.user);
 
@@ -14,7 +14,7 @@ const Auth: React.FC<ReactNode> = ({ children }): any => {
   }, []);
 
   if (!isSignedIn) {
-    return <h2 className="loading">Loading...</h2>
+    return <h2 className="loading">Loading...</h2>;
   } else {
     return children;
   }

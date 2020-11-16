@@ -9,20 +9,19 @@ service cloud.firestore {
       allow delete: if request.auth.role == "master";
     }
 
-    match /albums/{id} {
+     match /albums/{id} {
       allow read: if request.auth.uid != null;
       allow create: if request.role == "editor";
       allow update: if request.role == "editor";
       allow delete: if request.role == "editor";
     }
-    
+
     match /songs/{id} {
       allow read: if request.auth.uid != null;
-      allow create: if request.role == "editor";
+      allow create: if request.role == "editer";
       allow write: if request.auth.uid != null;
-      allow delete: if request.role == "editor";
+      allow delete: if request.role == "editer";
     }
-
 
     // This rule allows anyone on the internet to view, edit, and delete
     // all data in your Firestore database. It is useful for getting

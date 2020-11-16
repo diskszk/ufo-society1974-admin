@@ -1,11 +1,10 @@
-import { push } from 'connected-react-router'
+import { push } from 'connected-react-router';
 import { logOutAction, signinAction } from '../../store/UsersReducer';
 import { auth, db, FirebaseTimestamp, userRef } from '../../firebase';
 
 export const listenAuthState = () => {
   return async (dispatch: any) => {
-    return auth.onAuthStateChanged(user => {
-
+    return auth.onAuthStateChanged((user) => {
       if (!user) {
         console.log('not sign in !');
         dispatch(push('/login'));
@@ -15,80 +14,88 @@ export const listenAuthState = () => {
 
         const uid = user.uid;
 
-        userRef.doc(uid).get()
-          .then(snapshot => {
+        userRef
+          .doc(uid)
+          .get()
+          .then((snapshot) => {
             const data = snapshot.data();
             console.log(JSON.stringify(data));
 
             if (!data) return false;
 
-            dispatch(signinAction({
-              isSignedIn: true,
-              uid: uid,
-              username: data.username,
-              role: data.role,
-            }))
-
-          })
+            dispatch(
+              signinAction({
+                isSignedIn: true,
+                uid: uid,
+                username: data.username,
+                role: data.role,
+              })
+            );
+          });
       }
-    })
-  }
-}
+    });
+  };
+};
 
 export const resetPassword = (email: string) => {
   return async (dispatch: any) => {
-
     // valldert
-    if (email === "") {
+    if (email === '') {
       alert('必須項目が未入力です。');
       return false;
     }
-    db.collection('users').where('email', '==', email).get()
-      .then(snapshot => {
-
+    db.collection('users')
+      .where('email', '==', email)
+      .get()
+      .then((snapshot) => {
         if (snapshot.empty) {
           alert('入力されたメールアドレスが登録されていません。.');
           return false;
         } else {
-          auth.sendPasswordResetEmail(email)
+          auth
+            .sendPasswordResetEmail(email)
             .then(() => {
-              alert('入力されたアドレスにパスワードリセット用のメールを送信しました。');
+              alert(
+                '入力されたアドレスにパスワードリセット用のメールを送信しました。'
+              );
               dispatch(push('/login'));
-            }).catch(e => {
+            })
+            .catch((e) => {
               alert('パスワードリセットに失敗しました。');
             });
         }
-      })
-  }
-}
+      });
+  };
+};
 
 export const login = (email: string, password: string) => {
   return async (dispatch: any) => {
-
     // Validation
-    if (email === "" || password === "") {
-      alert("必須項目が未入力です。")
+    if (email === '' || password === '') {
+      alert('必須項目が未入力です。');
       return false;
     }
 
-    auth.signInWithEmailAndPassword(email, password)
-      .then(result => {
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((result) => {
         const user = result.user;
 
         if (!user) {
-          alert("ユーザーが見つかりませんでした。");
+          alert('ユーザーが見つかりませんでした。');
           return false;
         }
         const uid = user.uid;
 
-        db.collection('users').doc(uid).get()
-          .then(snapshot => {
-
+        db.collection('users')
+          .doc(uid)
+          .get()
+          .then((snapshot) => {
             if (!snapshot.exists) {
-              return false
+              return false;
             }
 
-            const data = snapshot.data()
+            const data = snapshot.data();
             if (!data) return false;
 
             if (data.isDelete) {
@@ -97,12 +104,14 @@ export const login = (email: string, password: string) => {
             } else {
               console.log(JSON.stringify(data));
 
-              dispatch(signinAction({
-                isSignedIn: true,
-                uid: uid,
-                username: data.username,
-                role: data.role,
-              }));
+              dispatch(
+                signinAction({
+                  isSignedIn: true,
+                  uid: uid,
+                  username: data.username,
+                  role: data.role,
+                })
+              );
 
               if (data.role === 'master') {
                 dispatch(push('/signup'));
@@ -110,31 +119,42 @@ export const login = (email: string, password: string) => {
                 dispatch(push('/'));
               }
             }
-          })
+          });
       })
-      .catch(e => {
+      .catch((e) => {
         console.error(`Error: ${e}`);
-        alert("ユーザーが見つかりませんでした。");
-      })
-  }
+        alert('ユーザーが見つかりませんでした。');
+      });
+  };
+};
 
-}
-
-export const signUp = (username: string, email: string, password: string, confirmPassword: string, role: string) => {
-
+export const signUp = (
+  username: string,
+  email: string,
+  password: string,
+  confirmPassword: string,
+  role: string
+) => {
   return async (dispatch: any) => {
-    if (username === "" || email === "" || password === "" || confirmPassword === "" || role === "") {
-      alert("必須項目が未入力です。");
+    if (
+      username === '' ||
+      email === '' ||
+      password === '' ||
+      confirmPassword === '' ||
+      role === ''
+    ) {
+      alert('必須項目が未入力です。');
       return false;
-    };
+    }
 
     if (password !== confirmPassword) {
-      alert("パスワードが一致していません。")
+      alert('パスワードが一致していません。');
       return false;
-    };
+    }
 
-    return auth.createUserWithEmailAndPassword(email, password)
-      .then((result => {
+    return auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((result) => {
         const user = result.user;
 
         if (!user) {
@@ -150,57 +170,57 @@ export const signUp = (username: string, email: string, password: string, confir
           uid: uid,
           updated_at: timestamp,
           username: username,
-          isDelete: false
-        }
+          isDelete: false,
+        };
 
-        db.collection('users').doc(uid).set(userInitialData)
+        db.collection('users')
+          .doc(uid)
+          .set(userInitialData)
           .then(() => {
             dispatch(push('/'));
-          })
-      })).catch(e => {
+          });
+      })
+      .catch((e) => {
         alert(`Error: ${e}`);
         throw new Error(e);
-      })
-  }
-}
+      });
+  };
+};
 
 export const deleteUser = (id: string) => {
-
   const userRef = db.collection('users').doc(id);
   return async () => {
-
     // role: masterは消せない
-    userRef.get()
-      .then(snapshot => {
-        const data = snapshot.data();
-        if (!data) return false;
+    userRef.get().then((snapshot) => {
+      const data = snapshot.data();
+      if (!data) return false;
 
-        if (data.role === 'master') {
-          alert('このユーザーは削除できません。');
-          return false;
-        } else {
-          const userData = {
-            isDelete: true
-          }
-          userRef.set(userData, { merge: true })
-            .then(() => {
-              alert('ユーザーが削除されました。')
-            })
-            .catch((e) => {
-              throw new Error(e);
-            })
-        }
-      })
-  }
-}
+      if (data.role === 'master') {
+        alert('このユーザーは削除できません。');
+        return false;
+      } else {
+        const userData = {
+          isDelete: true,
+        };
+        userRef
+          .set(userData, { merge: true })
+          .then(() => {
+            alert('ユーザーが削除されました。');
+          })
+          .catch((e) => {
+            throw new Error(e);
+          });
+      }
+    });
+  };
+};
 
 export const logOut = () => {
   return async (dispatch: any) => {
-    auth.signOut()
-      .then(() => {
-        dispatch(logOutAction());
-        alert('ログアウトしました。')
-        dispatch(push('/login'));
-      });
-  }
-}
+    auth.signOut().then(() => {
+      dispatch(logOutAction());
+      alert('ログアウトしました。');
+      dispatch(push('/login'));
+    });
+  };
+};

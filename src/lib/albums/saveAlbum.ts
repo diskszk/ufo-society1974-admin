@@ -9,11 +9,11 @@ export const saveAlbum = (
   title: string,
   image: File,
   discription: string,
-  publish_date: string,
+  publish_date: string
 ) => {
   return async (dispatch: any) => {
     const timestamp = FirebaseTimestamp.now();
-    const id = title.replace(/\s+/g, '_')
+    const id = title.replace(/\s+/g, '_');
 
     const data = {
       created_at: timestamp,
@@ -27,14 +27,16 @@ export const saveAlbum = (
       title: title,
     };
 
-    await albumsRef.doc(id).set(data, { merge: true })
+    await albumsRef
+      .doc(id)
+      .set(data, { merge: true })
       .then(() => {
         alert(`アルバムの情報を保存しました。`);
-        dispatch(push('/albums'))
+        dispatch(push('/albums'));
       })
       .catch((e) => {
         alert(`${e}: アルバムの保存に失敗しました。`);
         return false;
       });
-  }
+  };
 };

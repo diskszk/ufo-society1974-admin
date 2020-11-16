@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { PrimalyButton, TextInput } from '../components/UIKit';
-import UploadImageForm from '../components/albumEdit/UploadImageForm';
+import ImageUploadForm from '../components/albumEdit/ImageUploadForm';
 import { RootStore, File, User, Album } from '../lib/types';
 import { saveAlbum, deleteAlbum } from '../lib/albums';
 import { push } from 'connected-react-router';
@@ -84,19 +84,6 @@ const AlbumEdit: React.FC = () => {
     } else {
       // Edit
 
-      // db.collection('albums').doc(id).get()
-      //   .then((snapshot) => {
-      //     const data = snapshot.data();
-      //     if (!data) return false;
-      //     console.log(JSON.stringify(data));
-
-      //     setTitle(data.title);
-      //     setDiscription(data.discription);
-      //     setPublish_date(data.publish_date);
-      //     // dispatch(updateImageAction({ ...data.image }));
-      //     setImage({ ...data.image });
-      //   })
-
       setTitle(album.title);
       setDiscription(album.discription);
       setPublish_date(album.publish_date);
@@ -127,7 +114,7 @@ const AlbumEdit: React.FC = () => {
           type={'text'}
           onChange={inputTitle}
         />
-        <UploadImageForm image={image} setImage={setImage} />
+        <ImageUploadForm image={image} setImage={setImage} />
         <div className="spacing-div" />
 
         <div className="album-discription__input">

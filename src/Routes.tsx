@@ -32,7 +32,7 @@ const Routes = () => {
         <Route path={ROUTER_PATHS.ALBUM_EDIT} component={AlbumEdit} />
 
         {/* Songs */}
-        <Route exact path={ROUTER_PATHS.SONGS} component={Songs} />
+        <Route exact path={`/albums/:id`} component={Songs} />
         <Route path={ROUTER_PATHS.SONG_EDIT} component={SongEdit} />
       </Auth>
     </Switch>

@@ -4,12 +4,10 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { PrimalyButton, TextInput } from '../components/UIKit';
 import ImageUploadForm from '../components/albumEdit/ImageUploadForm';
-import { RootStore, File, User, Album } from '../lib/types';
+import { RootStore, File, User } from '../lib/types';
 import { saveAlbum, deleteAlbum } from '../lib/albums';
 import { push } from 'connected-react-router';
 import { NO_IMAGE, ROLE } from '../constans';
-import { db } from '../firebase';
-import { getAlbums } from '../lib/albums/getAlbums';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
 
 // Edit or Add Album only
@@ -67,15 +65,17 @@ const AlbumEdit: React.FC = () => {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (role !== ROLE.EDITOR) {
       alert('削除権限がありません。');
       return false;
     }
     if (window.confirm('アルバムを削除しますか？')) {
-      deleteAlbum(id).then(() => {
-        dispatch(push('/albums'));
-      });
+      deleteAlbum(id)
+        .catch(() => {
+          console.error('error');
+        })
+        .then(() => dispatch(push('/albums')));
     } else {
       return false;
     }

@@ -42,7 +42,7 @@ const Songs = () => {
       )}
 
       <div className="spacing-div"></div>
-      <SongTable />
+      {/* <SongTable /> */}
 
       <div className="button-container-row">
         <PrimalyButton

@@ -4,6 +4,8 @@ import { push } from 'connected-react-router';
 import { Album, File } from '../../lib/types';
 import { getAlbums } from '../../lib/albums/getAlbums';
 import { updateAlbumAction } from '../../store/AlbumReducer';
+import { IconButton } from '@material-ui/core';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
 
 type Props = {
   album: Album;
@@ -22,8 +24,13 @@ const AlbumTableItem: React.FC<Props> = (props: Props) => {
       <div className="album-image" onClick={() => handleImageClick()}>
         <img src={imageFile.path} alt={`${title} image`} />
       </div>
-
-      <p className="album-title">{title}</p>
+      <div className="album-image-footer">
+        <p>{title}</p>
+        <span>アルバムの曲を編集する</span>
+        <IconButton onClick={() => dispatch(push(`/albums/${id}`))}>
+          <BorderColorIcon />
+        </IconButton>
+      </div>
     </li>
   );
 };

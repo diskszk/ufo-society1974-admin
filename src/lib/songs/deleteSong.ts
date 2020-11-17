@@ -5,7 +5,7 @@ export const deleteSong = async (id: number) => {
     .collection('unpublished_songs')
     .doc(id.toString())
     .delete()
-    .catch(() => {
-      throw new Error();
+    .catch((e) => {
+      throw new Error(e);
     });
 };

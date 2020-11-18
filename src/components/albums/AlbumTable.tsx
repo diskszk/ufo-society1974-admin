@@ -21,11 +21,16 @@ const AlbumTableItem: React.FC<Props> = (props: Props) => {
   };
   return (
     <li className="album-item">
+      <p>{title}</p>
       <div className="album-image" onClick={() => handleImageClick()}>
         <img src={imageFile.path} alt={`${title} image`} />
       </div>
       <div className="album-image-footer">
-        <p>{title}</p>
+        <span>アルバムを編集する</span>
+        <IconButton onClick={() => dispatch(push(`/albums/edit/${id}`))}>
+          <BorderColorIcon />
+        </IconButton>
+        <br />
         <span>アルバムの曲を編集する</span>
         <IconButton onClick={() => dispatch(push(`/albums/${id}`))}>
           <BorderColorIcon />

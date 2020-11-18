@@ -1,5 +1,5 @@
 import { db, FirebaseTimestamp } from '../../firebase';
-import { File } from '../types';
+import { File, Services } from '../types';
 import { push } from 'connected-react-router';
 import { generateRandomStrings } from '../generateRandomStrings';
 
@@ -8,24 +8,28 @@ const albumsRef = db.collection('albums');
 // push un_published albums
 export const saveAlbum = (
   title: string,
-  image: File,
+  imageFile: File,
   discription: string,
-  publish_date: string
+  services: Services,
+  publish_date: string,
+  albumId: string
 ) => {
   return async (dispatch: any) => {
     const timestamp = FirebaseTimestamp.now();
-    const id = generateRandomStrings();
+
+    const id = albumId !== '' ? albumId : generateRandomStrings();
 
     const data = {
       created_at: timestamp,
       discription: discription,
       id: id,
       imageFile: {
-        filename: image.filename,
-        path: image.path,
+        filename: imageFile.filename,
+        path: imageFile.path,
       },
       publish_date: publish_date,
       title: title,
+      services: services,
     };
 
     await albumsRef

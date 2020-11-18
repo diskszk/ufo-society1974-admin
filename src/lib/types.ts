@@ -29,6 +29,7 @@ export type Album = {
   publish_date: string; // YYYY-MM-DD
   songs?: Song[];
   title: string;
+  services: Services;
 };
 
 export type Song = {
@@ -38,4 +39,11 @@ export type Song = {
   story: string;
   lyric: string;
   created_at: firebase.firestore.Timestamp;
+};
+
+export type Services = {
+  AppleMusic: string;
+  Spotify: string;
+  iTunes: string;
+  Bandcamp: string;
 };

@@ -7,9 +7,10 @@ import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 
 import { generateRandomStrings } from '../../lib/generateRandomStrings';
 import { deleteAlbumImage } from '../../lib/albums';
-import { File } from '../../lib/types';
-import { useDispatch } from 'react-redux';
+import { File, RootStore } from '../../lib/types';
+import { useDispatch, useSelector } from 'react-redux';
 import { NO_IMAGE } from '../../constans';
+import { updateImageAction } from '../../store/ImgaeReducer';
 
 const useStyles = makeStyles({
   icon: {
@@ -20,15 +21,8 @@ const useStyles = makeStyles({
 
 type Props = {
   image: File;
-  setImage: React.Dispatch<React.SetStateAction<File>>;
 };
-
-const initialImage = {
-  filename: '',
-  path: NO_IMAGE,
-};
-
-const ImageUploadForm: React.FC<Props> = ({ image, setImage }) => {
+const ImageUploadForm: React.FC<Props> = ({ image }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -58,25 +52,11 @@ const ImageUploadForm: React.FC<Props> = ({ image, setImage }) => {
           filename: filename,
           path: downloadURL,
         };
-        // dispatch(updateImageAction(newImage));
-        setImage(newImage);
+        dispatch(updateImageAction(newImage));
 
         alert('画像のアップロードが完了しました。');
       }
     }
-  };
-
-  const handleDelete = async () => {
-    if (!image.filename) {
-      alert('画像が登録されていません。');
-      return false;
-    }
-    if (!window.confirm('画像を削除します。')) {
-      return false;
-    }
-    await deleteAlbumImage(image.filename);
-    setImage(initialImage);
-    alert('削除されました。');
   };
 
   return (

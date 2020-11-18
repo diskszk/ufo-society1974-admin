@@ -22,5 +22,11 @@ export const initialState: RootStore = {
     publish_date: '',
     // songs?:
     title: '',
+    services: {
+      AppleMusic: '',
+      Spotify: '',
+      iTunes: '',
+      Bandcamp: '',
+    },
   },
 };

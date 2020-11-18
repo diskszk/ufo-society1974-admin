@@ -52,35 +52,31 @@ const SongTable = () => {
     [setRows]
   );
 
-  useEffect(() => {
-    getSongs().then((list) => {
-      setRows(list);
-      setLoading(false);
-    });
-  }, [setRows]);
+  // useEffect(() => {
+  //   getSongs().then((list) => {
+  //     setRows(list);
+  //     setLoading(false);
+  //   });
+  // }, [setRows]);
 
   return (
     <div className="song-table">
-      {loading ? (
-        <h2>Loading...</h2>
-      ) : (
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="right">No.</TableCell>
-                <TableCell>タイトル</TableCell>
-                <TableCell>元ネタ</TableCell>
-                <TableCell>再生</TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="right">No.</TableCell>
+              <TableCell>タイトル</TableCell>
+              <TableCell>元ネタ</TableCell>
+              <TableCell>再生</TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
 
-            <SongTableBody rows={rows} onClick={clickDelete} />
-          </Table>
-        </TableContainer>
-      )}
+          <SongTableBody rows={rows} onClick={clickDelete} />
+        </Table>
+      </TableContainer>
     </div>
   );
 };

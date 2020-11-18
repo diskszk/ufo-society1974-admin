@@ -18,7 +18,6 @@ const useStyles = makeStyles({
 
 type Props = {
   rows: Song[];
-  onClick: (id: number, title: string) => void;
 };
 
 const SongTableBody = (props: Props) => {
@@ -43,7 +42,9 @@ const SongTableBody = (props: Props) => {
           </TableCell>
           <TableCell
             className={classes.actionBtn}
-            onClick={() => props.onClick(row.id, row.title)}
+            onClick={() => {
+              alert('削除');
+            }}
           >
             削除
           </TableCell>

@@ -1,18 +1,23 @@
 import React from 'react';
 import { PrimalyButton } from '../components/UIKit';
-import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import SongTable from '../components/songs/SongTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { ROUTER_PATHS, ROLE } from '../constans';
-import { RootStore, User } from '../lib/types';
+import { ROLE } from '../constans';
+import { Album, RootStore, User } from '../lib/types';
 import { publishSongs } from '../lib/songs';
-import AppleMusic from '../assets/images/apple-music.svg';
+import AlbumInfo from '../components/songs/AlbumInfo';
 
 const Songs = () => {
   const dispatch = useDispatch();
 
+  let id = window.location.pathname.split(`albums/detail`)[1];
+  if (id !== '') {
+    id = id.split('/')[1];
+  }
+
   const { role } = useSelector<RootStore, User>((state) => state.user);
+  const album = useSelector<RootStore, Album>((state) => state.album);
   const isDisable = role !== ROLE.EDITOR;
 
   const clickPublish = () => {
@@ -30,20 +35,9 @@ const Songs = () => {
       <h1>曲の管理ページ</h1>
       <div className="spacing-div"></div>
 
-      {role === ROLE.EDITOR && (
-        <div className="button-container__right-fixed">
-          <div
-            className="icon-button"
-            role="button"
-            onClick={() => dispatch(push('/songs/edit'))}
-          >
-            <LibraryAddOutlinedIcon fontSize="large" />
-          </div>
-        </div>
-      )}
-
       <div className="spacing-div"></div>
-      <SongTable />
+      <AlbumInfo album={album} />
+      <SongTable id={album.id} />
 
       <div className="button-container-row">
         <PrimalyButton

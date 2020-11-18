@@ -16,7 +16,6 @@ export const saveAlbum = (
 ) => {
   return async (dispatch: any) => {
     const timestamp = FirebaseTimestamp.now();
-
     const id = albumId !== '' ? albumId : generateRandomStrings();
 
     const data = {

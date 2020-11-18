@@ -7,7 +7,7 @@ import { publishSongs } from '../lib/songs';
 // UI
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import { PrimalyButton } from '../components/UIKit';
-import { IconButton } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 
 // Components
 import AlbumTable from '../components/albums/AlbumTable';

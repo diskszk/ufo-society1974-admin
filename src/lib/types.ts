@@ -17,11 +17,6 @@ export type File = {
   path: string;
 };
 
-// export type Image = {
-//   filename: string;
-//   path: string;
-// }
-
 export type Album = {
   discription: string;
   imageFile: File;
@@ -33,12 +28,12 @@ export type Album = {
 };
 
 export type Song = {
-  musicFile: File;
-  id: number;
-  title: string;
-  story: string;
+  id: string;
   lyric: string;
-  created_at: firebase.firestore.Timestamp;
+  songFile: File;
+  story: string;
+  title: string;
+  created_at?: firebase.firestore.Timestamp;
 };
 
 export type Services = {

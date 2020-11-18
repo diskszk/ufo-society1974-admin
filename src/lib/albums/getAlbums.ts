@@ -12,6 +12,7 @@ export const getAlbums = async (): Promise<Album[] | []> => {
             id: data.id,
             publish_date: data.publish_date,
             title: data.title,
+            services: data.services,
           };
         }
       );

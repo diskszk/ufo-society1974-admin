@@ -4,11 +4,12 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { PrimalyButton, TextInput } from '../components/UIKit';
 import ImageUploadForm from '../components/albumEdit/ImageUploadForm';
-import { RootStore, File, User } from '../lib/types';
+import { RootStore, File, User, Services } from '../lib/types';
 import { saveAlbum, deleteAlbum } from '../lib/albums';
 import { push } from 'connected-react-router';
 import { NO_IMAGE, ROLE } from '../constans';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
+import { updateImageAction, resetImageAction } from '../store/ImgaeReducer';
 
 // Edit or Add Album only
 const AlbumEdit: React.FC = () => {
@@ -19,15 +20,21 @@ const AlbumEdit: React.FC = () => {
     id = id.split('/')[1];
   }
   const { role } = useSelector<RootStore, User>((state) => state.user);
-  // const album = useSelector<RootStore, Album>((state) => state.album);
+  const imageFile = useSelector<RootStore, File>((state) => state.image);
 
   const [discription, setDiscription] = useState(''),
     [publish_date, setPublish_date] = useState(''),
-    [image, setImage] = useState<File>({
-      filename: '',
-      path: NO_IMAGE,
-    }),
+    // storeから読み込んだ上でDBデータで上書きしたい
+    // [imageFile, setImageFile] = useState<File>({
+    //   filename: filename,
+    //   path: path,
+    // }),
     [title, setTitle] = useState('');
+
+  const [appleMusicURL, setAppleMusicURL] = useState(''),
+    [spotifyURL, setSpotifyURL] = useState(''),
+    [iTunesURL, setITunesURL] = useState(''),
+    [bandcampURL, setBandcampURL] = useState('');
 
   const inputDiscription = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,14 +54,45 @@ const AlbumEdit: React.FC = () => {
     },
     [setTitle]
   );
+  const inputAppleMusicURL = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setAppleMusicURL(e.target.value);
+    },
+    [setAppleMusicURL]
+  );
+  const inputSpotifyURL = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSpotifyURL(e.target.value);
+    },
+    [setSpotifyURL]
+  );
+  const inputITunesURL = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setITunesURL(e.target.value);
+    },
+    [setITunesURL]
+  );
+  const inputBandcampURL = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setBandcampURL(e.target.value);
+    },
+    [setBandcampURL]
+  );
 
   const handleSave = () => {
     if (!title || !publish_date) {
       alert('必須項目が未入力です。');
       return false;
     }
-    dispatch(saveAlbum(title, image, discription, publish_date));
-    // dispatch(push('/albums'));
+    const services: Services = {
+      AppleMusic: appleMusicURL,
+      Spotify: spotifyURL,
+      iTunes: iTunesURL,
+      Bandcamp: bandcampURL,
+    };
+    dispatch(
+      saveAlbum(title, imageFile, discription, services, publish_date, id)
+    );
   };
 
   const handleBack = () => {
@@ -84,6 +122,7 @@ const AlbumEdit: React.FC = () => {
   useEffect(() => {
     if (id === '') {
       // New
+      dispatch(resetImageAction());
     } else {
       // Edit
       getSingleAlbum(id)
@@ -95,13 +134,18 @@ const AlbumEdit: React.FC = () => {
           setTitle(album.title);
           setDiscription(album.discription);
           setPublish_date(album.publish_date);
-          setImage({ ...album.imageFile });
+          setAppleMusicURL(album.services.AppleMusic);
+          setSpotifyURL(album.services.Spotify);
+          setITunesURL(album.services.iTunes);
+          setBandcampURL(album.services.Bandcamp);
+
+          dispatch(updateImageAction({ ...album.imageFile }));
         })
         .catch((e) => {
           console.error(e);
         });
     }
-  }, [setTitle, setDiscription, setPublish_date, setImage]);
+  }, [setTitle, setDiscription, setPublish_date]);
 
   return (
     <section className="album-edit">
@@ -115,7 +159,6 @@ const AlbumEdit: React.FC = () => {
             </IconButton>
           </div>
         )}
-
         <TextInput
           fullWidth={false}
           label={'アルバムタイトル'}
@@ -126,7 +169,14 @@ const AlbumEdit: React.FC = () => {
           type={'text'}
           onChange={inputTitle}
         />
-        <ImageUploadForm image={image} setImage={setImage} />
+        <button
+          onClick={() => {
+            console.log(imageFile);
+          }}
+        >
+          ログ
+        </button>
+        <ImageUploadForm image={imageFile} />
         <div className="spacing-div" />
 
         <div className="album-discription__input">
@@ -142,6 +192,47 @@ const AlbumEdit: React.FC = () => {
           />
         </div>
         <div className="spacing-div" />
+
+        <TextInput
+          fullWidth={false}
+          label={'Apple Music'}
+          multiline={false}
+          required={false}
+          rows={1}
+          value={appleMusicURL}
+          type={'text'}
+          onChange={inputAppleMusicURL}
+        />
+        <TextInput
+          fullWidth={false}
+          label={'Spotify'}
+          multiline={false}
+          required={false}
+          rows={1}
+          value={spotifyURL}
+          type={'text'}
+          onChange={inputSpotifyURL}
+        />
+        <TextInput
+          fullWidth={false}
+          label={'iTunes'}
+          multiline={false}
+          required={false}
+          rows={1}
+          value={iTunesURL}
+          type={'text'}
+          onChange={inputITunesURL}
+        />
+        <TextInput
+          fullWidth={false}
+          label={'Bandcamp'}
+          multiline={false}
+          required={false}
+          rows={1}
+          value={bandcampURL}
+          type={'text'}
+          onChange={inputBandcampURL}
+        />
 
         <TextInput
           fullWidth={false}

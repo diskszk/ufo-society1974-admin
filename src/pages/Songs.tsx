@@ -7,6 +7,7 @@ import { push } from 'connected-react-router';
 import { ROUTER_PATHS, ROLE } from '../constans';
 import { RootStore, User } from '../lib/types';
 import { publishSongs } from '../lib/songs';
+import AppleMusic from '../assets/images/apple-music.svg';
 
 const Songs = () => {
   const dispatch = useDispatch();
@@ -42,12 +43,12 @@ const Songs = () => {
       )}
 
       <div className="spacing-div"></div>
-      {/* <SongTable /> */}
+      <SongTable />
 
       <div className="button-container-row">
         <PrimalyButton
           label="もどる"
-          onClick={() => dispatch(push(ROUTER_PATHS.HOME))}
+          onClick={() => dispatch(push('/albums'))}
         />
         <PrimalyButton
           isDisable={isDisable}

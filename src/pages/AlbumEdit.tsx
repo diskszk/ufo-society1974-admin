@@ -7,7 +7,7 @@ import ImageUploadForm from '../components/albumEdit/ImageUploadForm';
 import { RootStore, File, User, Services } from '../lib/types';
 import { saveAlbum, deleteAlbum } from '../lib/albums';
 import { push } from 'connected-react-router';
-import { NO_IMAGE, ROLE } from '../constans';
+import { ROLE } from '../constans';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
 import { updateImageAction, resetImageAction } from '../store/ImgaeReducer';
 
@@ -24,14 +24,8 @@ const AlbumEdit: React.FC = () => {
 
   const [discription, setDiscription] = useState(''),
     [publish_date, setPublish_date] = useState(''),
-    // storeから読み込んだ上でDBデータで上書きしたい
-    // [imageFile, setImageFile] = useState<File>({
-    //   filename: filename,
-    //   path: path,
-    // }),
-    [title, setTitle] = useState('');
-
-  const [appleMusicURL, setAppleMusicURL] = useState(''),
+    [title, setTitle] = useState(''),
+    [appleMusicURL, setAppleMusicURL] = useState(''),
     [spotifyURL, setSpotifyURL] = useState(''),
     [iTunesURL, setITunesURL] = useState(''),
     [bandcampURL, setBandcampURL] = useState('');
@@ -111,7 +105,7 @@ const AlbumEdit: React.FC = () => {
     if (window.confirm('アルバムを削除しますか？')) {
       deleteAlbum(id)
         .catch(() => {
-          console.error('error');
+          alert('error');
         })
         .then(() => dispatch(push('/albums')));
     } else {
@@ -142,7 +136,7 @@ const AlbumEdit: React.FC = () => {
           dispatch(updateImageAction({ ...album.imageFile }));
         })
         .catch((e) => {
-          console.error(e);
+          alert(e);
         });
     }
   }, [setTitle, setDiscription, setPublish_date]);

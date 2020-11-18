@@ -19,7 +19,6 @@ type Props = {
   id: string;
   musicFile: File;
   setSongFile: React.Dispatch<React.SetStateAction<File>>;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   isUploaded: boolean;
   setIsUploaded: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -35,7 +34,6 @@ const SongUploadForm = (props: Props) => {
         alert('ファイルが選択されていません。');
         return false;
       } else {
-        props.setLoading(true);
         const file = fileList[0];
 
         if (filename === '') {
@@ -55,12 +53,10 @@ const SongUploadForm = (props: Props) => {
               props.setSongFile(newSongFile);
               alert('曲がのデータがアップロードされました。');
               props.setIsUploaded(true);
-              props.setLoading(false);
             });
           })
           .catch((e) => {
             alert('曲のデータのアップロードに失敗しました。');
-            props.setLoading(false);
             throw new Error(e);
           });
       }
@@ -78,10 +74,8 @@ const SongUploadForm = (props: Props) => {
         return false;
       }
       if (window.confirm('この曲のデータを削除しますか？')) {
-        props.setLoading(true);
         await storageRef.delete().catch((e) => {
           alert('曲のデータの削除に失敗しました。');
-          props.setLoading(false);
           throw new Error(e);
         });
         const data = {
@@ -99,11 +93,9 @@ const SongUploadForm = (props: Props) => {
               path: '',
             });
             props.setIsUploaded(false);
-            props.setLoading(false);
           })
           .catch((e) => {
             alert('DBの削除に失敗しました。');
-            props.setLoading(false);
             throw new Error(e);
           });
       } else {

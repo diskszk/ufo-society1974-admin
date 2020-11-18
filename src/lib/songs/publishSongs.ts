@@ -20,7 +20,7 @@ export const publishSongs = async () => {
 
   // Song型にパース
   const unpublishedSongList = await fetchSongs();
-  const songList: Song[] = unpublishedSongList.map((doc) => {
+  const songList: any[] = unpublishedSongList.map((doc) => {
     return {
       id: doc.id,
       title: doc.title,

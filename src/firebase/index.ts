@@ -10,11 +10,10 @@ firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 export const db = firebase.firestore();
 export const storage = firebase.storage();
+export const fieldValue = firebase.firestore.FieldValue;
 
 export const FirebaseTimestamp = firebase.firestore.Timestamp;
 
 // constans
 export const userRef = db.collection('users');
-// export const publishedSongRef = db.collection("published").ref("songs").collection("");
-// export const unPublishedSongRef = db.collection("users");
 export const imagesRef = storage.ref('images');

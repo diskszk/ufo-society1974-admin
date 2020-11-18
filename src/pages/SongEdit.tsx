@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { db } from '../firebase';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { PrimalyButton, TextInput } from '../components/UIKit';
 import { getSongs, saveSongs } from '../lib/songs';
 import SongUploadForm from '../components/songs/SongUploadForm';
-import { File } from '../lib/types';
+import { Album, File } from '../lib/types';
 
 const SongEdit = () => {
   const dispatch = useDispatch();
+  const album = useSelector<any, Album>((state) => state.album);
 
   const [id, setId] = useState(''),
     [title, setTitle] = useState(''),
@@ -17,18 +18,12 @@ const SongEdit = () => {
     [wordsRights, setWordsRights] = useState('amane toda'),
     [musicRights, setMusicRights] = useState('amane toda');
 
-  const [isUploaded, setIsUploaded] = useState(false),
-    [loading, setLoading] = useState(false);
+  const [isUploaded, setIsUploaded] = useState(false);
 
   const [songFile, setSongFile] = useState<File>({
     filename: '',
     path: '',
   });
-
-  let idx = window.location.pathname.split('/songs/edit')[1];
-  if (idx !== '') {
-    idx = idx.split('/')[1];
-  }
 
   const inputId = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,32 +68,32 @@ const SongEdit = () => {
       return false;
     }
 
-    dispatch(saveSongs(id, title, songFile, story, lyric));
+    dispatch(saveSongs(id, title, songFile, story, lyric, album.id));
   };
 
-  useEffect(() => {
-    if (idx === '') {
-      // New
-      getSongs().then((songList) => {
-        const latestId = (songList.length + 1).toString();
-        setId(latestId);
-      });
-    } else {
-      // Edit
-      db.collection('unpublished_songs')
-        .doc(idx)
-        .get()
-        .then((snapshot) => {
-          const data = snapshot.data();
-          if (!data) return false;
+  // useEffect(() => {
+  //   if (idx === '') {
+  //     // New
+  //     getSongs().then((songList) => {
+  //       const latestId = (songList.length + 1).toString();
+  //       setId(latestId);
+  //     });
+  //   } else {
+  //     // Edit
+  //     db.collection('unpublished_songs')
+  //       .doc(idx)
+  //       .get()
+  //       .then((snapshot) => {
+  //         const data = snapshot.data();
+  //         if (!data) return false;
 
-          setId(data.id);
-          setTitle(data.title);
-          setStory(data.story);
-          setLyric(data.lyric);
-        });
-    }
-  }, [setId, setLoading, setSongFile]);
+  //         setId(data.id);
+  //         setTitle(data.title);
+  //         setStory(data.story);
+  //         setLyric(data.lyric);
+  //       });
+  //   }
+  // }, [setId, setSongFile]);
 
   return (
     <section>
@@ -130,7 +125,6 @@ const SongEdit = () => {
           id={id.toString()}
           musicFile={songFile}
           setSongFile={setSongFile}
-          setLoading={setLoading}
           isUploaded={isUploaded}
           setIsUploaded={setIsUploaded}
         />
@@ -190,12 +184,11 @@ const SongEdit = () => {
         <div className="button-container-row">
           <PrimalyButton
             label="もどる"
-            onClick={() => dispatch(push('/songs'))}
+            onClick={() => dispatch(push(`/albums/detail/${album.id}`))}
           />
           <PrimalyButton label="保存する" onClick={() => clickSave()} />
         </div>
       </div>
-      )
     </section>
   );
 };

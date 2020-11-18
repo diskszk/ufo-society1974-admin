@@ -8,13 +8,13 @@ export const getSongs = async () => {
         (song: firebase.firestore.DocumentData) => {
           return {
             id: song.id,
-            title: song.title,
-            musicFile: {
+            lyric: song.lyric,
+            songFile: {
               filename: song.songFile.filename,
               path: song.songFile.path,
             },
             story: song.story,
-            lyric: song.lyric,
+            title: song.title,
             created_at: song.created_at,
           };
         }

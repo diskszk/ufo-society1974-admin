@@ -32,8 +32,8 @@ const Routes = () => {
         <Route path={ROUTER_PATHS.ALBUM_EDIT} component={AlbumEdit} />
 
         {/* Songs */}
-        <Route exact path={`/albums/:id`} component={Songs} />
-        <Route path={ROUTER_PATHS.SONG_EDIT} component={SongEdit} />
+        <Route exact path={`/albums/detail/:id`} component={Songs} />
+        <Route path={`/albums/detail/:id/edit`} component={SongEdit} />
       </Auth>
     </Switch>
   );

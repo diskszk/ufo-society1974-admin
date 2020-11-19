@@ -1,34 +1,44 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { PrimalyButton } from '../components/UIKit';
 import SongTable from '../components/songs/SongTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { ROLE } from '../constans';
 import { Album, RootStore, User } from '../lib/types';
-import { publishSongs } from '../lib/songs';
 import AlbumInfo from '../components/songs/AlbumInfo';
+import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
+import { updateAlbumAction } from '../store/AlbumReducer';
 
 const Songs = () => {
   const dispatch = useDispatch();
 
-  let id = window.location.pathname.split(`albums/detail`)[1];
-  if (id !== '') {
-    id = id.split('/')[1];
-  }
+  const albumId = useMemo(
+    () => window.location.pathname.split(`albums/detail`)[1].split('/')[1],
+    []
+  );
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const album = useSelector<RootStore, Album>((state) => state.album);
-  const isDisable = role !== ROLE.EDITOR;
+  let isDisable = true;
+  if (role === ROLE.EDITOR) {
+    isDisable = false;
+  }
 
   const clickPublish = () => {
-    publishSongs()
-      .then(() => {
-        alert('曲を公開しました。');
-      })
-      .catch((e) => {
-        alert(e);
-      });
+    alert('曲を公開しました。');
   };
+
+  useEffect(() => {
+    if (albumId === '') {
+      alert('アルバム が登録されていません。');
+      dispatch(push('/albums'));
+    }
+    getSingleAlbum(albumId).then((album) => {
+      if (album) {
+        dispatch(updateAlbumAction(album));
+      }
+    });
+  }, []);
 
   return (
     <section className="page">
@@ -37,7 +47,7 @@ const Songs = () => {
 
       <div className="spacing-div"></div>
       <AlbumInfo album={album} />
-      <SongTable id={album.id} />
+      <SongTable />
 
       <div className="button-container-row">
         <PrimalyButton

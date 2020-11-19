@@ -1,4 +1,4 @@
-import { db, FirebaseTimestamp, fieldValue } from '../../firebase';
+import { db, FirebaseTimestamp } from '../../firebase';
 import { Song, File } from '../types';
 import { push } from 'connected-react-router';
 
@@ -11,7 +11,11 @@ export const saveSongs = (
   albumId: string
 ) => {
   return async (dispatch: any) => {
-    const songsRef = db.collection('albums').doc(albumId);
+    const songsRef = db
+      .collection('albums')
+      .doc(albumId)
+      .collection('songs')
+      .doc(id);
     const timestamp = FirebaseTimestamp.now();
 
     const data: Song = {
@@ -27,9 +31,7 @@ export const saveSongs = (
     };
 
     songsRef
-      .update({
-        songs: fieldValue.arrayUnion(data),
-      })
+      .set(data, { merge: true })
       .then(() => {
         dispatch(push('/albums'));
       })

@@ -18,9 +18,6 @@ export const updateAlbumAction = (state: Album) => {
 export const clearAlbumAction = () => {
   return {
     type: CLEAR_ALBUM,
-    // payload: {
-    //   ...albumInitialState,
-    // }
   };
 };
 

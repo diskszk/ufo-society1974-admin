@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,8 +13,7 @@ import SongTableBody from './SongTableBody';
 import { RootStore, User, Song } from '../../lib/types';
 import { deleteSong, getSongs } from '../../lib/songs';
 import { ROLE } from '../../constans';
-import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
-import IconButton from '@material-ui/core/IconButton';
+import SongAddButton from './SongAddButton';
 
 const useStyles = makeStyles({
   table: {
@@ -23,78 +22,53 @@ const useStyles = makeStyles({
   actionBtn: {
     cursor: 'pointer',
   },
-  addBtn: {
-    padding: 0,
-  },
 });
 
-type Props = {
-  id: string;
-};
-
-const SongTable = (props: Props) => {
+const SongTable = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
-
   const [rows, setRows] = useState<Song[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  const clickDelete = useCallback(
-    (id: number, title: string) => {
-      // edditer only
-      if (role !== ROLE.EDITOR) {
-        alert('編集者のみ曲を削除できます。');
-        return false;
-      }
-
-      if (window.confirm(`${title}を削除しますか?`)) {
-        deleteSong(id).then(() => {
-          // do refresh
-          getSongs().then((list) => {
-            setRows(list);
-          });
-        });
-      } else {
-        return false;
-      }
-    },
-    [setRows]
+  const albumId = useMemo(
+    () => window.location.pathname.split('/albums/detail/')[1],
+    []
   );
 
-  const handleAddSong = () => {
-    dispatch(push(`/albums/detail/${props.id}/edit`));
-  };
+  // const clickDelete = useCallback(
+  //   (id: number, title: string) => {
+  //     // edditer only
+  //     if (role !== ROLE.EDITOR) {
+  //       alert('編集者のみ曲を削除できます。');
+  //       return false;
+  //     }
 
-  // useEffect(() => {
-  //   getSongs().then((list) => {
-  //     setRows(list);
-  //     setLoading(false);
-  //   });
-  // }, [setRows]);
+  //     if (window.confirm(`${title}を削除しますか?`)) {
+  //       deleteSong(id).then(() => {
+  //         // do refresh
+  //         getSongs().then((list) => {
+  //           setRows(list);
+  //         });
+  //       });
+  //     } else {
+  //       return false;
+  //     }
+  //   },
+  //   [setRows]
+  // );
+
+  useEffect(() => {
+    getSongs(albumId).then((dataList: Song[]) => {
+      setRows(dataList);
+    });
+  }, []);
 
   return (
     <div className="song-table">
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
-          {role === ROLE.EDITOR && (
-            <TableHead>
-              <TableRow>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell className={classes.addBtn}>
-                  <span>曲を追加</span>
-                  <IconButton onClick={() => handleAddSong()}>
-                    <LibraryAddOutlinedIcon fontSize={'large'} />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-          )}
+          {role === ROLE.EDITOR && <SongAddButton />}
 
           <TableHead>
             <TableRow>

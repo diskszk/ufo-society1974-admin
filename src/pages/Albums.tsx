@@ -23,13 +23,7 @@ const Albums = () => {
   const isDisable = currentRole !== ROLE.EDITOR;
 
   const clickPublish = () => {
-    // publishSongs()
-    //   .then(() => {
     alert('編集内容をHPに公開しました。');
-    //   })
-    //   .catch((e) => {
-    //     alert(e);
-    //   });
   };
 
   const clickAddAlbum = () => {

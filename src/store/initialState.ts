@@ -29,4 +29,16 @@ export const initialState: RootStore = {
       Bandcamp: '',
     },
   },
+  songs: [
+    {
+      id: '',
+      lyric: '',
+      songFile: {
+        filename: '',
+        path: '',
+      },
+      story: '',
+      title: '',
+    },
+  ],
 };

@@ -6,11 +6,13 @@ import {
 import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import * as History from 'history';
+import logger from 'redux-logger';
 
 // import reducers
 import { UsersReducer } from './UsersReducer';
 import { ImagesReducer } from './ImgaeReducer';
 import { AlbumReducer } from './AlbumReducer';
+import { SongsReducer } from './SongsReducer';
 
 export const createStore = (history: History.History<any>) => {
   return reduxCreateStore(
@@ -19,7 +21,8 @@ export const createStore = (history: History.History<any>) => {
       user: UsersReducer,
       image: ImagesReducer,
       album: AlbumReducer,
+      songs: SongsReducer,
     }),
-    applyMiddleware(routerMiddleware(history), thunk)
+    applyMiddleware(routerMiddleware(history), thunk, logger)
   );
 };

@@ -1,9 +1,11 @@
 import { db } from '../../firebase';
 
-export const deleteSong = async (id: number) => {
+export const deleteSong = async (albumId: string, songId: string) => {
   return db
-    .collection('unpublished_songs')
-    .doc(id.toString())
+    .collection('albums')
+    .doc(albumId)
+    .collection('songs')
+    .doc(songId)
     .delete()
     .catch((e) => {
       throw new Error(e);

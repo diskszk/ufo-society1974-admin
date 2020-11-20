@@ -1,15 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { db } from '../firebase';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import { PrimalyButton, TextInput } from '../components/UIKit';
-import { getSongs, saveSongs } from '../lib/songs';
+import { getSingleSong, getSongs, saveSongs } from '../lib/songs';
 import SongUploadForm from '../components/songs/SongUploadForm';
-import { Album, File } from '../lib/types';
+import { Album, File, Song } from '../lib/types';
 
 const SongEdit = () => {
   const dispatch = useDispatch();
-  const album = useSelector<any, Album>((state) => state.album);
+
+  const albumId = useMemo(
+    () => window.location.pathname.split('/albums/detail')[1].split('/')[1],
+    []
+  );
+  let songId = window.location.pathname.split(
+    `/albums/detail/${albumId}/edit`
+  )[1];
+  if (songId) {
+    songId = songId.split('/')[1];
+  }
 
   const [id, setId] = useState(''),
     [title, setTitle] = useState(''),
@@ -62,42 +71,41 @@ const SongEdit = () => {
     [setMusicRights]
   );
 
-  const clickSave = () => {
+  const clickSave = async () => {
     if (id == '') {
       alert('IDを入力してください');
       return false;
     }
 
-    dispatch(saveSongs(id, title, songFile, story, lyric, album.id));
+    await dispatch(saveSongs(id, title, songFile, story, lyric, albumId));
+    dispatch(push(`/albums/detail/${albumId}`));
   };
 
-  // useEffect(() => {
-  //   if (idx === '') {
-  //     // New
-  //     getSongs().then((songList) => {
-  //       const latestId = (songList.length + 1).toString();
-  //       setId(latestId);
-  //     });
-  //   } else {
-  //     // Edit
-  //     db.collection('unpublished_songs')
-  //       .doc(idx)
-  //       .get()
-  //       .then((snapshot) => {
-  //         const data = snapshot.data();
-  //         if (!data) return false;
-
-  //         setId(data.id);
-  //         setTitle(data.title);
-  //         setStory(data.story);
-  //         setLyric(data.lyric);
-  //       });
-  //   }
-  // }, [setId, setSongFile]);
+  useEffect(() => {
+    if (songId === '') {
+      // New
+      getSongs(albumId).then((songList) => {
+        const latestId = (songList.length + 1).toString();
+        setId(latestId);
+      });
+    } else {
+      // Edit
+      getSingleSong(albumId, songId).then((song: Song) => {
+        if (!song) {
+          return;
+        }
+        setId(song.id);
+        setTitle(song.title);
+        setStory(song.story);
+        setLyric(song.lyric);
+      });
+    }
+  }, [setId, setSongFile]);
 
   return (
     <section>
       <h1>曲を追加・編集</h1>
+
       <div className="inputs-container">
         <TextInput
           fullWidth={false}
@@ -184,7 +192,7 @@ const SongEdit = () => {
         <div className="button-container-row">
           <PrimalyButton
             label="もどる"
-            onClick={() => dispatch(push(`/albums/detail/${album.id}`))}
+            onClick={() => dispatch(push(`/albums/detail/${albumId}`))}
           />
           <PrimalyButton label="保存する" onClick={() => clickSave()} />
         </div>

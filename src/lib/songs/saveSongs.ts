@@ -30,14 +30,9 @@ export const saveSongs = (
       created_at: timestamp,
     };
 
-    songsRef
-      .set(data, { merge: true })
-      .then(() => {
-        dispatch(push('/albums'));
-      })
-      .catch((e: string) => {
-        alert(`Error: ${e}`);
-        throw new Error(e);
-      });
+    await songsRef.set(data, { merge: true }).catch((e: string) => {
+      alert(`Error: ${e}`);
+      throw new Error(e);
+    });
   };
 };

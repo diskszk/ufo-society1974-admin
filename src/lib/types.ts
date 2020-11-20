@@ -3,6 +3,7 @@ export type RootStore = {
   user: User;
   image: File;
   album: Album;
+  songs: Song[];
 };
 
 export type User = {

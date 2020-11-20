@@ -1,11 +1,12 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { makeStyles } from '@material-ui/core/styles';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import { Song } from '../../lib/types';
+import { RootStore, Album, Song, User } from '../../lib/types';
+import { TableBody, TableCell, TableRow } from '@material-ui/core/';
+import { ROLE } from '../../constans';
+import { updateSongsAction } from '../../store/SongsReducer';
+import { deleteSong, getSongs } from '../../lib/songs';
 
 const useStyles = makeStyles({
   table: {
@@ -17,34 +18,59 @@ const useStyles = makeStyles({
 });
 
 type Props = {
-  rows: Song[];
+  songs: Song[];
 };
 
-const SongTableBody = (props: Props) => {
+const SongTableBody: React.FC<Props> = ({ songs }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { role } = useSelector<RootStore, User>((state) => state.user);
+  const album = useSelector<RootStore, Album>((state) => state.album);
+  const albumId = album.id;
+
+  const handleDeleteSong = (songId: string, title: string): void => {
+    // edditer only
+    if (role !== ROLE.EDITOR) {
+      alert('編集者のみ曲を削除できます。');
+      return;
+    }
+    if (window.confirm(`${title}を削除しますか?`)) {
+      deleteSong(albumId, songId)
+        .catch((e) => {
+          throw new Error(e);
+        })
+        .then(() => {
+          // do refresh
+          getSongs(albumId).then((songList) => {
+            dispatch(updateSongsAction(songList));
+          });
+        });
+    } else {
+      return;
+    }
+  };
 
   return (
     <TableBody>
-      {props.rows.map((row) => (
-        <TableRow key={row.id}>
+      {songs.map((song) => (
+        <TableRow key={song.id}>
           <TableCell align="right" component="th" scope="row">
-            {row.id}
+            {song.id}
           </TableCell>
-          <TableCell>{row.title}</TableCell>
-          <TableCell>{row.story}</TableCell>
-          <TableCell>再生</TableCell>
+          <TableCell>{song.title}</TableCell>
+          <TableCell>{song.story}</TableCell>
+          <TableCell className={classes.actionBtn}>再生</TableCell>
           <TableCell
             className={classes.actionBtn}
-            onClick={() => dispatch(push(`/songs/edit/${row.id}`))}
+            onClick={() =>
+              dispatch(push(`/albums/detail/${albumId}/edit/${song.id}`))
+            }
           >
             編集
           </TableCell>
           <TableCell
             className={classes.actionBtn}
-            onClick={() => {
-              alert('削除');
-            }}
+            onClick={() => handleDeleteSong(song.id, song.title)}
           >
             削除
           </TableCell>

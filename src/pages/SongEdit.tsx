@@ -79,9 +79,14 @@ const SongEdit = () => {
 
     const leftJustifiedId = ('0000' + id).slice(-4);
 
-    await dispatch(
-      saveSong(leftJustifiedId, title, songFile, story, lyric, albumId)
-    );
+    const newSong: Song = {
+      id: leftJustifiedId,
+      title: title,
+      songFile: songFile,
+      story: story,
+      lyric: lyric,
+    };
+    await dispatch(saveSong(newSong, albumId));
     dispatch(push(`/albums/detail/${albumId}`));
   };
 

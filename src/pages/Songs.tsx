@@ -17,20 +17,11 @@ const Songs = () => {
     []
   );
 
-  const { role } = useSelector<RootStore, User>((state) => state.user);
   const album = useSelector<RootStore, Album>((state) => state.album);
-  let isDisable = true;
-  if (role === ROLE.EDITOR) {
-    isDisable = false;
-  }
-
-  const clickPublish = () => {
-    alert('曲を公開しました。');
-  };
 
   useEffect(() => {
     if (albumId === '') {
-      alert('アルバム が登録されていません。');
+      alert('アルバムが登録されていません。');
       dispatch(push('/albums'));
     }
     getSingleAlbum(albumId).then((album) => {
@@ -55,9 +46,8 @@ const Songs = () => {
           onClick={() => dispatch(push('/albums'))}
         />
         <PrimalyButton
-          isDisable={isDisable}
-          label="公開する"
-          onClick={clickPublish}
+          label="アルバム編集"
+          onClick={() => dispatch(push(`/albums/edit/${albumId}`))}
         />
       </div>
     </section>

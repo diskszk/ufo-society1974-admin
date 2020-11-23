@@ -1,7 +1,7 @@
 import { Album } from '../types';
 import { fetchAlbums } from './fetchAlbums';
 
-export const getAlbums = async (): Promise<Album[] | []> => {
+export const getAlbums = async (): Promise<Album[]> => {
   return await fetchAlbums()
     .then((dataList) => {
       const albumList: Album[] = dataList.map(
@@ -19,7 +19,6 @@ export const getAlbums = async (): Promise<Album[] | []> => {
       return albumList;
     })
     .catch((e) => {
-      alert(e);
-      return [];
+      throw new Error(e);
     });
 };

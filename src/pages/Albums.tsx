@@ -2,28 +2,30 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { RootStore, User } from '../lib/types';
-import { publishSongs } from '../lib/songs';
-
-// UI
+import { publishAlbums } from '../lib/albums';
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import { PrimalyButton } from '../components/UIKit';
 import IconButton from '@material-ui/core/IconButton';
-
-// Components
 import AlbumTable from '../components/albums/AlbumTable';
-
 import { ROLE } from '../constans';
 import { clearAlbumAction } from '../store/AlbumReducer';
 
 const Albums = () => {
   const dispatch = useDispatch();
 
-  const currentUser = useSelector<RootStore, User>((state) => state.user);
-  const currentRole = currentUser.role;
-  const isDisable = currentRole !== ROLE.EDITOR;
+  const { role } = useSelector<RootStore, User>((state) => state.user);
+  const isDisable = role !== ROLE.EDITOR;
 
-  const clickPublish = () => {
-    alert('編集内容をHPに公開しました。');
+  const clickPublish = async () => {
+    if (role !== ROLE.EDITOR) {
+      alert('編集者のみ編集内容を公開できます。');
+      return;
+    }
+    if (!window.confirm('編集内容を公開しますか？')) {
+      return;
+    }
+    await publishAlbums();
+    alert('編集内容を公開しました。');
   };
 
   const clickAddAlbum = () => {
@@ -39,7 +41,7 @@ const Albums = () => {
       <div className="spacing-div"></div>
 
       <div className="album-container">
-        {currentRole === ROLE.EDITOR && (
+        {role === ROLE.EDITOR && (
           <div className="add-icon-button">
             <span>アルバムを追加</span>
             <IconButton onClick={() => clickAddAlbum()}>

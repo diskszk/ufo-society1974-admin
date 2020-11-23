@@ -8,6 +8,7 @@ import { Album, RootStore, User } from '../lib/types';
 import AlbumInfo from '../components/songs/AlbumInfo';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
 import { updateAlbumAction } from '../store/AlbumReducer';
+import { pushGSO } from '../lib/pushGSO';
 
 const Songs = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,10 @@ const Songs = () => {
   );
 
   const album = useSelector<RootStore, Album>((state) => state.album);
+
+  const handlePushGSO = () => {
+    pushGSO();
+  };
 
   useEffect(() => {
     if (albumId === '') {
@@ -45,6 +50,7 @@ const Songs = () => {
           label="もどる"
           onClick={() => dispatch(push('/albums'))}
         />
+        <PrimalyButton label="GSOを追加する" onClick={handlePushGSO} />
         <PrimalyButton
           label="アルバム編集"
           onClick={() => dispatch(push(`/albums/edit/${albumId}`))}

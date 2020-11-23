@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,16 +17,18 @@ const useStyles = makeStyles({
   },
 });
 
-type Props = {
-  songs: Song[];
+type SongTableBodyItemProps = {
+  song: Song;
 };
 
-const SongTableBody: React.FC<Props> = ({ songs }) => {
+const SongTableBodyItem: React.FC<SongTableBodyItemProps> = ({ song }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const album = useSelector<RootStore, Album>((state) => state.album);
   const albumId = album.id;
+
+  const sondId = parseInt(song.id, 10).toString();
 
   const handleDeleteSong = (songId: string, title: string): void => {
     // edditer only
@@ -51,30 +53,40 @@ const SongTableBody: React.FC<Props> = ({ songs }) => {
   };
 
   return (
+    <TableRow key={song.id}>
+      <TableCell align="right" component="th" scope="row">
+        {sondId}
+      </TableCell>
+      <TableCell>{song.title}</TableCell>
+      <TableCell>{song.story}</TableCell>
+      <TableCell className={classes.actionBtn}>再生</TableCell>
+      <TableCell
+        className={classes.actionBtn}
+        onClick={() =>
+          dispatch(push(`/albums/detail/${albumId}/edit/${song.id}`))
+        }
+      >
+        編集
+      </TableCell>
+      <TableCell
+        className={classes.actionBtn}
+        onClick={() => handleDeleteSong(song.id, song.title)}
+      >
+        削除
+      </TableCell>
+    </TableRow>
+  );
+};
+
+type SongTableBodyProps = {
+  songs: Song[];
+};
+
+const SongTableBody: React.FC<SongTableBodyProps> = ({ songs }) => {
+  return (
     <TableBody>
       {songs.map((song) => (
-        <TableRow key={song.id}>
-          <TableCell align="right" component="th" scope="row">
-            {song.id}
-          </TableCell>
-          <TableCell>{song.title}</TableCell>
-          <TableCell>{song.story}</TableCell>
-          <TableCell className={classes.actionBtn}>再生</TableCell>
-          <TableCell
-            className={classes.actionBtn}
-            onClick={() =>
-              dispatch(push(`/albums/detail/${albumId}/edit/${song.id}`))
-            }
-          >
-            編集
-          </TableCell>
-          <TableCell
-            className={classes.actionBtn}
-            onClick={() => handleDeleteSong(song.id, song.title)}
-          >
-            削除
-          </TableCell>
-        </TableRow>
+        <SongTableBodyItem song={song} key={song.id} />
       ))}
     </TableBody>
   );

@@ -1,7 +1,7 @@
 import { db, FirebaseTimestamp } from '../../firebase';
 import { Song, File } from '../types';
 
-export const saveSongs = (
+export const saveSong = (
   id: string,
   title: string,
   songFile: File,

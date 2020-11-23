@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { makeStyles } from '@material-ui/core/styles';
@@ -29,6 +29,15 @@ const SongTableBodyItem: React.FC<SongTableBodyItemProps> = ({ song }) => {
   const albumId = album.id;
 
   const sondId = parseInt(song.id, 10).toString();
+  const audio = new Audio(song.songFile.path);
+
+  const handlePlayMusic = () => {
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  };
 
   const handleDeleteSong = (songId: string, title: string): void => {
     // edditer only
@@ -59,7 +68,9 @@ const SongTableBodyItem: React.FC<SongTableBodyItemProps> = ({ song }) => {
       </TableCell>
       <TableCell>{song.title}</TableCell>
       <TableCell>{song.story}</TableCell>
-      <TableCell className={classes.actionBtn}>再生</TableCell>
+      <TableCell className={classes.actionBtn} onClick={handlePlayMusic}>
+        {audio.paused ? '再生' : '停止'}
+      </TableCell>
       <TableCell
         className={classes.actionBtn}
         onClick={() =>

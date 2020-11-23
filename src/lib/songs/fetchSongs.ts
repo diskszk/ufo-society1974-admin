@@ -1,5 +1,4 @@
 import { db } from '../../firebase';
-import { Song } from '../../lib/types';
 
 export const fetchSongs = async (
   albumId: string

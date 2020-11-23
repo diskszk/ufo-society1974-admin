@@ -1,6 +1,5 @@
 import { db, FirebaseTimestamp } from '../../firebase';
 import { Song, File } from '../types';
-import { push } from 'connected-react-router';
 
 export const saveSongs = (
   id: string,
@@ -10,7 +9,7 @@ export const saveSongs = (
   lyric: string,
   albumId: string
 ) => {
-  return async (dispatch: any) => {
+  return async () => {
     const songsRef = db
       .collection('albums')
       .doc(albumId)

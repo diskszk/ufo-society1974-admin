@@ -4,7 +4,7 @@ import { push } from 'connected-react-router';
 import { PrimalyButton, TextInput } from '../components/UIKit';
 import { getSingleSong, getSongs, saveSongs } from '../lib/songs';
 import SongUploadForm from '../components/songs/SongUploadForm';
-import { Album, File, Song } from '../lib/types';
+import { File, Song } from '../lib/types';
 
 const SongEdit = () => {
   const dispatch = useDispatch();
@@ -77,7 +77,11 @@ const SongEdit = () => {
       return false;
     }
 
-    await dispatch(saveSongs(id, title, songFile, story, lyric, albumId));
+    const leftJustifiedId = ('0000' + id).slice(-4);
+
+    await dispatch(
+      saveSongs(leftJustifiedId, title, songFile, story, lyric, albumId)
+    );
     dispatch(push(`/albums/detail/${albumId}`));
   };
 

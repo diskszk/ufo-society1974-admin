@@ -1,18 +1,15 @@
 import { db } from '../../firebase';
 import { Album, Song } from '../../lib/types';
 import { getSongs } from '../songs';
-import { fetchAlbums } from './fetchAlbums';
 import { getAlbums } from './getAlbums';
 
 const publishedAlbumsRef = db.collection('published_albums');
-const albumsRef = db.collection('albums');
 
 export const publishAlbums = async () => {
   // DB初期化
   const publishedAlbums = await publishedAlbumsRef.get();
   publishedAlbums.docs.map(async (doc) => {
     const albumId = doc.id;
-    console.log(`album id ${albumId}`);
 
     // sub collectioを削除
     const songRef = publishedAlbumsRef.doc(albumId).collection('songs');

@@ -3,4 +3,4 @@ export { deleteSong } from './deleteSong';
 export { getSongs } from './getSongs';
 export { getSingleSong } from './getSingleSong';
 export { publishSongs } from './publishSongs';
-export { saveSongs } from './saveSongs';
+export { saveSong } from './saveSong';

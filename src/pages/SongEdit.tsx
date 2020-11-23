@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import { PrimalyButton, TextInput } from '../components/UIKit';
-import { getSingleSong, getSongs, saveSongs } from '../lib/songs';
+import { getSingleSong, getSongs, saveSong } from '../lib/songs';
 import SongUploadForm from '../components/songs/SongUploadForm';
 import { File, Song } from '../lib/types';
 
@@ -80,7 +80,7 @@ const SongEdit = () => {
     const leftJustifiedId = ('0000' + id).slice(-4);
 
     await dispatch(
-      saveSongs(leftJustifiedId, title, songFile, story, lyric, albumId)
+      saveSong(leftJustifiedId, title, songFile, story, lyric, albumId)
     );
     dispatch(push(`/albums/detail/${albumId}`));
   };

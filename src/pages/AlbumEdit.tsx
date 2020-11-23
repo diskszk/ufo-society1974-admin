@@ -163,13 +163,6 @@ const AlbumEdit: React.FC = () => {
           type={'text'}
           onChange={inputTitle}
         />
-        <button
-          onClick={() => {
-            console.log(imageFile);
-          }}
-        >
-          ログ
-        </button>
         <ImageUploadForm image={imageFile} />
         <div className="spacing-div" />
 

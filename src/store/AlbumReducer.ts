@@ -1,12 +1,22 @@
 import { initialState } from './initialState';
 import { Album } from '../lib/types';
-import { NO_IMAGE } from '../constans';
 
-const UPDATE_ALBUM = 'UPDATE_ALBUM';
-const CLEAR_ALBUM = 'CLEAR_ALBUM';
 const albumInitialState = initialState.album;
 
-export const updateAlbumAction = (state: Album) => {
+const UPDATE_ALBUM = 'UPDATE_ALBUM',
+  CLEAR_ALBUM = 'CLEAR_ALBUM';
+
+type UpdateAlbumAction = {
+  type: typeof UPDATE_ALBUM;
+  payload: Album;
+};
+type ClearAlbumAction = {
+  type: typeof CLEAR_ALBUM;
+};
+
+type AlbumActionTypes = UpdateAlbumAction | ClearAlbumAction;
+
+export const updateAlbumAction = (state: Album): AlbumActionTypes => {
   return {
     type: UPDATE_ALBUM,
     payload: {
@@ -15,13 +25,16 @@ export const updateAlbumAction = (state: Album) => {
   };
 };
 
-export const clearAlbumAction = () => {
+export const clearAlbumAction = (): AlbumActionTypes => {
   return {
     type: CLEAR_ALBUM,
   };
 };
 
-export const AlbumReducer = (state = albumInitialState, action: any) => {
+export const AlbumReducer = (
+  state = albumInitialState,
+  action: AlbumActionTypes
+): Album => {
   switch (action.type) {
     case UPDATE_ALBUM:
       return {

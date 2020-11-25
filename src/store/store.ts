@@ -22,6 +22,7 @@ export const createStore = (history: History.History<any>) => {
       image: ImagesReducer,
       album: AlbumReducer,
       songs: SongsReducer,
+      song: SongsReducer,
     }),
     applyMiddleware(routerMiddleware(history), thunk, logger)
   );

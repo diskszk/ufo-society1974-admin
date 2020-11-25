@@ -3,8 +3,7 @@ import { PrimalyButton } from '../components/UIKit';
 import SongTable from '../components/songs/SongTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { ROLE } from '../constans';
-import { Album, RootStore, User } from '../lib/types';
+import { Album, RootStore } from '../lib/types';
 import AlbumInfo from '../components/songs/AlbumInfo';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
 import { updateAlbumAction } from '../store/AlbumReducer';
@@ -25,15 +24,16 @@ const Songs = () => {
   };
 
   useEffect(() => {
-    if (albumId === '') {
+    if (albumId !== '') {
+      getSingleAlbum(albumId).then((album) => {
+        if (album) {
+          dispatch(updateAlbumAction(album));
+        }
+      });
+    } else {
       alert('アルバムが登録されていません。');
       dispatch(push('/albums'));
     }
-    getSingleAlbum(albumId).then((album) => {
-      if (album) {
-        dispatch(updateAlbumAction(album));
-      }
-    });
   }, []);
 
   return (

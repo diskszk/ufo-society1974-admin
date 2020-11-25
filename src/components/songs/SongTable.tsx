@@ -60,7 +60,6 @@ const SongTable: React.FC = () => {
             </TableRow>
           </TableHead>
           <SongTableBody songs={songs} />
-          {/* propsで渡すのと子コンポーネントでstoreから取得するのとどちらがいいか？ */}
         </Table>
       </TableContainer>
     </div>

@@ -39,14 +39,18 @@ const SongTableBodyItem: React.FC<SongTableBodyItemProps> = ({ song }) => {
     }
   };
 
-  const handleDeleteSong = (songId: string, title: string): void => {
+  const handleEditSong = () => {
+    dispatch(push(`/albums/detail/${albumId}/edit/${song.id}`));
+  };
+
+  const handleDeleteSong = (): void => {
     // edditer only
     if (role !== ROLE.EDITOR) {
       alert('編集者のみ曲を削除できます。');
       return;
     }
-    if (window.confirm(`${title}を削除しますか?`)) {
-      deleteSong(albumId, songId)
+    if (window.confirm(`${song.title}を削除しますか?`)) {
+      deleteSong(albumId, song.id)
         .catch((e) => {
           throw new Error(e);
         })
@@ -69,19 +73,14 @@ const SongTableBodyItem: React.FC<SongTableBodyItemProps> = ({ song }) => {
       <TableCell>{song.title}</TableCell>
       <TableCell>{song.story}</TableCell>
       <TableCell className={classes.actionBtn} onClick={handlePlayMusic}>
-        {audio.paused ? '再生' : '停止'}
+        {audio.paused ? <p>再生</p> : <p>停止</p>}
       </TableCell>
-      <TableCell
-        className={classes.actionBtn}
-        onClick={() =>
-          dispatch(push(`/albums/detail/${albumId}/edit/${song.id}`))
-        }
-      >
+      <TableCell className={classes.actionBtn} onClick={() => handleEditSong()}>
         編集
       </TableCell>
       <TableCell
         className={classes.actionBtn}
-        onClick={() => handleDeleteSong(song.id, song.title)}
+        onClick={() => handleDeleteSong()}
       >
         削除
       </TableCell>

@@ -1,11 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import BackupIcon from '@material-ui/icons/Backup';
 import { makeStyles } from '@material-ui/core';
-import { db, storage } from '../../firebase';
-import { File } from '../../lib/types';
+import { storage } from '../../firebase';
+import { File, RootStore } from '../../lib/types';
 import { generateRandomStrings } from '../../lib/generateRandomStrings';
+import {
+  clearSongFileAction,
+  updateSongFileAction,
+} from '../../store/SongFileReducer';
+import { deleteSongFile, uploadSongFile } from '../../lib/songs';
 
 const useStyles = makeStyles({
   icon: {
@@ -16,123 +22,70 @@ const useStyles = makeStyles({
 });
 
 type Props = {
-  id: string;
-  musicFile: File;
-  setSongFile: React.Dispatch<React.SetStateAction<File>>;
-  isUploaded: boolean;
-  setIsUploaded: React.Dispatch<React.SetStateAction<boolean>>;
+  albumId: string;
+  songId: string;
 };
 
-const SongUploadForm = (props: Props) => {
+const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { filename } = useSelector<RootStore, File>((state) => state.songFile);
 
-  const uploadMusic = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>, filename: string) => {
-      const fileList = event.target.files;
+  const handleChangeUploadSongButton = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
+    const fileList = event.target.files;
 
-      if (!fileList) {
-        alert('ファイルが選択されていません。');
-        return false;
-      } else {
-        const file = fileList[0];
+    if (!fileList) {
+      alert('ファイルが選択されていません。');
+      return;
+    } else {
+      const file = fileList[0];
+      const newFileName = generateRandomStrings();
 
-        if (filename === '') {
-          filename = generateRandomStrings();
-        }
-
-        const uploadRef = storage.ref('musics').child(filename);
-        const uploadTask = uploadRef.put(file);
-
-        uploadTask
-          .then(() => {
-            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-              const newSongFile: File = {
-                filename: filename,
-                path: downloadURL,
-              };
-              props.setSongFile(newSongFile);
-              alert('曲がのデータがアップロードされました。');
-              props.setIsUploaded(true);
-            });
-          })
-          .catch((e) => {
-            alert('曲のデータのアップロードに失敗しました。');
-            throw new Error(e);
-          });
-      }
-    },
-    [props.setSongFile]
-  );
-
-  const deleteMusic = useCallback(
-    async (filename: string, id: string) => {
-      const storageRef = storage.ref('musics').child(filename);
-      const dbRef = db.collection('unpublished_songs').doc(id);
-
-      if (!id) {
-        alert('曲のデータがアップロードされていません。');
-        return false;
-      }
-      if (window.confirm('この曲のデータを削除しますか？')) {
-        await storageRef.delete().catch((e) => {
-          alert('曲のデータの削除に失敗しました。');
-          throw new Error(e);
-        });
-        const data = {
-          music: {
-            filename: '',
-            path: '',
-          },
-        };
-        await dbRef
-          .set(data, { merge: true })
-          .then(() => {
-            alert('曲のデータを削除しました。');
-            props.setSongFile({
-              filename: '',
-              path: '',
-            });
-            props.setIsUploaded(false);
-          })
-          .catch((e) => {
-            alert('DBの削除に失敗しました。');
-            throw new Error(e);
-          });
-      } else {
-        return false;
-      }
-    },
-    [props.musicFile]
-  );
-
-  useEffect(() => {
-    if (props.musicFile.filename !== '') {
-      props.setIsUploaded(true);
+      dispatch(uploadSongFile(file, newFileName));
     }
-  }, [props.musicFile]);
+  };
+
+  const handleDeleteSongFileButton = async () => {
+    if (filename === '') {
+      alert('曲のデータがアップロードされていません。');
+      return;
+    }
+    if (window.confirm('この曲のデータを削除しますか？')) {
+      await deleteSongFile(filename, albumId, songId);
+      dispatch(clearSongFileAction());
+    } else {
+      return;
+    }
+  };
 
   return (
     <div className="upload-song-form">
       <p>曲をアップロード</p>
-      <IconButton disabled={props.isUploaded} className={classes.icon}>
-        <label htmlFor="upload-music">
-          <BackupIcon />
-          <input
-            type="file"
-            className="display-none"
-            accept=".mp3"
-            id={'upload-music'}
-            onChange={(e) => uploadMusic(e, props.musicFile.filename)}
-          />
-        </label>
-      </IconButton>
-      <IconButton
-        disabled={!props.isUploaded}
-        className={classes.icon}
-        onClick={() => deleteMusic(props.musicFile.filename, props.id)}
-      >
-        <DeleteOutlineIcon />
-      </IconButton>
+      {filename === '' ? (
+        // add song file
+        <IconButton className={classes.icon}>
+          <label htmlFor="upload-music">
+            <BackupIcon />
+            <input
+              type="file"
+              className="display-none"
+              accept=".mp3"
+              id={'upload-music'}
+              onChange={(e) => handleChangeUploadSongButton(e)}
+            />
+          </label>
+        </IconButton>
+      ) : (
+        // delete song file
+        <IconButton
+          className={classes.icon}
+          onClick={() => handleDeleteSongFileButton()}
+        >
+          <DeleteOutlineIcon />
+        </IconButton>
+      )}
     </div>
   );
 };

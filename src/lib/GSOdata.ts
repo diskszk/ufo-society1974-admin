@@ -35,35 +35,8 @@ export const GSOdatas: Song[] = [
     },
     story: 'TR-3B, Masuo TV, "レストー夫人"',
     title: 'カイト',
-  },
-  // ここまでコピー
-  // ここから
-  {
-    created_at: timestamp,
-    id: '0002', // 00XXの形で
-    lyric: `わかいおまえが
-    そんなに多くを知っているとは思えない
-    そのささやかな出口を通るものは何だと言う
-    
-    ガラス瓶がほしい
-    青い水がほしい
-    おまえはそこに立ち 許せばいい
-    
-    そのささやかな出口を通り
-    銃弾のように駆けぬけていく
-    
-    曇り空がほしい
-    ドブの川がほしい
-    おまえはそこに立ち 許せばいい
-    
-    かなしいことかい
-    `,
-    songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
-    },
-    story: '谷川俊太郎',
-    title: 'ヤング',
+    wordsRights: 'amane toda',
+    musicRights: 'amane toda',
   },
   // ここまでコピー
 ];

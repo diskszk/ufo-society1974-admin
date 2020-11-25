@@ -17,6 +17,8 @@ export const getSongs = async (albumId: string): Promise<Song[]> => {
         },
         story: song.story,
         title: song.title,
+        wordsRights: song.wordsRights,
+        musicRights: song.musicRights,
       };
     }
   );

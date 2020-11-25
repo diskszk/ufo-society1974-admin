@@ -7,7 +7,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import { RootStore, Album } from '../../lib/types';
-
 import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles({

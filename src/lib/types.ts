@@ -4,6 +4,7 @@ export type RootStore = {
   image: File;
   album: Album;
   songs: Song[];
+  song: Song;
 };
 
 export type User = {

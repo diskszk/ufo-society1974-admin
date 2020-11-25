@@ -41,4 +41,14 @@ export const initialState: RootStore = {
       title: '',
     },
   ],
+  song: {
+    id: '',
+    lyric: '',
+    songFile: {
+      filename: '',
+      path: '',
+    },
+    story: '',
+    title: '',
+  },
 };

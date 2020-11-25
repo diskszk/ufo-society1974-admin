@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import BackupIcon from '@material-ui/icons/Backup';
 import { makeStyles } from '@material-ui/core';
-import { storage } from '../../firebase';
 import { File, RootStore } from '../../lib/types';
 import { generateRandomStrings } from '../../lib/generateRandomStrings';
 import {
@@ -43,7 +42,14 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
       const file = fileList[0];
       const newFileName = generateRandomStrings();
 
-      dispatch(uploadSongFile(file, newFileName));
+      console.log(1);
+
+      const newSongFile = await uploadSongFile(file, newFileName);
+      console.log(3);
+
+      dispatch(updateSongFileAction(newSongFile));
+      console.log(4);
+      alert('曲がのデータがアップロードされました。');
     }
   };
 

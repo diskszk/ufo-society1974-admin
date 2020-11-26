@@ -119,11 +119,9 @@ const AlbumEdit: React.FC = () => {
       dispatch(resetImageAction());
     } else {
       // Edit
-      getSingleAlbum(id)
-        .then((album) => {
-          if (!album) {
-            return;
-          }
+      const fetch = async () => {
+        try {
+          const album = await getSingleAlbum(id);
 
           setTitle(album.title);
           setDiscription(album.discription);
@@ -133,13 +131,16 @@ const AlbumEdit: React.FC = () => {
           setITunesURL(album.services.iTunes);
           setBandcampURL(album.services.Bandcamp);
 
-          dispatch(updateImageAction({ ...album.imageFile }));
-        })
-        .catch((e) => {
+          dispatch(updateImageAction(album.imageFile));
+        } catch (e) {
           alert(e);
-        });
+          dispatch(push('/albums'));
+        }
+      };
+
+      fetch();
     }
-  }, [setTitle, setDiscription, setPublish_date]);
+  }, []);
 
   return (
     <section className="album-edit">

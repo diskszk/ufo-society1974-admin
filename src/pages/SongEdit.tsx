@@ -94,23 +94,40 @@ const SongEdit: React.FC = () => {
   useEffect(() => {
     if (songId === '') {
       // New
-      dispatch(clearSongFileAction());
-      getSongs(albumId).then((songList) => {
-        const latestId = (songList.length + 1).toString();
-        setId(latestId);
-      });
+      const fetch = async () => {
+        try {
+          const songList = await getSongs(albumId);
+          const latestId = (songList.length + 1).toString();
+          setId(latestId);
+
+          dispatch(clearSongFileAction());
+        } catch (e) {
+          alert(e);
+        }
+      };
+
+      fetch();
     } else {
       // Edit
-      getSingleSong(albumId, songId).then((song: Song) => {
-        setId(song.id);
-        setTitle(song.title);
-        setStory(song.story);
-        setLyric(song.lyric);
-        setWordsRights(song.wordsRights);
-        setMusicRights(song.musicRights);
+      const fetch = async () => {
+        try {
+          const song = await getSingleSong(albumId, songId);
 
-        dispatch(updateSongFileAction(song.songFile));
-      });
+          setId(parseInt(song.id, 10).toString());
+          setTitle(song.title);
+          setStory(song.story);
+          setLyric(song.lyric);
+          setWordsRights(song.wordsRights);
+          setMusicRights(song.musicRights);
+
+          dispatch(updateSongFileAction(song.songFile));
+        } catch (e) {
+          alert(e);
+          dispatch(push(`/albums/detail/${albumId}`));
+        }
+      };
+
+      fetch();
     }
   }, []);
 

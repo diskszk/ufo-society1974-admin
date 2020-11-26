@@ -3,15 +3,15 @@ import { Album } from '../types';
 
 export const getSingleAlbum = async (
   albumId: string
-): Promise<Album | void> => {
+): Promise<Album> => {
   const albums: Album[] = await getAlbums();
 
   if (!albums.length) {
-    return;
+    throw new Error('アルバムが存在しません。');
   }
   const album = albums.find((album) => album.id === albumId);
   if (!album) {
-    return;
+    throw new Error('アルバムのidが一致しません。');
   }
   return album;
 };

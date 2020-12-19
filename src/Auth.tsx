@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listenAuthState } from './lib/users/operation';
 import { RootStore, User } from './lib/types';
@@ -14,7 +14,7 @@ const Auth: React.FC = ({ children }): any => {
   }, []);
 
   if (!isSignedIn) {
-    return <h2 className="loading">Loading...</h2>;
+    return <></>;
   } else {
     return children;
   }

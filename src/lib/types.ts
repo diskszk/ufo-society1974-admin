@@ -5,6 +5,13 @@ export type RootStore = {
   album: Album;
   songFile: File;
   songs: Song[];
+
+  loadingStatus: LoadingStatus;
+};
+
+export type LoadingStatus = {
+  isLoading: boolean;
+  message: string | null;
 };
 
 export type User = {

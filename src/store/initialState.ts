@@ -47,4 +47,9 @@ export const initialState: RootStore = {
       musicRights: 'amane toda',
     },
   ],
+
+  loadingStatus: {
+    isLoading: false,
+    message: null,
+  },
 };

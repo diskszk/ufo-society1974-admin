@@ -93,23 +93,23 @@ const AlbumEdit: React.FC = () => {
     if (window.confirm('編集を破棄します。')) {
       dispatch(push('/albums'));
     } else {
-      return false;
+      return;
     }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async (): Promise<void> => {
     if (role !== ROLE.EDITOR) {
       alert('削除権限がありません。');
-      return false;
+      return;
     }
     if (window.confirm('アルバムを削除しますか？')) {
-      deleteAlbum(id)
+      await deleteAlbum(id)
         .catch(() => {
           alert('error');
         })
         .then(() => dispatch(push('/albums')));
     } else {
-      return false;
+      return;
     }
   };
 

@@ -6,7 +6,7 @@ import { RootStore, User } from '../lib/types';
 import { PrimalyButton } from '../components/UIKit';
 import { ROUTER_PATHS } from '../constans';
 
-const Home = () => {
+const Home: React.FC = () => {
   const dispatch = useDispatch();
   const { username } = useSelector<RootStore, User>((state) => state.user);
 

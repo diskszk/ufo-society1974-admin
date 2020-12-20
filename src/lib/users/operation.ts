@@ -41,7 +41,8 @@ export const listenAuthState = () => {
             dispatch(successFetchAction());
           })
           .catch((e) => {
-            dispatch(failedFetchAction(e));
+            dispatch(failedFetchAction(e.message));
+            dispatch(push('/'));
           });
       }
     });

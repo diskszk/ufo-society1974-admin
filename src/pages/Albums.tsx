@@ -9,8 +9,14 @@ import IconButton from '@material-ui/core/IconButton';
 import AlbumTable from '../components/albums/AlbumTable';
 import { ROLE } from '../constans';
 import { clearAlbumAction } from '../store/AlbumReducer';
+import {
+  requestFetchAction,
+  displayMessage,
+  failedFetchAction,
+  successFetchAction,
+} from '../store/LoadingStatusReducer';
 
-const Albums = () => {
+const Albums: React.FC = () => {
   const dispatch = useDispatch();
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
@@ -18,14 +24,25 @@ const Albums = () => {
 
   const clickPublish = async () => {
     if (role !== ROLE.EDITOR) {
-      alert('編集者のみ編集内容を公開できます。');
+      dispatch(displayMessage('編集者のみ編集内容を公開できます。'));
       return;
     }
     if (!window.confirm('編集内容を公開しますか？')) {
       return;
     }
-    await publishAlbums();
-    alert('編集内容を公開しました。');
+
+    try {
+      dispatch(requestFetchAction());
+      await publishAlbums();
+      dispatch(displayMessage('編集内容を公開しました。'));
+      dispatch(successFetchAction());
+    } catch (e) {
+      dispatch(
+        failedFetchAction(
+          '公開に失敗しました。\n通信環境をご確認の上再度お試しください。'
+        )
+      );
+    }
   };
 
   const clickAddAlbum = () => {

@@ -10,6 +10,12 @@ import { push } from 'connected-react-router';
 import { ROLE } from '../constans';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
 import { updateImageAction, resetImageAction } from '../store/ImgaeReducer';
+import {
+  displayMessage,
+  failedFetchAction,
+  requestFetchAction,
+  successFetchAction,
+} from '../store/LoadingStatusReducer';
 
 // Edit or Add Album only
 const AlbumEdit: React.FC = () => {
@@ -75,8 +81,8 @@ const AlbumEdit: React.FC = () => {
 
   const handleSave = () => {
     if (!title || !publish_date) {
-      alert('必須項目が未入力です。');
-      return false;
+      dispatch(displayMessage('必須項目が未入力です。'));
+      return;
     }
     const services: Services = {
       AppleMusic: appleMusicURL,
@@ -99,15 +105,20 @@ const AlbumEdit: React.FC = () => {
 
   const handleDelete = async (): Promise<void> => {
     if (role !== ROLE.EDITOR) {
-      alert('削除権限がありません。');
+      dispatch(displayMessage('削除権限がありません。'));
       return;
     }
     if (window.confirm('アルバムを削除しますか？')) {
-      await deleteAlbum(id)
-        .catch(() => {
-          alert('error');
-        })
-        .then(() => dispatch(push('/albums')));
+      try {
+        await deleteAlbum(id);
+        dispatch(push('/albums'));
+      } catch {
+        dispatch(
+          failedFetchAction(
+            'アルバムの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
+          )
+        );
+      }
     } else {
       return;
     }
@@ -120,21 +131,28 @@ const AlbumEdit: React.FC = () => {
     } else {
       // Edit
       const fetch = async () => {
+        dispatch(requestFetchAction());
+
         try {
-          const album = await getSingleAlbum(id);
+          const res = await getSingleAlbum(id);
 
-          setTitle(album.title);
-          setDiscription(album.discription);
-          setPublish_date(album.publish_date);
-          setAppleMusicURL(album.services.AppleMusic);
-          setSpotifyURL(album.services.Spotify);
-          setITunesURL(album.services.iTunes);
-          setBandcampURL(album.services.Bandcamp);
-
-          dispatch(updateImageAction(album.imageFile));
+          if (!res) {
+            dispatch(failedFetchAction('アルバムが存在しません。'));
+            dispatch(push('/albums'));
+            return;
+          } else {
+            setTitle(res.title);
+            setDiscription(res.discription);
+            setPublish_date(res.publish_date);
+            setAppleMusicURL(res.services.AppleMusic);
+            setSpotifyURL(res.services.Spotify);
+            setITunesURL(res.services.iTunes);
+            setBandcampURL(res.services.Bandcamp);
+            dispatch(updateImageAction(res.imageFile));
+          }
+          dispatch(successFetchAction());
         } catch (e) {
-          alert(e);
-          dispatch(push('/albums'));
+          dispatch(failedFetchAction(e.message));
         }
       };
 

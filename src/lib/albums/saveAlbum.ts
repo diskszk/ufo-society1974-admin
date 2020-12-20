@@ -2,10 +2,15 @@ import { db, FirebaseTimestamp } from '../../firebase';
 import { File, Services } from '../types';
 import { push } from 'connected-react-router';
 import { generateRandomStrings } from '../generateRandomStrings';
+import {
+  displayMessage,
+  failedFetchAction,
+  requestFetchAction,
+  successFetchAction,
+} from '../../store/LoadingStatusReducer';
 
 const albumsRef = db.collection('albums');
 
-// push un_published albums
 export const saveAlbum = (
   title: string,
   imageFile: File,
@@ -31,16 +36,19 @@ export const saveAlbum = (
       services: services,
     };
 
+    dispatch(requestFetchAction());
+
     await albumsRef
       .doc(id)
       .set(data, { merge: true })
       .then(() => {
-        alert(`アルバムの情報を保存しました。`);
+        dispatch(displayMessage(`アルバムを保存しました。`));
+        dispatch(successFetchAction());
         dispatch(push('/albums'));
       })
-      .catch((e) => {
-        alert(`${e}: アルバムの保存に失敗しました。`);
-        return false;
+      .catch(() => {
+        dispatch(failedFetchAction(`アルバムの保存に失敗しました。`));
+        return;
       });
   };
 };

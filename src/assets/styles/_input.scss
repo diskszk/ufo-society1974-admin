@@ -1,45 +1,35 @@
 .inputs-container {
-//   background-color: rgba(255, 255, 255, .8);
-//   padding: 40px 72px;
-//   width: 75vw;
-//   margin: 0 auto;
-//   margin-top: 16px;
-//   height: 140%;
-//   border-radius: 4px;
-//   // display: flex;
-//   // flex-direction: column;
-//   align-items: center;
+  color: #444;
 
-  p {
-    width: 40em;
+  &-description {
+    width: 80%;
+    margin: 0 auto;
+
     color: #444;
     display: block;
     text-align: left;
-    // margin-bottom: 12px;
+    margin-bottom: 12px;
   }
 
   .input-author {
-    width: 40em;
+    width: 80%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;;
-    
+    margin: 0 auto;
     > div {
       max-width: 18em;
+      margin-right: 40px;
     }
   }
 
-  .upload-song-form {
-    
+  .song-upload-form {
+    color: #444;
     height: 48px;
     line-height: 48px;
-    
-    width: 40em;
+
+    width: 80%;
+    margin: 0 auto;
     display: flex;
     flex-direction: row;
-    p {
-      width: 140px;
-    }
-    
   }
 }

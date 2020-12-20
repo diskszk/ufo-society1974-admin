@@ -17,6 +17,10 @@ const useStyles = makeStyles({
     height: 48,
     wieth: 48,
     lineHeight: 48,
+    cursor: 'pointer',
+  },
+  cursor: {
+    cursor: 'pointer',
   },
 });
 
@@ -62,13 +66,13 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
   };
 
   return (
-    <div className="upload-song-form">
+    <div className="song-upload-form">
       <p>曲をアップロード</p>
       {filename === '' ? (
         // add song file
         <IconButton className={classes.icon}>
           <label htmlFor="upload-music">
-            <BackupIcon />
+            <BackupIcon className={classes.cursor} />
             <input
               type="file"
               className="display-none"
@@ -84,7 +88,7 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
           className={classes.icon}
           onClick={() => handleDeleteSongFileButton()}
         >
-          <DeleteOutlineIcon />
+          <DeleteOutlineIcon className={classes.cursor} />
         </IconButton>
       )}
     </div>

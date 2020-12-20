@@ -146,7 +146,9 @@ const SongEdit: React.FC = () => {
           type={'number'}
           onChange={inputId}
         />
-        <p>デフォルトのIDで一番下に表示されます。</p>
+        <p className="inputs-container-description">
+          デフォルトのIDで一番下に表示されます。
+        </p>
 
         <TextInput
           fullWidth={false}

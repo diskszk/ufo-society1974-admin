@@ -12,24 +12,23 @@ import {
   Albums,
   AlbumEdit,
 } from './pages';
-import { ROUTER_PATHS } from './constans';
 
 const Routes = () => {
   return (
     <Switch>
-      <Route exact path={ROUTER_PATHS.LOGIN} component={Login} />
-      <Route exact path={ROUTER_PATHS.RESET} component={Reset} />
+      <Route exact path={'/login'} component={Login} />
+      <Route exact path={'/reset'} component={Reset} />
 
       <Auth>
         <Route exact path={'(/)?'} component={Home} />
 
         {/* Uasers */}
-        <Route exact path={ROUTER_PATHS.USERS} component={Users} />
-        <Route exact path={ROUTER_PATHS.SIGN_UP} component={SignUp} />
+        <Route exact path={'/users'} component={Users} />
+        <Route exact path={'/signup'} component={SignUp} />
 
         {/* Albums */}
-        <Route exact path={ROUTER_PATHS.ALBUMS} component={Albums} />
-        <Route path={ROUTER_PATHS.ALBUM_EDIT} component={AlbumEdit} />
+        <Route exact path={'/albums'} component={Albums} />
+        <Route path={'/albums/edit/(:id)?'} component={AlbumEdit} />
 
         {/* Songs */}
         <Route exact path={`/albums/detail/:id`} component={Songs} />

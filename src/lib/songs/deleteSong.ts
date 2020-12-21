@@ -6,8 +6,5 @@ export const deleteSong = async (albumId: string, songId: string) => {
     .doc(albumId)
     .collection('songs')
     .doc(songId)
-    .delete()
-    .catch((e) => {
-      throw new Error(e);
-    });
+    .delete();
 };

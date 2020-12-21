@@ -3,7 +3,7 @@ import { PrimalyButton, TextInput } from '../components/UIKit';
 import { resetPassword } from '../lib/users/operation';
 import { useDispatch } from 'react-redux';
 
-const Reset = () => {
+const Reset: React.FC = () => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');

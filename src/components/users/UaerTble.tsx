@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,11 +7,19 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { push } from 'connected-react-router';
 
 import UserTableBody from './UserTableBody';
 import { RootStore, User } from '../../lib/types';
 import { getUsers } from '../../lib/users/getUsers';
 import { deleteUser } from '../../lib/users/deleteUser';
+import {
+  displayMessage,
+  requestFetchAction,
+  failedFetchAction,
+  successFetchAction,
+} from '../../store/LoadingStatusReducer';
+import { ROLE } from '../../constans';
 
 const useStyles = makeStyles({
   table: {
@@ -25,36 +33,64 @@ const useStyles = makeStyles({
 const UserTable = () => {
   const classes = useStyles();
 
+  const dispatch = useDispatch();
   const currentUser = useSelector<RootStore, User>((state) => state.user);
   const currentRole = currentUser.role;
 
   const [rows, setRows] = useState<User[]>([]);
 
   const clickDelete = useCallback(
-    (id: string, username: string, role: string) => {
+    async (id: string, username: string, role: string) => {
       // maste only
-      if (currentRole !== 'master') {
-        alert('ユーザー管理者のみユーザーを削除できます。');
-        return false;
+      if (currentRole !== ROLE.MASTER) {
+        dispatch(displayMessage('ユーザー管理者のみユーザーを削除できます。'));
+        return;
+      }
+      if (!window.confirm(`${username}さんを削除しますか？`)) {
+        return;
+      }
+      // role: masterは消せない
+      if (role === ROLE.MASTER) {
+        dispatch(displayMessage('このユーザーは削除できません。'));
+        return;
+      }
+      if (id === currentUser.uid) {
+        dispatch(displayMessage('このユーザーは削除できません。'));
       }
 
-      if (window.confirm(`${username}さんを削除しますか？`)) {
-        deleteUser(id, role).then(() => {
-          getUsers().then((list) => {
-            setRows(list);
-          });
-        });
-      } else {
-        return;
+      try {
+        dispatch(requestFetchAction());
+        await deleteUser(id);
+        dispatch(displayMessage('ユーザーが削除されました。'));
+
+        // refresh
+        const userList = await getUsers();
+        setRows(userList);
+        dispatch(successFetchAction());
+      } catch (e) {
+        dispatch(
+          failedFetchAction(
+            'ユーザーの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
+          )
+        );
       }
     },
     [setRows]
   );
 
   useEffect(() => {
-    getUsers().then((list) => {
-      setRows(list);
-    });
+    const fetch = async () => {
+      try {
+        dispatch(requestFetchAction());
+        const userList = await getUsers();
+        setRows(userList);
+        dispatch(successFetchAction());
+      } catch (e) {
+        dispatch(failedFetchAction(e.message));
+        dispatch(push('/'));
+      }
+    };
+    fetch();
   }, [setRows]);
 
   return (

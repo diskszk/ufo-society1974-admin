@@ -9,13 +9,14 @@ import { saveAlbum, deleteAlbum } from '../lib/albums';
 import { push } from 'connected-react-router';
 import { ROLE } from '../constans';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
-import { updateImageAction, resetImageAction } from '../store/ImgaeReducer';
+import { updateImageAction, clearImageAction } from '../store/ImgaeReducer';
 import {
   displayMessage,
   failedFetchAction,
   requestFetchAction,
   successFetchAction,
 } from '../store/LoadingStatusReducer';
+import { validatePublished_date } from '../lib';
 
 // Edit or Add Album only
 const AlbumEdit: React.FC = () => {
@@ -80,8 +81,15 @@ const AlbumEdit: React.FC = () => {
   );
 
   const handleSave = () => {
+    // Validation
     if (!title || !publish_date) {
       dispatch(displayMessage('必須項目が未入力です。'));
+      return;
+    }
+    if (!validatePublished_date(publish_date)) {
+      dispatch(
+        displayMessage('公開日は\nYYYY-MM-DD\nの形式で入力してください。')
+      );
       return;
     }
     const services: Services = {
@@ -90,9 +98,20 @@ const AlbumEdit: React.FC = () => {
       iTunes: iTunesURL,
       Bandcamp: bandcampURL,
     };
-    dispatch(
-      saveAlbum(title, imageFile, discription, services, publish_date, id)
-    );
+    try {
+      dispatch(requestFetchAction());
+      saveAlbum(title, imageFile, discription, services, publish_date, id);
+      dispatch(displayMessage(`アルバムを保存しました。`));
+      dispatch(successFetchAction());
+      dispatch(push('/albums'));
+    } catch {
+      dispatch(
+        failedFetchAction(
+          'アルバムの保存に失敗しました。\n通信環境をご確認の上再度お試しください。'
+        )
+      );
+      return;
+    }
   };
 
   const handleBack = () => {
@@ -108,26 +127,27 @@ const AlbumEdit: React.FC = () => {
       dispatch(displayMessage('削除権限がありません。'));
       return;
     }
-    if (window.confirm('アルバムを削除しますか？')) {
-      try {
-        await deleteAlbum(id);
-        dispatch(push('/albums'));
-      } catch {
-        dispatch(
-          failedFetchAction(
-            'アルバムの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
-          )
-        );
-      }
-    } else {
+    if (!window.confirm('アルバムを削除しますか？')) {
       return;
+    }
+    try {
+      dispatch(requestFetchAction());
+      await deleteAlbum(id);
+      dispatch(successFetchAction());
+      dispatch(push('/albums'));
+    } catch {
+      dispatch(
+        failedFetchAction(
+          'アルバムの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
+        )
+      );
     }
   };
 
   useEffect(() => {
     if (id === '') {
       // New
-      dispatch(resetImageAction());
+      dispatch(clearImageAction());
     } else {
       // Edit
       const fetch = async () => {
@@ -158,7 +178,7 @@ const AlbumEdit: React.FC = () => {
 
       fetch();
     }
-  }, []);
+  }, [id]);
 
   return (
     <section className="album-edit">

@@ -8,16 +8,12 @@ export const uploadSongFile = async (
   const uploadRef = storage.ref('musics').child(newFilename);
   const uploadTask = uploadRef.put(file);
 
-  try {
-    await uploadTask;
-    const downloadUrl: string = await uploadTask.snapshot.ref.getDownloadURL();
+  await uploadTask;
+  const downloadUrl: string = await uploadTask.snapshot.ref.getDownloadURL();
 
-    const newSongFile: File = {
-      filename: newFilename,
-      path: downloadUrl,
-    };
-    return newSongFile;
-  } catch (e) {
-    throw new Error(e);
-  }
+  const newSongFile: File = {
+    filename: newFilename,
+    path: downloadUrl,
+  };
+  return newSongFile;
 };

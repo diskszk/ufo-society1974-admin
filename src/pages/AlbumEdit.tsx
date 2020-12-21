@@ -9,21 +9,14 @@ import { saveAlbum, deleteAlbum } from '../lib/albums';
 import { push } from 'connected-react-router';
 import { ROLE } from '../constans';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
-<<<<<<< HEAD
 import { updateImageAction, clearImageAction } from '../store/ImgaeReducer';
-=======
-import { updateImageAction, resetImageAction } from '../store/ImgaeReducer';
->>>>>>> e7fe660... add: add loading function into AlubumsPage
 import {
   displayMessage,
   failedFetchAction,
   requestFetchAction,
   successFetchAction,
 } from '../store/LoadingStatusReducer';
-<<<<<<< HEAD
 import { validatePublished_date } from '../lib';
-=======
->>>>>>> e7fe660... add: add loading function into AlubumsPage
 
 // Edit or Add Album only
 const AlbumEdit: React.FC = () => {
@@ -92,15 +85,18 @@ const AlbumEdit: React.FC = () => {
     if (!title || !publish_date) {
       dispatch(displayMessage('必須項目が未入力です。'));
       return;
-<<<<<<< HEAD
     }
     if (!validatePublished_date(publish_date)) {
       dispatch(
         displayMessage('公開日は\nYYYY-MM-DD\nの形式で入力してください。')
       );
       return;
-=======
->>>>>>> e7fe660... add: add loading function into AlubumsPage
+    }
+    if (!validatePublished_date(publish_date)) {
+      dispatch(
+        displayMessage('公開日は\nYYYY-MM-DD\nの形式で入力してください。')
+      );
+      return;
     }
     const services: Services = {
       AppleMusic: appleMusicURL,
@@ -137,18 +133,7 @@ const AlbumEdit: React.FC = () => {
       dispatch(displayMessage('削除権限がありません。'));
       return;
     }
-    if (window.confirm('アルバムを削除しますか？')) {
-      try {
-        await deleteAlbum(id);
-        dispatch(push('/albums'));
-      } catch {
-        dispatch(
-          failedFetchAction(
-            'アルバムの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
-          )
-        );
-      }
-    } else {
+    if (!window.confirm('アルバムを削除しますか？')) {
       return;
     }
     try {

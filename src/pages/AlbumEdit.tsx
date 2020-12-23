@@ -88,7 +88,7 @@ const AlbumEdit: React.FC = () => {
     }
     if (!validatePublished_date(publish_date)) {
       dispatch(
-        displayMessage('公開日は\nYYYY-MM-DD\nの形式で入力してください。')
+        displayMessage('公開日は\n"YYYY-MM-DD"\nの形式で入力してください。')
       );
       return;
     }

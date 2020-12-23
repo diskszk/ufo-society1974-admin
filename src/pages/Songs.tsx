@@ -7,7 +7,6 @@ import { Album, RootStore } from '../lib/types';
 import AlbumInfo from '../components/songs/AlbumInfo';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
 import { updateAlbumAction } from '../store/AlbumReducer';
-import { pushGSO } from '../lib/pushGSO';
 import {
   displayMessage,
   failedFetchAction,
@@ -24,10 +23,6 @@ const Songs: React.FC = () => {
   );
 
   const album = useSelector<RootStore, Album>((state) => state.album);
-
-  const handlePushGSO = () => {
-    pushGSO();
-  };
 
   useEffect(() => {
     const fetch = async () => {
@@ -70,7 +65,6 @@ const Songs: React.FC = () => {
           label="もどる"
           onClick={() => dispatch(push('/albums'))}
         />
-        <PrimalyButton label="GSOを追加する" onClick={handlePushGSO} />
         <PrimalyButton
           label="アルバム編集"
           onClick={() => dispatch(push(`/albums/edit/${albumId}`))}

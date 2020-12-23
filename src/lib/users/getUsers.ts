@@ -1,6 +1,5 @@
 import { userRef } from '../../firebase';
 import { User } from '../types';
-// import { changeRoleName } from './changeRoleName';
 
 const fetchUsers = async (): Promise<firebase.firestore.DocumentData[]> => {
   const res = await userRef.where('isDelete', '!=', true).get();

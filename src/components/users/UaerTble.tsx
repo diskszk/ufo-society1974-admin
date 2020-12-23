@@ -60,6 +60,7 @@ const UserTable: React.FC<Props> = ({ history }) => {
       }
       if (id === currentUser.uid) {
         dispatch(displayMessage('このユーザーは削除できません。'));
+        return;
       }
 
       try {

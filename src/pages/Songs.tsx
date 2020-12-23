@@ -39,10 +39,11 @@ const Songs: React.FC<Props> = ({ history }) => {
           return;
         } else {
           dispatch(updateAlbumAction(album));
+          dispatch(successFetchAction());
         }
-        dispatch(successFetchAction());
       } catch (e) {
         dispatch(failedFetchAction(e.message));
+        history.push('/albums');
       }
     };
 

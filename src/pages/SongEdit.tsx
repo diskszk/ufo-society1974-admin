@@ -13,6 +13,8 @@ import {
 import {
   displayMessage,
   failedFetchAction,
+  requestFetchAction,
+  successFetchAction,
 } from '../store/LoadingStatusReducer';
 
 interface Props extends RouteComponentProps<{}> {}
@@ -118,21 +120,30 @@ const SongEdit: React.FC<Props> = ({ history }) => {
     // Edit
     const editSongSetUp = async () => {
       try {
+        dispatch(requestFetchAction());
         const song = await getSingleSong(albumId, songId);
 
-        setId(parseInt(song.id, 10).toString());
-        setTitle(song.title);
-        setStory(song.story);
-        setLyric(song.lyric);
-        setWordsRights(song.wordsRights);
-        setMusicRights(song.musicRights);
+        if (!song) {
+          dispatch(failedFetchAction('曲が存在しません。'));
+          history.push(`/albums/detail/${albumId}`);
+          return;
+        } else {
+          setId(parseInt(song.id, 10).toString());
+          setTitle(song.title);
+          setStory(song.story);
+          setLyric(song.lyric);
+          setWordsRights(song.wordsRights);
+          setMusicRights(song.musicRights);
 
-        dispatch(updateSongFileAction(song.songFile));
+          dispatch(updateSongFileAction(song.songFile));
+          dispatch(successFetchAction());
+        }
       } catch (e) {
         dispatch(failedFetchAction(e.message));
         history.push(`/albums/detail/${albumId}`);
       }
     };
+
     if (songId === '') {
       // New
       createSongSetUp();

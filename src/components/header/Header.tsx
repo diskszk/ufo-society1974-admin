@@ -3,16 +3,39 @@ import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../../lib/types';
-import { logOut } from '../../lib/users/operation';
 import { UFO_SOCIETY_OFFISIAL } from '../../constans';
+import {
+  requestFetchAction,
+  displayMessage,
+  successFetchAction,
+  failedFetchAction,
+} from '../../store/LoadingStatusReducer';
+import { auth } from '../../firebase';
+import { logOutAction } from '../../store/UsersReducer';
 
 interface Props extends RouteComponentProps<{}> {}
 
-const Header: React.FC<Props> = (props) => {
+const Header: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
   const { isSignedIn, username, role } = useSelector<RootStore, User>(
     (state) => state.user
   );
+
+  const handleClickLogOut = async () => {
+    try {
+      dispatch(requestFetchAction());
+      await auth.signOut();
+      dispatch(logOutAction());
+      dispatch(displayMessage('ログアウトしました。'));
+      dispatch(successFetchAction());
+      history.push('/login');
+    } catch {
+      dispatch(
+        failedFetchAction(`ログアウトに失敗しました。\n
+      通信環境をご確認の上再度お試しください。`)
+      );
+    }
+  };
 
   return (
     <header>
@@ -26,11 +49,11 @@ const Header: React.FC<Props> = (props) => {
             UFO Societyホームページ
           </a>
           {!isSignedIn ? (
-            <a role="button" onClick={() => props.history.push('/login')}>
+            <a role="button" onClick={() => history.push('/login')}>
               ログイン
             </a>
           ) : (
-            <a role="button" onClick={() => dispatch(logOut())}>
+            <a role="button" onClick={handleClickLogOut}>
               ログアウト
             </a>
           )}

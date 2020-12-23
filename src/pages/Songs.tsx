@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { PrimalyButton } from '../components/UIKit';
 import SongTable from '../components/songs/SongTable';
-import { useDispatch, useSelector } from 'react-redux';
-import { push } from 'connected-react-router';
 import { Album, RootStore } from '../lib/types';
 import AlbumInfo from '../components/songs/AlbumInfo';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
@@ -14,7 +15,9 @@ import {
   successFetchAction,
 } from '../store/LoadingStatusReducer';
 
-const Songs: React.FC = () => {
+interface Props extends RouteComponentProps<{}> {}
+
+const Songs: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
   const albumId = useMemo(
@@ -32,7 +35,7 @@ const Songs: React.FC = () => {
         const album = await getSingleAlbum(albumId);
         if (!album) {
           dispatch(failedFetchAction('アルバムが存在しません。'));
-          dispatch(push('/albums'));
+          history.push('/albums');
           return;
         } else {
           dispatch(updateAlbumAction(album));
@@ -47,7 +50,7 @@ const Songs: React.FC = () => {
       fetch();
     } else {
       dispatch(displayMessage('アルバムが登録されていません。'));
-      dispatch(push('/albums'));
+      history.push('/albums');
     }
   }, []);
 
@@ -61,17 +64,14 @@ const Songs: React.FC = () => {
       <SongTable />
 
       <div className="button-container-row">
-        <PrimalyButton
-          label="もどる"
-          onClick={() => dispatch(push('/albums'))}
-        />
+        <PrimalyButton label="もどる" onClick={() => history.push('/albums')} />
         <PrimalyButton
           label="アルバム編集"
-          onClick={() => dispatch(push(`/albums/edit/${albumId}`))}
+          onClick={() => history.push(`/albums/edit/${albumId}`)}
         />
       </div>
     </section>
   );
 };
 
-export default Songs;
+export default withRouter(Songs);

@@ -1,4 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
@@ -6,7 +8,6 @@ import { PrimalyButton, TextInput } from '../components/UIKit';
 import ImageUploadForm from '../components/albumEdit/ImageUploadForm';
 import { RootStore, File, User, Services } from '../lib/types';
 import { saveAlbum, deleteAlbum } from '../lib/albums';
-import { push } from 'connected-react-router';
 import { ROLE } from '../constans';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
 import { updateImageAction, clearImageAction } from '../store/ImgaeReducer';
@@ -18,8 +19,10 @@ import {
 } from '../store/LoadingStatusReducer';
 import { validatePublished_date } from '../lib';
 
+interface Props extends RouteComponentProps<{}> {}
+
 // Edit or Add Album only
-const AlbumEdit: React.FC = () => {
+const AlbumEdit: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
   let id = window.location.pathname.split('/albums/edit')[1];
@@ -109,7 +112,7 @@ const AlbumEdit: React.FC = () => {
       saveAlbum(title, imageFile, discription, services, publish_date, id);
       dispatch(displayMessage(`アルバムを保存しました。`));
       dispatch(successFetchAction());
-      dispatch(push('/albums'));
+      history.push('/albums');
     } catch {
       dispatch(
         failedFetchAction(
@@ -122,7 +125,7 @@ const AlbumEdit: React.FC = () => {
 
   const handleBack = () => {
     if (window.confirm('編集を破棄します。')) {
-      dispatch(push('/albums'));
+      history.push('/albums');
     } else {
       return;
     }
@@ -140,7 +143,7 @@ const AlbumEdit: React.FC = () => {
       dispatch(requestFetchAction());
       await deleteAlbum(id);
       dispatch(successFetchAction());
-      dispatch(push('/albums'));
+      history.push('/albums');
     } catch {
       dispatch(
         failedFetchAction(
@@ -164,7 +167,7 @@ const AlbumEdit: React.FC = () => {
 
           if (!res) {
             dispatch(failedFetchAction('アルバムが存在しません。'));
-            dispatch(push('/albums'));
+            history.push('/albums');
             return;
           } else {
             setTitle(res.title);
@@ -290,4 +293,4 @@ const AlbumEdit: React.FC = () => {
   );
 };
 
-export default AlbumEdit;
+export default withRouter(AlbumEdit);

@@ -1,14 +1,16 @@
 import React, { useCallback, useState, useEffect } from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { push } from 'connected-react-router';
-
+import {
+  Table,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@material-ui/core';
 import UserTableBody from './UserTableBody';
 import { RootStore, User } from '../../lib/types';
 import { getUsers } from '../../lib/users/getUsers';
@@ -30,7 +32,9 @@ const useStyles = makeStyles({
   },
 });
 
-const UserTable = () => {
+interface Props extends RouteComponentProps<{}> {}
+
+const UserTable: React.FC<Props> = ({ history }) => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -87,7 +91,7 @@ const UserTable = () => {
         dispatch(successFetchAction());
       } catch (e) {
         dispatch(failedFetchAction(e.message));
-        dispatch(push('/'));
+        history.push('/');
       }
     };
     fetch();
@@ -113,4 +117,4 @@ const UserTable = () => {
   );
 };
 
-export default UserTable;
+export default withRouter(UserTable);

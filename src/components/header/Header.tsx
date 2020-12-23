@@ -1,11 +1,14 @@
 import React from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { push } from 'connected-react-router';
 import { RootStore, User } from '../../lib/types';
 import { logOut } from '../../lib/users/operation';
 import { UFO_SOCIETY_OFFISIAL } from '../../constans';
 
-const Header = () => {
+interface Props extends RouteComponentProps<{}> {}
+
+const Header: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
   const { isSignedIn, username, role } = useSelector<RootStore, User>(
     (state) => state.user
@@ -23,7 +26,7 @@ const Header = () => {
             UFO Societyホームページ
           </a>
           {!isSignedIn ? (
-            <a role="button" onClick={() => dispatch(push('/login'))}>
+            <a role="button" onClick={() => props.history.push('/login')}>
               ログイン
             </a>
           ) : (
@@ -43,4 +46,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default withRouter(Header);

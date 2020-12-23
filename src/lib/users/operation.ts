@@ -1,4 +1,3 @@
-import { push } from 'connected-react-router';
 import { logOutAction, signinAction } from '../../store/UsersReducer';
 import { auth, db, FirebaseTimestamp, userRef } from '../../firebase';
 import {
@@ -8,6 +7,7 @@ import {
   displayMessage,
 } from '../../store/LoadingStatusReducer';
 import { ROLE } from '../../constans';
+import { push } from 'connected-react-router';
 
 export const listenAuthState = () => {
   return async (dispatch: any) => {
@@ -24,10 +24,11 @@ export const listenAuthState = () => {
           .get()
           .then((snapshot) => {
             const data = snapshot.data();
-            if (!data)
+            if (!data) {
               return dispatch(
                 failedFetchAction('ユーザーの取得に失敗しました。')
               );
+            }
 
             dispatch(
               signinAction({

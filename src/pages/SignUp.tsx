@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { PrimalyButton, TextInput, TypeSelector } from '../components/UIKit';
 import { signUp } from '../lib/users/operation';
 import { useDispatch, useSelector } from 'react-redux';
-import { push } from 'connected-react-router';
 import { RootStore, User } from '../lib/types';
 import { ROLE } from '../constans';
 
@@ -21,7 +22,9 @@ const roles = [
   },
 ];
 
-const SignUp: React.FC = () => {
+interface Props extends RouteComponentProps<{}> {}
+
+const SignUp: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
   const user = useSelector<RootStore, User>((state) => state.user);
@@ -131,7 +134,7 @@ const SignUp: React.FC = () => {
         <div className="button-container-row">
           <PrimalyButton
             label="もどる"
-            onClick={() => dispatch(push('/users'))}
+            onClick={() => history.push('/users')}
           />
           <PrimalyButton
             isDisable={isDisable}
@@ -145,4 +148,4 @@ const SignUp: React.FC = () => {
     </section>
   );
 };
-export default SignUp;
+export default withRouter(SignUp);

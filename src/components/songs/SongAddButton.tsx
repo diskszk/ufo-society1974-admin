@@ -1,13 +1,13 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { push } from 'connected-react-router';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import { TableCell, TableHead, TableRow, IconButton } from '@material-ui/core';
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import { RootStore, Album } from '../../lib/types';
-import IconButton from '@material-ui/core/IconButton';
+
+import * as H from 'history';
 
 const useStyles = makeStyles({
   addBtn: {
@@ -15,14 +15,13 @@ const useStyles = makeStyles({
   },
 });
 
-const SongAddButton = () => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const { id } = useSelector<RootStore, Album>((state) => state.album);
+interface Props extends RouteComponentProps<{ id: string }> {
+  history: H.History;
+}
 
-  const handleAddSong = () => {
-    dispatch(push(`/albums/detail/${id}/edit`));
-  };
+const SongAddButton: React.FC<Props> = ({ history }) => {
+  const classes = useStyles();
+  const { id } = useSelector<RootStore, Album>((state) => state.album);
 
   return (
     <TableHead>
@@ -34,7 +33,7 @@ const SongAddButton = () => {
         <TableCell></TableCell>
         <TableCell className={classes.addBtn}>
           <span>曲を追加</span>
-          <IconButton onClick={() => handleAddSong()}>
+          <IconButton onClick={() => history.push(`/albums/detail/${id}/edit`)}>
             <LibraryAddOutlinedIcon fontSize={'large'} />
           </IconButton>
         </TableCell>
@@ -43,4 +42,4 @@ const SongAddButton = () => {
   );
 };
 
-export default SongAddButton;
+export default withRouter(SongAddButton);

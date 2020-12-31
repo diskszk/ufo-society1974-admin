@@ -1,23 +1,13 @@
-import { db, userRef } from '../../firebase';
+import { userRef } from '../../firebase';
 
-export const deleteUser = async (id: string, role: string) => {
+export const deleteUser = async (id: string): Promise<void> => {
   const deleteRef = userRef.doc(id);
-
-  // role: masterは消せない
-  if (role == 'master') {
-    alert('このユーザーは削除できません。');
-    return false;
-  } else {
-    const data = {
-      isDelete: true,
-    };
-    return deleteRef
-      .set(data, { merge: true })
-      .then(() => {
-        alert('ユーザーが削除されました。');
-      })
-      .catch(() => {
-        throw new Error();
-      });
-  }
+  const data = {
+    isDelete: true,
+  };
+  return deleteRef.set(data, { merge: true }).catch(() => {
+    throw new Error(
+      'ユーザーの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
+    );
+  });
 };

@@ -11,6 +11,12 @@ import {
   updateSongFileAction,
 } from '../../store/SongFileReducer';
 import { deleteSongFile, uploadSongFile } from '../../lib/songs';
+import {
+  displayMessage,
+  failedFetchAction,
+  requestFetchAction,
+  successFetchAction,
+} from '../../store/LoadingStatusReducer';
 
 const useStyles = makeStyles({
   icon: {
@@ -40,28 +46,51 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
     const fileList = event.target.files;
 
     if (!fileList) {
-      alert('ファイルが選択されていません。');
+      dispatch(displayMessage('ファイルが選択されていません。'));
       return;
-    } else {
-      const file = fileList[0];
-      const newFileName = generateRandomStrings();
+    }
 
+    const file = fileList[0];
+    if (!file) {
+      return;
+    }
+    const newFileName = generateRandomStrings();
+
+    try {
+      dispatch(requestFetchAction());
       const newSongFile = await uploadSongFile(file, newFileName);
       dispatch(updateSongFileAction(newSongFile));
-      alert('曲がのデータがアップロードされました。');
+      dispatch(displayMessage('曲がアップロードされました。'));
+
+      dispatch(successFetchAction());
+    } catch {
+      dispatch(
+        failedFetchAction(
+          '曲のアップロードに失敗しました。\n通信環境をご確認の上再度お試しください。'
+        )
+      );
     }
   };
 
   const handleDeleteSongFileButton = async () => {
     if (filename === '') {
-      alert('曲のデータがアップロードされていません。');
+      dispatch(displayMessage('曲がアップロードされていません。'));
       return;
     }
-    if (window.confirm('この曲のデータを削除しますか？')) {
+    if (!window.confirm('曲を削除しますか？')) {
+      return;
+    }
+    try {
+      dispatch(requestFetchAction());
       await deleteSongFile(filename, albumId, songId);
       dispatch(clearSongFileAction());
-    } else {
-      return;
+      dispatch(successFetchAction());
+    } catch {
+      dispatch(
+        failedFetchAction(
+          '曲の削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
+        )
+      );
     }
   };
 

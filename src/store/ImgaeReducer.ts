@@ -12,6 +12,7 @@ type UpdateImageAction = {
 };
 type ClearImageAction = {
   type: typeof CLEAR_IMAGE;
+  payload: File;
 };
 
 type ImageActionTypes = UpdateImageAction | ClearImageAction;
@@ -26,9 +27,12 @@ export const updateImageAction = (state: File): ImageActionTypes => {
   };
 };
 
-export const resetImageAction = (): ImageActionTypes => {
+export const clearImageAction = (): ImageActionTypes => {
   return {
     type: CLEAR_IMAGE,
+    payload: {
+      ...imageInitialState,
+    },
   };
 };
 
@@ -46,6 +50,7 @@ export const ImagesReducer = (
     case CLEAR_IMAGE:
       return {
         ...state,
+        ...action.payload,
       };
 
     default:

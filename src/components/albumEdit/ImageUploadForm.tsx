@@ -7,10 +7,15 @@ import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 
 import { generateRandomStrings } from '../../lib/generateRandomStrings';
 import { deleteAlbumImage } from '../../lib/albums';
-import { File, RootStore } from '../../lib/types';
-import { useDispatch, useSelector } from 'react-redux';
-import { NO_IMAGE } from '../../constans';
+import { File } from '../../lib/types';
+import { useDispatch } from 'react-redux';
 import { updateImageAction } from '../../store/ImgaeReducer';
+import {
+  requestFetchAction,
+  displayMessage,
+  failedFetchAction,
+  successFetchAction,
+} from '../../store/LoadingStatusReducer';
 
 const useStyles = makeStyles({
   icon: {
@@ -30,32 +35,49 @@ const ImageUploadForm: React.FC<Props> = ({ image }) => {
     const fileList = e.target.files;
 
     if (!fileList) {
-      alert('ファイルが選択されていません。');
-      return false;
-    } else {
-      // すでにローカルステートに登録されている場合はstorageの元の画像を削除
-      if (image.filename !== '') {
+      dispatch(displayMessage('ファイルが選択されていません。'));
+      return;
+    }
+
+    const file = fileList[0];
+    if (!file) {
+      return;
+    }
+
+    // すでにローカルステートに登録されている場合はstorageの元の画像を削除
+    if (image.filename !== '') {
+      try {
+        dispatch(requestFetchAction());
         await deleteAlbumImage(image.filename);
-      } else {
-        const file = fileList[0];
-        const filename = generateRandomStrings();
-        const uploadRef = imagesRef.child(filename);
-        const uploadTask = uploadRef.put(file);
-
-        const snapshot = await uploadTask;
-        const downloadURL: string = await snapshot.ref
-          .getDownloadURL()
-          .catch((e) => {
-            throw new Error(e);
-          });
-        const newImage = {
-          filename: filename,
-          path: downloadURL,
-        };
-        dispatch(updateImageAction(newImage));
-
-        alert('画像のアップロードが完了しました。');
+      } catch (e) {
+        dispatch(
+          failedFetchAction(
+            '画像のアップロードに失敗しました。\n通信状態をご確認の上再度お試しください。'
+          )
+        );
       }
+    }
+    const filename = generateRandomStrings();
+    const uploadRef = imagesRef.child(filename);
+    const uploadTask = uploadRef.put(file);
+
+    try {
+      const snapshot = await uploadTask;
+      const downloadURL: string = await snapshot.ref.getDownloadURL();
+      const newImage = {
+        filename: filename,
+        path: downloadURL,
+      };
+      dispatch(updateImageAction(newImage));
+
+      dispatch(displayMessage('画像のアップロードが完了しました。'));
+      dispatch(successFetchAction());
+    } catch {
+      dispatch(
+        failedFetchAction(
+          '画像のアップロードに失敗しました。\n通信状態をご確認の上再度お試しください。'
+        )
+      );
     }
   };
 

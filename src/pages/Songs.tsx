@@ -8,8 +8,14 @@ import AlbumInfo from '../components/songs/AlbumInfo';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
 import { updateAlbumAction } from '../store/AlbumReducer';
 import { pushGSO } from '../lib/pushGSO';
+import {
+  displayMessage,
+  failedFetchAction,
+  requestFetchAction,
+  successFetchAction,
+} from '../store/LoadingStatusReducer';
 
-const Songs = () => {
+const Songs: React.FC = () => {
   const dispatch = useDispatch();
 
   const albumId = useMemo(
@@ -24,14 +30,28 @@ const Songs = () => {
   };
 
   useEffect(() => {
-    if (albumId !== '') {
-      getSingleAlbum(albumId).then((album) => {
-        if (album) {
+    const fetch = async () => {
+      dispatch(requestFetchAction());
+
+      try {
+        const album = await getSingleAlbum(albumId);
+        if (!album) {
+          dispatch(failedFetchAction('アルバムが存在しません。'));
+          dispatch(push('/albums'));
+          return;
+        } else {
           dispatch(updateAlbumAction(album));
         }
-      });
+        dispatch(successFetchAction());
+      } catch (e) {
+        dispatch(failedFetchAction(e.message));
+      }
+    };
+
+    if (albumId !== '') {
+      fetch();
     } else {
-      alert('アルバムが登録されていません。');
+      dispatch(displayMessage('アルバムが登録されていません。'));
       dispatch(push('/albums'));
     }
   }, []);

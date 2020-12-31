@@ -1,5 +1,10 @@
 import { db, FirebaseTimestamp } from '../../firebase';
 import { Song } from '../types';
+import {
+  failedFetchAction,
+  requestFetchAction,
+  successFetchAction,
+} from '../../store/LoadingStatusReducer';
 
 export const saveSong = (song: Song, albumId: string) => {
   const songsRef = db
@@ -13,10 +18,13 @@ export const saveSong = (song: Song, albumId: string) => {
     ...song,
     created_at: timestamp,
   };
-  return async () => {
-    await songsRef.set(data, { merge: true }).catch((e: string) => {
-      alert(`Error: ${e}`);
-      throw new Error(e);
-    });
+  return async (dispatch: any) => {
+    try {
+      dispatch(requestFetchAction());
+      await songsRef.set(data, { merge: true });
+      dispatch(successFetchAction());
+    } catch {
+      dispatch(failedFetchAction('曲の保存に失敗しました。'));
+    }
   };
 };

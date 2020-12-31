@@ -2,19 +2,23 @@
   width: 30%;
   margin: 0 auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
-  > img {
-    max-width: 50%;
+  &-image {
+    > img {
+      width: 300px;
+    }
   }
+
   &-detail {
-    padding-left: 8px;
+    width: 300px;
+    margin: auto;
     display: flex;
     flex-direction: column;
 
     > p {
       text-align: left;
-      color: #bbb;
+      color: #eee;
     }
   }
 }
@@ -31,7 +35,8 @@
     text-align: left;
     padding: 0 5%;
 
-    > p, div {
+    > p,
+    div {
       border: 1px solid #444;
       box-sizing: border-box;
       background-color: #eee;
@@ -59,7 +64,8 @@
     .story {
       width: 25%;
     }
-    .edit, .delete {
+    .edit,
+    .delete {
       width: 5%;
       text-align: center;
     }

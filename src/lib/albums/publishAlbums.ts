@@ -26,7 +26,6 @@ export const publishAlbums = async () => {
         });
     });
 
-    // collection('published_albums').doc(id)を削除
     await publishedAlbumsRef
       .doc(albumId)
       .delete()

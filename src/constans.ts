@@ -1,4 +1,4 @@
-// // variables
+// variables
 export const ROLE = {
   MASTER: 'master',
   EDITOR: 'editor',

@@ -1,10 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { PrimalyButton, TextInput, TypeSelector } from '../components/UIKit';
-import { signUp } from '../lib/users/operation';
+import { signUp } from '../lib/users/';
 import { useDispatch, useSelector } from 'react-redux';
-import { push } from 'connected-react-router';
 import { RootStore, User } from '../lib/types';
 import { ROLE } from '../constans';
+import {
+  successFetchAction,
+  requestFetchAction,
+  failedFetchAction,
+  displayMessage,
+} from '../store/LoadingStatusReducer';
 
 const roles = [
   {
@@ -21,7 +28,9 @@ const roles = [
   },
 ];
 
-const SignUp: React.FC = () => {
+interface Props extends RouteComponentProps<{}> {}
+
+const SignUp: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
   const user = useSelector<RootStore, User>((state) => state.user);
@@ -68,6 +77,33 @@ const SignUp: React.FC = () => {
     },
     [setRole]
   );
+
+  const handleClickSignUp = async () => {
+    // Validation
+    if (
+      username === '' ||
+      email === '' ||
+      password === '' ||
+      confirmPassword === '' ||
+      role === ''
+    ) {
+      dispatch(displayMessage('必須項目が未入力です。'));
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      dispatch(displayMessage('パスワードが一致していません。'));
+      return;
+    }
+    try {
+      dispatch(requestFetchAction());
+      await dispatch(signUp(username, email, password, role));
+      dispatch(successFetchAction());
+      history.push('/');
+    } catch (e) {
+      dispatch(failedFetchAction(e.message));
+    }
+  };
 
   useEffect(() => {
     if (user.role !== ROLE.MASTER) {
@@ -131,18 +167,16 @@ const SignUp: React.FC = () => {
         <div className="button-container-row">
           <PrimalyButton
             label="もどる"
-            onClick={() => dispatch(push('/users'))}
+            onClick={() => history.push('/users')}
           />
           <PrimalyButton
             isDisable={isDisable}
             label="登録する"
-            onClick={() =>
-              dispatch(signUp(username, email, password, confirmPassword, role))
-            }
+            onClick={handleClickSignUp}
           />
         </div>
       </div>
     </section>
   );
 };
-export default SignUp;
+export default withRouter(SignUp);

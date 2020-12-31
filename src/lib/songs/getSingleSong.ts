@@ -4,14 +4,14 @@ import { getSongs } from './getSongs';
 export const getSingleSong = async (
   albumId: string,
   songId: string
-): Promise<Song> => {
+): Promise<Song | void> => {
   const songs: Song[] = await getSongs(albumId);
   if (!songs.length) {
-    throw new Error('idが一致しません。');
+    return;
   }
   const song = songs.find((song) => song.id === songId);
   if (!song) {
-    throw new Error('曲のidが一致しません。');
+    return;
   }
   return song;
 };

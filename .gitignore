@@ -27,3 +27,5 @@ yarn-error.log*
 # build css files
 /src/assets/styles/style.css
 /src/assets/styles/style.css.map
+
+/src/lib/register

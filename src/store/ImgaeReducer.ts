@@ -20,7 +20,7 @@ export const updateImageAction = (
   };
 };
 
-export const deleteImageAction = (): { type: string; payload: File } => {
+export const resetImageAction = (): { type: string; payload: File } => {
   return {
     type: DELETE_IMAGE,
     payload: {

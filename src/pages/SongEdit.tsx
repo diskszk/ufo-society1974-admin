@@ -1,14 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { db } from '../firebase';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import { PrimalyButton, TextInput } from '../components/UIKit';
-import { getSongs, saveSongs } from '../lib/songs';
+import { getSingleSong, getSongs, saveSongs } from '../lib/songs';
 import SongUploadForm from '../components/songs/SongUploadForm';
-import { File } from '../lib/types';
+import { Album, File, Song } from '../lib/types';
 
 const SongEdit = () => {
   const dispatch = useDispatch();
+
+  const albumId = useMemo(
+    () => window.location.pathname.split('/albums/detail')[1].split('/')[1],
+    []
+  );
+  let songId = window.location.pathname.split(
+    `/albums/detail/${albumId}/edit`
+  )[1];
+  if (songId) {
+    songId = songId.split('/')[1];
+  }
 
   const [id, setId] = useState(''),
     [title, setTitle] = useState(''),
@@ -17,18 +27,12 @@ const SongEdit = () => {
     [wordsRights, setWordsRights] = useState('amane toda'),
     [musicRights, setMusicRights] = useState('amane toda');
 
-  const [isUploaded, setIsUploaded] = useState(false),
-    [loading, setLoading] = useState(false);
+  const [isUploaded, setIsUploaded] = useState(false);
 
   const [songFile, setSongFile] = useState<File>({
     filename: '',
     path: '',
   });
-
-  let idx = window.location.pathname.split('/songs/edit')[1];
-  if (idx !== '') {
-    idx = idx.split('/')[1];
-  }
 
   const inputId = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,42 +71,41 @@ const SongEdit = () => {
     [setMusicRights]
   );
 
-  const clickSave = () => {
+  const clickSave = async () => {
     if (id == '') {
       alert('IDを入力してください');
       return false;
     }
 
-    dispatch(saveSongs(id, title, songFile, story, lyric));
+    await dispatch(saveSongs(id, title, songFile, story, lyric, albumId));
+    dispatch(push(`/albums/detail/${albumId}`));
   };
 
   useEffect(() => {
-    if (idx === '') {
+    if (songId === '') {
       // New
-      getSongs().then((songList) => {
+      getSongs(albumId).then((songList) => {
         const latestId = (songList.length + 1).toString();
         setId(latestId);
       });
     } else {
       // Edit
-      db.collection('unpublished_songs')
-        .doc(idx)
-        .get()
-        .then((snapshot) => {
-          const data = snapshot.data();
-          if (!data) return false;
-
-          setId(data.id);
-          setTitle(data.title);
-          setStory(data.story);
-          setLyric(data.lyric);
-        });
+      getSingleSong(albumId, songId).then((song: Song) => {
+        if (!song) {
+          return;
+        }
+        setId(song.id);
+        setTitle(song.title);
+        setStory(song.story);
+        setLyric(song.lyric);
+      });
     }
-  }, [setId, setLoading, setSongFile]);
+  }, [setId, setSongFile]);
 
   return (
     <section>
       <h1>曲を追加・編集</h1>
+
       <div className="inputs-container">
         <TextInput
           fullWidth={false}
@@ -130,7 +133,6 @@ const SongEdit = () => {
           id={id.toString()}
           musicFile={songFile}
           setSongFile={setSongFile}
-          setLoading={setLoading}
           isUploaded={isUploaded}
           setIsUploaded={setIsUploaded}
         />
@@ -190,12 +192,11 @@ const SongEdit = () => {
         <div className="button-container-row">
           <PrimalyButton
             label="もどる"
-            onClick={() => dispatch(push('/songs'))}
+            onClick={() => dispatch(push(`/albums/detail/${albumId}`))}
           />
           <PrimalyButton label="保存する" onClick={() => clickSave()} />
         </div>
       </div>
-      )
     </section>
   );
 };

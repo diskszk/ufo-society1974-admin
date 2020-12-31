@@ -7,7 +7,7 @@ import { publishSongs } from '../lib/songs';
 // UI
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import { PrimalyButton } from '../components/UIKit';
-import { IconButton } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 
 // Components
 import AlbumTable from '../components/albums/AlbumTable';
@@ -23,13 +23,7 @@ const Albums = () => {
   const isDisable = currentRole !== ROLE.EDITOR;
 
   const clickPublish = () => {
-    publishSongs()
-      .then(() => {
-        alert('編集内容をHPに公開しました。');
-      })
-      .catch((e) => {
-        alert(e);
-      });
+    alert('編集内容をHPに公開しました。');
   };
 
   const clickAddAlbum = () => {

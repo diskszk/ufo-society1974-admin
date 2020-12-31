@@ -1,16 +1,24 @@
 import { db } from '../../firebase';
+import { Song } from '../../lib/types';
 
-const unpublishedSongsRef = db.collection('unpublished_songs');
+export const fetchSongs = async (
+  albumId: string
+): Promise<firebase.firestore.DocumentData[]> => {
+  if (!albumId) {
+    return [];
+  } else {
+    const songsRef = db
+      .collection('albums')
+      .doc(albumId)
+      .collection('songs')
+      .orderBy('id');
 
-export const fetchSongs = async () => {
-  const res = await unpublishedSongsRef.orderBy('id').get();
-
-  if (res.empty) return [];
-  const songList: firebase.firestore.DocumentData[] = [];
-
-  res.forEach((doc) => {
-    songList.push(doc.data());
-  });
-
-  return songList;
+    const snapshot = await songsRef.get();
+    const dataList: firebase.firestore.DocumentData[] = snapshot.docs.map(
+      (doc) => {
+        return doc.data();
+      }
+    );
+    return dataList;
+  }
 };

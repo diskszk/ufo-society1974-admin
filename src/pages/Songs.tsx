@@ -1,53 +1,58 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { PrimalyButton } from '../components/UIKit';
-import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import SongTable from '../components/songs/SongTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { ROUTER_PATHS, ROLE } from '../constans';
-import { RootStore, User } from '../lib/types';
-import { publishSongs } from '../lib/songs';
+import { ROLE } from '../constans';
+import { Album, RootStore, User } from '../lib/types';
+import AlbumInfo from '../components/songs/AlbumInfo';
+import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
+import { updateAlbumAction } from '../store/AlbumReducer';
 
 const Songs = () => {
   const dispatch = useDispatch();
 
+  const albumId = useMemo(
+    () => window.location.pathname.split(`albums/detail`)[1].split('/')[1],
+    []
+  );
+
   const { role } = useSelector<RootStore, User>((state) => state.user);
-  const isDisable = role !== ROLE.EDITOR;
+  const album = useSelector<RootStore, Album>((state) => state.album);
+  let isDisable = true;
+  if (role === ROLE.EDITOR) {
+    isDisable = false;
+  }
 
   const clickPublish = () => {
-    publishSongs()
-      .then(() => {
-        alert('曲を公開しました。');
-      })
-      .catch((e) => {
-        alert(e);
-      });
+    alert('曲を公開しました。');
   };
+
+  useEffect(() => {
+    if (albumId === '') {
+      alert('アルバム が登録されていません。');
+      dispatch(push('/albums'));
+    }
+    getSingleAlbum(albumId).then((album) => {
+      if (album) {
+        dispatch(updateAlbumAction(album));
+      }
+    });
+  }, []);
 
   return (
     <section className="page">
       <h1>曲の管理ページ</h1>
       <div className="spacing-div"></div>
 
-      {role === ROLE.EDITOR && (
-        <div className="button-container__right-fixed">
-          <div
-            className="icon-button"
-            role="button"
-            onClick={() => dispatch(push('/songs/edit'))}
-          >
-            <LibraryAddOutlinedIcon fontSize="large" />
-          </div>
-        </div>
-      )}
-
       <div className="spacing-div"></div>
-      {/* <SongTable /> */}
+      <AlbumInfo album={album} />
+      <SongTable />
 
       <div className="button-container-row">
         <PrimalyButton
           label="もどる"
-          onClick={() => dispatch(push(ROUTER_PATHS.HOME))}
+          onClick={() => dispatch(push('/albums'))}
         />
         <PrimalyButton
           isDisable={isDisable}

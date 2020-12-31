@@ -9,7 +9,6 @@ export const getSingleAlbum = async (id: string): Promise<Album | void> => {
   const album = albums.find((album) => album.id === id);
   if (!album) {
     throw new Error('idが一致しません。');
-  } else {
-    return album;
   }
+  return album;
 };

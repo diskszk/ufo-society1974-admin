@@ -14,6 +14,7 @@ import { ImagesReducer } from './ImgaeReducer';
 import { AlbumReducer } from './AlbumReducer';
 import { SongsReducer } from './SongsReducer';
 import { SongFileReducer } from './SongFileReducer';
+import { LoadingStatusReducer } from './LoadingStatusReducer';
 
 export const createStore = (history: History.History<any>) => {
   return reduxCreateStore(
@@ -24,6 +25,7 @@ export const createStore = (history: History.History<any>) => {
       album: AlbumReducer,
       songFile: SongFileReducer,
       songs: SongsReducer,
+      loadingStatus: LoadingStatusReducer,
     }),
     applyMiddleware(routerMiddleware(history), thunk, logger)
   );

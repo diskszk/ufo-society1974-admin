@@ -1,0 +1,27 @@
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { clearMessageAction } from '../store/LoadingStatusReducer';
+import { PrimalyButton } from './UIKit';
+
+type Props = {
+  message: string;
+};
+
+const MessageModal: React.FC<Props> = ({ message }) => {
+  const dispatch = useDispatch();
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h3>{message}</h3>
+        <div className="spacing-div" />
+        <div className="spacing-div" />
+        <PrimalyButton
+          label="閉じる"
+          onClick={() => dispatch(clearMessageAction())}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default MessageModal;

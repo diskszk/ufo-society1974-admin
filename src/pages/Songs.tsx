@@ -3,11 +3,11 @@ import { PrimalyButton } from '../components/UIKit';
 import SongTable from '../components/songs/SongTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { ROLE } from '../constans';
-import { Album, RootStore, User } from '../lib/types';
+import { Album, RootStore } from '../lib/types';
 import AlbumInfo from '../components/songs/AlbumInfo';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
 import { updateAlbumAction } from '../store/AlbumReducer';
+import { pushGSO } from '../lib/pushGSO';
 
 const Songs = () => {
   const dispatch = useDispatch();
@@ -17,27 +17,23 @@ const Songs = () => {
     []
   );
 
-  const { role } = useSelector<RootStore, User>((state) => state.user);
   const album = useSelector<RootStore, Album>((state) => state.album);
-  let isDisable = true;
-  if (role === ROLE.EDITOR) {
-    isDisable = false;
-  }
 
-  const clickPublish = () => {
-    alert('曲を公開しました。');
+  const handlePushGSO = () => {
+    pushGSO();
   };
 
   useEffect(() => {
-    if (albumId === '') {
-      alert('アルバム が登録されていません。');
+    if (albumId !== '') {
+      getSingleAlbum(albumId).then((album) => {
+        if (album) {
+          dispatch(updateAlbumAction(album));
+        }
+      });
+    } else {
+      alert('アルバムが登録されていません。');
       dispatch(push('/albums'));
     }
-    getSingleAlbum(albumId).then((album) => {
-      if (album) {
-        dispatch(updateAlbumAction(album));
-      }
-    });
   }, []);
 
   return (
@@ -54,10 +50,10 @@ const Songs = () => {
           label="もどる"
           onClick={() => dispatch(push('/albums'))}
         />
+        <PrimalyButton label="GSOを追加する" onClick={handlePushGSO} />
         <PrimalyButton
-          isDisable={isDisable}
-          label="公開する"
-          onClick={clickPublish}
+          label="アルバム編集"
+          onClick={() => dispatch(push(`/albums/edit/${albumId}`))}
         />
       </div>
     </section>

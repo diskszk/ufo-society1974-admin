@@ -29,6 +29,10 @@ export const initialState: RootStore = {
       Bandcamp: '',
     },
   },
+  songFile: {
+    filename: '',
+    path: '',
+  },
   songs: [
     {
       id: '',
@@ -39,6 +43,8 @@ export const initialState: RootStore = {
       },
       story: '',
       title: '',
+      wordsRights: 'amane toda',
+      musicRights: 'amane toda',
     },
   ],
 };

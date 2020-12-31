@@ -1,12 +1,16 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { PrimalyButton, TextInput } from '../components/UIKit';
-import { getSingleSong, getSongs, saveSongs } from '../lib/songs';
+import { getSingleSong, getSongs, saveSong } from '../lib/songs';
 import SongUploadForm from '../components/songs/SongUploadForm';
-import { Album, File, Song } from '../lib/types';
+import { File, Song, RootStore } from '../lib/types';
+import {
+  updateSongFileAction,
+  clearSongFileAction,
+} from '../store/SongFileReducer';
 
-const SongEdit = () => {
+const SongEdit: React.FC = () => {
   const dispatch = useDispatch();
 
   const albumId = useMemo(
@@ -16,9 +20,11 @@ const SongEdit = () => {
   let songId = window.location.pathname.split(
     `/albums/detail/${albumId}/edit`
   )[1];
-  if (songId) {
+  if (songId !== '') {
     songId = songId.split('/')[1];
   }
+
+  const songFile = useSelector<RootStore, File>((state) => state.songFile);
 
   const [id, setId] = useState(''),
     [title, setTitle] = useState(''),
@@ -26,13 +32,6 @@ const SongEdit = () => {
     [lyric, setLyric] = useState(''),
     [wordsRights, setWordsRights] = useState('amane toda'),
     [musicRights, setMusicRights] = useState('amane toda');
-
-  const [isUploaded, setIsUploaded] = useState(false);
-
-  const [songFile, setSongFile] = useState<File>({
-    filename: '',
-    path: '',
-  });
 
   const inputId = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,13 +76,25 @@ const SongEdit = () => {
       return false;
     }
 
-    await dispatch(saveSongs(id, title, songFile, story, lyric, albumId));
+    const leftJustifiedId = ('0000' + id).slice(-4);
+
+    const newSong: Song = {
+      id: leftJustifiedId,
+      title: title,
+      songFile: songFile,
+      story: story,
+      lyric: lyric,
+      wordsRights: wordsRights,
+      musicRights: musicRights,
+    };
+    await dispatch(saveSong(newSong, albumId));
     dispatch(push(`/albums/detail/${albumId}`));
   };
 
   useEffect(() => {
     if (songId === '') {
       // New
+      dispatch(clearSongFileAction());
       getSongs(albumId).then((songList) => {
         const latestId = (songList.length + 1).toString();
         setId(latestId);
@@ -91,16 +102,17 @@ const SongEdit = () => {
     } else {
       // Edit
       getSingleSong(albumId, songId).then((song: Song) => {
-        if (!song) {
-          return;
-        }
         setId(song.id);
         setTitle(song.title);
         setStory(song.story);
         setLyric(song.lyric);
+        setWordsRights(song.wordsRights);
+        setMusicRights(song.musicRights);
+
+        dispatch(updateSongFileAction(song.songFile));
       });
     }
-  }, [setId, setSongFile]);
+  }, []);
 
   return (
     <section>
@@ -129,13 +141,7 @@ const SongEdit = () => {
           type={'text'}
           onChange={inputTitle}
         />
-        <SongUploadForm
-          id={id.toString()}
-          musicFile={songFile}
-          setSongFile={setSongFile}
-          isUploaded={isUploaded}
-          setIsUploaded={setIsUploaded}
-        />
+        <SongUploadForm albumId={albumId} songId={id} />
         {songFile.filename && (
           <div className="music=player">
             <audio

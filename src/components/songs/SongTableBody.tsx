@@ -17,25 +17,40 @@ const useStyles = makeStyles({
   },
 });
 
-type Props = {
-  songs: Song[];
+type SongTableBodyItemProps = {
+  song: Song;
 };
 
-const SongTableBody: React.FC<Props> = ({ songs }) => {
+const SongTableBodyItem: React.FC<SongTableBodyItemProps> = ({ song }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const album = useSelector<RootStore, Album>((state) => state.album);
   const albumId = album.id;
 
-  const handleDeleteSong = (songId: string, title: string): void => {
+  const sondId = parseInt(song.id, 10).toString();
+  const audio = new Audio(song.songFile.path);
+
+  const handlePlayMusic = () => {
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  };
+
+  const handleEditSong = () => {
+    dispatch(push(`/albums/detail/${albumId}/edit/${song.id}`));
+  };
+
+  const handleDeleteSong = (): void => {
     // edditer only
     if (role !== ROLE.EDITOR) {
       alert('編集者のみ曲を削除できます。');
       return;
     }
-    if (window.confirm(`${title}を削除しますか?`)) {
-      deleteSong(albumId, songId)
+    if (window.confirm(`${song.title}を削除しますか?`)) {
+      deleteSong(albumId, song.id)
         .catch((e) => {
           throw new Error(e);
         })
@@ -51,30 +66,37 @@ const SongTableBody: React.FC<Props> = ({ songs }) => {
   };
 
   return (
+    <TableRow key={song.id}>
+      <TableCell align="right" component="th" scope="row">
+        {sondId}
+      </TableCell>
+      <TableCell>{song.title}</TableCell>
+      <TableCell>{song.story}</TableCell>
+      <TableCell className={classes.actionBtn} onClick={handlePlayMusic}>
+        {audio.paused ? <p>再生</p> : <p>停止</p>}
+      </TableCell>
+      <TableCell className={classes.actionBtn} onClick={() => handleEditSong()}>
+        編集
+      </TableCell>
+      <TableCell
+        className={classes.actionBtn}
+        onClick={() => handleDeleteSong()}
+      >
+        削除
+      </TableCell>
+    </TableRow>
+  );
+};
+
+type SongTableBodyProps = {
+  songs: Song[];
+};
+
+const SongTableBody: React.FC<SongTableBodyProps> = ({ songs }) => {
+  return (
     <TableBody>
       {songs.map((song) => (
-        <TableRow key={song.id}>
-          <TableCell align="right" component="th" scope="row">
-            {song.id}
-          </TableCell>
-          <TableCell>{song.title}</TableCell>
-          <TableCell>{song.story}</TableCell>
-          <TableCell className={classes.actionBtn}>再生</TableCell>
-          <TableCell
-            className={classes.actionBtn}
-            onClick={() =>
-              dispatch(push(`/albums/detail/${albumId}/edit/${song.id}`))
-            }
-          >
-            編集
-          </TableCell>
-          <TableCell
-            className={classes.actionBtn}
-            onClick={() => handleDeleteSong(song.id, song.title)}
-          >
-            削除
-          </TableCell>
-        </TableRow>
+        <SongTableBodyItem song={song} key={song.id} />
       ))}
     </TableBody>
   );

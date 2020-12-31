@@ -3,6 +3,7 @@ export type RootStore = {
   user: User;
   image: File;
   album: Album;
+  songFile: File;
   songs: Song[];
 };
 
@@ -34,6 +35,8 @@ export type Song = {
   songFile: File;
   story: string;
   title: string;
+  wordsRights: string;
+  musicRights: string;
   created_at?: firebase.firestore.Timestamp;
 };
 

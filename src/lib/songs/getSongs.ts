@@ -1,7 +1,7 @@
 import { Song } from '../../lib/types';
 import { fetchSongs } from './fetchSongs';
 
-export const getSongs = async (albumId: string): Promise<Song[] | []> => {
+export const getSongs = async (albumId: string): Promise<Song[]> => {
   const dataList = await fetchSongs(albumId).catch((e) => {
     throw new Error(e);
   });
@@ -17,6 +17,8 @@ export const getSongs = async (albumId: string): Promise<Song[] | []> => {
         },
         story: song.story,
         title: song.title,
+        wordsRights: song.wordsRights,
+        musicRights: song.musicRights,
       };
     }
   );

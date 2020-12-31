@@ -1,37 +1,41 @@
 import { File } from '../lib/types';
 import { initialState } from './initialState';
-import { NO_IMAGE } from '../constans';
-
-const UPDATE_IMAGE = 'UPDATE_IMAGE',
-  DELETE_IMAGE = 'DELETE_IMAGE';
 
 const imageInitialState = initialState.image;
 
+const UPDATE_IMAGE = 'UPDATE_IMAGE',
+  CLEAR_IMAGE = 'CLEAR_IMAGE';
+
+type UpdateImageAction = {
+  type: typeof UPDATE_IMAGE;
+  payload: File;
+};
+type ClearImageAction = {
+  type: typeof CLEAR_IMAGE;
+};
+
+type ImageActionTypes = UpdateImageAction | ClearImageAction;
+
 // action
-export const updateImageAction = (
-  imageState: File
-): { type: string; payload: File } => {
+export const updateImageAction = (state: File): ImageActionTypes => {
   return {
     type: UPDATE_IMAGE,
     payload: {
-      filename: imageState.filename,
-      path: imageState.path,
+      ...state,
     },
   };
 };
 
-export const resetImageAction = (): { type: string; payload: File } => {
+export const resetImageAction = (): ImageActionTypes => {
   return {
-    type: DELETE_IMAGE,
-    payload: {
-      filename: '',
-      path: NO_IMAGE,
-    },
+    type: CLEAR_IMAGE,
   };
 };
 
-// reducer
-export const ImagesReducer = (state = imageInitialState, action: any) => {
+export const ImagesReducer = (
+  state: File = imageInitialState,
+  action: ImageActionTypes
+): File => {
   switch (action.type) {
     case UPDATE_IMAGE:
       return {
@@ -39,9 +43,9 @@ export const ImagesReducer = (state = imageInitialState, action: any) => {
         ...action.payload,
       };
 
-    case DELETE_IMAGE:
+    case CLEAR_IMAGE:
       return {
-        ...action.payload,
+        ...state,
       };
 
     default:

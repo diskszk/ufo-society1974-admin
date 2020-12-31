@@ -1,12 +1,13 @@
 import React from 'react';
-import meido from '../assets/images/job_maid_meido_kissa.png';
-import { useDispatch, useSelector } from 'react-redux';
-import { push } from 'connected-react-router';
+import { RouteComponentProps } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { RootStore, User } from '../lib/types';
 import { PrimalyButton } from '../components/UIKit';
+import meido from '../assets/images/job_maid_meido_kissa.png';
 
-const Home: React.FC = () => {
-  const dispatch = useDispatch();
+interface Props extends RouteComponentProps<{}> {}
+
+const Home: React.FC<Props> = (props) => {
   const { username } = useSelector<RootStore, User>((state) => state.user);
 
   return (
@@ -31,11 +32,11 @@ const Home: React.FC = () => {
       <div className="button-container">
         <PrimalyButton
           label="ユーザー管理"
-          onClick={() => dispatch(push('/users'))}
+          onClick={() => props.history.push('/users')}
         />
         <PrimalyButton
           label="アルバムを管理"
-          onClick={() => dispatch(push('/albums'))}
+          onClick={() => props.history.push('/albums')}
         />
       </div>
     </section>

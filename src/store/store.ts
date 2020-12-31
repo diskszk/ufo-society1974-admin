@@ -4,8 +4,6 @@ import {
   applyMiddleware,
 } from 'redux';
 import thunk from 'redux-thunk';
-import { connectRouter, routerMiddleware } from 'connected-react-router';
-import * as History from 'history';
 import logger from 'redux-logger';
 
 // import reducers
@@ -16,10 +14,9 @@ import { SongsReducer } from './SongsReducer';
 import { SongFileReducer } from './SongFileReducer';
 import { LoadingStatusReducer } from './LoadingStatusReducer';
 
-export const createStore = (history: History.History<any>) => {
+export const createStore = () => {
   return reduxCreateStore(
     combineReducers({
-      router: connectRouter(history),
       user: UsersReducer,
       image: ImagesReducer,
       album: AlbumReducer,
@@ -27,6 +24,6 @@ export const createStore = (history: History.History<any>) => {
       songs: SongsReducer,
       loadingStatus: LoadingStatusReducer,
     }),
-    applyMiddleware(routerMiddleware(history), thunk, logger)
+    applyMiddleware(thunk, logger)
   );
 };

@@ -7,16 +7,22 @@ export const validatePublished_date = (published_date: string): boolean => {
   if (!Number(yyyy) || yyyy.length !== 4) {
     return false;
   }
-  if (!Number(mm) || mm.length !== 2) {
+  if (mm.length !== 2) {
     return false;
   }
-  if (Number(mm) <= 12) {
+  if (!Number(mm)) {
     return false;
   }
-  if (!Number(dd) || dd.length !== 2) {
+  if (Number(mm) > 12) {
     return false;
   }
-  if (Number(dd) <= 31) {
+  if (dd.length !== 2) {
+    return false;
+  }
+  if (!Number(dd)) {
+    return false;
+  }
+  if (Number(dd) > 31) {
     return false;
   }
 

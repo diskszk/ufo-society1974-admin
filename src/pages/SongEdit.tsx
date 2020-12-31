@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { push } from 'connected-react-router';
 import { PrimalyButton, TextInput } from '../components/UIKit';
 import { getSingleSong, getSongs, saveSong } from '../lib/songs';
 import SongUploadForm from '../components/songs/SongUploadForm';
@@ -12,9 +13,12 @@ import {
 import {
   displayMessage,
   failedFetchAction,
+  requestFetchAction,
+  successFetchAction,
 } from '../store/LoadingStatusReducer';
 
-const SongEdit: React.FC = () => {
+interface Props extends RouteComponentProps<{}> {}
+const SongEdit: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
   const albumId = useMemo(
@@ -97,7 +101,7 @@ const SongEdit: React.FC = () => {
       musicRights: musicRights,
     };
     await dispatch(saveSong(newSong, albumId));
-    dispatch(push(`/albums/detail/${albumId}`));
+    history.push(`/albums/detail/${albumId}`);
   };
 
   useEffect(() => {
@@ -116,21 +120,30 @@ const SongEdit: React.FC = () => {
     // Edit
     const editSongSetUp = async () => {
       try {
+        dispatch(requestFetchAction());
         const song = await getSingleSong(albumId, songId);
 
-        setId(parseInt(song.id, 10).toString());
-        setTitle(song.title);
-        setStory(song.story);
-        setLyric(song.lyric);
-        setWordsRights(song.wordsRights);
-        setMusicRights(song.musicRights);
+        if (!song) {
+          dispatch(failedFetchAction('曲が存在しません。'));
+          history.push(`/albums/detail/${albumId}`);
+          return;
+        } else {
+          setId(parseInt(song.id, 10).toString());
+          setTitle(song.title);
+          setStory(song.story);
+          setLyric(song.lyric);
+          setWordsRights(song.wordsRights);
+          setMusicRights(song.musicRights);
 
-        dispatch(updateSongFileAction(song.songFile));
+          dispatch(updateSongFileAction(song.songFile));
+          dispatch(successFetchAction());
+        }
       } catch (e) {
         dispatch(failedFetchAction(e.message));
-        dispatch(push(`/albums/detail/${albumId}`));
+        history.push(`/albums/detail/${albumId}`);
       }
     };
+
     if (songId === '') {
       // New
       createSongSetUp();
@@ -226,7 +239,7 @@ const SongEdit: React.FC = () => {
         <div className="button-container-row">
           <PrimalyButton
             label="もどる"
-            onClick={() => dispatch(push(`/albums/detail/${albumId}`))}
+            onClick={() => history.push(`/albums/detail/${albumId}`)}
           />
           <PrimalyButton label="保存する" onClick={() => clickSave()} />
         </div>
@@ -235,4 +248,4 @@ const SongEdit: React.FC = () => {
   );
 };
 
-export default SongEdit;
+export default withRouter(SongEdit);

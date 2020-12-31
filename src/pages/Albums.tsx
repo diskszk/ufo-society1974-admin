@@ -1,6 +1,7 @@
 import React from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { push } from 'connected-react-router';
 import { RootStore, User } from '../lib/types';
 import { publishAlbums } from '../lib/albums';
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
@@ -16,7 +17,9 @@ import {
   successFetchAction,
 } from '../store/LoadingStatusReducer';
 
-const Albums: React.FC = () => {
+interface Props extends RouteComponentProps<{}> {}
+
+const Albums: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
@@ -47,7 +50,7 @@ const Albums: React.FC = () => {
 
   const clickAddAlbum = () => {
     dispatch(clearAlbumAction());
-    dispatch(push('/albums/edit'));
+    history.push('/albums/edit');
   };
 
   return (
@@ -73,7 +76,7 @@ const Albums: React.FC = () => {
       <div className="spacing-div"></div>
 
       <div className="button-container-row">
-        <PrimalyButton label="もどる" onClick={() => dispatch(push('/'))} />
+        <PrimalyButton label="もどる" onClick={() => history.push('/')} />
         <PrimalyButton
           isDisable={isDisable}
           label="公開する"
@@ -84,4 +87,4 @@ const Albums: React.FC = () => {
   );
 };
 
-export default Albums;
+export default withRouter(Albums);

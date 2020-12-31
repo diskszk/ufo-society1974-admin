@@ -1,16 +1,17 @@
 import React from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { PrimalyButton } from '../components/UIKit';
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import UserTable from '../components/users/UaerTble';
-import { useDispatch, useSelector } from 'react-redux';
-import { push } from 'connected-react-router';
+import { useSelector } from 'react-redux';
 import { ROLE } from '../constans';
 import { RootStore, User } from '../lib/types';
 import { IconButton } from '@material-ui/core';
 
-const Users: React.FC = () => {
-  const dispatch = useDispatch();
+interface Props extends RouteComponentProps<{}> {}
 
+const Users: React.FC<Props> = ({ history }) => {
   const currentUser = useSelector<RootStore, User>((state) => state.user);
   const currentRole = currentUser.role;
 
@@ -21,7 +22,7 @@ const Users: React.FC = () => {
 
       {currentRole === ROLE.MASTER && (
         <div className="button-container__right-fixed">
-          <IconButton onClick={() => dispatch(push('/signup'))}>
+          <IconButton onClick={() => history.push('/signup')}>
             <LibraryAddOutlinedIcon fontSize="large" />
           </IconButton>
         </div>
@@ -30,9 +31,9 @@ const Users: React.FC = () => {
       <div className="spacing-div"></div>
       <UserTable />
 
-      <PrimalyButton label="もどる" onClick={() => dispatch(push('/'))} />
+      <PrimalyButton label="もどる" onClick={() => history.push('/')} />
     </section>
   );
 };
 
-export default Users;
+export default withRouter(Users);

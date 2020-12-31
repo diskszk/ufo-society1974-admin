@@ -1,11 +1,21 @@
 import React, { useCallback, useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import { PrimalyButton, TextInput } from '../components/UIKit';
-import { login } from '../lib/users/operation';
+import { login } from '../lib/users';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import {
+  displayMessage,
+  failedFetchAction,
+  requestFetchAction,
+  successFetchAction,
+} from '../store/LoadingStatusReducer';
+import { ROLE } from '../constans';
+import { signinAction } from '../store/UsersReducer';
+
+interface Props extends RouteComponentProps<{}> {}
 
 // Login with e-mail & password
-const Login: React.FC = () => {
+const Login: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState(''),
@@ -26,7 +36,25 @@ const Login: React.FC = () => {
   );
 
   const handleClickLoginButton = async () => {
-    dispatch(login(email, password));
+    // Validation
+    if (email === '' || password === '') {
+      dispatch(displayMessage('必須項目が未入力です。'));
+      return;
+    }
+    try {
+      dispatch(requestFetchAction());
+      const user = await login(email, password);
+      dispatch(signinAction({ ...user }));
+      dispatch(successFetchAction());
+
+      if (user.role === ROLE.MASTER) {
+        history.push('/signup');
+      } else {
+        history.push('/');
+      }
+    } catch (e) {
+      dispatch(failedFetchAction(e.message));
+    }
   };
 
   return (
@@ -59,9 +87,9 @@ const Login: React.FC = () => {
           <PrimalyButton label="ログイン" onClick={handleClickLoginButton} />
         </div>
         <div className="spacing-div" />
-        <Link to={'/reset'}>
+        <a onClick={() => history.push('/reset')}>
           <p>パスワードをリセットする</p>
-        </Link>
+        </a>
       </div>
     </section>
   );

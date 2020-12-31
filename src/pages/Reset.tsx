@@ -1,9 +1,18 @@
 import React, { useCallback, useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import { PrimalyButton, TextInput } from '../components/UIKit';
-import { resetPassword } from '../lib/users/operation';
 import { useDispatch } from 'react-redux';
+import {
+  displayMessage,
+  failedFetchAction,
+  requestFetchAction,
+  successFetchAction,
+} from '../store/LoadingStatusReducer';
+import { resetPassword } from '../lib/users/';
 
-const Reset: React.FC = () => {
+interface Props extends RouteComponentProps<{}> {}
+
+const Reset: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
@@ -14,6 +23,27 @@ const Reset: React.FC = () => {
     },
     [setEmail]
   );
+
+  const handleClickResetButton = async () => {
+    // valldert
+    if (email === '') {
+      dispatch(displayMessage('必須項目が未入力です。'));
+      return;
+    }
+    try {
+      dispatch(requestFetchAction());
+      await resetPassword(email);
+      dispatch(
+        displayMessage(
+          '入力されたアドレスにパスワードリセット用のメールを送信しました。'
+        )
+      );
+      dispatch(successFetchAction());
+      history.push('/login');
+    } catch (e) {
+      dispatch(failedFetchAction(e.message));
+    }
+  };
 
   return (
     <section className="reset page">
@@ -31,10 +61,7 @@ const Reset: React.FC = () => {
         />
 
         <div className="button-container">
-          <PrimalyButton
-            label="リセット"
-            onClick={() => dispatch(resetPassword(email))}
-          />
+          <PrimalyButton label="リセット" onClick={handleClickResetButton} />
         </div>
       </div>
     </section>

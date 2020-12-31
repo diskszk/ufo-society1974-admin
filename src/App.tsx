@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import './assets/styles/style.css';
+import './assets/styles/style.scss';
 import Header from './components/header/Header';
 import Routes from './Routes';
 import { RootStore, LoadingStatus } from './lib/types';

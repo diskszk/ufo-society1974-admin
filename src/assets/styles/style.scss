@@ -6,6 +6,7 @@
 @import './albums';
 @import './albumEddit';
 @import './page';
+@import './modal';
 
 body {
   background-image: url('../images/nasa2.jpg');
@@ -26,7 +27,6 @@ body {
     background-color: black;
     height: 80px;
     line-height: 80px;
-    
   }
 }
 .spacing-div {
@@ -37,8 +37,8 @@ section {
   margin-bottom: 2em;
 
   h1 {
-    margin-top: .2em;
-  }  
+    margin-top: 0.2em;
+  }
 }
 .loading {
   line-height: 80vh;
@@ -46,7 +46,6 @@ section {
 }
 
 .home {
-
   .username {
     font-size: 1.6em;
   }

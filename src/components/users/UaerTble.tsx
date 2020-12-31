@@ -29,7 +29,6 @@ const UserTable = () => {
   const currentRole = currentUser.role;
 
   const [rows, setRows] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
 
   const clickDelete = useCallback(
     (id: string, username: string, role: string) => {
@@ -55,30 +54,25 @@ const UserTable = () => {
   useEffect(() => {
     getUsers().then((list) => {
       setRows(list);
-      setLoading(false);
     });
   }, [setRows]);
 
   return (
     <div className="user-table">
-      {loading ? (
-        <h2>Loading...</h2>
-      ) : (
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>ユーザーID</TableCell>
-                <TableCell>お名前</TableCell>
-                <TableCell>役職</TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>ユーザーID</TableCell>
+              <TableCell>お名前</TableCell>
+              <TableCell>役職</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
 
-            <UserTableBody rows={rows} onClick={clickDelete} />
-          </Table>
-        </TableContainer>
-      )}
+          <UserTableBody rows={rows} onClick={clickDelete} />
+        </Table>
+      </TableContainer>
     </div>
   );
 };

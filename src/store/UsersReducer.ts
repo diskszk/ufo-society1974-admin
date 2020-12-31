@@ -12,6 +12,7 @@ type SignInAction = {
 };
 type LogOutAction = {
   type: typeof LOG_OUT;
+  payload: User;
 };
 
 type UserActionTypes = SignInAction | LogOutAction;
@@ -27,9 +28,15 @@ export const signinAction = (state: User): UserActionTypes => {
   };
 };
 
-export const logOutAction = () => {
+export const logOutAction = (): UserActionTypes => {
   return {
     type: LOG_OUT,
+    payload: {
+      isSignedIn: false,
+      role: '',
+      username: '',
+      uid: '',
+    },
   };
 };
 
@@ -48,6 +55,7 @@ export const UsersReducer = (
     case LOG_OUT:
       return {
         ...state,
+        ...action.payload,
       };
 
     default:

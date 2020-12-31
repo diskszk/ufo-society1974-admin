@@ -4,7 +4,6 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import BackupIcon from '@material-ui/icons/Backup';
 import { makeStyles } from '@material-ui/core';
-import { storage } from '../../firebase';
 import { File, RootStore } from '../../lib/types';
 import { generateRandomStrings } from '../../lib/generateRandomStrings';
 import {
@@ -18,6 +17,10 @@ const useStyles = makeStyles({
     height: 48,
     wieth: 48,
     lineHeight: 48,
+    cursor: 'pointer',
+  },
+  cursor: {
+    cursor: 'pointer',
   },
 });
 
@@ -43,7 +46,9 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
       const file = fileList[0];
       const newFileName = generateRandomStrings();
 
-      dispatch(uploadSongFile(file, newFileName));
+      const newSongFile = await uploadSongFile(file, newFileName);
+      dispatch(updateSongFileAction(newSongFile));
+      alert('曲がのデータがアップロードされました。');
     }
   };
 
@@ -61,13 +66,13 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
   };
 
   return (
-    <div className="upload-song-form">
+    <div className="song-upload-form">
       <p>曲をアップロード</p>
       {filename === '' ? (
         // add song file
         <IconButton className={classes.icon}>
           <label htmlFor="upload-music">
-            <BackupIcon />
+            <BackupIcon className={classes.cursor} />
             <input
               type="file"
               className="display-none"
@@ -83,7 +88,7 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
           className={classes.icon}
           onClick={() => handleDeleteSongFileButton()}
         >
-          <DeleteOutlineIcon />
+          <DeleteOutlineIcon className={classes.cursor} />
         </IconButton>
       )}
     </div>

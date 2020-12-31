@@ -2,7 +2,7 @@ import { db } from '../../firebase';
 import { deleteSong, getSongs } from '../songs';
 import { Song } from '../types';
 
-export const deleteAlbum = async (albumId: string) => {
+export const deleteAlbum = async (albumId: string): Promise<void> => {
   const songList = await getSongs(albumId);
   songList.map((song: Song) => {
     deleteSong(albumId, song.id);
@@ -12,7 +12,8 @@ export const deleteAlbum = async (albumId: string) => {
     .collection('albums')
     .doc(albumId)
     .delete()
-    .catch((e) => {
-      throw new Error(e);
+    .catch(() => {
+      // Error処理
+      throw new Error();
     });
 };

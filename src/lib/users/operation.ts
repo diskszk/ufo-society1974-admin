@@ -1,13 +1,21 @@
 import { push } from 'connected-react-router';
 import { logOutAction, signinAction } from '../../store/UsersReducer';
 import { auth, db, FirebaseTimestamp, userRef } from '../../firebase';
+import {
+  successFetchAction,
+  requestFetchAction,
+  failedFetchAction,
+  displayMessage,
+} from '../../store/LoadingStatusReducer';
+import { ROLE } from '../../constans';
 
 export const listenAuthState = () => {
   return async (dispatch: any) => {
+    dispatch(requestFetchAction());
+
     return auth.onAuthStateChanged((user) => {
       if (!user) {
-        dispatch(push('/login'));
-        return false;
+        return dispatch(push('/login'));
       } else {
         const uid = user.uid;
 
@@ -16,7 +24,10 @@ export const listenAuthState = () => {
           .get()
           .then((snapshot) => {
             const data = snapshot.data();
-            if (!data) return false;
+            if (!data)
+              return dispatch(
+                failedFetchAction('ユーザーの取得に失敗しました。')
+              );
 
             dispatch(
               signinAction({
@@ -26,6 +37,11 @@ export const listenAuthState = () => {
                 role: data.role,
               })
             );
+
+            dispatch(successFetchAction());
+          })
+          .catch((e) => {
+            dispatch(failedFetchAction(e));
           });
       }
     });
@@ -36,27 +52,33 @@ export const resetPassword = (email: string) => {
   return async (dispatch: any) => {
     // valldert
     if (email === '') {
-      alert('必須項目が未入力です。');
-      return false;
+      return dispatch(displayMessage('必須項目が未入力です。'));
     }
+    dispatch(requestFetchAction());
     db.collection('users')
       .where('email', '==', email)
       .get()
       .then((snapshot) => {
         if (snapshot.empty) {
-          alert('入力されたメールアドレスが登録されていません。.');
-          return false;
+          return dispatch(
+            failedFetchAction('入力されたメールアドレスが登録されていません。')
+          );
         } else {
           auth
             .sendPasswordResetEmail(email)
             .then(() => {
-              alert(
-                '入力されたアドレスにパスワードリセット用のメールを送信しました。'
+              dispatch(
+                displayMessage(
+                  '入力されたアドレスにパスワードリセット用のメールを送信しました。'
+                )
               );
+              dispatch(successFetchAction);
               dispatch(push('/login'));
             })
-            .catch((e) => {
-              alert('パスワードリセットに失敗しました。');
+            .catch(() => {
+              failedFetchAction(
+                `パスワードリセットに失敗しました。\n通信環境をご確認の上再度お試しください。`
+              );
             });
         }
       });
@@ -67,18 +89,18 @@ export const login = (email: string, password: string) => {
   return async (dispatch: any) => {
     // Validation
     if (email === '' || password === '') {
-      alert('必須項目が未入力です。');
-      return false;
+      return dispatch(displayMessage('必須項目が未入力です。'));
     }
-
+    dispatch(requestFetchAction());
     auth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
         const user = result.user;
 
         if (!user) {
-          alert('ユーザーが見つかりませんでした。');
-          return false;
+          return dispatch(
+            failedFetchAction('ユーザーが見つかりませんでした。')
+          );
         }
         const uid = user.uid;
 
@@ -87,18 +109,20 @@ export const login = (email: string, password: string) => {
           .get()
           .then((snapshot) => {
             if (!snapshot.exists) {
-              return false;
+              return dispatch(
+                failedFetchAction('ユーザーが見つかりませんでした。')
+              );
             }
 
             const data = snapshot.data();
-            if (!data) return false;
+            if (!data)
+              return dispatch(
+                failedFetchAction('ユーザーが見つかりませんでした。')
+              );
 
             if (data.isDelete) {
-              alert('削除されたユーザーです。');
-              return false;
+              return dispatch(failedFetchAction('削除されたユーザーです。'));
             } else {
-              console.log(JSON.stringify(data));
-
               dispatch(
                 signinAction({
                   isSignedIn: true,
@@ -107,18 +131,25 @@ export const login = (email: string, password: string) => {
                   role: data.role,
                 })
               );
-
+              dispatch(successFetchAction());
               if (data.role === 'master') {
                 dispatch(push('/signup'));
               } else {
                 dispatch(push('/'));
               }
             }
+          })
+          .catch(() => {
+            dispatch(
+              failedFetchAction(
+                `ユーザーが見つかりませんでした。\n通信環境をご確認の上再度お試しください。`
+              )
+            );
           });
       })
       .catch((e) => {
-        console.error(`Error: ${e}`);
-        alert('ユーザーが見つかりませんでした。');
+        // エラーパターンが複数ありハンドリングできない
+        dispatch(failedFetchAction(e.message));
       });
   };
 };
@@ -131,6 +162,7 @@ export const signUp = (
   role: string
 ) => {
   return async (dispatch: any) => {
+    // Validation
     if (
       username === '' ||
       email === '' ||
@@ -138,14 +170,13 @@ export const signUp = (
       confirmPassword === '' ||
       role === ''
     ) {
-      alert('必須項目が未入力です。');
-      return false;
+      return dispatch(displayMessage('必須項目が未入力です。'));
     }
 
     if (password !== confirmPassword) {
-      alert('パスワードが一致していません。');
-      return false;
+      return dispatch(displayMessage('パスワードが一致していません。'));
     }
+    dispatch(requestFetchAction());
 
     return auth
       .createUserWithEmailAndPassword(email, password)
@@ -153,7 +184,7 @@ export const signUp = (
         const user = result.user;
 
         if (!user) {
-          return false;
+          return dispatch(failedFetchAction('ユーザーが存在しません。'));
         }
         const uid = user.uid;
         const timestamp = FirebaseTimestamp.now();
@@ -174,25 +205,30 @@ export const signUp = (
           .then(() => {
             dispatch(push('/'));
           });
+        dispatch(successFetchAction());
       })
-      .catch((e) => {
-        alert(`Error: ${e}`);
-        throw new Error(e);
+      .catch(() => {
+        return dispatch(
+          failedFetchAction(
+            `ユーザーの登録に失敗しました。\n通信環境をご確認の上再度お試しください。`
+          )
+        );
       });
   };
 };
 
 export const deleteUser = (id: string) => {
   const userRef = db.collection('users').doc(id);
-  return async () => {
+  return async (dispatch: any) => {
+    dispatch(requestFetchAction());
     // role: masterは消せない
     userRef.get().then((snapshot) => {
       const data = snapshot.data();
-      if (!data) return false;
-
-      if (data.role === 'master') {
-        alert('このユーザーは削除できません。');
-        return false;
+      if (!data) {
+        return dispatch(failedFetchAction('ユーザーが存在しません。'));
+      }
+      if (data.role === ROLE.MASTER) {
+        return dispatch(failedFetchAction('このユーザーは削除できません。'));
       } else {
         const userData = {
           isDelete: true,
@@ -200,10 +236,15 @@ export const deleteUser = (id: string) => {
         userRef
           .set(userData, { merge: true })
           .then(() => {
-            alert('ユーザーが削除されました。');
+            dispatch(displayMessage('ユーザーが削除されました。'));
+            dispatch(successFetchAction());
           })
-          .catch((e) => {
-            throw new Error(e);
+          .catch(() => {
+            return dispatch(
+              failedFetchAction(
+                `ユーザーの削除に失敗しました。\n通信環境をご確認の上再度お試しください。`
+              )
+            );
           });
       }
     });
@@ -212,10 +253,19 @@ export const deleteUser = (id: string) => {
 
 export const logOut = () => {
   return async (dispatch: any) => {
-    auth.signOut().then(() => {
-      dispatch(logOutAction());
-      alert('ログアウトしました。');
-      dispatch(push('/login'));
-    });
+    dispatch(requestFetchAction());
+
+    try {
+      await auth.signOut();
+    } catch {
+      dispatch(
+        failedFetchAction(`ログアウトに失敗しました。\n
+        通信環境をご確認の上再度お試しください。`)
+      );
+    }
+    dispatch(logOutAction());
+    dispatch(displayMessage('ログアウトしました。'));
+    dispatch(successFetchAction());
+    dispatch(push('/login'));
   };
 };

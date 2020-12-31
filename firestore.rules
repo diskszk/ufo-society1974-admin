@@ -9,6 +9,13 @@ service cloud.firestore {
       allow delete: if request.auth.role == "master";
     }
 
+     match /albums/{id} {
+      allow read: if request.auth.uid != null;
+      allow create: if request.role == "editor";
+      allow update: if request.role == "editor";
+      allow delete: if request.role == "editor";
+    }
+
     match /songs/{id} {
       allow read: if request.auth.uid != null;
       allow create: if request.role == "editer";

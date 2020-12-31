@@ -1,0 +1,62 @@
+.add-icon-button {
+  text-align: right;
+
+  span {
+    font-size: 18px;
+    color: #444;
+  }
+}
+
+.album {
+  &-container {
+    background-color: rgba(255, 255, 255, .8);
+    padding: 40px 72px;
+    width: 75vw;
+    margin: 0 auto;
+    margin-top: 16px;
+    height: 140%;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+  }
+}
+
+.album-list {
+  display: flex;
+  flex-wrap: wrap;
+ 
+  li{
+    width: 50%;
+    padding: 16px;
+  
+    .album-image {
+      position: relative;
+      :hover {
+        cursor: pointer;
+      }
+      > img{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        object-fit: contain;
+      }
+      
+    }
+    .album-image:before {
+      content: "";
+      display: block;
+      padding-top: 100%;
+    }
+    .album-image-footer {
+      text-align: left;
+      color: #444;
+      padding-top: 2px;
+    }
+  }
+}

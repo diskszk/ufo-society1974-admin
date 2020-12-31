@@ -6,18 +6,18 @@ type Props = {
   label: string;
   onClick: () => void;
   isDisable?: boolean;
-}
+};
 
 const useStyles = makeStyles({
   button: {
-    backgroundColor: "#efefef",
-    color: "#000",
-    fontSize: "1em",
-    height: "3em",
-    marginBottom: "2.25em",
-    width: "12em"
-  }
-})
+    backgroundColor: '#efefef',
+    color: '#000',
+    fontSize: '1em',
+    height: '3em',
+    marginBottom: '2.25em',
+    width: '12em',
+  },
+});
 
 const PrimalyButton = (props: Props) => {
   const classes = useStyles();
@@ -26,11 +26,12 @@ const PrimalyButton = (props: Props) => {
     <Button
       disabled={props.isDisable}
       className={classes.button}
-      variant="contained" onClick={() => props.onClick()}
+      variant="contained"
+      onClick={() => props.onClick()}
     >
       {props.label}
     </Button>
   );
-}
+};
 
 export default PrimalyButton;

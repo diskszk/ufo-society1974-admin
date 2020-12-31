@@ -9,90 +9,80 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import SongTableBody from './SongTableBody';
-import { RootStore } from '../../reducks/store/initialState';
-import { User } from '../../reducks/users/types';
-import { Song } from './types';
-import { getSongs } from './getSongs';
-import { deleteSong } from './deleteSong';
+import { RootStore, User, Song } from '../../lib/types';
+import { deleteSong, getSongs } from '../../lib/songs';
+import { ROLE } from '../../constans';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
   actionBtn: {
-    cursor: "pointer"
-  }
+    cursor: 'pointer',
+  },
 });
 
 const SongTable = () => {
   const classes = useStyles();
 
-  const currentUser = useSelector<RootStore, User>(state => state.users);
-  const currentRole = currentUser.role;
+  const { role } = useSelector<RootStore, User>((state) => state.user);
 
   const [rows, setRows] = useState<Song[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const clickDelete = useCallback((id: number, title: string) => {
+  const clickDelete = useCallback(
+    (id: number, title: string) => {
+      // edditer only
+      if (role !== ROLE.EDITOR) {
+        alert('編集者のみ曲を削除できます。');
+        return false;
+      }
 
-    // edditer only
-    if (currentRole !== "editer") {
-      alert("編集者のみ曲を削除できます。");
-      return false;
-    }
-
-    if (window.confirm(`${title}を削除しますか?`)) {
-      deleteSong(id)
-        .then(() => {
-
+      if (window.confirm(`${title}を削除しますか?`)) {
+        deleteSong(id).then(() => {
           // do refresh
-          getSongs()
-            .then((list) => {
-              setRows(list);
-            })
-        })
-    } else {
-      return false;
-    }
-
-  }, [setRows])
+          getSongs().then((list) => {
+            setRows(list);
+          });
+        });
+      } else {
+        return false;
+      }
+    },
+    [setRows]
+  );
 
   useEffect(() => {
-    getSongs()
-      .then((list) => {
-        setRows(list);
-        setLoading(false);
-      })
-  }, [setRows])
+    getSongs().then((list) => {
+      setRows(list);
+      setLoading(false);
+    });
+  }, [setRows]);
 
   return (
     <div className="song-table">
       {loading ? (
         <h2>Loading...</h2>
       ) : (
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="right">No.</TableCell>
-                  <TableCell>タイトル</TableCell>
-                  <TableCell>元ネタ</TableCell>
-                  <TableCell>再生</TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableHead>
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="right">No.</TableCell>
+                <TableCell>タイトル</TableCell>
+                <TableCell>元ネタ</TableCell>
+                <TableCell>再生</TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
 
-              <SongTableBody
-                rows={rows}
-                onClick={clickDelete}
-              />
-
-            </Table>
-          </TableContainer>
-        )}
+            <SongTableBody rows={rows} onClick={clickDelete} />
+          </Table>
+        </TableContainer>
+      )}
     </div>
   );
-}
+};
 
 export default SongTable;

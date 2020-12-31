@@ -11,17 +11,16 @@ type Props = {
   value: string;
   type: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
 const useStyles = makeStyles({
   input: {
-    margin: "1.5em 0",
-    width: "40em",
-  }
+    margin: '1.5em 0',
+    width: '80%',
+  },
 });
 
 const TextInput = (props: Props) => {
-
   const classes = useStyles();
 
   return (
@@ -38,6 +37,6 @@ const TextInput = (props: Props) => {
       onChange={props.onChange}
     />
   );
-}
+};
 
 export default TextInput;

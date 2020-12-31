@@ -1,11 +1,13 @@
-import { db, userRef } from '../../firebase';
+import { userRef } from '../../firebase';
 import { User } from '../types';
 // import { changeRoleName } from './changeRoleName';
 
-const fetchUsers = async () => {
+const fetchUsers = async (): Promise<firebase.firestore.DocumentData[]> => {
   const res = await userRef.where('isDelete', '!=', true).get();
 
-  if (res.empty) return [];
+  if (res.empty) {
+    return [];
+  }
   const userList: firebase.firestore.DocumentData[] = [];
 
   res.forEach((doc) => {
@@ -15,22 +17,20 @@ const fetchUsers = async () => {
   return userList;
 };
 
-export const getUsers = async () => {
-  return await fetchUsers()
-    .then((userList) => {
-      const dataList: User[] | any = userList.map(
-        (user: firebase.firestore.DocumentData) => {
-          return {
-            uid: user.uid,
-            username: user.username,
-            role: user.role,
-          };
-        }
-      );
+export const getUsers = async (): Promise<User[]> => {
+  const userList = await fetchUsers();
+  if (userList.length === 0) {
+    throw new Error(
+      'ユーザー情報の取得に失敗しました。\n通信環境をご確認の上再度お試しください。'
+    );
+  }
 
-      return dataList;
-    })
-    .catch((e: string) => {
-      throw new Error(e);
-    });
+  return userList.map((user) => {
+    return {
+      isSignedIn: user.isSignedIn,
+      uid: user.uid,
+      username: user.username,
+      role: user.role,
+    };
+  });
 };

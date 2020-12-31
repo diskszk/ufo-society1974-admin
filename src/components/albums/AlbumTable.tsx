@@ -6,6 +6,11 @@ import { getAlbums } from '../../lib/albums/getAlbums';
 import { updateAlbumAction } from '../../store/AlbumReducer';
 import IconButton from '@material-ui/core/IconButton';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
+import {
+  requestFetchAction,
+  failedFetchAction,
+  successFetchAction,
+} from '../../store/LoadingStatusReducer';
 
 type Props = {
   album: Album;
@@ -46,11 +51,21 @@ const AlbumTableItem: React.FC<Props> = (props: Props) => {
 
 const AlbumTable: React.FC = () => {
   const [albums, setAlbums] = useState<Album[]>([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getAlbums().then((albumList) => {
-      setAlbums(albumList);
-    });
+    const fetch = async () => {
+      try {
+        dispatch(requestFetchAction());
+        const albumList = await getAlbums();
+        setAlbums(albumList);
+        dispatch(successFetchAction());
+      } catch (e) {
+        dispatch(failedFetchAction(e.message));
+      }
+    };
+
+    fetch();
   }, [setAlbums]);
 
   return (

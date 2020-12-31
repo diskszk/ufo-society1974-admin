@@ -4,7 +4,7 @@ import { signUp } from '../lib/users/operation';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { RootStore, User } from '../lib/types';
-import { ROLE, ROUTER_PATHS } from '../constans';
+import { ROLE } from '../constans';
 
 const roles = [
   {
@@ -21,12 +21,11 @@ const roles = [
   },
 ];
 
-const SignUp = () => {
+const SignUp: React.FC = () => {
   const dispatch = useDispatch();
 
   const user = useSelector<RootStore, User>((state) => state.user);
 
-  // tode: reduxで管理
   const [isDisable, setIsDisable] = useState(false);
 
   const [username, setUsername] = useState(''),
@@ -74,7 +73,7 @@ const SignUp = () => {
     if (user.role !== ROLE.MASTER) {
       setIsDisable(true);
     }
-  }, [setIsDisable]);
+  }, [setIsDisable, user.role]);
 
   return (
     <section className="sign-up page">
@@ -132,7 +131,7 @@ const SignUp = () => {
         <div className="button-container-row">
           <PrimalyButton
             label="もどる"
-            onClick={() => dispatch(push(ROUTER_PATHS.USERS))}
+            onClick={() => dispatch(push('/users'))}
           />
           <PrimalyButton
             isDisable={isDisable}

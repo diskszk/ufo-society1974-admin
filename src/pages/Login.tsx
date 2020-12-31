@@ -3,10 +3,9 @@ import { PrimalyButton, TextInput } from '../components/UIKit';
 import { login } from '../lib/users/operation';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { ROUTER_PATHS } from '../constans';
 
 // Login with e-mail & password
-const Login = () => {
+const Login: React.FC = () => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState(''),
@@ -25,6 +24,10 @@ const Login = () => {
     },
     [setPassword]
   );
+
+  const handleClickLoginButton = async () => {
+    dispatch(login(email, password));
+  };
 
   return (
     <section className="login page">
@@ -53,13 +56,10 @@ const Login = () => {
 
         <div className="spacing-div" />
         <div className="button-container">
-          <PrimalyButton
-            label="ログイン"
-            onClick={() => dispatch(login(email, password))}
-          />
+          <PrimalyButton label="ログイン" onClick={handleClickLoginButton} />
         </div>
         <div className="spacing-div" />
-        <Link to={ROUTER_PATHS.RESET}>
+        <Link to={'/reset'}>
           <p>パスワードをリセットする</p>
         </Link>
       </div>

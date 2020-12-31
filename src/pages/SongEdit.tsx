@@ -9,6 +9,10 @@ import {
   updateSongFileAction,
   clearSongFileAction,
 } from '../store/SongFileReducer';
+import {
+  displayMessage,
+  failedFetchAction,
+} from '../store/LoadingStatusReducer';
 
 const SongEdit: React.FC = () => {
   const dispatch = useDispatch();
@@ -59,7 +63,7 @@ const SongEdit: React.FC = () => {
   );
   const inputWordsRights = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setLyric(e.target.value);
+      setWordsRights(e.target.value);
     },
     [setWordsRights]
   );
@@ -71,9 +75,14 @@ const SongEdit: React.FC = () => {
   );
 
   const clickSave = async () => {
-    if (id == '') {
-      alert('IDを入力してください');
-      return false;
+    // validation
+    if (id === '') {
+      dispatch(displayMessage('IDを入力してください。'));
+      return;
+    }
+    if (title === '') {
+      dispatch(displayMessage('タイトルを入力してください。'));
+      return;
     }
 
     const leftJustifiedId = ('0000' + id).slice(-4);
@@ -92,44 +101,44 @@ const SongEdit: React.FC = () => {
   };
 
   useEffect(() => {
+    // New
+    const createSongSetUp = async () => {
+      try {
+        const songList = await getSongs(albumId);
+        const latestId = (songList.length + 1).toString();
+        setId(latestId);
+
+        dispatch(clearSongFileAction());
+      } catch (e) {
+        dispatch(failedFetchAction(e.message));
+      }
+    };
+    // Edit
+    const editSongSetUp = async () => {
+      try {
+        const song = await getSingleSong(albumId, songId);
+
+        setId(parseInt(song.id, 10).toString());
+        setTitle(song.title);
+        setStory(song.story);
+        setLyric(song.lyric);
+        setWordsRights(song.wordsRights);
+        setMusicRights(song.musicRights);
+
+        dispatch(updateSongFileAction(song.songFile));
+      } catch (e) {
+        dispatch(failedFetchAction(e.message));
+        dispatch(push(`/albums/detail/${albumId}`));
+      }
+    };
     if (songId === '') {
       // New
-      const fetch = async () => {
-        try {
-          const songList = await getSongs(albumId);
-          const latestId = (songList.length + 1).toString();
-          setId(latestId);
-
-          dispatch(clearSongFileAction());
-        } catch (e) {
-          alert(e);
-        }
-      };
-
-      fetch();
+      createSongSetUp();
     } else {
       // Edit
-      const fetch = async () => {
-        try {
-          const song = await getSingleSong(albumId, songId);
-
-          setId(parseInt(song.id, 10).toString());
-          setTitle(song.title);
-          setStory(song.story);
-          setLyric(song.lyric);
-          setWordsRights(song.wordsRights);
-          setMusicRights(song.musicRights);
-
-          dispatch(updateSongFileAction(song.songFile));
-        } catch (e) {
-          alert(e);
-          dispatch(push(`/albums/detail/${albumId}`));
-        }
-      };
-
-      fetch();
+      editSongSetUp();
     }
-  }, []);
+  }, [albumId, songId]);
 
   return (
     <section>

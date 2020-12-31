@@ -1,14 +1,17 @@
 import { getAlbums } from './getAlbums';
 import { Album } from '../types';
 
-export const getSingleAlbum = async (albumId: string): Promise<Album> => {
+export const getSingleAlbum = async (
+  albumId: string
+): Promise<Album | void> => {
   const albums: Album[] = await getAlbums();
+
   if (!albums.length) {
-    throw new Error('アルバムが存在しません。');
+    return;
   }
   const album = albums.find((album) => album.id === albumId);
   if (!album) {
-    throw new Error('アルバムのidが一致しません。');
+    return;
   }
   return album;
 };

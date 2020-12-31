@@ -4,9 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { RootStore, User } from '../lib/types';
 import { PrimalyButton } from '../components/UIKit';
-import { ROUTER_PATHS } from '../constans';
 
-const Home = () => {
+const Home: React.FC = () => {
   const dispatch = useDispatch();
   const { username } = useSelector<RootStore, User>((state) => state.user);
 
@@ -32,11 +31,11 @@ const Home = () => {
       <div className="button-container">
         <PrimalyButton
           label="ユーザー管理"
-          onClick={() => dispatch(push(ROUTER_PATHS.USERS))}
+          onClick={() => dispatch(push('/users'))}
         />
         <PrimalyButton
           label="アルバムを管理"
-          onClick={() => dispatch(push(ROUTER_PATHS.ALBUMS))}
+          onClick={() => dispatch(push('/albums'))}
         />
       </div>
     </section>

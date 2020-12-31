@@ -2,9 +2,11 @@
   &-image {
     width: 66%;
     margin: 0 auto;
-    
+
     &__select {
       text-align: left;
+      width: 60%;
+      margin: 0 auto;
 
       span {
         color: #444;
@@ -12,8 +14,7 @@
     }
 
     > img {
-      width: 100%;
-      height: 60%;
+      width: 60%;
       object-fit: cover;
     }
   }

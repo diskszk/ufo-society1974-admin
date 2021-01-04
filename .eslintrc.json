@@ -1,46 +1,44 @@
 {
-	"env": {
-		"browser": true,
-		"es6": true,
-		"node": true
-	},
-	"extends": [
-		// "airbnb",
-		"plugin:react/recommended",
-		"plugin:prettier/recommended",
-		"prettier/@typescript-eslint"
-	],
-	"globals": {
-		"Atomics": "readonly",
-		"SharedArrayBuffer": "readonly"
-	},
-	"parser": "@typescript-eslint/parser",
-	"parserOptions": {
-		"ecmaFeatures": {
-			"jsx": true
-		},
-		"ecmaVersion": 2018,
-		"sourceType": "module"
-	},
-	"plugins": [
-		"react",
-		"@typescript-eslint"
-	],
-	"settings": {
-		"react": {
-			"version": "detect"
-		}
-	},
-	"rules": {
-		"semi": "error",
-		"no-unused-vars": "warn",
-		"no-console": "warn",
-		"prettier/prettier": [
-			"error",
-			{
-				"singleQuote": true
-			}
-		],
-		"react/prop-types": "off"
-	}
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    // "airbnb",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "semi": "error",
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "react/prop-types": "off"
+  }
 }

@@ -19,6 +19,7 @@ const AlbumTable: React.FC = () => {
       try {
         dispatch(requestFetchAction());
         const albumList = await getAlbums();
+
         setAlbums(albumList);
         dispatch(successFetchAction());
       } catch (e) {

@@ -12,6 +12,7 @@ const App = () => {
   const { isLoading, message } = useSelector<RootStore, LoadingStatus>(
     (state) => state.loadingStatus
   );
+
   return (
     <>
       {isLoading && <LoadingModal />}

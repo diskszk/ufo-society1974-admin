@@ -26,19 +26,20 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
   let id = window.location.pathname.split('/albums/edit')[1];
+
   if (id !== '') {
     id = id.split('/')[1];
   }
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const imageFile = useSelector<RootStore, File>((state) => state.image);
 
-  const [discription, setDiscription] = useState(''),
-    [publish_date, setPublish_date] = useState(''),
-    [title, setTitle] = useState(''),
-    [appleMusicURL, setAppleMusicURL] = useState(''),
-    [spotifyURL, setSpotifyURL] = useState(''),
-    [iTunesURL, setITunesURL] = useState(''),
-    [bandcampURL, setBandcampURL] = useState('');
+  const [discription, setDiscription] = useState('');
+  const [publish_date, setPublish_date] = useState('');
+  const [title, setTitle] = useState('');
+  const [appleMusicURL, setAppleMusicURL] = useState('');
+  const [spotifyURL, setSpotifyURL] = useState('');
+  const [iTunesURL, setITunesURL] = useState('');
+  const [bandcampURL, setBandcampURL] = useState('');
 
   const inputDiscription = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,6 +108,7 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
       iTunes: iTunesURL,
       Bandcamp: bandcampURL,
     };
+
     try {
       dispatch(requestFetchAction());
       saveAlbum(title, imageFile, discription, services, publish_date, id);

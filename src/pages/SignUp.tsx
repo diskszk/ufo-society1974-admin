@@ -37,11 +37,11 @@ const SignUp: React.FC<Props> = ({ history }) => {
 
   const [isDisable, setIsDisable] = useState(false);
 
-  const [username, setUsername] = useState(''),
-    [email, setEmail] = useState(''),
-    [password, setPassword] = useState(''),
-    [confirmPassword, setConfirmPasswod] = useState(''),
-    [role, setRole] = useState('editer');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPasswod] = useState('');
+  const [role, setRole] = useState('editer');
 
   const inputUsername = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -179,4 +179,5 @@ const SignUp: React.FC<Props> = ({ history }) => {
     </section>
   );
 };
+
 export default withRouter(SignUp);

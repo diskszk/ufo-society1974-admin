@@ -18,6 +18,7 @@ const fetchUsers = async (): Promise<firebase.firestore.DocumentData[]> => {
 
 export const getUsers = async (): Promise<User[]> => {
   const userList = await fetchUsers();
+
   if (userList.length === 0) {
     throw new Error(
       'ユーザー情報の取得に失敗しました。\n通信環境をご確認の上再度お試しください。'

@@ -3,8 +3,8 @@ import { initialState } from './initialState';
 
 const userInitialState = initialState.user;
 
-const SIGN_IN = 'SIGN_IN',
-  LOG_OUT = 'LOG_OUT';
+const SIGN_IN = 'SIGN_IN';
+const LOG_OUT = 'LOG_OUT';
 
 type SignInAction = {
   type: typeof SIGN_IN;

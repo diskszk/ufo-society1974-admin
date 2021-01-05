@@ -18,8 +18,8 @@ interface Props extends RouteComponentProps<{}> {}
 const Login: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState(''),
-    [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const inputEmail = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +44,7 @@ const Login: React.FC<Props> = ({ history }) => {
     try {
       dispatch(requestFetchAction());
       const user = await login(email, password);
+
       dispatch(signinAction({ ...user }));
       dispatch(successFetchAction());
 
@@ -94,4 +95,5 @@ const Login: React.FC<Props> = ({ history }) => {
     </section>
   );
 };
+
 export default Login;

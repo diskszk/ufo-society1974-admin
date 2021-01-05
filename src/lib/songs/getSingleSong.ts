@@ -6,10 +6,12 @@ export const getSingleSong = async (
   songId: string
 ): Promise<Song | void> => {
   const songs: Song[] = await getSongs(albumId);
+
   if (!songs.length) {
     return;
   }
   const song = songs.find((song) => song.id === songId);
+
   if (!song) {
     return;
   }

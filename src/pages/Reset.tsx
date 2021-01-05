@@ -67,4 +67,5 @@ const Reset: React.FC<Props> = ({ history }) => {
     </section>
   );
 };
+
 export default Reset;

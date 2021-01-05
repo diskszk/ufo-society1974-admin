@@ -28,18 +28,19 @@ const SongEdit: React.FC<Props> = ({ history }) => {
   let songId = window.location.pathname.split(
     `/albums/detail/${albumId}/edit`
   )[1];
+
   if (songId !== '') {
     songId = songId.split('/')[1];
   }
 
   const songFile = useSelector<RootStore, File>((state) => state.songFile);
 
-  const [id, setId] = useState(''),
-    [title, setTitle] = useState(''),
-    [story, setStory] = useState('無し'),
-    [lyric, setLyric] = useState(''),
-    [wordsRights, setWordsRights] = useState('amane toda'),
-    [musicRights, setMusicRights] = useState('amane toda');
+  const [id, setId] = useState('');
+  const [title, setTitle] = useState('');
+  const [story, setStory] = useState('無し');
+  const [lyric, setLyric] = useState('');
+  const [wordsRights, setWordsRights] = useState('amane toda');
+  const [musicRights, setMusicRights] = useState('amane toda');
 
   const inputId = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,6 +101,7 @@ const SongEdit: React.FC<Props> = ({ history }) => {
       wordsRights: wordsRights,
       musicRights: musicRights,
     };
+
     await dispatch(saveSong(newSong, albumId));
     history.push(`/albums/detail/${albumId}`);
   };
@@ -110,6 +112,7 @@ const SongEdit: React.FC<Props> = ({ history }) => {
       try {
         const songList = await getSongs(albumId);
         const latestId = (songList.length + 1).toString();
+
         setId(latestId);
 
         dispatch(clearSongFileAction());

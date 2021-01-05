@@ -23,6 +23,7 @@ const AlbumTableItem: React.FC<Props> = (props: Props) => {
     dispatch(updateAlbumAction(props.album));
     props.history.push(`/albums/detail/${id}`);
   };
+
   return (
     <li className="album-item">
       <p>{title}</p>

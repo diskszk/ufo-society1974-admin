@@ -8,6 +8,7 @@ const publishedAlbumsRef = db.collection('published_albums');
 export const publishAlbums = async () => {
   // DB初期化
   const publishedAlbums = await publishedAlbumsRef.get();
+
   publishedAlbums.docs.map(async (doc) => {
     const albumId = doc.id;
 
@@ -35,14 +36,17 @@ export const publishAlbums = async () => {
   });
 
   const unpublishedAlbumList = await getAlbums();
+
   if (unpublishedAlbumList.length) {
     unpublishedAlbumList.map(async (unpublishedAlbum: Album) => {
       const unpublishedAlbumId = unpublishedAlbum.id;
+
       await publishedAlbumsRef
         .add(unpublishedAlbum)
         .then(async (doc) => {
           const publishedAlbumId = doc.id;
           const unpublishedSongs = await getSongs(unpublishedAlbumId);
+
           unpublishedSongs.map(async (unpublishedSong: Song) => {
             await publishedAlbumsRef
               .doc(publishedAlbumId)

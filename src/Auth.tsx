@@ -33,6 +33,7 @@ const Auth: React.FC<Props> = ({ children, history }): any => {
             .get()
             .then((snapshot) => {
               const data = snapshot.data();
+
               if (!data) {
                 return dispatch(
                   failedFetchAction('ユーザーの取得に失敗しました。')

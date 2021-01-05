@@ -3,8 +3,8 @@ import { initialState } from './initialState';
 
 const imageInitialState = initialState.image;
 
-const UPDATE_IMAGE = 'UPDATE_IMAGE',
-  CLEAR_IMAGE = 'CLEAR_IMAGE';
+const UPDATE_IMAGE = 'UPDATE_IMAGE';
+const CLEAR_IMAGE = 'CLEAR_IMAGE';
 
 type UpdateImageAction = {
   type: typeof UPDATE_IMAGE;

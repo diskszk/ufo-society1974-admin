@@ -3,8 +3,8 @@ import { initialState } from './initialState';
 
 const songFileInitialState = initialState.songFile;
 
-const UPDATE_SONG_FILE = 'UPDATE_SONG_FILE',
-  CLEAR_SONG_FILE = 'CLEAR_SONG_FILE';
+const UPDATE_SONG_FILE = 'UPDATE_SONG_FILE';
+const CLEAR_SONG_FILE = 'CLEAR_SONG_FILE';
 
 type UpdateSongFileAction = {
   type: typeof UPDATE_SONG_FILE;

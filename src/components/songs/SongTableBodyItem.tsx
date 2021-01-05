@@ -61,6 +61,7 @@ const SongTableBodyItem: React.FC<Props> = ({ song, history }) => {
 
       // do refresh
       const songList = await getSongs(albumId);
+
       dispatch(updateSongsAction(songList));
       dispatch(successFetchAction());
     } catch {

@@ -33,6 +33,7 @@ const Songs: React.FC<Props> = ({ history }) => {
 
       try {
         const album = await getSingleAlbum(albumId);
+
         if (!album) {
           dispatch(failedFetchAction('アルバムが存在しません。'));
           history.push('/albums');

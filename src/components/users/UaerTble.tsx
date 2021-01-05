@@ -70,6 +70,7 @@ const UserTable: React.FC<Props> = ({ history }) => {
 
         // refresh
         const userList = await getUsers();
+
         setRows(userList);
         dispatch(successFetchAction());
       } catch (e) {
@@ -88,6 +89,7 @@ const UserTable: React.FC<Props> = ({ history }) => {
       try {
         dispatch(requestFetchAction());
         const userList = await getUsers();
+
         setRows(userList);
         dispatch(successFetchAction());
       } catch (e) {
@@ -95,6 +97,7 @@ const UserTable: React.FC<Props> = ({ history }) => {
         history.push('/');
       }
     };
+
     fetch();
   }, [setRows]);
 

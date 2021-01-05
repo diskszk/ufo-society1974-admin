@@ -22,5 +22,6 @@ export const getSongs = async (albumId: string): Promise<Song[]> => {
       };
     }
   );
+
   return songList;
 };

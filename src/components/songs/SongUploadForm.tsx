@@ -51,6 +51,7 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
     }
 
     const file = fileList[0];
+
     if (!file) {
       return;
     }
@@ -59,6 +60,7 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
     try {
       dispatch(requestFetchAction());
       const newSongFile = await uploadSongFile(file, newFileName);
+
       dispatch(updateSongFileAction(newSongFile));
       dispatch(displayMessage('曲がアップロードされました。'));
 

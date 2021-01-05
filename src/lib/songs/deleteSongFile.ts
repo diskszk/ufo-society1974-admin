@@ -20,6 +20,7 @@ export const deleteSongFile = async (
     filename: '',
     path: '',
   };
+
   await songFileRef.set(songFileData, { merge: true }).catch((e) => {
     throw new Error(e);
   });

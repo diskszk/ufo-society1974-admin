@@ -13,10 +13,12 @@ export const login = async (email: string, password: string): Promise<User> => {
     const uid = result.user.uid;
 
     const snapshot = await db.collection('users').doc(uid).get();
+
     if (!snapshot.exists) {
       throw new Error('ユーザーが見つかりませんでした。');
     }
     const data = snapshot.data();
+
     if (!data) {
       throw new Error('ユーザーが見つかりませんでした。');
     } else if (data.isDelete) {

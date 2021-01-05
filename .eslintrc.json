@@ -32,6 +32,8 @@
     "semi": "error",
     "no-unused-vars": "warn",
     "no-console": "warn",
+    "newline-after-var": "error",
+    "one-var": ["error", "never"],
     "prettier/prettier": [
       "error",
       {

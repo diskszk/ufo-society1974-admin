@@ -15,5 +15,6 @@ export const getAlbums = async (): Promise<Album[]> => {
       };
     }
   );
+
   return albumList;
 };

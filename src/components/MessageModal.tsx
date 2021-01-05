@@ -9,6 +9,7 @@ type Props = {
 
 const MessageModal: React.FC<Props> = ({ message }) => {
   const dispatch = useDispatch();
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">

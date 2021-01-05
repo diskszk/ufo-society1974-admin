@@ -40,6 +40,7 @@ const ImageUploadForm: React.FC<Props> = ({ image }) => {
     }
 
     const file = fileList[0];
+
     if (!file) {
       return;
     }
@@ -68,6 +69,7 @@ const ImageUploadForm: React.FC<Props> = ({ image }) => {
         filename: filename,
         path: downloadURL,
       };
+
       dispatch(updateImageAction(newImage));
 
       dispatch(displayMessage('画像のアップロードが完了しました。'));

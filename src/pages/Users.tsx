@@ -1,11 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
-import { PrimalyButton } from '../components/UIKit';
+import { CustomButton } from '../components/UIKit';
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import UserTable from '../components/users/UaerTble';
 import { useSelector } from 'react-redux';
-import { ROLE } from '../constans';
+import { ROLE } from '../constants';
 import { RootStore, User } from '../lib/types';
 import { IconButton } from '@material-ui/core';
 
@@ -31,7 +31,12 @@ const Users: React.FC<Props> = ({ history }) => {
       <div className="spacing-div"></div>
       <UserTable />
 
-      <PrimalyButton label="もどる" onClick={() => history.push('/')} />
+      <CustomButton
+        label="もどる"
+        onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+          history.push('/')
+        }
+      />
     </section>
   );
 };

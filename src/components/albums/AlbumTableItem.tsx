@@ -15,11 +15,15 @@ const AlbumTableItem: React.FC<Props> = (props: Props) => {
   const { id, imageFile, title } = props.album;
   const dispatch = useDispatch();
 
-  const handleEditAlbumClick = () => {
+  const handleEditAlbumClick = (
+    _ev: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>
+  ): void => {
     dispatch(updateAlbumAction(props.album));
     props.history.push(`/albums/edit/${id}`);
   };
-  const handleDetailAlbumClick = () => {
+  const handleDetailAlbumClick = (
+    _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void => {
     dispatch(updateAlbumAction(props.album));
     props.history.push(`/albums/detail/${id}`);
   };
@@ -27,17 +31,17 @@ const AlbumTableItem: React.FC<Props> = (props: Props) => {
   return (
     <li className="album-item">
       <p>{title}</p>
-      <div className="album-image" onClick={() => handleEditAlbumClick()}>
+      <div className="album-image" onClick={handleEditAlbumClick}>
         <img src={imageFile.path} alt={`${title} image`} />
       </div>
       <div className="album-image-footer">
         <span>アルバムを編集する</span>
-        <IconButton onClick={() => handleEditAlbumClick()}>
+        <IconButton onClick={handleEditAlbumClick}>
           <BorderColorIcon />
         </IconButton>
         <br />
         <span>アルバムの曲を編集する</span>
-        <IconButton onClick={() => handleDetailAlbumClick()}>
+        <IconButton onClick={handleDetailAlbumClick}>
           <BorderColorIcon />
         </IconButton>
       </div>

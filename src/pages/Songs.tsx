@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { PrimalyButton } from '../components/UIKit';
+import { CustomButton } from '../components/UIKit';
 import SongTable from '../components/songs/SongTable';
 import { Album, RootStore } from '../lib/types';
 import AlbumInfo from '../components/songs/AlbumInfo';
@@ -66,10 +66,17 @@ const Songs: React.FC<Props> = ({ history }) => {
       <SongTable />
 
       <div className="button-container-row">
-        <PrimalyButton label="もどる" onClick={() => history.push('/albums')} />
-        <PrimalyButton
+        <CustomButton
+          label="もどる"
+          onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+            history.push('/albums')
+          }
+        />
+        <CustomButton
           label="アルバム編集"
-          onClick={() => history.push(`/albums/edit/${albumId}`)}
+          onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+            history.push(`/albums/edit/${albumId}`)
+          }
         />
       </div>
     </section>

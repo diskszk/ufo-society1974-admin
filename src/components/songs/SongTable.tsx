@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core/';
 import SongTableBody from './SongTableBody';
 import { RootStore, User, Song } from '../../lib/types';
-import { ROLE } from '../../constans';
+import { ROLE } from '../../constants';
 import SongAddButton from './SongAddButton';
 import { updateSongsAction } from '../../store/SongsReducer';
 import { getSongs } from '../../lib/songs';

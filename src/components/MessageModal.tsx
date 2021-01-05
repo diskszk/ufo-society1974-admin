@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { clearMessageAction } from '../store/LoadingStatusReducer';
-import { PrimalyButton } from './UIKit';
+import { CustomButton } from './UIKit';
 
 type Props = {
   message: string;
@@ -16,7 +16,7 @@ const MessageModal: React.FC<Props> = ({ message }) => {
         <h3>{message}</h3>
         <div className="spacing-div" />
         <div className="spacing-div" />
-        <PrimalyButton
+        <CustomButton
           label="閉じる"
           onClick={() => dispatch(clearMessageAction())}
         />

@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
-import { PrimalyButton, TextInput, TypeSelector } from '../components/UIKit';
+import { CustomButton, TextInput, TypeSelector } from '../components/UIKit';
 import { signUp } from '../lib/users/';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../lib/types';
-import { ROLE } from '../constans';
+import { ROLE } from '../constants';
 import {
   successFetchAction,
   requestFetchAction,
@@ -35,13 +35,13 @@ const SignUp: React.FC<Props> = ({ history }) => {
 
   const user = useSelector<RootStore, User>((state) => state.user);
 
-  const [isDisable, setIsDisable] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPasswod] = useState('');
-  const [role, setRole] = useState('editer');
+  const [role, setRole] = useState('editor');
 
   const inputUsername = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,38 +78,44 @@ const SignUp: React.FC<Props> = ({ history }) => {
     [setRole]
   );
 
-  const handleClickSignUp = async () => {
-    // Validation
-    if (
-      username === '' ||
-      email === '' ||
-      password === '' ||
-      confirmPassword === '' ||
-      role === ''
-    ) {
-      dispatch(displayMessage('必須項目が未入力です。'));
-      return;
-    }
+  const handleClickSignUp = useCallback(
+    async (
+      _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ): Promise<void> => {
+      // Validation
+      if (
+        username === '' ||
+        email === '' ||
+        password === '' ||
+        confirmPassword === '' ||
+        role === ''
+      ) {
+        dispatch(displayMessage('必須項目が未入力です。'));
+        return;
+      }
 
-    if (password !== confirmPassword) {
-      dispatch(displayMessage('パスワードが一致していません。'));
-      return;
-    }
-    try {
-      dispatch(requestFetchAction());
-      await dispatch(signUp(username, email, password, role));
-      dispatch(successFetchAction());
-      history.push('/');
-    } catch (e) {
-      dispatch(failedFetchAction(e.message));
-    }
-  };
+      if (password !== confirmPassword) {
+        dispatch(displayMessage('パスワードが一致していません。'));
+        return;
+      }
+      try {
+        dispatch(requestFetchAction());
+        await dispatch(signUp(username, email, password, role));
+        dispatch(successFetchAction());
+        history.push('/');
+        return;
+      } catch (e) {
+        dispatch(failedFetchAction(e.message));
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     if (user.role !== ROLE.MASTER) {
-      setIsDisable(true);
+      setDisabled(true);
     }
-  }, [setIsDisable, user.role]);
+  }, [setDisabled, user.role]);
 
   return (
     <section className="sign-up page">
@@ -165,12 +171,14 @@ const SignUp: React.FC<Props> = ({ history }) => {
         />
 
         <div className="button-container-row">
-          <PrimalyButton
+          <CustomButton
             label="もどる"
-            onClick={() => history.push('/users')}
+            onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+              history.push('/users')
+            }
           />
-          <PrimalyButton
-            isDisable={isDisable}
+          <CustomButton
+            disable={disabled}
             label="登録する"
             onClick={handleClickSignUp}
           />

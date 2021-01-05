@@ -8,7 +8,7 @@ import logger from 'redux-logger';
 
 // import reducers
 import { UsersReducer } from './UsersReducer';
-import { ImagesReducer } from './ImgaeReducer';
+import { ImagesReducer } from './ImageReducer';
 import { AlbumReducer } from './AlbumReducer';
 import { SongsReducer } from './SongsReducer';
 import { SongFileReducer } from './SongFileReducer';

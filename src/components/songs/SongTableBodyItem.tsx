@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { RootStore, Album, Song, User } from '../../lib/types';
 import { TableCell, TableRow } from '@material-ui/core/';
-import { ROLE } from '../../constans';
+import { ROLE } from '../../constants';
 import { updateSongsAction } from '../../store/SongsReducer';
 import { deleteSong, getSongs } from '../../lib/songs';
 import {

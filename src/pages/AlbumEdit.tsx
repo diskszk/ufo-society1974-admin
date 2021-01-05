@@ -4,13 +4,13 @@ import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import { PrimalyButton, TextInput } from '../components/UIKit';
+import { CustomButton, TextInput } from '../components/UIKit';
 import ImageUploadForm from '../components/albumEdit/ImageUploadForm';
 import { RootStore, File, User, Services } from '../lib/types';
 import { saveAlbum, deleteAlbum } from '../lib/albums';
-import { ROLE } from '../constans';
+import { ROLE } from '../constants';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
-import { updateImageAction, clearImageAction } from '../store/ImgaeReducer';
+import { updateImageAction, clearImageAction } from '../store/ImageReducer';
 import {
   displayMessage,
   failedFetchAction,
@@ -125,7 +125,9 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
     }
   };
 
-  const handleBack = () => {
+  const handleBack = (
+    _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void => {
     if (window.confirm('編集を破棄します。')) {
       history.push('/albums');
     } else {
@@ -283,9 +285,9 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
         />
 
         <div className="button-container-row">
-          <PrimalyButton label={'もどる'} onClick={() => handleBack()} />
-          <PrimalyButton
-            isDisable={false}
+          <CustomButton label={'もどる'} onClick={handleBack} />
+          <CustomButton
+            disable={false}
             label={'保存する'}
             onClick={() => handleSave()}
           />

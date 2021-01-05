@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../../lib/types';
-import { UFO_SOCIETY_OFFISIAL } from '../../constans';
+import { UFO_SOCIETY_OFFICIAL } from '../../constants';
 import {
   requestFetchAction,
   displayMessage,
@@ -42,7 +42,7 @@ const Header: React.FC<Props> = ({ history }) => {
       <div className="header">
         <div className="header-content-left">
           <a
-            href={UFO_SOCIETY_OFFISIAL}
+            href={UFO_SOCIETY_OFFICIAL}
             target="_blank"
             rel="noopener noreferrer"
           >

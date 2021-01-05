@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { PrimalyButton, TextInput } from '../components/UIKit';
+import { CustomButton, TextInput } from '../components/UIKit';
 import { getSingleSong, getSongs, saveSong } from '../lib/songs';
 import SongUploadForm from '../components/songs/SongUploadForm';
 import { File, Song, RootStore } from '../lib/types';
@@ -79,32 +79,38 @@ const SongEdit: React.FC<Props> = ({ history }) => {
     [setMusicRights]
   );
 
-  const clickSave = async () => {
-    // validation
-    if (id === '') {
-      dispatch(displayMessage('IDを入力してください。'));
-      return;
-    }
-    if (title === '') {
-      dispatch(displayMessage('タイトルを入力してください。'));
-      return;
-    }
+  // TODO: エラーハンドリングを実装する
+  const handleClickSaveButton = useCallback(
+    async (
+      _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ): Promise<void> => {
+      // validation
+      if (id === '') {
+        dispatch(displayMessage('IDを入力してください。'));
+        return;
+      }
+      if (title === '') {
+        dispatch(displayMessage('タイトルを入力してください。'));
+        return;
+      }
 
-    const leftJustifiedId = ('0000' + id).slice(-4);
+      const leftJustifiedId = ('0000' + id).slice(-4);
 
-    const newSong: Song = {
-      id: leftJustifiedId,
-      title: title,
-      songFile: songFile,
-      story: story,
-      lyric: lyric,
-      wordsRights: wordsRights,
-      musicRights: musicRights,
-    };
+      const newSong: Song = {
+        id: leftJustifiedId,
+        title: title,
+        songFile: songFile,
+        story: story,
+        lyric: lyric,
+        wordsRights: wordsRights,
+        musicRights: musicRights,
+      };
 
-    await dispatch(saveSong(newSong, albumId));
-    history.push(`/albums/detail/${albumId}`);
-  };
+      await saveSong(newSong, albumId);
+      history.push(`/albums/detail/${albumId}`);
+    },
+    []
+  );
 
   useEffect(() => {
     // New
@@ -188,11 +194,7 @@ const SongEdit: React.FC<Props> = ({ history }) => {
         <SongUploadForm albumId={albumId} songId={id} />
         {songFile.filename && (
           <div className="music=player">
-            <audio
-              controls
-              // controlsList="nodownload"
-              src={songFile.path}
-            />
+            <audio controls controlsList="nodownload" src={songFile.path} />
           </div>
         )}
 
@@ -240,11 +242,13 @@ const SongEdit: React.FC<Props> = ({ history }) => {
         />
 
         <div className="button-container-row">
-          <PrimalyButton
+          <CustomButton
             label="もどる"
-            onClick={() => history.push(`/albums/detail/${albumId}`)}
+            onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+              history.push(`/albums/detail/${albumId}`)
+            }
           />
-          <PrimalyButton label="保存する" onClick={() => clickSave()} />
+          <CustomButton label="保存する" onClick={handleClickSaveButton} />
         </div>
       </div>
     </section>

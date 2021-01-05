@@ -30,15 +30,14 @@
   },
   "rules": {
     "semi": "error",
-    "no-unused-vars": "warn",
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "no-console": "warn",
     "newline-after-var": "error",
     "one-var": ["error", "never"],
     "prettier/prettier": [
       "error",
       {
-        "singleQuote": true,
-        "argsIgnorePattern": "^_"
+        "singleQuote": true
       }
     ],
     "react/prop-types": "off"

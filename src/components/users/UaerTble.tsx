@@ -21,7 +21,7 @@ import {
   failedFetchAction,
   successFetchAction,
 } from '../../store/LoadingStatusReducer';
-import { ROLE } from '../../constans';
+import { ROLE } from '../../constants';
 
 const useStyles = makeStyles({
   table: {

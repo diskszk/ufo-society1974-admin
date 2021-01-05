@@ -9,7 +9,7 @@ import { generateRandomStrings } from '../../lib/generateRandomStrings';
 import { deleteAlbumImage } from '../../lib/albums';
 import { File } from '../../lib/types';
 import { useDispatch } from 'react-redux';
-import { updateImageAction } from '../../store/ImgaeReducer';
+import { updateImageAction } from '../../store/ImageReducer';
 import {
   requestFetchAction,
   displayMessage,

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { PrimalyButton, TextInput } from '../components/UIKit';
+import { CustomButton, TextInput } from '../components/UIKit';
 import { login } from '../lib/users';
 import { useDispatch } from 'react-redux';
 import {
@@ -9,7 +9,7 @@ import {
   requestFetchAction,
   successFetchAction,
 } from '../store/LoadingStatusReducer';
-import { ROLE } from '../constans';
+import { ROLE } from '../constants';
 import { signinAction } from '../store/UsersReducer';
 
 interface Props extends RouteComponentProps<{}> {}
@@ -35,28 +35,31 @@ const Login: React.FC<Props> = ({ history }) => {
     [setPassword]
   );
 
-  const handleClickLoginButton = async () => {
-    // Validation
-    if (email === '' || password === '') {
-      dispatch(displayMessage('必須項目が未入力です。'));
-      return;
-    }
-    try {
-      dispatch(requestFetchAction());
-      const user = await login(email, password);
-
-      dispatch(signinAction({ ...user }));
-      dispatch(successFetchAction());
-
-      if (user.role === ROLE.MASTER) {
-        history.push('/signup');
-      } else {
-        history.push('/');
+  const handleClickLoginButton = useCallback(
+    async (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      // Validation
+      if (email === '' || password === '') {
+        dispatch(displayMessage('必須項目が未入力です。'));
+        return;
       }
-    } catch (e) {
-      dispatch(failedFetchAction(e.message));
-    }
-  };
+      try {
+        dispatch(requestFetchAction());
+        const user = await login(email, password);
+
+        dispatch(signinAction({ ...user }));
+        dispatch(successFetchAction());
+
+        if (user.role === ROLE.MASTER) {
+          history.push('/signup');
+        } else {
+          history.push('/');
+        }
+      } catch (e) {
+        dispatch(failedFetchAction(e.message));
+      }
+    },
+    []
+  );
 
   return (
     <section className="login page">
@@ -85,7 +88,7 @@ const Login: React.FC<Props> = ({ history }) => {
 
         <div className="spacing-div" />
         <div className="button-container">
-          <PrimalyButton label="ログイン" onClick={handleClickLoginButton} />
+          <CustomButton label="ログイン" onClick={handleClickLoginButton} />
         </div>
         <div className="spacing-div" />
         <a onClick={() => history.push('/reset')}>

@@ -29,7 +29,11 @@ const SongAddButton: React.FC<Props> = ({ history }) => {
         <TableCell></TableCell>
         <TableCell className={classes.addBtn}>
           <span>曲を追加</span>
-          <IconButton onClick={() => history.push(`/albums/detail/${id}/edit`)}>
+          <IconButton
+            onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+              history.push(`/albums/detail/${id}/edit`)
+            }
+          >
             <LibraryAddOutlinedIcon fontSize={'large'} />
           </IconButton>
         </TableCell>

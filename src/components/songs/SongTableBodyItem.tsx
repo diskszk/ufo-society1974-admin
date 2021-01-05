@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,7 +35,7 @@ const SongTableBodyItem: React.FC<Props> = ({ song, history }) => {
   const album = useSelector<RootStore, Album>((state) => state.album);
   const albumId = album.id;
 
-  const sondId = parseInt(song.id, 10).toString();
+  const songId = parseInt(song.id, 10).toString();
   const audio = new Audio(song.songFile.path);
 
   const handlePlayMusic = () => {
@@ -46,37 +46,47 @@ const SongTableBodyItem: React.FC<Props> = ({ song, history }) => {
     }
   };
 
-  const handleDeleteSong = async () => {
-    // edditer only
-    if (role !== ROLE.EDITOR) {
-      dispatch(displayMessage('編集者のみ曲を削除できます。'));
-      return;
-    }
-    if (!window.confirm(`${song.title}を削除しますか?`)) {
-      return;
-    }
-    try {
-      dispatch(requestFetchAction());
-      await deleteSong(albumId, song.id);
+  const handleDeleteSong = useCallback(
+    async (
+      _ev: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>
+    ): Promise<void> => {
+      console.log(role);
+      console.log(song.title);
+      console.log(albumId);
+      console.log(song.id);
+      console.log();
 
-      // do refresh
-      const songList = await getSongs(albumId);
+      if (role !== ROLE.EDITOR) {
+        dispatch(displayMessage('編集者のみ曲を削除できます。'));
+        return;
+      }
+      if (!window.confirm(`${song.title}を削除しますか?`)) {
+        return;
+      }
+      try {
+        dispatch(requestFetchAction());
+        await deleteSong(albumId, song.id);
 
-      dispatch(updateSongsAction(songList));
-      dispatch(successFetchAction());
-    } catch {
-      dispatch(
-        failedFetchAction(
-          '曲の削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
-        )
-      );
-    }
-  };
+        // do refresh
+        const songList = await getSongs(albumId);
+
+        dispatch(updateSongsAction(songList));
+        dispatch(successFetchAction());
+      } catch {
+        dispatch(
+          failedFetchAction(
+            '曲の削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
+          )
+        );
+      }
+    },
+    []
+  );
 
   return (
     <TableRow key={song.id}>
       <TableCell align="right" component="th" scope="row">
-        {sondId}
+        {songId}
       </TableCell>
       <TableCell>{song.title}</TableCell>
       <TableCell>{song.story}</TableCell>
@@ -91,10 +101,7 @@ const SongTableBodyItem: React.FC<Props> = ({ song, history }) => {
       >
         編集
       </TableCell>
-      <TableCell
-        className={classes.actionBtn}
-        onClick={() => handleDeleteSong()}
-      >
+      <TableCell className={classes.actionBtn} onClick={handleDeleteSong}>
         削除
       </TableCell>
     </TableRow>

@@ -84,6 +84,10 @@ const SongEdit: React.FC<Props> = ({ history }) => {
     async (
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
+      console.log(id);
+      console.log(title);
+      console.log(wordsRights);
+
       // validation
       if (id === '') {
         dispatch(displayMessage('IDを入力してください。'));
@@ -106,10 +110,15 @@ const SongEdit: React.FC<Props> = ({ history }) => {
         musicRights: musicRights,
       };
 
-      await saveSong(newSong, albumId);
-      history.push(`/albums/detail/${albumId}`);
+      try {
+        await saveSong(newSong, albumId).then(() => {
+          history.push(`/albums/detail/${albumId}`);
+        });
+      } catch (e) {
+        console.error(e);
+      }
     },
-    []
+    [id, title, story, lyric, wordsRights, musicRights]
   );
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../../lib/types';
 import { UFO_SOCIETY_OFFICIAL } from '../../constants';
@@ -21,7 +21,9 @@ const Header: React.FC<Props> = ({ history }) => {
     (state) => state.user
   );
 
-  const handleClickLogOut = async () => {
+  const handleClickLogOut = async (
+    _ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ): Promise<void> => {
     try {
       dispatch(requestFetchAction());
       await auth.signOut();
@@ -48,15 +50,13 @@ const Header: React.FC<Props> = ({ history }) => {
           >
             UFO Societyホームページ
           </a>
-          {!isSignedIn ? (
-            <a role="button" onClick={() => history.push('/login')}>
-              ログイン
-            </a>
-          ) : (
-            <a role="button" onClick={handleClickLogOut}>
-              ログアウト
-            </a>
-          )}
+          {/* {!isSignedIn ? ( */}
+          <Link to="/login">ログイン</Link>
+          {/* ) : ( */}
+          <a role="button" onClick={handleClickLogOut}>
+            ログアウト
+          </a>
+          {/* )} */}
         </div>
         {isSignedIn && (
           <div className="header-content-right">

@@ -26,7 +26,9 @@ const Albums: React.FC<Props> = ({ history }) => {
   const disable: boolean = role !== ROLE.EDITOR;
 
   const handleClickPublishButton = useCallback(
-    async (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    async (
+      _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ): Promise<void> => {
       if (role !== ROLE.EDITOR) {
         dispatch(displayMessage('編集者のみ編集内容を公開できます。'));
         return;

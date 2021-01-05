@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -15,18 +15,23 @@ const AlbumTableItem: React.FC<Props> = (props: Props) => {
   const { id, imageFile, title } = props.album;
   const dispatch = useDispatch();
 
-  const handleEditAlbumClick = (
-    _ev: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>
-  ): void => {
-    dispatch(updateAlbumAction(props.album));
-    props.history.push(`/albums/edit/${id}`);
-  };
-  const handleDetailAlbumClick = (
-    _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): void => {
-    dispatch(updateAlbumAction(props.album));
-    props.history.push(`/albums/detail/${id}`);
-  };
+  const handleEditAlbumClick = useCallback(
+    (
+      _ev: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>
+    ): void => {
+      dispatch(updateAlbumAction(props.album));
+      props.history.push(`/albums/edit/${id}`);
+    },
+    []
+  );
+
+  const handleDetailAlbumClick = useCallback(
+    (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+      dispatch(updateAlbumAction(props.album));
+      props.history.push(`/albums/detail/${id}`);
+    },
+    []
+  );
 
   return (
     <li className="album-item">

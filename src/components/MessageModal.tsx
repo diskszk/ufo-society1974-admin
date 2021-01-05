@@ -18,7 +18,9 @@ const MessageModal: React.FC<Props> = ({ message }) => {
         <div className="spacing-div" />
         <CustomButton
           label="閉じる"
-          onClick={() => dispatch(clearMessageAction())}
+          onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+            dispatch(clearMessageAction())
+          }
         />
       </div>
     </div>

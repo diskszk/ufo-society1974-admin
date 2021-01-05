@@ -43,38 +43,38 @@ const SongEdit: React.FC<Props> = ({ history }) => {
   const [musicRights, setMusicRights] = useState('amane toda');
 
   const inputId = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setId(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setId(ev.target.value);
     },
     [setId]
   );
   const inputTitle = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setTitle(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setTitle(ev.target.value);
     },
     [setTitle]
   );
   const inputStory = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setStory(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setStory(ev.target.value);
     },
     [setStory]
   );
   const inputLyric = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setLyric(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setLyric(ev.target.value);
     },
     [setLyric]
   );
   const inputWordsRights = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setWordsRights(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setWordsRights(ev.target.value);
     },
     [setWordsRights]
   );
   const inputMusicRights = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setMusicRights(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setMusicRights(ev.target.value);
     },
     [setMusicRights]
   );

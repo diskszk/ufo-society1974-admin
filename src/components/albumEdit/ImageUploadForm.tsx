@@ -31,8 +31,10 @@ const ImageUploadForm: React.FC<Props> = ({ image }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = e.target.files;
+  const uploadImage = async (
+    ev: React.ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
+    const fileList = ev.target.files;
 
     if (!fileList) {
       dispatch(displayMessage('ファイルが選択されていません。'));
@@ -95,7 +97,7 @@ const ImageUploadForm: React.FC<Props> = ({ image }) => {
               type="file"
               id="upload-image"
               accept="image/png, image/jpeg, image/jpg"
-              onChange={(e) => uploadImage(e)}
+              onChange={uploadImage}
             />
           </label>
         </IconButton>

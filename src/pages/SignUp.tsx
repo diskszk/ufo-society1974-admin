@@ -44,36 +44,36 @@ const SignUp: React.FC<Props> = ({ history }) => {
   const [role, setRole] = useState('editor');
 
   const inputUsername = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setUsername(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setUsername(ev.target.value);
     },
     [setUsername]
   );
 
   const inputEmail = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEmail(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setEmail(ev.target.value);
     },
     [setEmail]
   );
 
   const inputPassword = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPassword(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setPassword(ev.target.value);
     },
     [setPassword]
   );
 
   const inputConfirmPassword = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setConfirmPasswod(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setConfirmPasswod(ev.target.value);
     },
     [setConfirmPasswod]
   );
 
   const selectRole = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setRole(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setRole(ev.target.value);
     },
     [setRole]
   );

@@ -18,8 +18,8 @@ const Reset: React.FC<Props> = ({ history }) => {
   const [email, setEmail] = useState('');
 
   const inputEmail = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEmail(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setEmail(ev.target.value);
     },
     [setEmail]
   );

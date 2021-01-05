@@ -22,15 +22,15 @@ const Login: React.FC<Props> = ({ history }) => {
   const [password, setPassword] = useState('');
 
   const inputEmail = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEmail(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setEmail(ev.target.value);
     },
     [setEmail]
   );
 
   const inputPassword = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPassword(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setPassword(ev.target.value);
     },
     [setPassword]
   );

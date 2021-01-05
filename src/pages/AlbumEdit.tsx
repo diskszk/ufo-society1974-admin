@@ -42,44 +42,44 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
   const [bandcampURL, setBandcampURL] = useState('');
 
   const inputDiscription = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setDiscription(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setDiscription(ev.target.value);
     },
     [setDiscription]
   );
   const inputPublish_date = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPublish_date(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setPublish_date(ev.target.value);
     },
     [setPublish_date]
   );
   const inputTitle = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setTitle(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setTitle(ev.target.value);
     },
     [setTitle]
   );
   const inputAppleMusicURL = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setAppleMusicURL(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setAppleMusicURL(ev.target.value);
     },
     [setAppleMusicURL]
   );
   const inputSpotifyURL = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSpotifyURL(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setSpotifyURL(ev.target.value);
     },
     [setSpotifyURL]
   );
   const inputITunesURL = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setITunesURL(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setITunesURL(ev.target.value);
     },
     [setITunesURL]
   );
   const inputBandcampURL = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setBandcampURL(e.target.value);
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setBandcampURL(ev.target.value);
     },
     [setBandcampURL]
   );

@@ -1,39 +1,35 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    match /users/{userId} {
+    
+    match /users/{user} {
+    	allow read: if request.auth.uid != null;
+      allow create: if request.auth.uid != null;
+      allow update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "master";
+    }
+    
+    match /albums/{albumId} {
       allow read: if request.auth.uid != null;
-      allow create;
-      allow update;
-      allow delete: if request.auth.role == "master";
-    }
+      allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editer"
+      	|| get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
+		}
 
-     match /albums/{id} {
-      allow read: if request.auth.uid != null;
-      allow create: if request.role == "editor";
-      allow update: if request.role == "editor";
-      allow delete: if request.role == "editor";
+    match /albums/{albumId}/songs/{songId} {
+    	allow read: if request.auth.uid != null;
+      allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editer"
+      	|| get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
     }
-
-    match /songs/{id} {
-      allow read: if request.auth.uid != null;
-      allow create: if request.role == "editer";
-      allow write: if request.auth.uid != null;
-      allow delete: if request.role == "editer";
+    
+    match /published_albums/{id} {
+    	allow read: if request.auth.uid != null;
+      allow create, update, delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editer"
+      	|| get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
     }
-
-    // This rule allows anyone on the internet to view, edit, and delete
-    // all data in your Firestore database. It is useful for getting
-    // started, but it is configured to expire after 30 days because it
-    // leaves your app open to attackers. At that time, all client
-    // requests to your Firestore database will be denied.
-    //
-    // Make sure to write security rules for your app before that time, or else
-    // your app will lose access to your Firestore database
-    match /{document=**} {
-    //  allow read, write: if request.time < timestamp.date(2020, 8, 2);
-      allow read, write;
+    
+		// homepage
+    match /data/{accuessCount} {
+    	allow read, update: if true;
     }
+   
   }
 }

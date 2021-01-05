@@ -80,15 +80,12 @@ const SongEdit: React.FC<Props> = ({ history }) => {
   );
 
   // TODO: エラーハンドリングを実装する
+  // TODO: redux-thunkを取り外す
   const handleClickSaveButton = useCallback(
     async (
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
-      console.log(id);
-      console.log(title);
-      console.log(wordsRights);
-
-      // validation
+      // validations
       if (id === '') {
         dispatch(displayMessage('IDを入力してください。'));
         return;
@@ -110,13 +107,9 @@ const SongEdit: React.FC<Props> = ({ history }) => {
         musicRights: musicRights,
       };
 
-      try {
-        await saveSong(newSong, albumId).then(() => {
-          history.push(`/albums/detail/${albumId}`);
-        });
-      } catch (e) {
-        console.error(e);
-      }
+      await dispatch(saveSong(newSong, albumId));
+      setTimeout(() => 5000);
+      history.push(`/albums/detail/${albumId}`);
     },
     [id, title, story, lyric, wordsRights, musicRights]
   );

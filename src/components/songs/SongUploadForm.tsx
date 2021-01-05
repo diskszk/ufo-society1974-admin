@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
@@ -21,7 +21,7 @@ import {
 const useStyles = makeStyles({
   icon: {
     height: 48,
-    wieth: 48,
+    width: 48,
     lineHeight: 48,
     cursor: 'pointer',
   },
@@ -41,9 +41,9 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
   const { filename } = useSelector<RootStore, File>((state) => state.songFile);
 
   const handleChangeUploadSongButton = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    ev: React.ChangeEvent<HTMLInputElement>
   ): Promise<void> => {
-    const fileList = event.target.files;
+    const fileList = ev.target.files;
 
     if (!fileList) {
       dispatch(displayMessage('ファイルが選択されていません。'));
@@ -62,39 +62,44 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
       const newSongFile = await uploadSongFile(file, newFileName);
 
       dispatch(updateSongFileAction(newSongFile));
-      dispatch(displayMessage('曲がアップロードされました。'));
+      dispatch(displayMessage('ファイルがアップロードされました。'));
 
       dispatch(successFetchAction());
     } catch {
       dispatch(
         failedFetchAction(
-          '曲のアップロードに失敗しました。\n通信環境をご確認の上再度お試しください。'
+          'ファイルのアップロードに失敗しました。\n通信環境をご確認の上再度お試しください。'
         )
       );
     }
   };
 
-  const handleDeleteSongFileButton = async () => {
-    if (filename === '') {
-      dispatch(displayMessage('曲がアップロードされていません。'));
-      return;
-    }
-    if (!window.confirm('曲を削除しますか？')) {
-      return;
-    }
-    try {
-      dispatch(requestFetchAction());
-      await deleteSongFile(filename, albumId, songId);
-      dispatch(clearSongFileAction());
-      dispatch(successFetchAction());
-    } catch {
-      dispatch(
-        failedFetchAction(
-          '曲の削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
-        )
-      );
-    }
-  };
+  const handleDeleteSongFileButton = useCallback(
+    async (
+      _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ): Promise<void> => {
+      if (filename === '') {
+        dispatch(displayMessage('ファイルがアップロードされていません。'));
+        return;
+      }
+      if (!window.confirm('ファイルを削除しますか？')) {
+        return;
+      }
+      try {
+        dispatch(requestFetchAction());
+        await deleteSongFile(filename, albumId, songId);
+        dispatch(clearSongFileAction());
+        dispatch(successFetchAction());
+      } catch {
+        dispatch(
+          failedFetchAction(
+            'ファイルの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
+          )
+        );
+      }
+    },
+    []
+  );
 
   return (
     <div className="song-upload-form">
@@ -109,7 +114,7 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
               className="display-none"
               accept=".mp3"
               id={'upload-music'}
-              onChange={(e) => handleChangeUploadSongButton(e)}
+              onChange={(ev) => handleChangeUploadSongButton(ev)}
             />
           </label>
         </IconButton>
@@ -117,7 +122,7 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
         // delete song file
         <IconButton
           className={classes.icon}
-          onClick={() => handleDeleteSongFileButton()}
+          onClick={handleDeleteSongFileButton}
         >
           <DeleteOutlineIcon className={classes.cursor} />
         </IconButton>

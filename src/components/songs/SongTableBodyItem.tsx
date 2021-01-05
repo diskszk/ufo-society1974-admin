@@ -38,24 +38,21 @@ const SongTableBodyItem: React.FC<Props> = ({ song, history }) => {
   const songId = parseInt(song.id, 10).toString();
   const audio = new Audio(song.songFile.path);
 
-  const handlePlayMusic = () => {
-    if (audio.paused) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
-  };
+  const handlePlayMusic = useCallback(
+    (_ev: React.MouseEvent<HTMLTableCellElement, MouseEvent>): void => {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    },
+    [audio]
+  );
 
   const handleDeleteSong = useCallback(
     async (
       _ev: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>
     ): Promise<void> => {
-      console.log(role);
-      console.log(song.title);
-      console.log(albumId);
-      console.log(song.id);
-      console.log();
-
       if (role !== ROLE.EDITOR) {
         dispatch(displayMessage('編集者のみ曲を削除できます。'));
         return;
@@ -95,7 +92,7 @@ const SongTableBodyItem: React.FC<Props> = ({ song, history }) => {
       </TableCell>
       <TableCell
         className={classes.actionBtn}
-        onClick={() =>
+        onClick={(_ev: React.MouseEvent<HTMLTableCellElement, MouseEvent>) =>
           history.push(`/albums/detail/${albumId}/edit/${song.id}`)
         }
       >

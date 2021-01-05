@@ -22,7 +22,11 @@ const Users: React.FC<Props> = ({ history }) => {
 
       {currentRole === ROLE.MASTER && (
         <div className="button-container__right-fixed">
-          <IconButton onClick={() => history.push('/signup')}>
+          <IconButton
+            onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+              history.push('/signup')
+            }
+          >
             <LibraryAddOutlinedIcon fontSize="large" />
           </IconButton>
         </div>

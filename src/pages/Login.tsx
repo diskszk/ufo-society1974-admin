@@ -37,7 +37,7 @@ const Login: React.FC<Props> = ({ history }) => {
 
   const handleClickLoginButton = useCallback(
     async (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      // Validation
+      // Validations
       if (email === '' || password === '') {
         dispatch(displayMessage('必須項目が未入力です。'));
         return;
@@ -91,7 +91,11 @@ const Login: React.FC<Props> = ({ history }) => {
           <CustomButton label="ログイン" onClick={handleClickLoginButton} />
         </div>
         <div className="spacing-div" />
-        <a onClick={() => history.push('/reset')}>
+        <a
+          onClick={(_ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>) =>
+            history.push('/reset')
+          }
+        >
           <p>パスワードをリセットする</p>
         </a>
       </div>

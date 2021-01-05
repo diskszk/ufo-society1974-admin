@@ -82,7 +82,7 @@ const SignUp: React.FC<Props> = ({ history }) => {
     async (
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
-      // Validation
+      // Validations
       if (
         username === '' ||
         email === '' ||

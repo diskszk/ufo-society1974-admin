@@ -84,78 +84,96 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
     [setBandcampURL]
   );
 
-  const handleSave = () => {
-    // Validation
-    if (!title || !publish_date) {
-      dispatch(displayMessage('必須項目が未入力です。'));
-      return;
-    }
-    if (!validatePublished_date(publish_date)) {
-      dispatch(
-        displayMessage('公開日は\n"YYYY-MM-DD"\nの形式で入力してください。')
-      );
-      return;
-    }
-    if (!validatePublished_date(publish_date)) {
-      dispatch(
-        displayMessage('公開日は\nYYYY-MM-DD\nの形式で入力してください。')
-      );
-      return;
-    }
-    const services: Services = {
-      AppleMusic: appleMusicURL,
-      Spotify: spotifyURL,
-      iTunes: iTunesURL,
-      Bandcamp: bandcampURL,
-    };
+  const handleSave = useCallback(
+    (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      // Validation
+      if (!title || !publish_date) {
+        dispatch(displayMessage('必須項目が未入力です。'));
+        return;
+      }
+      if (!validatePublished_date(publish_date)) {
+        dispatch(
+          displayMessage('公開日は\n"YYYY-MM-DD"\nの形式で入力してください。')
+        );
+        return;
+      }
+      if (!validatePublished_date(publish_date)) {
+        dispatch(
+          displayMessage('公開日は\nYYYY-MM-DD\nの形式で入力してください。')
+        );
+        return;
+      }
+      const services: Services = {
+        AppleMusic: appleMusicURL,
+        Spotify: spotifyURL,
+        iTunes: iTunesURL,
+        Bandcamp: bandcampURL,
+      };
 
-    try {
-      dispatch(requestFetchAction());
-      saveAlbum(title, imageFile, discription, services, publish_date, id);
-      dispatch(displayMessage(`アルバムを保存しました。`));
-      dispatch(successFetchAction());
-      history.push('/albums');
-    } catch {
-      dispatch(
-        failedFetchAction(
-          'アルバムの保存に失敗しました。\n通信環境をご確認の上再度お試しください。'
-        )
-      );
-      return;
-    }
-  };
+      try {
+        dispatch(requestFetchAction());
+        saveAlbum(title, imageFile, discription, services, publish_date, id);
+        dispatch(displayMessage(`アルバムを保存しました。`));
+        dispatch(successFetchAction());
+        history.push('/albums');
+      } catch {
+        dispatch(
+          failedFetchAction(
+            'アルバムの保存に失敗しました。\n通信環境をご確認の上再度お試しください。'
+          )
+        );
+        return;
+      }
+    },
+    [
+      discription,
+      title,
+      imageFile,
+      publish_date,
+      appleMusicURL,
+      spotifyURL,
+      iTunesURL,
+      bandcampURL,
+    ]
+  );
 
-  const handleBack = (
-    _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): void => {
-    if (window.confirm('編集を破棄します。')) {
-      history.push('/albums');
-    } else {
-      return;
-    }
-  };
+  const handleBack = useCallback(
+    (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+      if (window.confirm('編集を破棄します。')) {
+        history.push('/albums');
+      } else {
+        return;
+      }
+    },
+    []
+  );
 
-  const handleDelete = async (): Promise<void> => {
-    if (role !== ROLE.EDITOR) {
-      dispatch(displayMessage('削除権限がありません。'));
-      return;
-    }
-    if (!window.confirm('アルバムを削除しますか？')) {
-      return;
-    }
-    try {
-      dispatch(requestFetchAction());
-      await deleteAlbum(id);
-      dispatch(successFetchAction());
-      history.push('/albums');
-    } catch {
-      dispatch(
-        failedFetchAction(
-          'アルバムの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
-        )
-      );
-    }
-  };
+  const handleDelete = useCallback(
+    async (
+      _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ): Promise<void> => {
+      if (role !== ROLE.EDITOR) {
+        dispatch(displayMessage('削除権限がありません。'));
+        return;
+      }
+      if (!window.confirm('アルバムを削除しますか？')) {
+        return;
+      }
+      try {
+        dispatch(requestFetchAction());
+        await deleteAlbum(id);
+        dispatch(successFetchAction());
+        history.push('/albums');
+      } catch {
+        dispatch(
+          failedFetchAction(
+            'アルバムの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
+          )
+        );
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     if (id === '') {
@@ -200,7 +218,7 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
         {id && (
           <div className="delete-icon">
             <span>アルバムを削除する</span>
-            <IconButton onClick={() => handleDelete()}>
+            <IconButton onClick={handleDelete}>
               <DeleteOutlineIcon />
             </IconButton>
           </div>
@@ -289,7 +307,7 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
           <CustomButton
             disable={false}
             label={'保存する'}
-            onClick={() => handleSave()}
+            onClick={handleSave}
           />
         </div>
       </div>

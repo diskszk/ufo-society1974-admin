@@ -6,6 +6,7 @@ import {
   successFetchAction,
 } from '../../store/LoadingStatusReducer';
 
+// TODO: redux-thunkを取り外す
 export const saveSong = (song: Song, albumId: string) => {
   const songsRef = db
     .collection('albums')

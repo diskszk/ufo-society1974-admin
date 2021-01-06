@@ -6,10 +6,10 @@ export const getAlbums = async (): Promise<Album[]> => {
   const albumList: Album[] = dataList.map(
     (data: firebase.firestore.DocumentData) => {
       return {
-        discription: data.discription,
+        description: data.description,
         imageFile: data.imageFile,
         id: data.id,
-        publish_date: data.publish_date,
+        publishedDate: data.publishedDate,
         title: data.title,
         services: data.services,
       };

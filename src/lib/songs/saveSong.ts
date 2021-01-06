@@ -17,7 +17,7 @@ export const saveSong = (song: Song, albumId: string) => {
 
   const data: Song = {
     ...song,
-    created_at: timestamp,
+    createdAt: timestamp,
   };
 
   return async (dispatch: any) => {

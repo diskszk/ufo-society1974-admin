@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { CustomButton, TextInput } from '../components/UIKit';
 import ImageUploadForm from '../components/albumEdit/ImageUploadForm';
-import { RootStore, File, User, Services } from '../lib/types';
+import { RootStore, File, User, PublishPlatform } from '../lib/types';
 import { saveAlbum, deleteAlbum } from '../lib/albums';
 import { ROLE } from '../constants';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
@@ -17,7 +17,7 @@ import {
   requestFetchAction,
   successFetchAction,
 } from '../store/LoadingStatusReducer';
-import { validatePublished_date } from '../lib';
+import { validatePublishedDate } from '../lib';
 
 interface Props extends RouteComponentProps<{}> {}
 
@@ -33,25 +33,25 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const imageFile = useSelector<RootStore, File>((state) => state.image);
 
-  const [discription, setDiscription] = useState('');
-  const [publish_date, setPublish_date] = useState('');
+  const [description, setDescription] = useState('');
+  const [publishedDate, setPublishedDate] = useState('');
   const [title, setTitle] = useState('');
   const [appleMusicURL, setAppleMusicURL] = useState('');
   const [spotifyURL, setSpotifyURL] = useState('');
   const [iTunesURL, setITunesURL] = useState('');
   const [bandcampURL, setBandcampURL] = useState('');
 
-  const inputDiscription = useCallback(
+  const inputDescription = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setDiscription(ev.target.value);
+      setDescription(ev.target.value);
     },
-    [setDiscription]
+    [setDescription]
   );
-  const inputPublish_date = useCallback(
+  const inputPublishedDate = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setPublish_date(ev.target.value);
+      setPublishedDate(ev.target.value);
     },
-    [setPublish_date]
+    [setPublishedDate]
   );
   const inputTitle = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,23 +87,23 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
   const handleSave = useCallback(
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       // Validation
-      if (!title || !publish_date) {
+      if (!title || !publishedDate) {
         dispatch(displayMessage('必須項目が未入力です。'));
         return;
       }
-      if (!validatePublished_date(publish_date)) {
+      if (!validatePublishedDate(publishedDate)) {
         dispatch(
           displayMessage('公開日は\n"YYYY-MM-DD"\nの形式で入力してください。')
         );
         return;
       }
-      if (!validatePublished_date(publish_date)) {
+      if (!validatePublishedDate(publishedDate)) {
         dispatch(
           displayMessage('公開日は\nYYYY-MM-DD\nの形式で入力してください。')
         );
         return;
       }
-      const services: Services = {
+      const services: PublishPlatform = {
         AppleMusic: appleMusicURL,
         Spotify: spotifyURL,
         iTunes: iTunesURL,
@@ -112,7 +112,7 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
 
       try {
         dispatch(requestFetchAction());
-        saveAlbum(title, imageFile, discription, services, publish_date, id);
+        saveAlbum(title, imageFile, description, services, publishedDate, id);
         dispatch(displayMessage(`アルバムを保存しました。`));
         dispatch(successFetchAction());
         history.push('/albums');
@@ -126,10 +126,10 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
       }
     },
     [
-      discription,
+      description,
       title,
       imageFile,
-      publish_date,
+      publishedDate,
       appleMusicURL,
       spotifyURL,
       iTunesURL,
@@ -193,8 +193,8 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
             return;
           } else {
             setTitle(res.title);
-            setDiscription(res.discription);
-            setPublish_date(res.publish_date);
+            setDescription(res.description);
+            setPublishedDate(res.publishedDate);
             setAppleMusicURL(res.services.AppleMusic);
             setSpotifyURL(res.services.Spotify);
             setITunesURL(res.services.iTunes);
@@ -243,9 +243,9 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
             multiline={true}
             required={false}
             rows={8}
-            value={discription}
+            value={description}
             type={'text'}
-            onChange={inputDiscription}
+            onChange={inputDescription}
           />
         </div>
         <div className="spacing-div" />
@@ -297,9 +297,9 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
           multiline={false}
           required={true}
           rows={1}
-          value={publish_date}
+          value={publishedDate}
           type={'text'}
-          onChange={inputPublish_date}
+          onChange={inputPublishedDate}
         />
 
         <div className="button-container-row">

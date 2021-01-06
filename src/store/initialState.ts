@@ -13,13 +13,13 @@ export const initialState: RootStore = {
     path: NO_IMAGE,
   },
   album: {
-    discription: '',
+    description: '',
     imageFile: {
       filename: '',
       path: NO_IMAGE,
     },
     id: '',
-    publish_date: '',
+    publishedDate: '',
     // songs?:
     title: '',
     services: {

@@ -1,6 +1,6 @@
 import { GSOdatas } from './GSOdata';
-import { saveSong } from '../songs';
-import { Song } from '../types';
+import { saveSong } from '../../lib/songs';
+import { Song } from '../../lib/types';
 
 export const pushGSO = () => {
   if (GSOdatas.length !== 30) {

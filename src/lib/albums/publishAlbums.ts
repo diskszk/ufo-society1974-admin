@@ -12,7 +12,7 @@ export const publishAlbums = async () => {
   publishedAlbums.docs.map(async (doc) => {
     const albumId = doc.id;
 
-    // sub collectioを削除
+    // sub collectionを削除
     const songRef = publishedAlbumsRef.doc(albumId).collection('songs');
     const publishedSongs = await songRef.get();
 
@@ -37,28 +37,28 @@ export const publishAlbums = async () => {
 
   const unpublishedAlbumList = await getAlbums();
 
-  if (unpublishedAlbumList.length) {
-    unpublishedAlbumList.map(async (unpublishedAlbum: Album) => {
-      const unpublishedAlbumId = unpublishedAlbum.id;
-
-      await publishedAlbumsRef
-        .add(unpublishedAlbum)
-        .then(async (doc) => {
-          const publishedAlbumId = doc.id;
-          const unpublishedSongs = await getSongs(unpublishedAlbumId);
-
-          unpublishedSongs.map(async (unpublishedSong: Song) => {
-            await publishedAlbumsRef
-              .doc(publishedAlbumId)
-              .collection('songs')
-              .add(unpublishedSong);
-          });
-        })
-        .catch((e) => {
-          throw new Error(e);
-        });
-    });
-  } else {
+  if (!unpublishedAlbumList.length) {
     return;
   }
+
+  unpublishedAlbumList.map(async (unpublishedAlbum: Album) => {
+    const unpublishedAlbumId = unpublishedAlbum.id;
+
+    await publishedAlbumsRef
+      .add(unpublishedAlbum)
+      .then(async (doc) => {
+        const publishedAlbumId = doc.id;
+        const unpublishedSongs = await getSongs(unpublishedAlbumId);
+
+        unpublishedSongs.map(async (unpublishedSong: Song) => {
+          await publishedAlbumsRef
+            .doc(publishedAlbumId)
+            .collection('songs')
+            .add(unpublishedSong);
+        });
+      })
+      .catch((e) => {
+        throw new Error(e);
+      });
+  });
 };

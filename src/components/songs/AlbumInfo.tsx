@@ -12,8 +12,8 @@ const AlbumInfo: React.FC<Props> = ({ album }) => {
       </div>
       <div className="songs-album-info-detail">
         <p>{album.title}</p>
-        <p>リリース日: {album.publish_date}</p>
-        <p>{album.discription}</p>
+        <p>リリース日: {album.publishedDate}</p>
+        <p>{album.description}</p>
       </div>
     </div>
   );

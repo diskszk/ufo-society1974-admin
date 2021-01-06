@@ -1,4 +1,5 @@
 import { auth, db, FirebaseTimestamp } from '../../firebase';
+import { User } from '../types';
 
 export const signUp = async (
   username: string,
@@ -15,14 +16,15 @@ export const signUp = async (
   const uid = user.uid;
   const timestamp = FirebaseTimestamp.now();
 
-  const userInitialData = {
-    created_at: timestamp,
+  const userInitialData: User = {
+    createdAt: timestamp,
     email: email,
     role: role,
     uid: uid,
-    updated_at: timestamp,
+    updatedAt: timestamp,
     username: username,
-    isDelete: false,
+    isDeleted: false,
+    isSignedIn: false,
   };
 
   db.collection('users').doc(uid).set(userInitialData);

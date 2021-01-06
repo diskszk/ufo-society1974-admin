@@ -8,7 +8,7 @@ export const getSongs = async (albumId: string): Promise<Song[]> => {
   const songList: Song[] = dataList.map(
     (song: firebase.firestore.DocumentData) => {
       return {
-        created_at: song.created_at,
+        createdAt: song.createdAt,
         id: song.id,
         lyric: song.lyric,
         songFile: {

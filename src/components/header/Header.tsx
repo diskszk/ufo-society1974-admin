@@ -50,13 +50,13 @@ const Header: React.FC<Props> = ({ history }) => {
           >
             UFO Societyホームページ
           </a>
-          {/* {!isSignedIn ? ( */}
-          <Link to="/login">ログイン</Link>
-          {/* ) : ( */}
-          <a role="button" onClick={handleClickLogOut}>
-            ログアウト
-          </a>
-          {/* )} */}
+          {!isSignedIn ? (
+            <Link to="/login">ログイン</Link>
+          ) : (
+            <a role="button" onClick={handleClickLogOut}>
+              ログアウト
+            </a>
+          )}
         </div>
         {isSignedIn && (
           <div className="header-content-right">

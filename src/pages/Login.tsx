@@ -50,7 +50,7 @@ const Login: React.FC<Props> = ({ history }) => {
         dispatch(successFetchAction());
 
         if (user.role === ROLE.MASTER) {
-          history.push('/signup');
+          history.push('/users/create');
         } else {
           history.push('/');
         }

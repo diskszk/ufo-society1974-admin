@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 
-import { generateRandomStrings } from '../../lib/generateRandomStrings';
+import { generateRandomStrings } from '../../lib/helpers/generateRandomStrings';
 import { deleteAlbumImage } from '../../lib/albums';
 import { File } from '../../lib/types';
 import { useDispatch } from 'react-redux';

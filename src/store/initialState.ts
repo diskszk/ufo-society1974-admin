@@ -22,7 +22,7 @@ export const initialState: RootStore = {
     publishedDate: '',
     // songs?:
     title: '',
-    services: {
+    publishPlatform: {
       AppleMusic: '',
       Spotify: '',
       iTunes: '',

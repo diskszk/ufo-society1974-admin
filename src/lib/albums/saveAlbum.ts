@@ -1,6 +1,6 @@
 import { db, FirebaseTimestamp } from '../../firebase';
 import { Album, File, PublishPlatform } from '../types';
-import { generateRandomStrings } from '../generateRandomStrings';
+import { generateRandomStrings } from '../helpers/generateRandomStrings';
 
 const albumsRef = db.collection('albums');
 
@@ -25,7 +25,7 @@ export const saveAlbum = async (
     },
     publishedDate: publishedDate,
     title: title,
-    services: services,
+    publishPlatform: services,
   };
 
   await albumsRef.doc(id).set(data, { merge: true });

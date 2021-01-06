@@ -37,7 +37,7 @@ export type Album = {
   publishedDate: string;
   songs?: Song[];
   title: string;
-  services: PublishPlatform;
+  publishPlatform: PublishPlatform;
   createdAt?: firebase.firestore.Timestamp;
 };
 

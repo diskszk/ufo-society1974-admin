@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../lib/types';
-import { publishAlbums } from '../lib/albums';
+import { deletePublishedAlbums, publishAlbums } from '../lib/albums';
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import { CustomButton } from '../components/UIKit';
 import IconButton from '@material-ui/core/IconButton';
@@ -39,6 +39,7 @@ const Albums: React.FC<Props> = ({ history }) => {
 
       try {
         dispatch(requestFetchAction());
+        await deletePublishedAlbums();
         await publishAlbums();
         dispatch(displayMessage('編集内容を公開しました。'));
         dispatch(successFetchAction());

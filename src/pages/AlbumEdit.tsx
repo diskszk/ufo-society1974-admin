@@ -17,7 +17,7 @@ import {
   requestFetchAction,
   successFetchAction,
 } from '../store/LoadingStatusReducer';
-import { validatePublishedDate } from '../lib';
+import { validatePublishedDate } from '../lib/helpers';
 
 interface Props extends RouteComponentProps<{}> {}
 
@@ -195,10 +195,10 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
             setTitle(res.title);
             setDescription(res.description);
             setPublishedDate(res.publishedDate);
-            setAppleMusicURL(res.services.AppleMusic);
-            setSpotifyURL(res.services.Spotify);
-            setITunesURL(res.services.iTunes);
-            setBandcampURL(res.services.Bandcamp);
+            setAppleMusicURL(res.publishPlatform.AppleMusic);
+            setSpotifyURL(res.publishPlatform.Spotify);
+            setITunesURL(res.publishPlatform.iTunes);
+            setBandcampURL(res.publishPlatform.Bandcamp);
             dispatch(updateImageAction(res.imageFile));
           }
           dispatch(successFetchAction());

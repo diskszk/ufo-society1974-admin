@@ -5,7 +5,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import BackupIcon from '@material-ui/icons/Backup';
 import { makeStyles } from '@material-ui/core';
 import { File, RootStore } from '../../lib/types';
-import { generateRandomStrings } from '../../lib/generateRandomStrings';
+import { generateRandomStrings } from '../../lib/helpers/generateRandomStrings';
 import {
   clearSongFileAction,
   updateSongFileAction,

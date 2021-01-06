@@ -4,7 +4,7 @@ import Auth from './Auth';
 import {
   Home,
   Login,
-  SignUp,
+  CreateAccount,
   Reset,
   Songs,
   SongEdit,
@@ -24,7 +24,7 @@ const Routes = () => {
 
         {/* Users */}
         <Route exact path={'/users'} component={Users} />
-        <Route exact path={'/signup'} component={SignUp} />
+        <Route exact path={'/users/create'} component={CreateAccount} />
 
         {/* Albums */}
         <Route exact path={'/albums'} component={Albums} />

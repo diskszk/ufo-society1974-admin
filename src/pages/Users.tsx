@@ -24,7 +24,7 @@ const Users: React.FC<Props> = ({ history }) => {
         <div className="button-container__right-fixed">
           <IconButton
             onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-              history.push('/signup')
+              history.push('/users/create')
             }
           >
             <LibraryAddOutlinedIcon fontSize="large" />

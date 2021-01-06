@@ -1,4 +1,4 @@
-import { auth, db, FirebaseTimestamp } from '../../firebase';
+import { auth, FirebaseTimestamp } from '../../firebase';
 import { User } from '../types';
 
 export const createAccount = async (
@@ -6,17 +6,17 @@ export const createAccount = async (
   email: string,
   password: string,
   role: string
-): Promise<void | {}> => {
+): Promise<User | null> => {
   const result = await auth.createUserWithEmailAndPassword(email, password);
   const user = result.user;
 
   if (!user) {
-    return {};
+    return null;
   }
   const uid = user.uid;
   const timestamp = FirebaseTimestamp.now();
 
-  const userInitialData: User = {
+  const newAccount: User = {
     createdAt: timestamp,
     email: email,
     role: role,
@@ -27,5 +27,5 @@ export const createAccount = async (
     isSignedIn: false,
   };
 
-  db.collection('users').doc(uid).set(userInitialData);
+  return newAccount;
 };

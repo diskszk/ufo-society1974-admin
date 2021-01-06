@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { CustomButton, TextInput, TypeSelector } from '../components/UIKit';
-import { createAccount } from '../lib/users/';
+import { createAccount, registerAccount } from '../lib/users';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../lib/types';
 import { ROLE } from '../constants';
@@ -30,7 +30,7 @@ const roles = [
 
 interface Props extends RouteComponentProps<{}> {}
 
-const SignUp: React.FC<Props> = ({ history }) => {
+const CreateAccount: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
   const user = useSelector<RootStore, User>((state) => state.user);
@@ -78,7 +78,7 @@ const SignUp: React.FC<Props> = ({ history }) => {
     [setRole]
   );
 
-  const handleClickSignUp = useCallback(
+  const handleClickCreateAccount = useCallback(
     async (
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
@@ -100,14 +100,17 @@ const SignUp: React.FC<Props> = ({ history }) => {
       }
       try {
         dispatch(requestFetchAction());
-        const result = await createAccount(username, email, password, role);
+        const newAccount = await createAccount(username, email, password, role);
 
-        if (result) {
+        if (!newAccount) {
           dispatch(
             failedFetchAction(
               'ユーザーの作成に失敗しました。\n通信環境をご確認お上再度お試しください。'
             )
           );
+          return;
+        } else {
+          await registerAccount(newAccount);
         }
 
         dispatch(successFetchAction());
@@ -189,7 +192,7 @@ const SignUp: React.FC<Props> = ({ history }) => {
           <CustomButton
             disable={disabled}
             label="登録する"
-            onClick={handleClickSignUp}
+            onClick={handleClickCreateAccount}
           />
         </div>
       </div>
@@ -197,4 +200,4 @@ const SignUp: React.FC<Props> = ({ history }) => {
   );
 };
 
-export default withRouter(SignUp);
+export default withRouter(CreateAccount);

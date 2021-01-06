@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { CustomButton, TextInput, TypeSelector } from '../components/UIKit';
-import { signUp } from '../lib/users/';
+import { createAccount } from '../lib/users/';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../lib/types';
 import { ROLE } from '../constants';
@@ -40,7 +40,7 @@ const SignUp: React.FC<Props> = ({ history }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPasswod] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [role, setRole] = useState('editor');
 
   const inputUsername = useCallback(
@@ -66,9 +66,9 @@ const SignUp: React.FC<Props> = ({ history }) => {
 
   const inputConfirmPassword = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setConfirmPasswod(ev.target.value);
+      setConfirmPassword(ev.target.value);
     },
-    [setConfirmPasswod]
+    [setConfirmPassword]
   );
 
   const selectRole = useCallback(
@@ -100,7 +100,16 @@ const SignUp: React.FC<Props> = ({ history }) => {
       }
       try {
         dispatch(requestFetchAction());
-        await dispatch(signUp(username, email, password, role));
+        const result = await createAccount(username, email, password, role);
+
+        if (result) {
+          dispatch(
+            failedFetchAction(
+              'ユーザーの作成に失敗しました。\n通信環境をご確認お上再度お試しください。'
+            )
+          );
+        }
+
         dispatch(successFetchAction());
         history.push('/');
         return;
@@ -108,7 +117,7 @@ const SignUp: React.FC<Props> = ({ history }) => {
         dispatch(failedFetchAction(e.message));
       }
     },
-    []
+    [username, email, password, confirmPassword, role]
   );
 
   useEffect(() => {

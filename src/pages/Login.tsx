@@ -58,7 +58,7 @@ const Login: React.FC<Props> = ({ history }) => {
         dispatch(failedFetchAction(e.message));
       }
     },
-    []
+    [email, password]
   );
 
   return (

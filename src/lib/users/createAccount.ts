@@ -1,17 +1,17 @@
 import { auth, db, FirebaseTimestamp } from '../../firebase';
 import { User } from '../types';
 
-export const signUp = async (
+export const createAccount = async (
   username: string,
   email: string,
   password: string,
   role: string
-) => {
+): Promise<void | {}> => {
   const result = await auth.createUserWithEmailAndPassword(email, password);
   const user = result.user;
 
   if (!user) {
-    throw new Error('ユーザーが存在しません。');
+    return {};
   }
   const uid = user.uid;
   const timestamp = FirebaseTimestamp.now();

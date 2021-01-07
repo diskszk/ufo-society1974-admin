@@ -17,53 +17,41 @@ const Auth: React.FC<Props> = ({ children, history }): any => {
   const dispatch = useDispatch();
   const { isSignedIn } = useSelector<RootStore, User>((state) => state.user);
 
-  const listenAuthState = () => {
-    return async (dispatch: any) => {
-      dispatch(createRequestFetchAction());
+  const listenAuthState = async () => {
+    return auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        throw new Error('ユーザーの取得に失敗しました。');
+      }
+      const uid = user.uid;
 
-      return auth.onAuthStateChanged((user) => {
-        if (!user) {
-          history.push('/login');
-          return;
-        } else {
-          const uid = user.uid;
+      const snapshot = await db.collection('users').doc(uid).get();
+      const data = snapshot.data();
 
-          db.collection('users')
-            .doc(uid)
-            .get()
-            .then((snapshot) => {
-              const data = snapshot.data();
-
-              if (!data) {
-                return dispatch(
-                  createFailedFetchAction('ユーザーの取得に失敗しました。')
-                );
-              }
-
-              dispatch(
-                createLoginAction({
-                  isSignedIn: true,
-                  uid: uid,
-                  username: data.username,
-                  role: data.role,
-                })
-              );
-
-              dispatch(crateSuccessFetchAction());
-            })
-            .catch((e) => {
-              dispatch(createFailedFetchAction(e.message));
-              history.push('/');
-              return;
-            });
-        }
-      });
-    };
+      if (!data) {
+        throw new Error('ユーザーの取得に失敗しました。');
+      }
+      dispatch(
+        createLoginAction({
+          isSignedIn: true,
+          uid: uid,
+          username: data.username,
+          role: data.role,
+        })
+      );
+    });
   };
 
   useEffect(() => {
     if (!isSignedIn) {
-      dispatch(listenAuthState());
+      try {
+        dispatch(createRequestFetchAction());
+        listenAuthState();
+
+        dispatch(crateSuccessFetchAction());
+      } catch (e) {
+        dispatch(createFailedFetchAction(e.message));
+        history.push('/');
+      }
     }
   }, []);
 

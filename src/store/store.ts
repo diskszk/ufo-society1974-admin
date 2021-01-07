@@ -3,7 +3,6 @@ import {
   combineReducers,
   applyMiddleware,
 } from 'redux';
-import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
 // import reducers
@@ -24,6 +23,6 @@ export const createStore = () => {
       songs: SongsReducer,
       loadingStatus: LoadingStatusReducer,
     }),
-    applyMiddleware(thunk, logger)
+    applyMiddleware(logger)
   );
 };

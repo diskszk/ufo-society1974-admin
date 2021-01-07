@@ -13,16 +13,14 @@ export const pushGSO = () => {
   }
   const ALBUM_ID = 'QHOtTDUofVeYUkaI';
 
-  return async (dispatch: any) => {
-    GSOdatas.map(async (song: Song) => {
-      try {
-        await dispatch(saveSong(song, ALBUM_ID));
-        console.log(`${song.title} : successed!`);
-      } catch (e) {
-        console.log(`Error! stoped at ${song.title}`);
-        console.error(e);
-        return;
-      }
-    });
-  };
+  GSOdatas.map(async (song: Song) => {
+    try {
+      await saveSong(song, ALBUM_ID);
+      console.log(`${song.title} : successed!`);
+    } catch (e) {
+      console.log(`Error! stoped at ${song.title}`);
+      console.error(e);
+      return;
+    }
+  });
 };

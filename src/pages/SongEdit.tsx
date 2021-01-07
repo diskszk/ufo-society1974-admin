@@ -79,8 +79,6 @@ const SongEdit: React.FC<Props> = ({ history }) => {
     [setMusicRights]
   );
 
-  // TODO: エラーハンドリングを実装する
-  // TODO: redux-thunkを取り外す
   const handleClickSaveButton = useCallback(
     async (
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -107,9 +105,14 @@ const SongEdit: React.FC<Props> = ({ history }) => {
         musicRights: musicRights,
       };
 
-      await dispatch(saveSong(newSong, albumId));
-      setTimeout(() => 5000);
-      history.push(`/albums/detail/${albumId}`);
+      try {
+        dispatch(createRequestFetchAction());
+        await saveSong(newSong, albumId);
+        history.push(`/albums/detail/${albumId}`);
+        dispatch(crateSuccessFetchAction());
+      } catch {
+        dispatch(createFailedFetchAction('曲の保存に失敗しました。'));
+      }
     },
     [id, title, story, lyric, wordsRights, musicRights]
   );

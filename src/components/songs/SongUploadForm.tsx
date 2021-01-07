@@ -8,14 +8,14 @@ import { File, RootStore } from '../../lib/types';
 import { generateRandomStrings } from '../../lib/helpers/generateRandomStrings';
 import {
   clearSongFileAction,
-  updateSongFileAction,
+  createUpdateSongFileAction,
 } from '../../store/SongFileReducer';
 import { deleteSongFile, uploadSongFile } from '../../lib/songs';
 import {
-  displayMessage,
-  failedFetchAction,
-  requestFetchAction,
-  successFetchAction,
+  createDisplayMessage,
+  createFailedFetchAction,
+  createRequestFetchAction,
+  crateSuccessFetchAction,
 } from '../../store/LoadingStatusReducer';
 
 const useStyles = makeStyles({
@@ -46,7 +46,7 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
     const fileList = ev.target.files;
 
     if (!fileList) {
-      dispatch(displayMessage('ファイルが選択されていません。'));
+      dispatch(createDisplayMessage('ファイルが選択されていません。'));
       return;
     }
 
@@ -58,16 +58,16 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
     const newFileName = generateRandomStrings();
 
     try {
-      dispatch(requestFetchAction());
+      dispatch(createRequestFetchAction());
       const newSongFile = await uploadSongFile(file, newFileName);
 
-      dispatch(updateSongFileAction(newSongFile));
-      dispatch(displayMessage('ファイルがアップロードされました。'));
+      dispatch(createUpdateSongFileAction(newSongFile));
+      dispatch(createDisplayMessage('ファイルがアップロードされました。'));
 
-      dispatch(successFetchAction());
+      dispatch(crateSuccessFetchAction());
     } catch {
       dispatch(
-        failedFetchAction(
+        createFailedFetchAction(
           'ファイルのアップロードに失敗しました。\n通信環境をご確認の上再度お試しください。'
         )
       );
@@ -79,20 +79,20 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
       if (filename === '') {
-        dispatch(displayMessage('ファイルがアップロードされていません。'));
+        dispatch(createDisplayMessage('ファイルがアップロードされていません。'));
         return;
       }
       if (!window.confirm('ファイルを削除しますか？')) {
         return;
       }
       try {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
         await deleteSongFile(filename, albumId, songId);
         dispatch(clearSongFileAction());
-        dispatch(successFetchAction());
+        dispatch(crateSuccessFetchAction());
       } catch {
         dispatch(
-          failedFetchAction(
+          createFailedFetchAction(
             'ファイルの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
           )
         );

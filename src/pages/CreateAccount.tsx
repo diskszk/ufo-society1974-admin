@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../lib/types';
 import { ROLE } from '../constants';
 import {
-  successFetchAction,
-  requestFetchAction,
-  failedFetchAction,
-  displayMessage,
+  crateSuccessFetchAction,
+  createRequestFetchAction,
+  createFailedFetchAction,
+  createDisplayMessage,
 } from '../store/LoadingStatusReducer';
 
 const roles = [
@@ -90,21 +90,21 @@ const CreateAccount: React.FC<Props> = ({ history }) => {
         confirmPassword === '' ||
         role === ''
       ) {
-        dispatch(displayMessage('必須項目が未入力です。'));
+        dispatch(createDisplayMessage('必須項目が未入力です。'));
         return;
       }
 
       if (password !== confirmPassword) {
-        dispatch(displayMessage('パスワードが一致していません。'));
+        dispatch(createDisplayMessage('パスワードが一致していません。'));
         return;
       }
       try {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
         const newAccount = await createAccount(username, email, password, role);
 
         if (!newAccount) {
           dispatch(
-            failedFetchAction(
+            createFailedFetchAction(
               'ユーザーの作成に失敗しました。\n通信環境をご確認お上再度お試しください。'
             )
           );
@@ -113,11 +113,11 @@ const CreateAccount: React.FC<Props> = ({ history }) => {
           await registerAccount(newAccount);
         }
 
-        dispatch(successFetchAction());
+        dispatch(crateSuccessFetchAction());
         history.push('/');
         return;
       } catch (e) {
-        dispatch(failedFetchAction(e.message));
+        dispatch(createFailedFetchAction(e.message));
       }
     },
     [username, email, password, confirmPassword, role]

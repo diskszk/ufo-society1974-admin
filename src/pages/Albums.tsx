@@ -9,12 +9,12 @@ import { CustomButton } from '../components/UIKit';
 import IconButton from '@material-ui/core/IconButton';
 import AlbumTable from '../components/albums/AlbumTable';
 import { ROLE } from '../constants';
-import { clearAlbumAction } from '../store/AlbumReducer';
+import { createClearAlbumAction } from '../store/AlbumReducer';
 import {
-  requestFetchAction,
-  displayMessage,
-  failedFetchAction,
-  successFetchAction,
+  createRequestFetchAction,
+  createDisplayMessage,
+  createFailedFetchAction,
+  crateSuccessFetchAction,
 } from '../store/LoadingStatusReducer';
 
 interface Props extends RouteComponentProps<{}> {}
@@ -30,7 +30,7 @@ const Albums: React.FC<Props> = ({ history }) => {
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
       if (role !== ROLE.EDITOR) {
-        dispatch(displayMessage('編集者のみ編集内容を公開できます。'));
+        dispatch(createDisplayMessage('編集者のみ編集内容を公開できます。'));
         return;
       }
       if (!window.confirm('編集内容を公開しますか？')) {
@@ -38,14 +38,14 @@ const Albums: React.FC<Props> = ({ history }) => {
       }
 
       try {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
         await deletePublishedAlbums();
         await publishAlbums();
-        dispatch(displayMessage('編集内容を公開しました。'));
-        dispatch(successFetchAction());
+        dispatch(createDisplayMessage('編集内容を公開しました。'));
+        dispatch(crateSuccessFetchAction());
       } catch (e) {
         dispatch(
-          failedFetchAction(
+          createFailedFetchAction(
             '公開に失敗しました。\n通信環境をご確認の上再度お試しください。'
           )
         );
@@ -56,7 +56,7 @@ const Albums: React.FC<Props> = ({ history }) => {
 
   const handleClickAddButton = useCallback(
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-      dispatch(clearAlbumAction());
+      dispatch(createClearAlbumAction());
       history.push('/albums/edit');
     },
     []

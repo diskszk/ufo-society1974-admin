@@ -7,14 +7,14 @@ import { getSingleSong, getSongs, saveSong } from '../lib/songs';
 import SongUploadForm from '../components/songs/SongUploadForm';
 import { File, Song, RootStore } from '../lib/types';
 import {
-  updateSongFileAction,
+  createUpdateSongFileAction,
   clearSongFileAction,
 } from '../store/SongFileReducer';
 import {
-  displayMessage,
-  failedFetchAction,
-  requestFetchAction,
-  successFetchAction,
+  createDisplayMessage,
+  createFailedFetchAction,
+  createRequestFetchAction,
+  crateSuccessFetchAction,
 } from '../store/LoadingStatusReducer';
 
 interface Props extends RouteComponentProps<{}> {}
@@ -87,11 +87,11 @@ const SongEdit: React.FC<Props> = ({ history }) => {
     ): Promise<void> => {
       // validations
       if (id === '') {
-        dispatch(displayMessage('IDを入力してください。'));
+        dispatch(createDisplayMessage('IDを入力してください。'));
         return;
       }
       if (title === '') {
-        dispatch(displayMessage('タイトルを入力してください。'));
+        dispatch(createDisplayMessage('タイトルを入力してください。'));
         return;
       }
 
@@ -125,17 +125,17 @@ const SongEdit: React.FC<Props> = ({ history }) => {
 
         dispatch(clearSongFileAction());
       } catch (e) {
-        dispatch(failedFetchAction(e.message));
+        dispatch(createFailedFetchAction(e.message));
       }
     };
     // Edit
     const editSongSetUp = async () => {
       try {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
         const song = await getSingleSong(albumId, songId);
 
         if (!song) {
-          dispatch(failedFetchAction('曲が存在しません。'));
+          dispatch(createFailedFetchAction('曲が存在しません。'));
           history.push(`/albums/detail/${albumId}`);
           return;
         } else {
@@ -146,11 +146,11 @@ const SongEdit: React.FC<Props> = ({ history }) => {
           setWordsRights(song.wordsRights);
           setMusicRights(song.musicRights);
 
-          dispatch(updateSongFileAction(song.songFile));
-          dispatch(successFetchAction());
+          dispatch(createUpdateSongFileAction(song.songFile));
+          dispatch(crateSuccessFetchAction());
         }
       } catch (e) {
-        dispatch(failedFetchAction(e.message));
+        dispatch(createFailedFetchAction(e.message));
         history.push(`/albums/detail/${albumId}`);
       }
     };

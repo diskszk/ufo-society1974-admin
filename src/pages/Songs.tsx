@@ -7,12 +7,12 @@ import SongTable from '../components/songs/SongTable';
 import { Album, RootStore } from '../lib/types';
 import AlbumInfo from '../components/songs/AlbumInfo';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
-import { updateAlbumAction } from '../store/AlbumReducer';
+import { createUpdateAlbumAction } from '../store/AlbumReducer';
 import {
-  displayMessage,
-  failedFetchAction,
-  requestFetchAction,
-  successFetchAction,
+  createDisplayMessage,
+  createFailedFetchAction,
+  createRequestFetchAction,
+  crateSuccessFetchAction,
 } from '../store/LoadingStatusReducer';
 
 interface Props extends RouteComponentProps<{}> {}
@@ -29,21 +29,21 @@ const Songs: React.FC<Props> = ({ history }) => {
 
   useEffect(() => {
     const fetch = async () => {
-      dispatch(requestFetchAction());
+      dispatch(createRequestFetchAction());
 
       try {
         const album = await getSingleAlbum(albumId);
 
         if (!album) {
-          dispatch(failedFetchAction('アルバムが存在しません。'));
+          dispatch(createFailedFetchAction('アルバムが存在しません。'));
           history.push('/albums');
           return;
         } else {
-          dispatch(updateAlbumAction(album));
-          dispatch(successFetchAction());
+          dispatch(createUpdateAlbumAction(album));
+          dispatch(crateSuccessFetchAction());
         }
       } catch (e) {
-        dispatch(failedFetchAction(e.message));
+        dispatch(createFailedFetchAction(e.message));
         history.push('/albums');
       }
     };
@@ -51,7 +51,7 @@ const Songs: React.FC<Props> = ({ history }) => {
     if (albumId !== '') {
       fetch();
     } else {
-      dispatch(displayMessage('アルバムが登録されていません。'));
+      dispatch(createDisplayMessage('アルバムが登録されていません。'));
       history.push('/albums');
     }
   }, []);

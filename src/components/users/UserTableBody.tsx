@@ -4,10 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import {
-  displayMessage,
-  requestFetchAction,
-  failedFetchAction,
-  successFetchAction,
+  createDisplayMessage,
+  createRequestFetchAction,
+  createFailedFetchAction,
+  crateSuccessFetchAction,
 } from '../../store/LoadingStatusReducer';
 import { ROLE } from '../../constants';
 import { RootStore, User } from '../../lib/types';
@@ -37,7 +37,7 @@ const UserTableBody: React.FC<Props> = ({ user }) => {
       _ev: React.MouseEvent<HTMLTableCellElement, MouseEvent>
     ): Promise<void> => {
       if (currentRole !== ROLE.MASTER) {
-        dispatch(displayMessage('ユーザー管理者のみユーザーを削除できます。'));
+        dispatch(createDisplayMessage('ユーザー管理者のみユーザーを削除できます。'));
         return;
       }
       if (!window.confirm(`${user.username}さんを削除しますか？`)) {
@@ -45,25 +45,25 @@ const UserTableBody: React.FC<Props> = ({ user }) => {
       }
       // role: masterは消せない
       if (user.role === ROLE.MASTER) {
-        dispatch(displayMessage('このユーザーは削除できません。'));
+        dispatch(createDisplayMessage('このユーザーは削除できません。'));
         return;
       }
       if (user.uid === currentUser.uid) {
-        dispatch(displayMessage('このユーザーは削除できません。'));
+        dispatch(createDisplayMessage('このユーザーは削除できません。'));
         return;
       }
 
       try {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
         await deleteUser(user.uid);
-        dispatch(displayMessage('ユーザーが削除されました。'));
+        dispatch(createDisplayMessage('ユーザーが削除されました。'));
 
         // TODO: リストをリフレッシュする
 
-        dispatch(successFetchAction());
+        dispatch(crateSuccessFetchAction());
       } catch (e) {
         dispatch(
-          failedFetchAction(
+          createFailedFetchAction(
             'ユーザーの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
           )
         );

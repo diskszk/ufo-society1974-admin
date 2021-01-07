@@ -15,10 +15,10 @@ type LogOutAction = {
   payload: User;
 };
 
-type UserActionTypes = SignInAction | LogOutAction;
+type UserActions = SignInAction | LogOutAction;
 
 // action
-export const signinAction = (state: User): UserActionTypes => {
+export const createLoginAction = (state: User): UserActions => {
   return {
     type: SIGN_IN,
     payload: {
@@ -28,7 +28,7 @@ export const signinAction = (state: User): UserActionTypes => {
   };
 };
 
-export const logOutAction = (): UserActionTypes => {
+export const createLogOutAction = (): UserActions => {
   return {
     type: LOG_OUT,
     payload: {
@@ -43,7 +43,7 @@ export const logOutAction = (): UserActionTypes => {
 // reducer
 export const UsersReducer = (
   state = userInitialState,
-  action: UserActionTypes
+  action: UserActions
 ): User => {
   switch (action.type) {
     case SIGN_IN:

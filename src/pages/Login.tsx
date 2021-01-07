@@ -4,13 +4,13 @@ import { CustomButton, TextInput } from '../components/UIKit';
 import { login } from '../lib/users';
 import { useDispatch } from 'react-redux';
 import {
-  displayMessage,
-  failedFetchAction,
-  requestFetchAction,
-  successFetchAction,
+  createDisplayMessage,
+  createFailedFetchAction,
+  createRequestFetchAction,
+  crateSuccessFetchAction,
 } from '../store/LoadingStatusReducer';
 import { ROLE } from '../constants';
-import { signinAction } from '../store/UsersReducer';
+import { createLoginAction } from '../store/UsersReducer';
 
 interface Props extends RouteComponentProps<{}> {}
 
@@ -39,15 +39,15 @@ const Login: React.FC<Props> = ({ history }) => {
     async (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       // Validations
       if (email === '' || password === '') {
-        dispatch(displayMessage('必須項目が未入力です。'));
+        dispatch(createDisplayMessage('必須項目が未入力です。'));
         return;
       }
       try {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
         const user = await login(email, password);
 
-        dispatch(signinAction({ ...user }));
-        dispatch(successFetchAction());
+        dispatch(createLoginAction({ ...user }));
+        dispatch(crateSuccessFetchAction());
 
         if (user.role === ROLE.MASTER) {
           history.push('/users/create');
@@ -55,7 +55,7 @@ const Login: React.FC<Props> = ({ history }) => {
           history.push('/');
         }
       } catch (e) {
-        dispatch(failedFetchAction(e.message));
+        dispatch(createFailedFetchAction(e.message));
       }
     },
     [email, password]

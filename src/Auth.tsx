@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from './lib/types';
 import { auth, db } from './firebase';
 import {
-  successFetchAction,
-  requestFetchAction,
-  failedFetchAction,
+  crateSuccessFetchAction,
+  createRequestFetchAction,
+  createFailedFetchAction,
 } from './store/LoadingStatusReducer';
 import { RouteComponentProps } from 'react-router-dom';
-import { signinAction } from './store/UsersReducer';
+import { createLoginAction } from './store/UsersReducer';
 
 interface Props extends RouteComponentProps<{}> {}
 
@@ -19,7 +19,7 @@ const Auth: React.FC<Props> = ({ children, history }): any => {
 
   const listenAuthState = () => {
     return async (dispatch: any) => {
-      dispatch(requestFetchAction());
+      dispatch(createRequestFetchAction());
 
       return auth.onAuthStateChanged((user) => {
         if (!user) {
@@ -36,12 +36,12 @@ const Auth: React.FC<Props> = ({ children, history }): any => {
 
               if (!data) {
                 return dispatch(
-                  failedFetchAction('ユーザーの取得に失敗しました。')
+                  createFailedFetchAction('ユーザーの取得に失敗しました。')
                 );
               }
 
               dispatch(
-                signinAction({
+                createLoginAction({
                   isSignedIn: true,
                   uid: uid,
                   username: data.username,
@@ -49,10 +49,10 @@ const Auth: React.FC<Props> = ({ children, history }): any => {
                 })
               );
 
-              dispatch(successFetchAction());
+              dispatch(crateSuccessFetchAction());
             })
             .catch((e) => {
-              dispatch(failedFetchAction(e.message));
+              dispatch(createFailedFetchAction(e.message));
               history.push('/');
               return;
             });

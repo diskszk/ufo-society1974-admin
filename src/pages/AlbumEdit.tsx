@@ -10,12 +10,15 @@ import { RootStore, File, User, PublishPlatform } from '../lib/types';
 import { saveAlbum, deleteAlbum } from '../lib/albums';
 import { ROLE } from '../constants';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
-import { updateImageAction, clearImageAction } from '../store/ImageReducer';
 import {
-  displayMessage,
-  failedFetchAction,
-  requestFetchAction,
-  successFetchAction,
+  createUpdateImageAction,
+  createClearImageAction,
+} from '../store/ImageReducer';
+import {
+  createDisplayMessage,
+  createFailedFetchAction,
+  createRequestFetchAction,
+  crateSuccessFetchAction,
 } from '../store/LoadingStatusReducer';
 import { validatePublishedDate } from '../lib/helpers';
 
@@ -88,18 +91,22 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       // Validation
       if (!title || !publishedDate) {
-        dispatch(displayMessage('必須項目が未入力です。'));
+        dispatch(createDisplayMessage('必須項目が未入力です。'));
         return;
       }
       if (!validatePublishedDate(publishedDate)) {
         dispatch(
-          displayMessage('公開日は\n"YYYY-MM-DD"\nの形式で入力してください。')
+          createDisplayMessage(
+            '公開日は\n"YYYY-MM-DD"\nの形式で入力してください。'
+          )
         );
         return;
       }
       if (!validatePublishedDate(publishedDate)) {
         dispatch(
-          displayMessage('公開日は\nYYYY-MM-DD\nの形式で入力してください。')
+          createDisplayMessage(
+            '公開日は\nYYYY-MM-DD\nの形式で入力してください。'
+          )
         );
         return;
       }
@@ -111,14 +118,14 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
       };
 
       try {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
         saveAlbum(title, imageFile, description, services, publishedDate, id);
-        dispatch(displayMessage(`アルバムを保存しました。`));
-        dispatch(successFetchAction());
+        dispatch(createDisplayMessage(`アルバムを保存しました。`));
+        dispatch(crateSuccessFetchAction());
         history.push('/albums');
       } catch {
         dispatch(
-          failedFetchAction(
+          createFailedFetchAction(
             'アルバムの保存に失敗しました。\n通信環境をご確認の上再度お試しください。'
           )
         );
@@ -153,20 +160,20 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
       if (role !== ROLE.EDITOR) {
-        dispatch(displayMessage('削除権限がありません。'));
+        dispatch(createDisplayMessage('削除権限がありません。'));
         return;
       }
       if (!window.confirm('アルバムを削除しますか？')) {
         return;
       }
       try {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
         await deleteAlbum(id);
-        dispatch(successFetchAction());
+        dispatch(crateSuccessFetchAction());
         history.push('/albums');
       } catch {
         dispatch(
-          failedFetchAction(
+          createFailedFetchAction(
             'アルバムの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
           )
         );
@@ -178,17 +185,17 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
   useEffect(() => {
     if (id === '') {
       // New
-      dispatch(clearImageAction());
+      dispatch(createClearImageAction());
     } else {
       // Edit
       const fetch = async () => {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
 
         try {
           const res = await getSingleAlbum(id);
 
           if (!res) {
-            dispatch(failedFetchAction('アルバムが存在しません。'));
+            dispatch(createFailedFetchAction('アルバムが存在しません。'));
             history.push('/albums');
             return;
           } else {
@@ -199,11 +206,11 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
             setSpotifyURL(res.publishPlatform.Spotify);
             setITunesURL(res.publishPlatform.iTunes);
             setBandcampURL(res.publishPlatform.Bandcamp);
-            dispatch(updateImageAction(res.imageFile));
+            dispatch(createUpdateImageAction(res.imageFile));
           }
-          dispatch(successFetchAction());
+          dispatch(crateSuccessFetchAction());
         } catch (e) {
-          dispatch(failedFetchAction(e.message));
+          dispatch(createFailedFetchAction(e.message));
         }
       };
 

@@ -13,7 +13,7 @@ import SongTableBody from './SongTableBody';
 import { RootStore, User, Song } from '../../lib/types';
 import { ROLE } from '../../constants';
 import SongAddButton from './SongAddButton';
-import { updateSongsAction } from '../../store/SongsReducer';
+import { createUpdateSongsAction } from '../../store/SongsReducer';
 import { getSongs } from '../../lib/songs';
 
 const useStyles = makeStyles({
@@ -39,7 +39,7 @@ const SongTable: React.FC = () => {
 
   useEffect(() => {
     getSongs(albumId).then((dataList: Song[]) => {
-      dispatch(updateSongsAction(dataList));
+      dispatch(createUpdateSongsAction(dataList));
     });
   }, []);
 

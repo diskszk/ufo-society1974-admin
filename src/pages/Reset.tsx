@@ -3,10 +3,10 @@ import { RouteComponentProps } from 'react-router-dom';
 import { CustomButton, TextInput } from '../components/UIKit';
 import { useDispatch } from 'react-redux';
 import {
-  displayMessage,
-  failedFetchAction,
-  requestFetchAction,
-  successFetchAction,
+  createDisplayMessage,
+  createFailedFetchAction,
+  createRequestFetchAction,
+  crateSuccessFetchAction,
 } from '../store/LoadingStatusReducer';
 import { resetPassword } from '../lib/users/';
 
@@ -30,22 +30,22 @@ const Reset: React.FC<Props> = ({ history }) => {
     ): Promise<void> => {
       // validations
       if (email === '') {
-        dispatch(displayMessage('必須項目が未入力です。'));
+        dispatch(createDisplayMessage('必須項目が未入力です。'));
         return;
       }
       try {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
         await resetPassword(email);
         dispatch(
-          displayMessage(
+          createDisplayMessage(
             '入力されたアドレスにパスワードリセット用のメールを送信しました。'
           )
         );
-        dispatch(successFetchAction());
+        dispatch(crateSuccessFetchAction());
         history.push('/login');
         return;
       } catch (e) {
-        dispatch(failedFetchAction(e.message));
+        dispatch(createFailedFetchAction(e.message));
       }
     },
     []

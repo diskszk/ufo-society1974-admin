@@ -6,13 +6,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { RootStore, Album, Song, User } from '../../lib/types';
 import { TableCell, TableRow } from '@material-ui/core/';
 import { ROLE } from '../../constants';
-import { updateSongsAction } from '../../store/SongsReducer';
+import { createUpdateSongsAction } from '../../store/SongsReducer';
 import { deleteSong, getSongs } from '../../lib/songs';
 import {
-  displayMessage,
-  failedFetchAction,
-  requestFetchAction,
-  successFetchAction,
+  createDisplayMessage,
+  createFailedFetchAction,
+  createRequestFetchAction,
+  crateSuccessFetchAction,
 } from '../../store/LoadingStatusReducer';
 
 const useStyles = makeStyles({
@@ -54,24 +54,24 @@ const SongTableBodyItem: React.FC<Props> = ({ song, history }) => {
       _ev: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>
     ): Promise<void> => {
       if (role !== ROLE.EDITOR) {
-        dispatch(displayMessage('編集者のみ曲を削除できます。'));
+        dispatch(createDisplayMessage('編集者のみ曲を削除できます。'));
         return;
       }
       if (!window.confirm(`${song.title}を削除しますか?`)) {
         return;
       }
       try {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
         await deleteSong(albumId, song.id);
 
         // do refresh
         const songList = await getSongs(albumId);
 
-        dispatch(updateSongsAction(songList));
-        dispatch(successFetchAction());
+        dispatch(createUpdateSongsAction(songList));
+        dispatch(crateSuccessFetchAction());
       } catch {
         dispatch(
-          failedFetchAction(
+          createFailedFetchAction(
             '曲の削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
           )
         );

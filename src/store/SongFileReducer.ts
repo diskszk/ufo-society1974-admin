@@ -10,23 +10,23 @@ type UpdateSongFileAction = {
   type: typeof UPDATE_SONG_FILE;
   payload: File;
 };
-type ClearSongFileActuon = {
+type ClearSongFileAction = {
   type: typeof CLEAR_SONG_FILE;
   payload: File;
 };
 
-type SongFileActionTypes = UpdateSongFileAction | ClearSongFileActuon;
+type SongFileActions = UpdateSongFileAction | ClearSongFileAction;
 
-export const updateSongFileAction = (newFile: File): SongFileActionTypes => {
+export const createUpdateSongFileAction = (state: File): SongFileActions => {
   return {
     type: UPDATE_SONG_FILE,
     payload: {
-      ...newFile,
+      ...state,
     },
   };
 };
 
-export const clearSongFileAction = (): SongFileActionTypes => {
+export const clearSongFileAction = (): SongFileActions => {
   return {
     type: CLEAR_SONG_FILE,
     payload: {
@@ -38,7 +38,7 @@ export const clearSongFileAction = (): SongFileActionTypes => {
 
 export const SongFileReducer = (
   state: File = songFileInitialState,
-  action: SongFileActionTypes
+  action: SongFileActions
 ): File => {
   switch (action.type) {
     case UPDATE_SONG_FILE:

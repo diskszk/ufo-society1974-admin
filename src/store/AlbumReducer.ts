@@ -14,9 +14,9 @@ type ClearAlbumAction = {
   type: typeof CLEAR_ALBUM;
 };
 
-type AlbumActionTypes = UpdateAlbumAction | ClearAlbumAction;
+type AlbumActions = UpdateAlbumAction | ClearAlbumAction;
 
-export const updateAlbumAction = (state: Album): AlbumActionTypes => {
+export const createUpdateAlbumAction = (state: Album): AlbumActions => {
   return {
     type: UPDATE_ALBUM,
     payload: {
@@ -25,7 +25,7 @@ export const updateAlbumAction = (state: Album): AlbumActionTypes => {
   };
 };
 
-export const clearAlbumAction = (): AlbumActionTypes => {
+export const createClearAlbumAction = (): AlbumActions => {
   return {
     type: CLEAR_ALBUM,
   };
@@ -33,7 +33,7 @@ export const clearAlbumAction = (): AlbumActionTypes => {
 
 export const AlbumReducer = (
   state = albumInitialState,
-  action: AlbumActionTypes
+  action: AlbumActions
 ): Album => {
   switch (action.type) {
     case UPDATE_ALBUM:

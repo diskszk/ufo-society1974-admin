@@ -1,9 +1,9 @@
 import { db, FirebaseTimestamp } from '../../firebase';
 import { Song } from '../types';
 import {
-  failedFetchAction,
-  requestFetchAction,
-  successFetchAction,
+  createFailedFetchAction,
+  createRequestFetchAction,
+  crateSuccessFetchAction,
 } from '../../store/LoadingStatusReducer';
 
 // TODO: redux-thunkを取り外す
@@ -22,11 +22,11 @@ export const saveSong = (song: Song, albumId: string) => {
 
   return async (dispatch: any) => {
     try {
-      dispatch(requestFetchAction());
+      dispatch(createRequestFetchAction());
       await songsRef.set(data, { merge: true });
-      dispatch(successFetchAction());
+      dispatch(crateSuccessFetchAction());
     } catch {
-      dispatch(failedFetchAction('曲の保存に失敗しました。'));
+      dispatch(createFailedFetchAction('曲の保存に失敗しました。'));
     }
   };
 };

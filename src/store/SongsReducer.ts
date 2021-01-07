@@ -5,12 +5,12 @@ const songsInitialState = initialState.songs;
 
 const UPDATE_SONGS = 'UPDATE_SONGS';
 
-type SongsActionType = {
+type SongsAction = {
   type: typeof UPDATE_SONGS;
   payload: Song[];
 };
 
-export const updateSongsAction = (state: Song[]): SongsActionType => {
+export const createUpdateSongsAction = (state: Song[]): SongsAction => {
   return {
     type: UPDATE_SONGS,
     payload: [...state],
@@ -19,7 +19,7 @@ export const updateSongsAction = (state: Song[]): SongsActionType => {
 
 export const SongsReducer = (
   state = songsInitialState,
-  action: SongsActionType
+  action: SongsAction
 ): Song[] => {
   switch (action.type) {
     case UPDATE_SONGS:

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { clearMessageAction } from '../store/LoadingStatusReducer';
+import { createClearMessageAction } from '../store/LoadingStatusReducer';
 import { CustomButton } from './UIKit';
 
 type Props = {
@@ -19,7 +19,7 @@ const MessageModal: React.FC<Props> = ({ message }) => {
         <CustomButton
           label="閉じる"
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            dispatch(clearMessageAction())
+            dispatch(createClearMessageAction())
           }
         />
       </div>

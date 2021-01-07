@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Album } from '../../lib/types';
-import { updateAlbumAction } from '../../store/AlbumReducer';
+import { createUpdateAlbumAction } from '../../store/AlbumReducer';
 import IconButton from '@material-ui/core/IconButton';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 
@@ -19,7 +19,7 @@ const AlbumTableItem: React.FC<Props> = (props: Props) => {
     (
       _ev: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>
     ): void => {
-      dispatch(updateAlbumAction(props.album));
+      dispatch(createUpdateAlbumAction(props.album));
       props.history.push(`/albums/edit/${id}`);
     },
     []
@@ -27,7 +27,7 @@ const AlbumTableItem: React.FC<Props> = (props: Props) => {
 
   const handleDetailAlbumClick = useCallback(
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-      dispatch(updateAlbumAction(props.album));
+      dispatch(createUpdateAlbumAction(props.album));
       props.history.push(`/albums/detail/${id}`);
     },
     []

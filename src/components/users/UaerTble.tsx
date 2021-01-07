@@ -16,9 +16,9 @@ import UserTableBody from './UserTableBody';
 import { User } from '../../lib/types';
 import { getUsers } from '../../lib/users/getUsers';
 import {
-  requestFetchAction,
-  failedFetchAction,
-  successFetchAction,
+  createRequestFetchAction,
+  createFailedFetchAction,
+  crateSuccessFetchAction,
 } from '../../store/LoadingStatusReducer';
 
 const useStyles = makeStyles({
@@ -40,13 +40,13 @@ const UserTable: React.FC<Props> = ({ history }) => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
         const userList = await getUsers();
 
         setUsers(userList);
-        dispatch(successFetchAction());
+        dispatch(crateSuccessFetchAction());
       } catch (e) {
-        dispatch(failedFetchAction(e.message));
+        dispatch(createFailedFetchAction(e.message));
         history.push('/');
       }
     };

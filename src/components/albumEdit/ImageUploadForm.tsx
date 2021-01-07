@@ -9,12 +9,12 @@ import { generateRandomStrings } from '../../lib/helpers/generateRandomStrings';
 import { deleteAlbumImage } from '../../lib/albums';
 import { File } from '../../lib/types';
 import { useDispatch } from 'react-redux';
-import { updateImageAction } from '../../store/ImageReducer';
+import { createUpdateImageAction } from '../../store/ImageReducer';
 import {
-  requestFetchAction,
-  displayMessage,
-  failedFetchAction,
-  successFetchAction,
+  createRequestFetchAction,
+  createDisplayMessage,
+  createFailedFetchAction,
+  crateSuccessFetchAction,
 } from '../../store/LoadingStatusReducer';
 
 const useStyles = makeStyles({
@@ -37,7 +37,7 @@ const ImageUploadForm: React.FC<Props> = ({ image }) => {
     const fileList = ev.target.files;
 
     if (!fileList) {
-      dispatch(displayMessage('ファイルが選択されていません。'));
+      dispatch(createDisplayMessage('ファイルが選択されていません。'));
       return;
     }
 
@@ -50,11 +50,11 @@ const ImageUploadForm: React.FC<Props> = ({ image }) => {
     // すでにローカルステートに登録されている場合はstorageの元の画像を削除
     if (image.filename !== '') {
       try {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
         await deleteAlbumImage(image.filename);
       } catch (e) {
         dispatch(
-          failedFetchAction(
+          createFailedFetchAction(
             '画像のアップロードに失敗しました。\n通信状態をご確認の上再度お試しください。'
           )
         );
@@ -72,13 +72,13 @@ const ImageUploadForm: React.FC<Props> = ({ image }) => {
         path: downloadURL,
       };
 
-      dispatch(updateImageAction(newImage));
+      dispatch(createUpdateImageAction(newImage));
 
-      dispatch(displayMessage('画像のアップロードが完了しました。'));
-      dispatch(successFetchAction());
+      dispatch(createDisplayMessage('画像のアップロードが完了しました。'));
+      dispatch(crateSuccessFetchAction());
     } catch {
       dispatch(
-        failedFetchAction(
+        createFailedFetchAction(
           '画像のアップロードに失敗しました。\n通信状態をご確認の上再度お試しください。'
         )
       );

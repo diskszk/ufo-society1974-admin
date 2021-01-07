@@ -11,13 +11,15 @@ const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
 
 type RequestFetchAction = {
   type: typeof REQUEST_FETCH;
+  payload: LoadingStatus;
 };
 type SuccessFetchAction = {
   type: typeof SUCCESS_FETCH;
+  payload: LoadingStatus;
 };
 type FailedFetchAction = {
   type: typeof FAILED_FETCH;
-  payload: string | null;
+  payload: LoadingStatus;
 };
 type DisplayMessageAction = {
   type: typeof DISPLAY_MESSAGE;
@@ -25,71 +27,80 @@ type DisplayMessageAction = {
 };
 type ClearMessageAction = {
   type: typeof CLEAR_MESSAGE;
+  payload: string | null;
 };
 
-type LoadingStatusActionTypes =
+type LoadingStatusActions =
   | RequestFetchAction
   | SuccessFetchAction
   | FailedFetchAction
   | DisplayMessageAction
   | ClearMessageAction;
 
-export const requestFetchAction = (): LoadingStatusActionTypes => {
+export const createRequestFetchAction = (): LoadingStatusActions => {
   return {
     type: REQUEST_FETCH,
+    payload: {
+      ...loadingStatusInitialState,
+      isLoading: true,
+    },
   };
 };
 
-export const successFetchAction = (): LoadingStatusActionTypes => {
+export const crateSuccessFetchAction = (): LoadingStatusActions => {
   return {
     type: SUCCESS_FETCH,
+    payload: {
+      ...loadingStatusInitialState,
+      isLoading: false,
+    },
   };
 };
 
-export const failedFetchAction = (
+export const createFailedFetchAction = (
   message: string | null
-): LoadingStatusActionTypes => {
+): LoadingStatusActions => {
   return {
     type: FAILED_FETCH,
-    payload: message,
+    payload: { message: message, isLoading: false },
   };
 };
 
-export const displayMessage = (
+export const createDisplayMessage = (
   message: string | null
-): LoadingStatusActionTypes => {
+): LoadingStatusActions => {
   return {
     type: DISPLAY_MESSAGE,
     payload: message,
   };
 };
 
-export const clearMessageAction = (): LoadingStatusActionTypes => {
+export const createClearMessageAction = (): LoadingStatusActions => {
   return {
     type: CLEAR_MESSAGE,
+    payload: null,
   };
 };
 
 export const LoadingStatusReducer = (
   state = loadingStatusInitialState,
-  action: LoadingStatusActionTypes
+  action: LoadingStatusActions
 ): LoadingStatus => {
   switch (action.type) {
     case REQUEST_FETCH:
       return {
         ...state,
-        isLoading: true,
+        ...action.payload,
       };
     case SUCCESS_FETCH:
       return {
         ...state,
-        isLoading: false,
+        ...action.payload,
       };
     case FAILED_FETCH:
       return {
         ...state,
-        isLoading: false,
-        message: action.payload,
+        ...action.payload,
       };
     case DISPLAY_MESSAGE:
       return {
@@ -99,7 +110,7 @@ export const LoadingStatusReducer = (
     case CLEAR_MESSAGE:
       return {
         ...state,
-        message: null,
+        message: action.payload,
       };
     default:
       return state;

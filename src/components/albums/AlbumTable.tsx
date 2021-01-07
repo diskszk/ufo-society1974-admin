@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { Album } from '../../lib/types';
 import { getAlbums } from '../../lib/albums/getAlbums';
 import {
-  requestFetchAction,
-  failedFetchAction,
-  successFetchAction,
+  createRequestFetchAction,
+  createFailedFetchAction,
+  crateSuccessFetchAction,
 } from '../../store/LoadingStatusReducer';
 
 import AlbumTableItem from './AlbumTableItem';
@@ -17,13 +17,13 @@ const AlbumTable: React.FC = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        dispatch(requestFetchAction());
+        dispatch(createRequestFetchAction());
         const albumList = await getAlbums();
 
         setAlbums(albumList);
-        dispatch(successFetchAction());
+        dispatch(crateSuccessFetchAction());
       } catch (e) {
-        dispatch(failedFetchAction(e.message));
+        dispatch(createFailedFetchAction(e.message));
       }
     };
 

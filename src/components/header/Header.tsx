@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../../lib/types';
 import { UFO_SOCIETY_OFFICIAL } from '../../constants';
 import {
-  requestFetchAction,
-  displayMessage,
-  successFetchAction,
-  failedFetchAction,
+  createRequestFetchAction,
+  createDisplayMessage,
+  crateSuccessFetchAction,
+  createFailedFetchAction,
 } from '../../store/LoadingStatusReducer';
 import { auth } from '../../firebase';
-import { logOutAction } from '../../store/UsersReducer';
+import { createLogOutAction } from '../../store/UsersReducer';
 
 interface Props extends RouteComponentProps<{}> {}
 
@@ -25,15 +25,15 @@ const Header: React.FC<Props> = ({ history }) => {
     _ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ): Promise<void> => {
     try {
-      dispatch(requestFetchAction());
+      dispatch(createRequestFetchAction());
       await auth.signOut();
-      dispatch(logOutAction());
-      dispatch(displayMessage('ログアウトしました。'));
-      dispatch(successFetchAction());
+      dispatch(createLogOutAction());
+      dispatch(createDisplayMessage('ログアウトしました。'));
+      dispatch(crateSuccessFetchAction());
       history.push('/login');
     } catch {
       dispatch(
-        failedFetchAction(`ログアウトに失敗しました。\n
+        createFailedFetchAction(`ログアウトに失敗しました。\n
       通信環境をご確認の上再度お試しください。`)
       );
     }

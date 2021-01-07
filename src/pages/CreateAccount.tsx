@@ -98,6 +98,10 @@ const CreateAccount: React.FC<Props> = ({ history }) => {
         dispatch(createDisplayMessage('パスワードが一致していません。'));
         return;
       }
+
+      if (!window.confirm('ユーザーを新規作成しログインし直します。')) {
+        return;
+      }
       try {
         dispatch(createRequestFetchAction());
         const newAccount = await createAccount(username, email, password, role);

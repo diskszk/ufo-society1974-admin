@@ -37,7 +37,9 @@ const UserTableBody: React.FC<Props> = ({ user }) => {
       _ev: React.MouseEvent<HTMLTableCellElement, MouseEvent>
     ): Promise<void> => {
       if (currentRole !== ROLE.MASTER) {
-        dispatch(createDisplayMessage('ユーザー管理者のみユーザーを削除できます。'));
+        dispatch(
+          createDisplayMessage('ユーザー管理者のみユーザーを削除できます。')
+        );
         return;
       }
       if (!window.confirm(`${user.username}さんを削除しますか？`)) {
@@ -58,7 +60,7 @@ const UserTableBody: React.FC<Props> = ({ user }) => {
         await deleteUser(user.uid);
         dispatch(createDisplayMessage('ユーザーが削除されました。'));
 
-        // TODO: リストをリフレッシュする
+        // TODO: 削除後にリストをリフレッシュする
 
         dispatch(crateSuccessFetchAction());
       } catch (e) {

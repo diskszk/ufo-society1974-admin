@@ -16,9 +16,9 @@ export const pushGSO = () => {
   GSOdatas.map(async (song: Song) => {
     try {
       await saveSong(song, ALBUM_ID);
-      console.log(`${song.title} : successed!`);
+      console.log(`${song.title} : succeed!`);
     } catch (e) {
-      console.log(`Error! stoped at ${song.title}`);
+      console.log(`Error! stopped at ${song.title}`);
       console.error(e);
       return;
     }

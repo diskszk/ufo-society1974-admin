@@ -106,8 +106,6 @@ const CreateAccount: React.FC<Props> = ({ history }) => {
         dispatch(createRequestFetchAction());
         const newAccount = await createAccount(username, email, password, role);
 
-        console.log(newAccount);
-
         if (!newAccount) {
           dispatch(
             createFailedFetchAction(

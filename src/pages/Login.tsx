@@ -55,8 +55,6 @@ const Login: React.FC<Props> = ({ history }) => {
           history.push('/');
         }
       } catch (e) {
-        console.error('status: ' + e.status);
-
         dispatch(createFailedFetchAction(e.message));
       }
     },

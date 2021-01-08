@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { CustomButton } from '../components/UIKit';
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
-import UserTable from '../components/users/UserTble';
+import UserTable from '../components/users/UserTable';
 import { useSelector } from 'react-redux';
 import { ROLE } from '../constants';
 import { RootStore, User } from '../lib/types';

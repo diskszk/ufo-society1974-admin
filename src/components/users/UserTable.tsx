@@ -43,6 +43,7 @@ const UserTable: React.FC<Props> = ({ history }) => {
         dispatch(createRequestFetchAction());
         const userList = await getUsers();
 
+        console.dir(userList);
         setUsers(userList);
         dispatch(crateSuccessFetchAction());
       } catch (e) {

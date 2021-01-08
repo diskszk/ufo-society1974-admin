@@ -106,6 +106,8 @@ const CreateAccount: React.FC<Props> = ({ history }) => {
         dispatch(createRequestFetchAction());
         const newAccount = await createAccount(username, email, password, role);
 
+        console.log(newAccount);
+
         if (!newAccount) {
           dispatch(
             createFailedFetchAction(
@@ -118,6 +120,9 @@ const CreateAccount: React.FC<Props> = ({ history }) => {
         }
 
         dispatch(crateSuccessFetchAction());
+        dispatch(
+          createDisplayMessage(`${newAccount.username}を作成しました。`)
+        );
         history.push('/');
         return;
       } catch (e) {

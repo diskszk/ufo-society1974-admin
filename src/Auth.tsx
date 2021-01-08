@@ -20,7 +20,9 @@ const Auth: React.FC<Props> = ({ children, history }): any => {
   const listenAuthState = async () => {
     return auth.onAuthStateChanged(async (user) => {
       if (!user) {
-        throw new Error('ユーザーの取得に失敗しました。');
+        dispatch(createFailedFetchAction('ユーザーの取得に失敗しました。'));
+        history.push('/login');
+        return;
       }
       const uid = user.uid;
 
@@ -28,7 +30,9 @@ const Auth: React.FC<Props> = ({ children, history }): any => {
       const data = snapshot.data();
 
       if (!data) {
-        throw new Error('ユーザーの取得に失敗しました。');
+        dispatch(createFailedFetchAction('ユーザーの取得に失敗しました。'));
+        history.push('/login');
+        return;
       }
       dispatch(
         createLoginAction({
@@ -50,10 +54,10 @@ const Auth: React.FC<Props> = ({ children, history }): any => {
         dispatch(crateSuccessFetchAction());
       } catch (e) {
         dispatch(createFailedFetchAction(e.message));
-        history.push('/');
+        history.push('/login');
       }
     }
-  }, []);
+  }, [isSignedIn]);
 
   if (!isSignedIn) {
     return <></>;

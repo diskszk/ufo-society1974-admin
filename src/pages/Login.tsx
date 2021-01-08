@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { CustomButton, TextInput } from '../components/UIKit';
 import { login } from '../lib/users';
 import { useDispatch } from 'react-redux';
@@ -12,14 +12,13 @@ import {
 import { ROLE } from '../constants';
 import { createLoginAction } from '../store/UsersReducer';
 
-interface Props extends RouteComponentProps<{}> {}
-
 // Login with e-mail & password
-const Login: React.FC<Props> = ({ history }) => {
+const Login: React.FC = () => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
 
   const inputEmail = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {

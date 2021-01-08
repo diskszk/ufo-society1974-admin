@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory, RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomButton, TextInput } from '../components/UIKit';
 import { getSingleSong, getSongs, saveSong } from '../lib/songs';
@@ -17,21 +16,13 @@ import {
   crateSuccessFetchAction,
 } from '../store/LoadingStatusReducer';
 
-interface Props extends RouteComponentProps<{}> {}
-const SongEdit: React.FC<Props> = ({ history }) => {
+interface Props
+  extends RouteComponentProps<{ albumId: string; songId: string }> {}
+const SongEdit: React.FC<Props> = ({ match }) => {
   const dispatch = useDispatch();
-
-  const albumId = useMemo(
-    () => window.location.pathname.split('/albums/detail')[1].split('/')[1],
-    []
-  );
-  let songId = window.location.pathname.split(
-    `/albums/detail/${albumId}/edit`
-  )[1];
-
-  if (songId !== '') {
-    songId = songId.split('/')[1];
-  }
+  const history = useHistory();
+  const albumId = match.params.albumId;
+  const songId = match.params.songId;
 
   const songFile = useSelector<RootStore, File>((state) => state.songFile);
 
@@ -260,4 +251,4 @@ const SongEdit: React.FC<Props> = ({ history }) => {
   );
 };
 
-export default withRouter(SongEdit);
+export default SongEdit;

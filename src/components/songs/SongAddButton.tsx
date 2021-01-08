@@ -1,6 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { TableCell, TableHead, TableRow, IconButton } from '@material-ui/core';
@@ -13,11 +12,10 @@ const useStyles = makeStyles({
   },
 });
 
-interface Props extends RouteComponentProps<{}> {}
-
-const SongAddButton: React.FC<Props> = ({ history }) => {
+const SongAddButton: React.FC = () => {
   const classes = useStyles();
   const { id } = useSelector<RootStore, Album>((state) => state.album);
+  const history = useHistory();
 
   return (
     <TableHead>
@@ -42,4 +40,4 @@ const SongAddButton: React.FC<Props> = ({ history }) => {
   );
 };
 
-export default withRouter(SongAddButton);
+export default SongAddButton;

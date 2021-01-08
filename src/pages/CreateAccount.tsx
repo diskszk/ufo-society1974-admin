@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { CustomButton, TextInput, TypeSelector } from '../components/UIKit';
 import { createAccount, registerAccount } from '../lib/users';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,13 +27,11 @@ const roles = [
   },
 ];
 
-interface Props extends RouteComponentProps<{}> {}
-
-const CreateAccount: React.FC<Props> = ({ history }) => {
+const CreateAccount: React.FC = () => {
   const dispatch = useDispatch();
 
   const user = useSelector<RootStore, User>((state) => state.user);
-
+  const history = useHistory();
   const [disabled, setDisabled] = useState(false);
 
   const [username, setUsername] = useState('');
@@ -207,4 +204,4 @@ const CreateAccount: React.FC<Props> = ({ history }) => {
   );
 };
 
-export default withRouter(CreateAccount);
+export default CreateAccount;

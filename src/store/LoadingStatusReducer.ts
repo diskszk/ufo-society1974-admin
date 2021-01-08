@@ -11,11 +11,9 @@ const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
 
 type RequestFetchAction = {
   type: typeof REQUEST_FETCH;
-  payload: LoadingStatus;
 };
 type SuccessFetchAction = {
   type: typeof SUCCESS_FETCH;
-  payload: LoadingStatus;
 };
 type FailedFetchAction = {
   type: typeof FAILED_FETCH;
@@ -40,20 +38,12 @@ type LoadingStatusActions =
 export const createRequestFetchAction = (): LoadingStatusActions => {
   return {
     type: REQUEST_FETCH,
-    payload: {
-      ...loadingStatusInitialState,
-      isLoading: true,
-    },
   };
 };
 
 export const crateSuccessFetchAction = (): LoadingStatusActions => {
   return {
     type: SUCCESS_FETCH,
-    payload: {
-      ...loadingStatusInitialState,
-      isLoading: false,
-    },
   };
 };
 
@@ -90,12 +80,12 @@ export const LoadingStatusReducer = (
     case REQUEST_FETCH:
       return {
         ...state,
-        ...action.payload,
+        isLoading: true,
       };
     case SUCCESS_FETCH:
       return {
         ...state,
-        ...action.payload,
+        isLoading: false,
       };
     case FAILED_FETCH:
       return {

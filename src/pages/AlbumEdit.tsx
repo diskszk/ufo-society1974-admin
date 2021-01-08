@@ -1,6 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory, RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
@@ -22,17 +21,14 @@ import {
 } from '../store/LoadingStatusReducer';
 import { validatePublishedDate } from '../lib/helpers';
 
-interface Props extends RouteComponentProps<{}> {}
+interface Props extends RouteComponentProps<{ id: string }> {}
 
 // Edit or Add Album only
-const AlbumEdit: React.FC<Props> = ({ history }) => {
+const AlbumEdit: React.FC<Props> = ({ match }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const id = match.params.id;
 
-  let id = window.location.pathname.split('/albums/edit')[1];
-
-  if (id !== '') {
-    id = id.split('/')[1];
-  }
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const imageFile = useSelector<RootStore, File>((state) => state.image);
 
@@ -195,9 +191,7 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
           const res = await getSingleAlbum(id);
 
           if (!res) {
-            dispatch(createFailedFetchAction('アルバムが存在しません。'));
-            history.push('/albums');
-            return;
+            throw new Error('アルバムが存在しません。');
           } else {
             setTitle(res.title);
             setDescription(res.description);
@@ -206,11 +200,13 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
             setSpotifyURL(res.publishPlatform.Spotify);
             setITunesURL(res.publishPlatform.iTunes);
             setBandcampURL(res.publishPlatform.Bandcamp);
+
             dispatch(createUpdateImageAction(res.imageFile));
           }
           dispatch(crateSuccessFetchAction());
         } catch (e) {
           dispatch(createFailedFetchAction(e.message));
+          history.push('/albums');
         }
       };
 
@@ -322,4 +318,4 @@ const AlbumEdit: React.FC<Props> = ({ history }) => {
   );
 };
 
-export default withRouter(AlbumEdit);
+export default AlbumEdit;

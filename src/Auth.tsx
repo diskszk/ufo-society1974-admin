@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { withRouter } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from './lib/types';
 import { auth, db } from './firebase';
@@ -8,13 +7,14 @@ import {
   createRequestFetchAction,
   createFailedFetchAction,
 } from './store/LoadingStatusReducer';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { createLoginAction } from './store/UsersReducer';
 
-interface Props extends RouteComponentProps<{}> {}
+interface Props {}
 
-const Auth: React.FC<Props> = ({ children, history }): any => {
+const Auth: React.FC<Props> = ({ children }): any => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { isSignedIn } = useSelector<RootStore, User>((state) => state.user);
 
   const listenAuthState = async () => {
@@ -66,4 +66,4 @@ const Auth: React.FC<Props> = ({ children, history }): any => {
   }
 };
 
-export default withRouter(Auth);
+export default Auth;

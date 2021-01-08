@@ -1,6 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../../lib/types';
 import { UFO_SOCIETY_OFFICIAL } from '../../constants';
@@ -13,13 +12,12 @@ import {
 import { auth } from '../../firebase';
 import { createLogOutAction } from '../../store/UsersReducer';
 
-interface Props extends RouteComponentProps<{}> {}
-
-const Header: React.FC<Props> = ({ history }) => {
+const Header: React.FC = () => {
   const dispatch = useDispatch();
   const { isSignedIn, username, role } = useSelector<RootStore, User>(
     (state) => state.user
   );
+  const history = useHistory();
 
   const handleClickLogOut = async (
     _ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -69,4 +67,4 @@ const Header: React.FC<Props> = ({ history }) => {
   );
 };
 
-export default withRouter(Header);
+export default Header;

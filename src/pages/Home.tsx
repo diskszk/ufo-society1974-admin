@@ -1,14 +1,13 @@
 import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootStore, User } from '../lib/types';
 import { CustomButton } from '../components/UIKit';
 import meido from '../assets/images/job_maid_meido_kissa.png';
 
-interface Props extends RouteComponentProps<{}> {}
-
-const Home: React.FC<Props> = (props) => {
+const Home: React.FC = () => {
   const { username } = useSelector<RootStore, User>((state) => state.user);
+  const history = useHistory();
 
   return (
     <section className="home page">
@@ -33,13 +32,13 @@ const Home: React.FC<Props> = (props) => {
         <CustomButton
           label="ユーザー管理"
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            props.history.push('/users')
+            history.push('/users')
           }
         />
         <CustomButton
           label="アルバムを管理"
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            props.history.push('/albums')
+            history.push('/albums')
           }
         />
       </div>

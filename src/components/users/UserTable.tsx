@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -30,12 +29,11 @@ const useStyles = makeStyles({
   },
 });
 
-interface Props extends RouteComponentProps<{}> {}
-
-const UserTable: React.FC<Props> = ({ history }) => {
+const UserTable: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [users, setUsers] = useState<User[]>([]);
+  const history = useHistory();
 
   useEffect(() => {
     const fetch = async () => {
@@ -43,7 +41,6 @@ const UserTable: React.FC<Props> = ({ history }) => {
         dispatch(createRequestFetchAction());
         const userList = await getUsers();
 
-        console.dir(userList);
         setUsers(userList);
         dispatch(crateSuccessFetchAction());
       } catch (e) {
@@ -78,4 +75,4 @@ const UserTable: React.FC<Props> = ({ history }) => {
   );
 };
 
-export default withRouter(UserTable);
+export default UserTable;

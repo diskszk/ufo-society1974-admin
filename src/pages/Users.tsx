@@ -1,6 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { CustomButton } from '../components/UIKit';
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import UserTable from '../components/users/UserTable';
@@ -9,11 +8,10 @@ import { ROLE } from '../constants';
 import { RootStore, User } from '../lib/types';
 import { IconButton } from '@material-ui/core';
 
-interface Props extends RouteComponentProps<{}> {}
-
-const Users: React.FC<Props> = ({ history }) => {
+const Users: React.FC = () => {
   const currentUser = useSelector<RootStore, User>((state) => state.user);
   const currentRole = currentUser.role;
+  const history = useHistory();
 
   return (
     <section className="page">
@@ -45,4 +43,4 @@ const Users: React.FC<Props> = ({ history }) => {
   );
 };
 
-export default withRouter(Users);
+export default Users;

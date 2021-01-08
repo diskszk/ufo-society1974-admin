@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo } from 'react';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useHistory, RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomButton } from '../components/UIKit';
 import SongTable from '../components/songs/SongTable';
@@ -15,15 +14,13 @@ import {
   crateSuccessFetchAction,
 } from '../store/LoadingStatusReducer';
 
-interface Props extends RouteComponentProps<{}> {}
+interface Props extends RouteComponentProps<{ albumId: string }> {}
 
-const Songs: React.FC<Props> = ({ history }) => {
+const Songs: React.FC<Props> = ({ match }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const albumId = useMemo(
-    () => window.location.pathname.split(`albums/detail`)[1].split('/')[1],
-    []
-  );
+  const albumId = match.params.albumId;
 
   const album = useSelector<RootStore, Album>((state) => state.album);
 
@@ -83,4 +80,4 @@ const Songs: React.FC<Props> = ({ history }) => {
   );
 };
 
-export default withRouter(Songs);
+export default Songs;

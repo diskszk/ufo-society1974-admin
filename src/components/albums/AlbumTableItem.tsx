@@ -1,43 +1,42 @@
 import React, { useCallback } from 'react';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Album } from '../../lib/types';
 import { createUpdateAlbumAction } from '../../store/AlbumReducer';
 import IconButton from '@material-ui/core/IconButton';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 
-interface Props extends RouteComponentProps<{}> {
+type Props = {
   album: Album;
-}
+};
 
-const AlbumTableItem: React.FC<Props> = (props: Props) => {
-  const { id, imageFile, title } = props.album;
+const AlbumTableItem: React.FC<Props> = ({ album }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleEditAlbumClick = useCallback(
     (
       _ev: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>
     ): void => {
-      dispatch(createUpdateAlbumAction(props.album));
-      props.history.push(`/albums/edit/${id}`);
+      dispatch(createUpdateAlbumAction(album));
+      history.push(`/albums/edit/${album.id}`);
     },
     []
   );
 
   const handleDetailAlbumClick = useCallback(
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-      dispatch(createUpdateAlbumAction(props.album));
-      props.history.push(`/albums/detail/${id}`);
+      dispatch(createUpdateAlbumAction(album));
+      history.push(`/albums/detail/${album.id}`);
     },
     []
   );
 
   return (
     <li className="album-item">
-      <p>{title}</p>
+      <p>{album.title}</p>
       <div className="album-image" onClick={handleEditAlbumClick}>
-        <img src={imageFile.path} alt={`${title} image`} />
+        <img src={album.imageFile.path} alt={`${album.title} image`} />
       </div>
       <div className="album-image-footer">
         <span>アルバムを編集する</span>
@@ -54,4 +53,4 @@ const AlbumTableItem: React.FC<Props> = (props: Props) => {
   );
 };
 
-export default withRouter(AlbumTableItem);
+export default AlbumTableItem;

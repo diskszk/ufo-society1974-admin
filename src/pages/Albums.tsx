@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../lib/types';
 import { deletePublishedAlbums, publishAlbums } from '../lib/albums';
@@ -17,13 +16,12 @@ import {
   crateSuccessFetchAction,
 } from '../store/LoadingStatusReducer';
 
-interface Props extends RouteComponentProps<{}> {}
-
-const Albums: React.FC<Props> = ({ history }) => {
+const Albums: React.FC = () => {
   const dispatch = useDispatch();
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const disable: boolean = role !== ROLE.EDITOR;
+  const history = useHistory();
 
   const handleClickPublishButton = useCallback(
     async (
@@ -101,4 +99,4 @@ const Albums: React.FC<Props> = ({ history }) => {
   );
 };
 
-export default withRouter(Albums);
+export default Albums;

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { CustomButton, TextInput } from '../components/UIKit';
 import { useDispatch } from 'react-redux';
 import {
@@ -10,10 +10,9 @@ import {
 } from '../store/LoadingStatusReducer';
 import { resetPassword } from '../lib/users/';
 
-interface Props extends RouteComponentProps<{}> {}
-
-const Reset: React.FC<Props> = ({ history }) => {
+const Reset: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [email, setEmail] = useState('');
 

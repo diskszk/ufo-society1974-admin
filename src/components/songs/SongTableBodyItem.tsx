@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { RootStore, Album, Song, User } from '../../lib/types';
@@ -24,14 +23,15 @@ const useStyles = makeStyles({
   },
 });
 
-interface Props extends RouteComponentProps<{}> {
+type Props = {
   song: Song;
-}
+};
 
-const SongTableBodyItem: React.FC<Props> = ({ song, history }) => {
+const SongTableBodyItem: React.FC<Props> = ({ song }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { role } = useSelector<RootStore, User>((state) => state.user);
+  const history = useHistory();
   const album = useSelector<RootStore, Album>((state) => state.album);
   const albumId = album.id;
 
@@ -64,7 +64,7 @@ const SongTableBodyItem: React.FC<Props> = ({ song, history }) => {
         dispatch(createRequestFetchAction());
         await deleteSong(albumId, song.id);
 
-        // do refresh
+        // TODO: 削除後にリストを更新する
         const songList = await getSongs(albumId);
 
         dispatch(createUpdateSongsAction(songList));
@@ -105,4 +105,4 @@ const SongTableBodyItem: React.FC<Props> = ({ song, history }) => {
   );
 };
 
-export default withRouter(SongTableBodyItem);
+export default SongTableBodyItem;

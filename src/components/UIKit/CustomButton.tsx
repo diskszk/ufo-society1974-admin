@@ -20,7 +20,7 @@ type Props = {
   disable?: boolean;
 };
 
-export const CustomButton: React.FC<Props> = ({ label, onClick, disable }) => {
+const CustomButton: React.FC<Props> = ({ label, onClick, disable }) => {
   const classes = useStyles();
 
   return (
@@ -34,3 +34,5 @@ export const CustomButton: React.FC<Props> = ({ label, onClick, disable }) => {
     </Button>
   );
 };
+
+export default CustomButton;

@@ -8,7 +8,7 @@ import { RootStore, LoadingStatus } from './lib/types';
 import LoadingModal from './components/LoadingModal';
 import MessageModal from './components/MessageModal';
 
-const App = () => {
+const App: React.FC = () => {
   const { isLoading, message } = useSelector<RootStore, LoadingStatus>(
     (state) => state.loadingStatus
   );

@@ -10,7 +10,7 @@ type Props = {
   rows: number;
   value: string;
   type: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (_event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const useStyles = makeStyles({
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 
-const TextInput = (props: Props) => {
+const TextInput: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
 
   return (

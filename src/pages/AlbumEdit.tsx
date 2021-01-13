@@ -86,22 +86,16 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
   const handleSave = useCallback(
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       // Validation
+      const validatedPublishedDateResult = validatePublishedDate(publishedDate);
+
       if (!title || !publishedDate) {
         dispatch(createDisplayMessage('必須項目が未入力です。'));
         return;
       }
-      if (!validatePublishedDate(publishedDate)) {
+      if (!validatedPublishedDateResult) {
         dispatch(
           createDisplayMessage(
             '公開日は\n"YYYY-MM-DD"\nの形式で入力してください。'
-          )
-        );
-        return;
-      }
-      if (!validatePublishedDate(publishedDate)) {
-        dispatch(
-          createDisplayMessage(
-            '公開日は\nYYYY-MM-DD\nの形式で入力してください。'
           )
         );
         return;

@@ -27,7 +27,7 @@ type Props = {
   song: Song;
 };
 
-const SongTableBodyItem: React.FC<Props> = ({ song }) => {
+export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { role } = useSelector<RootStore, User>((state) => state.user);
@@ -104,5 +104,3 @@ const SongTableBodyItem: React.FC<Props> = ({ song }) => {
     </TableRow>
   );
 };
-
-export default SongTableBodyItem;

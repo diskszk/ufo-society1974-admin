@@ -8,9 +8,9 @@ import {
   crateSuccessFetchAction,
 } from '../../store/LoadingStatusReducer';
 
-import AlbumTableItem from './AlbumTableItem';
+import { AlbumTableItem } from './';
 
-const AlbumTable: React.FC = () => {
+export const AlbumTable: React.FC = () => {
   const [albums, setAlbums] = useState<Album[]>([]);
   const dispatch = useDispatch();
 
@@ -38,5 +38,3 @@ const AlbumTable: React.FC = () => {
     </ul>
   );
 };
-
-export default AlbumTable;

@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { useHistory, RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomButton } from '../components/UIKit';
-import SongTable from '../components/songs/SongTable';
 import { Album, RootStore } from '../lib/types';
-import AlbumInfo from '../components/songs/AlbumInfo';
+import { SongTable, AlbumInfo } from '../components/songs';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
 import { createUpdateAlbumAction } from '../store/AlbumReducer';
 import {

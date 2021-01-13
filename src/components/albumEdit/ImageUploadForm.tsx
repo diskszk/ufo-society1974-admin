@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 type Props = {
   image: File;
 };
-const ImageUploadForm: React.FC<Props> = ({ image }) => {
+export const ImageUploadForm: React.FC<Props> = ({ image }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -106,5 +106,3 @@ const ImageUploadForm: React.FC<Props> = ({ image }) => {
     </div>
   );
 };
-
-export default ImageUploadForm;

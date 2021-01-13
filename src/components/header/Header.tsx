@@ -12,7 +12,7 @@ import {
 import { auth } from '../../firebase';
 import { createLogOutAction } from '../../store/UsersReducer';
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   const dispatch = useDispatch();
   const { isSignedIn, username, role } = useSelector<RootStore, User>(
     (state) => state.user
@@ -66,5 +66,3 @@ const Header: React.FC = () => {
     </header>
   );
 };
-
-export default Header;

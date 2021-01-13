@@ -4,7 +4,7 @@ import { Album } from '../../lib/types';
 type Props = {
   album: Album;
 };
-const AlbumInfo: React.FC<Props> = ({ album }) => {
+export const AlbumInfo: React.FC<Props> = ({ album }) => {
   return (
     <div className="songs-album-info">
       <div className="songs-album-info-image">
@@ -18,5 +18,3 @@ const AlbumInfo: React.FC<Props> = ({ album }) => {
     </div>
   );
 };
-
-export default AlbumInfo;

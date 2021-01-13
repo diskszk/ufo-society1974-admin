@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { CustomButton, TextInput } from '../components/UIKit';
-import ImageUploadForm from '../components/albumEdit/ImageUploadForm';
+import { ImageUploadForm } from '../components/albumEdit';
 import { RootStore, File, User, PublishPlatform } from '../lib/types';
 import { saveAlbum, deleteAlbum } from '../lib/albums';
 import { ROLE } from '../constants';

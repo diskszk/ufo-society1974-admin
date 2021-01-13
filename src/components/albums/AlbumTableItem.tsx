@@ -10,7 +10,7 @@ type Props = {
   album: Album;
 };
 
-const AlbumTableItem: React.FC<Props> = ({ album }) => {
+export const AlbumTableItem: React.FC<Props> = ({ album }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -52,5 +52,3 @@ const AlbumTableItem: React.FC<Props> = ({ album }) => {
     </li>
   );
 };
-
-export default AlbumTableItem;

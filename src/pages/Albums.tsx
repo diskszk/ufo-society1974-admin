@@ -6,7 +6,7 @@ import { deletePublishedAlbums, publishAlbums } from '../lib/albums';
 import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
 import { CustomButton } from '../components/UIKit';
 import IconButton from '@material-ui/core/IconButton';
-import AlbumTable from '../components/albums/AlbumTable';
+import { AlbumTable } from '../components/albums/';
 import { ROLE } from '../constants';
 import { createClearAlbumAction } from '../store/AlbumReducer';
 import {

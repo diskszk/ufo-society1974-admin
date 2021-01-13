@@ -3,7 +3,7 @@ import { useHistory, RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomButton, TextInput } from '../components/UIKit';
 import { getSingleSong, getSongs, saveSong } from '../lib/songs';
-import SongUploadForm from '../components/songs/SongUploadForm';
+import { SongUploadForm } from '../components/songs/';
 import { File, Song, RootStore } from '../lib/types';
 import {
   createUpdateSongFileAction,

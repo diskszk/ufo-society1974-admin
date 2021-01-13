@@ -35,7 +35,7 @@ type Props = {
   songId: string;
 };
 
-const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
+export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { filename } = useSelector<RootStore, File>((state) => state.songFile);
@@ -79,7 +79,9 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
       if (filename === '') {
-        dispatch(createDisplayMessage('ファイルがアップロードされていません。'));
+        dispatch(
+          createDisplayMessage('ファイルがアップロードされていません。')
+        );
         return;
       }
       if (!window.confirm('ファイルを削除しますか？')) {
@@ -130,5 +132,3 @@ const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
     </div>
   );
 };
-
-export default SongUploadForm;

@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   },
 });
 
-const SongAddButton: React.FC = () => {
+export const SongAddButton: React.FC = () => {
   const classes = useStyles();
   const { id } = useSelector<RootStore, Album>((state) => state.album);
   const history = useHistory();
@@ -39,5 +39,3 @@ const SongAddButton: React.FC = () => {
     </TableHead>
   );
 };
-
-export default SongAddButton;

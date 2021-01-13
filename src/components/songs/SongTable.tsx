@@ -9,10 +9,10 @@ import {
   TableRow,
   Paper,
 } from '@material-ui/core/';
-import SongTableBody from './SongTableBody';
+import { SongTableBody } from './';
 import { RootStore, User, Song } from '../../lib/types';
 import { ROLE } from '../../constants';
-import SongAddButton from './SongAddButton';
+import { SongAddButton } from './';
 import { createUpdateSongsAction } from '../../store/SongsReducer';
 import { getSongs } from '../../lib/songs';
 
@@ -25,7 +25,7 @@ const useStyles = makeStyles({
   },
 });
 
-const SongTable: React.FC = () => {
+export const SongTable: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -65,5 +65,3 @@ const SongTable: React.FC = () => {
     </div>
   );
 };
-
-export default SongTable;

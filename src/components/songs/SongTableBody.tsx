@@ -1,13 +1,13 @@
 import React from 'react';
 import { Song } from '../../lib/types';
 import { TableBody } from '@material-ui/core/';
-import { SongTableBodyItem } from './';
+import SongTableBodyItem from './SongTableBodyItem';
 
 type Props = {
   songs: Song[];
 };
 
-export const SongTableBody: React.FC<Props> = ({ songs }) => {
+const SongTableBody: React.FC<Props> = ({ songs }) => {
   return (
     <TableBody>
       {songs.map((song) => (
@@ -16,3 +16,5 @@ export const SongTableBody: React.FC<Props> = ({ songs }) => {
     </TableBody>
   );
 };
+
+export default SongTableBody;

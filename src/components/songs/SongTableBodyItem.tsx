@@ -1,19 +1,19 @@
-import React, { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { RootStore, Album, Song, User } from '../../lib/types';
 import { TableCell, TableRow } from '@material-ui/core/';
-import { ROLE } from '../../constants';
-import { createUpdateSongsAction } from '../../store/SongsReducer';
+import { ROLE } from '../../constans';
+import { updateSongsAction } from '../../store/SongsReducer';
 import { deleteSong, getSongs } from '../../lib/songs';
 import {
-  createDisplayMessage,
-  createFailedFetchAction,
-  createRequestFetchAction,
-  crateSuccessFetchAction,
+  displayMessage,
+  failedFetchAction,
+  requestFetchAction,
+  successFetchAction,
 } from '../../store/LoadingStatusReducer';
-import { checkRole } from '../../lib/helpers';
 
 const useStyles = makeStyles({
   table: {
@@ -24,90 +24,80 @@ const useStyles = makeStyles({
   },
 });
 
-type Props = {
+interface Props extends RouteComponentProps<{}> {
   song: Song;
-};
+}
 
-export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
+const SongTableBodyItem: React.FC<Props> = ({ song, history }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { role } = useSelector<RootStore, User>((state) => state.user);
-  const history = useHistory();
   const album = useSelector<RootStore, Album>((state) => state.album);
   const albumId = album.id;
 
-  const songId = parseInt(song.id, 10).toString();
+  const sondId = parseInt(song.id, 10).toString();
   const audio = new Audio(song.songFile.path);
 
-  const handlePlayMusic = useCallback(
-    (_ev: React.MouseEvent<HTMLTableCellElement, MouseEvent>): void => {
-      if (audio.error) {
-        dispatch(createDisplayMessage('曲がアップロードされていません。'));
-        return;
-      }
-      if (audio.paused) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
-    },
-    [audio]
-  );
+  const handlePlayMusic = () => {
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  };
 
-  const handleDeleteSong = useCallback(
-    async (
-      _ev: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>
-    ): Promise<void> => {
-      const allowed = checkRole(ROLE.EDITOR, role);
+  const handleDeleteSong = async () => {
+    // edditer only
+    if (role !== ROLE.EDITOR) {
+      dispatch(displayMessage('編集者のみ曲を削除できます。'));
+      return;
+    }
+    if (!window.confirm(`${song.title}を削除しますか?`)) {
+      return;
+    }
+    try {
+      dispatch(requestFetchAction());
+      await deleteSong(albumId, song.id);
 
-      if (!allowed) {
-        dispatch(createDisplayMessage('編集者のみ曲を削除できます。'));
-        return;
-      }
-      if (!window.confirm(`${song.title}を削除しますか?`)) {
-        return;
-      }
-      try {
-        dispatch(createRequestFetchAction());
-        await deleteSong(albumId, song.id);
-
-        // 削除後にリストを更新する
-        const songList = await getSongs(albumId);
-
-        dispatch(createUpdateSongsAction(songList));
-        dispatch(crateSuccessFetchAction());
-      } catch {
-        dispatch(
-          createFailedFetchAction(
-            '曲の削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
-          )
-        );
-      }
-    },
-    []
-  );
+      // do refresh
+      const songList = await getSongs(albumId);
+      dispatch(updateSongsAction(songList));
+      dispatch(successFetchAction());
+    } catch {
+      dispatch(
+        failedFetchAction(
+          '曲の削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
+        )
+      );
+    }
+  };
 
   return (
     <TableRow key={song.id}>
       <TableCell align="right" component="th" scope="row">
-        {songId}
+        {sondId}
       </TableCell>
       <TableCell>{song.title}</TableCell>
       <TableCell>{song.story}</TableCell>
       <TableCell className={classes.actionBtn} onClick={handlePlayMusic}>
-        <p>再生</p>
+        {audio.paused ? <p>再生</p> : <p>停止</p>}
       </TableCell>
       <TableCell
         className={classes.actionBtn}
-        onClick={(_ev: React.MouseEvent<HTMLTableCellElement, MouseEvent>) =>
+        onClick={() =>
           history.push(`/albums/detail/${albumId}/edit/${song.id}`)
         }
       >
-        {role === ROLE.EDITOR ? <p>編集</p> : <p>閲覧</p>}
+        編集
       </TableCell>
-      <TableCell className={classes.actionBtn} onClick={handleDeleteSong}>
+      <TableCell
+        className={classes.actionBtn}
+        onClick={() => handleDeleteSong()}
+      >
         削除
       </TableCell>
     </TableRow>
   );
 };
+
+export default withRouter(SongTableBodyItem);

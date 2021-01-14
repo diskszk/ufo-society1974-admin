@@ -3,19 +3,17 @@ import { fetchAlbums } from './fetchAlbums';
 
 export const getAlbums = async (): Promise<Album[]> => {
   const dataList = await fetchAlbums();
-
   const albumList: Album[] = dataList.map(
     (data: firebase.firestore.DocumentData) => {
       return {
-        description: data.description,
+        discription: data.discription,
         imageFile: data.imageFile,
         id: data.id,
-        publishedDate: data.publishedDate,
+        publish_date: data.publish_date,
         title: data.title,
-        publishPlatform: data.publishPlatform,
+        services: data.services,
       };
     }
   );
-
   return albumList;
 };

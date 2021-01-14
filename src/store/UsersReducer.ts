@@ -3,11 +3,11 @@ import { initialState } from './initialState';
 
 const userInitialState = initialState.user;
 
-const LOG_IN = 'LOG_IN';
-const LOG_OUT = 'LOG_OUT';
+const SIGN_IN = 'SIGN_IN',
+  LOG_OUT = 'LOG_OUT';
 
 type SignInAction = {
-  type: typeof LOG_IN;
+  type: typeof SIGN_IN;
   payload: User;
 };
 type LogOutAction = {
@@ -15,12 +15,12 @@ type LogOutAction = {
   payload: User;
 };
 
-type UserActions = SignInAction | LogOutAction;
+type UserActionTypes = SignInAction | LogOutAction;
 
 // action
-export const createLoginAction = (state: User): UserActions => {
+export const signinAction = (state: User): UserActionTypes => {
   return {
-    type: LOG_IN,
+    type: SIGN_IN,
     payload: {
       ...state,
       isSignedIn: true,
@@ -28,7 +28,7 @@ export const createLoginAction = (state: User): UserActions => {
   };
 };
 
-export const createLogOutAction = (): UserActions => {
+export const logOutAction = (): UserActionTypes => {
   return {
     type: LOG_OUT,
     payload: {
@@ -43,10 +43,10 @@ export const createLogOutAction = (): UserActions => {
 // reducer
 export const UsersReducer = (
   state = userInitialState,
-  action: UserActions
+  action: UserActionTypes
 ): User => {
   switch (action.type) {
-    case LOG_IN:
+    case SIGN_IN:
       return {
         ...state,
         ...action.payload,

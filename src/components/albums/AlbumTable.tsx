@@ -3,27 +3,26 @@ import { useDispatch } from 'react-redux';
 import { Album } from '../../lib/types';
 import { getAlbums } from '../../lib/albums/getAlbums';
 import {
-  createRequestFetchAction,
-  createFailedFetchAction,
-  crateSuccessFetchAction,
+  requestFetchAction,
+  failedFetchAction,
+  successFetchAction,
 } from '../../store/LoadingStatusReducer';
 
-import { AlbumTableItem } from './';
+import AlbumTableItem from './AlbumTableItem';
 
-export const AlbumTable: React.FC = () => {
+const AlbumTable: React.FC = () => {
   const [albums, setAlbums] = useState<Album[]>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetch = async () => {
       try {
-        dispatch(createRequestFetchAction());
+        dispatch(requestFetchAction());
         const albumList = await getAlbums();
-
         setAlbums(albumList);
-        dispatch(crateSuccessFetchAction());
+        dispatch(successFetchAction());
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
+        dispatch(failedFetchAction(e.message));
       }
     };
 
@@ -38,3 +37,5 @@ export const AlbumTable: React.FC = () => {
     </ul>
   );
 };
+
+export default AlbumTable;

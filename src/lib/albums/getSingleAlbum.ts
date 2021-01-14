@@ -10,7 +10,6 @@ export const getSingleAlbum = async (
     return;
   }
   const album = albums.find((album) => album.id === albumId);
-
   if (!album) {
     return;
   }

@@ -1,11 +1,11 @@
 import { FirebaseTimestamp } from '../../firebase';
-import { Song } from '../../lib/types';
+import { Song } from '../types';
 const timestamp = FirebaseTimestamp.now();
 
 export const GSOdatas: Song[] = [
   // ここから
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0001', // 00XXの形で
     lyric: `ちゃちな指輪で 夢を見せるように
 さみしい公園で描いた迷路
@@ -40,7 +40,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0002', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -70,7 +70,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0003', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -95,7 +95,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0004', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -120,7 +120,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0005', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -149,7 +149,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0006', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -178,7 +178,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0007', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -203,7 +203,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0008', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -239,7 +239,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0009', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -265,7 +265,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0010', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -291,7 +291,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0011', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -324,7 +324,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0012', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -353,7 +353,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0013', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -386,7 +386,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0014', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -409,7 +409,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0015', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -441,7 +441,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0016', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -460,7 +460,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0017', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -477,7 +477,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0018', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -505,7 +505,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0019', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -539,7 +539,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0020', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -557,7 +557,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0021', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -594,7 +594,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0022', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -620,7 +620,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0023', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -654,7 +654,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0024', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -680,7 +680,7 @@ export const GSOdatas: Song[] = [
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0025', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -717,7 +717,7 @@ VHS 巻き戻し 早送り
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0026', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -738,7 +738,7 @@ VHS 巻き戻し 早送り
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0028', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -772,7 +772,7 @@ VHS 巻き戻し 早送り
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0028', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -805,7 +805,7 @@ VHS 巻き戻し 早送り
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0029', // 00XXの形で
     songFile: {
       filename: '', // 空欄
@@ -834,7 +834,7 @@ VHS 巻き戻し 早送り
   // ここまでコピー
 
   {
-    createdAt: timestamp,
+    created_at: timestamp,
     id: '0030', // 00XXの形で
     songFile: {
       filename: '', // 空欄

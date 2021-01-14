@@ -7,7 +7,9 @@ export const deleteSongFile = async (
 ): Promise<void> => {
   const storageRef = storage.ref('musics').child(filename);
 
-  await storageRef.delete();
+  await storageRef.delete().catch((e) => {
+    throw new Error(e);
+  });
 
   const songFileRef = db
     .collection('albums')
@@ -18,6 +20,7 @@ export const deleteSongFile = async (
     filename: '',
     path: '',
   };
-
-  await songFileRef.set(songFileData, { merge: true });
+  await songFileRef.set(songFileData, { merge: true }).catch((e) => {
+    throw new Error(e);
+  });
 };

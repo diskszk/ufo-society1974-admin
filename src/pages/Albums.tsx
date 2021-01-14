@@ -1,72 +1,57 @@
-import React, { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../lib/types';
-import { deletePublishedAlbums, publishAlbums } from '../lib/albums';
-import { AddIconButton, CustomButton } from '../components/UIKit';
-import { AlbumTable } from '../components/albums/';
-import { ROLE } from '../constants';
-import { createClearAlbumAction } from '../store/AlbumReducer';
+import { publishAlbums } from '../lib/albums';
+import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
+import { PrimalyButton } from '../components/UIKit';
+import IconButton from '@material-ui/core/IconButton';
+import AlbumTable from '../components/albums/AlbumTable';
+import { ROLE } from '../constans';
+import { clearAlbumAction } from '../store/AlbumReducer';
 import {
-  createRequestFetchAction,
-  createDisplayMessage,
-  createFailedFetchAction,
-  crateSuccessFetchAction,
+  requestFetchAction,
+  displayMessage,
+  failedFetchAction,
+  successFetchAction,
 } from '../store/LoadingStatusReducer';
-import { checkRole } from '../lib/helpers';
 
-const Albums: React.FC = () => {
+interface Props extends RouteComponentProps<{}> {}
+
+const Albums: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
-  const disabled: boolean = role !== ROLE.EDITOR;
-  const history = useHistory();
+  const isDisable = role !== ROLE.EDITOR;
 
-  const handleClickPublishButton = useCallback(
-    async (
-      _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ): Promise<void> => {
-      if (role !== ROLE.EDITOR) {
-        dispatch(createDisplayMessage('編集者のみ編集内容を公開できます。'));
-        return;
-      }
-      if (!window.confirm('編集内容を公開しますか？')) {
-        return;
-      }
+  const clickPublish = async () => {
+    if (role !== ROLE.EDITOR) {
+      dispatch(displayMessage('編集者のみ編集内容を公開できます。'));
+      return;
+    }
+    if (!window.confirm('編集内容を公開しますか？')) {
+      return;
+    }
 
-      try {
-        dispatch(createRequestFetchAction());
-        await deletePublishedAlbums();
-        await publishAlbums();
-        dispatch(createDisplayMessage('編集内容を公開しました。'));
-        dispatch(crateSuccessFetchAction());
-      } catch (e) {
-        dispatch(
-          createFailedFetchAction(
-            '公開に失敗しました。\n通信環境をご確認の上再度お試しください。'
-          )
-        );
-      }
-    },
-    []
-  );
+    try {
+      dispatch(requestFetchAction());
+      await publishAlbums();
+      dispatch(displayMessage('編集内容を公開しました。'));
+      dispatch(successFetchAction());
+    } catch (e) {
+      dispatch(
+        failedFetchAction(
+          '公開に失敗しました。\n通信環境をご確認の上再度お試しください。'
+        )
+      );
+    }
+  };
 
-  const handleClickAddIcon = useCallback(
-    (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-      const isAllowed = checkRole(ROLE.EDITOR, role);
-
-      if (!isAllowed) {
-        dispatch(
-          createDisplayMessage('アカウントにアクセス権限がありません。')
-        );
-        return;
-      }
-
-      dispatch(createClearAlbumAction());
-      history.push('/albums/edit/new');
-    },
-    []
-  );
+  const clickAddAlbum = () => {
+    dispatch(clearAlbumAction());
+    history.push('/albums/edit');
+  };
 
   return (
     <section className="page">
@@ -76,35 +61,30 @@ const Albums: React.FC = () => {
       <div className="spacing-div"></div>
 
       <div className="album-container">
-        <div className="add-icon-button">
-          <AddIconButton
-            allowedRole={ROLE.EDITOR}
-            currentRole={role}
-            onClick={handleClickAddIcon}
-            label="アルバムを追加"
-          />
-        </div>
-
+        {role === ROLE.EDITOR && (
+          <div className="add-icon-button">
+            <span>アルバムを追加</span>
+            <IconButton onClick={() => clickAddAlbum()}>
+              <LibraryAddOutlinedIcon fontSize="large" />
+            </IconButton>
+            <div className="spacing-div"></div>
+          </div>
+        )}
         <AlbumTable />
+      </div>
 
-        <div className="spacing-div"></div>
+      <div className="spacing-div"></div>
 
-        <div className="button-container-row">
-          <CustomButton
-            label="もどる"
-            onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-              history.push('/')
-            }
-          />
-          <CustomButton
-            disable={disabled}
-            label="公開する"
-            onClick={handleClickPublishButton}
-          />
-        </div>
+      <div className="button-container-row">
+        <PrimalyButton label="もどる" onClick={() => history.push('/')} />
+        <PrimalyButton
+          isDisable={isDisable}
+          label="公開する"
+          onClick={clickPublish}
+        />
       </div>
     </section>
   );
 };
 
-export default Albums;
+export default withRouter(Albums);

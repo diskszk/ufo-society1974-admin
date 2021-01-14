@@ -3,8 +3,8 @@ import { initialState } from './initialState';
 
 const imageInitialState = initialState.image;
 
-const UPDATE_IMAGE = 'UPDATE_IMAGE';
-const CLEAR_IMAGE = 'CLEAR_IMAGE';
+const UPDATE_IMAGE = 'UPDATE_IMAGE',
+  CLEAR_IMAGE = 'CLEAR_IMAGE';
 
 type UpdateImageAction = {
   type: typeof UPDATE_IMAGE;
@@ -15,10 +15,10 @@ type ClearImageAction = {
   payload: File;
 };
 
-type ImageActions = UpdateImageAction | ClearImageAction;
+type ImageActionTypes = UpdateImageAction | ClearImageAction;
 
 // action
-export const createUpdateImageAction = (state: File): ImageActions => {
+export const updateImageAction = (state: File): ImageActionTypes => {
   return {
     type: UPDATE_IMAGE,
     payload: {
@@ -27,7 +27,7 @@ export const createUpdateImageAction = (state: File): ImageActions => {
   };
 };
 
-export const createClearImageAction = (): ImageActions => {
+export const clearImageAction = (): ImageActionTypes => {
   return {
     type: CLEAR_IMAGE,
     payload: {
@@ -38,7 +38,7 @@ export const createClearImageAction = (): ImageActions => {
 
 export const ImagesReducer = (
   state: File = imageInitialState,
-  action: ImageActions
+  action: ImageActionTypes
 ): File => {
   switch (action.type) {
     case UPDATE_IMAGE:

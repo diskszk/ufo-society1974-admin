@@ -1,1 +1,0 @@
-export { ImageUploadForm } from './ImageUploadForm';

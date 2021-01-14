@@ -1,64 +1,49 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { CustomButton, TextInput } from '../components/UIKit';
+import React, { useCallback, useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import { PrimalyButton, TextInput } from '../components/UIKit';
 import { useDispatch } from 'react-redux';
 import {
-  createDisplayMessage,
-  createFailedFetchAction,
-  createRequestFetchAction,
-  crateSuccessFetchAction,
+  displayMessage,
+  failedFetchAction,
+  requestFetchAction,
+  successFetchAction,
 } from '../store/LoadingStatusReducer';
 import { resetPassword } from '../lib/users/';
 
-const Reset: React.FC = () => {
+interface Props extends RouteComponentProps<{}> {}
+
+const Reset: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const [email, setEmail] = useState('');
 
-  const [disabled, setDisabled] = useState(true);
-
   const inputEmail = useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setEmail(ev.target.value);
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEmail(e.target.value);
     },
     [setEmail]
   );
 
-  const handleClickResetButton = useCallback(
-    async (
-      _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ): Promise<void> => {
-      // validations
-      if (email === '') {
-        dispatch(createDisplayMessage('必須項目が未入力です。'));
-        return;
-      }
-      try {
-        dispatch(createRequestFetchAction());
-        await resetPassword(email);
-        dispatch(
-          createDisplayMessage(
-            '入力されたアドレスにパスワードリセット用のメールを送信しました。'
-          )
-        );
-        dispatch(crateSuccessFetchAction());
-        history.push('/login');
-        return;
-      } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
-      }
-    },
-    []
-  );
-
-  useEffect(() => {
-    if (email !== '') {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
+  const handleClickResetButton = async () => {
+    // valldert
+    if (email === '') {
+      dispatch(displayMessage('必須項目が未入力です。'));
+      return;
     }
-  }, [setDisabled, email]);
+    try {
+      dispatch(requestFetchAction());
+      await resetPassword(email);
+      dispatch(
+        displayMessage(
+          '入力されたアドレスにパスワードリセット用のメールを送信しました。'
+        )
+      );
+      dispatch(successFetchAction());
+      history.push('/login');
+    } catch (e) {
+      dispatch(failedFetchAction(e.message));
+    }
+  };
 
   return (
     <section className="reset page">
@@ -76,15 +61,10 @@ const Reset: React.FC = () => {
         />
 
         <div className="button-container">
-          <CustomButton
-            disable={disabled}
-            label="リセット"
-            onClick={handleClickResetButton}
-          />
+          <PrimalyButton label="リセット" onClick={handleClickResetButton} />
         </div>
       </div>
     </section>
   );
 };
-
 export default Reset;

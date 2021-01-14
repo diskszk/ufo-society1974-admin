@@ -1,5 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -10,81 +9,46 @@ import {
   TableRow,
   Paper,
 } from '@material-ui/core/';
-import { SongTableBody } from './';
+import SongTableBody from './SongTableBody';
 import { RootStore, User, Song } from '../../lib/types';
-import { ROLE } from '../../constants';
-import { createUpdateSongsAction } from '../../store/SongsReducer';
-import {
-  createDisplayMessage,
-  createRequestFetchAction,
-  crateSuccessFetchAction,
-  createFailedFetchAction,
-} from '../../store/LoadingStatusReducer';
+import { ROLE } from '../../constans';
+import SongAddButton from './SongAddButton';
+import { updateSongsAction } from '../../store/SongsReducer';
 import { getSongs } from '../../lib/songs';
-import { AddIconButton } from '../UIKit';
-import { checkRole } from '../../lib/helpers';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
-  addButton: {
-    padding: 0,
+  actionBtn: {
+    cursor: 'pointer',
   },
 });
 
-type Props = {
-  albumId: string;
-};
-
-export const SongTable: React.FC<Props> = ({ albumId }) => {
+const SongTable: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const songs = useSelector<RootStore, Song[]>((state) => state.songs);
 
-  const handleClickAddIcon = useCallback(
-    (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-      // 権限チェック
-      const isAllowed = checkRole(ROLE.EDITOR, role);
-
-      if (!isAllowed) {
-        dispatch(
-          createDisplayMessage('アカウントにアクセス権限がありません。')
-        );
-        return;
-      }
-
-      history.push(`/albums/detail/${albumId}/edit/new`);
-    },
+  const albumId = useMemo(
+    () => window.location.pathname.split('/albums/detail/')[1],
     []
   );
 
-  async function fetch() {
-    const dataList: Song[] = await getSongs(albumId);
-
-    dispatch(createUpdateSongsAction(dataList));
-  }
   useEffect(() => {
-    try {
-      dispatch(createRequestFetchAction());
-      fetch();
-      dispatch(crateSuccessFetchAction());
-    } catch {
-      dispatch(
-        createFailedFetchAction(
-          '曲の取得に失敗しました。\n通信環境をご確認の上再度お試しください。'
-        )
-      );
-    }
+    getSongs(albumId).then((dataList: Song[]) => {
+      dispatch(updateSongsAction(dataList));
+    });
   }, []);
 
   return (
     <div className="song-table">
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
+          {role === ROLE.EDITOR && <SongAddButton />}
+
           <TableHead>
             <TableRow>
               <TableCell align="right">No.</TableCell>
@@ -92,14 +56,7 @@ export const SongTable: React.FC<Props> = ({ albumId }) => {
               <TableCell>元ネタ</TableCell>
               <TableCell>再生</TableCell>
               <TableCell></TableCell>
-              <TableCell className={classes.addButton}>
-                <AddIconButton
-                  allowedRole={ROLE.EDITOR}
-                  currentRole={role}
-                  onClick={handleClickAddIcon}
-                  label="曲を追加"
-                />
-              </TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <SongTableBody songs={songs} />
@@ -108,3 +65,5 @@ export const SongTable: React.FC<Props> = ({ albumId }) => {
     </div>
   );
 };
+
+export default SongTable;

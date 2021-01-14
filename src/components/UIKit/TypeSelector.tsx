@@ -10,18 +10,18 @@ type Props = {
   label: string;
   role: string;
   required: boolean;
-  onChange: (_event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const useStyles = makeStyles({
+const useSrtyles = makeStyles({
   selector: {
     margin: '1.5em 0',
-    width: '80%',
+    width: '40em',
   },
 });
 
-export const TypeSelector: React.FC<Props> = (props: Props) => {
-  const classes = useStyles();
+const TypeSelector = (props: Props) => {
+  const classes = useSrtyles();
 
   return (
     <TextField

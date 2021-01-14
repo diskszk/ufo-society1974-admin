@@ -1,30 +1,39 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { CustomButton } from '../components/UIKit';
-import UserTable from '../components/users/UserTable';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
+import { PrimalyButton } from '../components/UIKit';
+import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
+import UserTable from '../components/users/UaerTble';
+import { useSelector } from 'react-redux';
+import { ROLE } from '../constans';
+import { RootStore, User } from '../lib/types';
+import { IconButton } from '@material-ui/core';
 
-const Users: React.FC = () => {
-  const history = useHistory();
+interface Props extends RouteComponentProps<{}> {}
+
+const Users: React.FC<Props> = ({ history }) => {
+  const currentUser = useSelector<RootStore, User>((state) => state.user);
+  const currentRole = currentUser.role;
 
   return (
     <section className="page">
       <h1>ユーザー管理ページ</h1>
       <div className="spacing-div"></div>
 
+      {currentRole === ROLE.MASTER && (
+        <div className="button-container__right-fixed">
+          <IconButton onClick={() => history.push('/signup')}>
+            <LibraryAddOutlinedIcon fontSize="large" />
+          </IconButton>
+        </div>
+      )}
+
       <div className="spacing-div"></div>
       <UserTable />
 
-      <div className="button-container-row">
-        <CustomButton
-          disable={false}
-          label="もどる"
-          onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            history.push('/')
-          }
-        />
-      </div>
+      <PrimalyButton label="もどる" onClick={() => history.push('/')} />
     </section>
   );
 };
 
-export default Users;
+export default withRouter(Users);

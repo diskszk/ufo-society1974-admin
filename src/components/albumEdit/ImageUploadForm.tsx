@@ -1,65 +1,45 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { imagesRef } from '../../firebase';
 
 import { makeStyles } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 
-import { generateRandomStrings } from '../../lib/helpers/generateRandomStrings';
+import { generateRandomStrings } from '../../lib/generateRandomStrings';
 import { deleteAlbumImage } from '../../lib/albums';
-import { File, RootStore, User } from '../../lib/types';
-import { createUpdateImageAction } from '../../store/ImageReducer';
+import { File } from '../../lib/types';
+import { useDispatch } from 'react-redux';
+import { updateImageAction } from '../../store/ImgaeReducer';
 import {
-  createRequestFetchAction,
-  createDisplayMessage,
-  createFailedFetchAction,
-  crateSuccessFetchAction,
+  requestFetchAction,
+  displayMessage,
+  failedFetchAction,
+  successFetchAction,
 } from '../../store/LoadingStatusReducer';
-import { ROLE } from '../../constants';
-import { checkRole } from '../../lib/helpers';
 
 const useStyles = makeStyles({
   icon: {
     height: 48,
     width: 48,
-    '&:disabled': {
-      '& > span': {
-        color: 'rgba(44, 44, 44, 0.4)',
-      },
-    },
   },
 });
 
 type Props = {
   image: File;
 };
-export const ImageUploadForm: React.FC<Props> = ({ image }) => {
+const ImageUploadForm: React.FC<Props> = ({ image }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { role } = useSelector<RootStore, User>((state) => state.user);
 
-  const disabled: boolean = role !== ROLE.EDITOR;
-
-  const uploadImage = async (
-    ev: React.ChangeEvent<HTMLInputElement>
-  ): Promise<void> => {
-    const isAllowed = checkRole(ROLE.EDITOR, role);
-
-    if (!isAllowed) {
-      dispatch(createDisplayMessage('アカウントに権限がありません。'));
-      return;
-    }
-
-    const fileList = ev.target.files;
+  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
 
     if (!fileList) {
-      dispatch(createDisplayMessage('ファイルが選択されていません。'));
+      dispatch(displayMessage('ファイルが選択されていません。'));
       return;
     }
 
     const file = fileList[0];
-
     if (!file) {
       return;
     }
@@ -67,11 +47,11 @@ export const ImageUploadForm: React.FC<Props> = ({ image }) => {
     // すでにローカルステートに登録されている場合はstorageの元の画像を削除
     if (image.filename !== '') {
       try {
-        dispatch(createRequestFetchAction());
+        dispatch(requestFetchAction());
         await deleteAlbumImage(image.filename);
       } catch (e) {
         dispatch(
-          createFailedFetchAction(
+          failedFetchAction(
             '画像のアップロードに失敗しました。\n通信状態をご確認の上再度お試しください。'
           )
         );
@@ -88,14 +68,13 @@ export const ImageUploadForm: React.FC<Props> = ({ image }) => {
         filename: filename,
         path: downloadURL,
       };
+      dispatch(updateImageAction(newImage));
 
-      dispatch(createUpdateImageAction(newImage));
-
-      dispatch(createDisplayMessage('画像のアップロードが完了しました。'));
-      dispatch(crateSuccessFetchAction());
+      dispatch(displayMessage('画像のアップロードが完了しました。'));
+      dispatch(successFetchAction());
     } catch {
       dispatch(
-        createFailedFetchAction(
+        failedFetchAction(
           '画像のアップロードに失敗しました。\n通信状態をご確認の上再度お試しください。'
         )
       );
@@ -106,7 +85,7 @@ export const ImageUploadForm: React.FC<Props> = ({ image }) => {
     <div className="album-edit-image">
       <div className="album-edit-image__select">
         <span>画像を変更する</span>
-        <IconButton className={classes.icon} disabled={disabled}>
+        <IconButton className={classes.icon}>
           <label htmlFor="upload-image">
             <AddPhotoAlternateIcon fontSize={'large'} />
             <input
@@ -114,7 +93,7 @@ export const ImageUploadForm: React.FC<Props> = ({ image }) => {
               type="file"
               id="upload-image"
               accept="image/png, image/jpeg, image/jpg"
-              onChange={uploadImage}
+              onChange={(e) => uploadImage(e)}
             />
           </label>
         </IconButton>
@@ -123,3 +102,5 @@ export const ImageUploadForm: React.FC<Props> = ({ image }) => {
     </div>
   );
 };
+
+export default ImageUploadForm;

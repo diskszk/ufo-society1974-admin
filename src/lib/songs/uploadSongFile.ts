@@ -15,6 +15,5 @@ export const uploadSongFile = async (
     filename: newFilename,
     path: downloadUrl,
   };
-
   return newSongFile;
 };

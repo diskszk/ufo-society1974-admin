@@ -2,6 +2,12 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/styles';
 
+type Props = {
+  label: string;
+  onClick: () => void;
+  isDisable?: boolean;
+};
+
 const useStyles = makeStyles({
   button: {
     backgroundColor: '#efefef',
@@ -14,25 +20,19 @@ const useStyles = makeStyles({
   },
 });
 
-type Props = {
-  label: string;
-  onClick: (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  disable?: boolean;
-};
-
-const CustomButton: React.FC<Props> = ({ label, onClick, disable = false }) => {
+const PrimalyButton = (props: Props) => {
   const classes = useStyles();
 
   return (
     <Button
-      disabled={disable}
+      disabled={props.isDisable}
       className={classes.button}
       variant="contained"
-      onClick={onClick}
+      onClick={() => props.onClick()}
     >
-      {label}
+      {props.label}
     </Button>
   );
 };
 
-export default CustomButton;
+export default PrimalyButton;

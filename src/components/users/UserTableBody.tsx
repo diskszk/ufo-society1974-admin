@@ -1,17 +1,9 @@
-import React, { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import {
-  createDisplayMessage,
-  createRequestFetchAction,
-  createFailedFetchAction,
-  crateSuccessFetchAction,
-} from '../../store/LoadingStatusReducer';
-import { ROLE } from '../../constants';
-import { RootStore, User } from '../../lib/types';
-import { deleteUser } from '../../lib/users/deleteUser';
+import { User } from '../../lib/types';
 
 const useStyles = makeStyles({
   table: {
@@ -23,66 +15,31 @@ const useStyles = makeStyles({
 });
 
 type Props = {
-  user: User;
+  rows: User[];
+  onClick: (uid: string, username: string, role: string) => void;
 };
 
-const UserTableBody: React.FC<Props> = ({ user }) => {
+const UserTableBody = (props: Props) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const currentUser = useSelector<RootStore, User>((state) => state.user);
-  const currentRole = currentUser.role;
-
-  const handleClickDelete = useCallback(
-    async (
-      _ev: React.MouseEvent<HTMLTableCellElement, MouseEvent>
-    ): Promise<void> => {
-      if (currentRole !== ROLE.MASTER) {
-        dispatch(
-          createDisplayMessage('ユーザー管理者のみユーザーを削除できます。')
-        );
-        return;
-      }
-      if (!window.confirm(`${user.username}さんを削除しますか？`)) {
-        return;
-      }
-      // role: masterは消せない
-      if (user.role === ROLE.MASTER) {
-        dispatch(createDisplayMessage('このユーザーは削除できません。'));
-        return;
-      }
-      if (user.uid === currentUser.uid) {
-        dispatch(createDisplayMessage('このユーザーは削除できません。'));
-        return;
-      }
-
-      try {
-        dispatch(createRequestFetchAction());
-        await deleteUser(user.uid);
-        dispatch(createDisplayMessage('ユーザーが削除されました。'));
-
-        dispatch(crateSuccessFetchAction());
-      } catch (e) {
-        dispatch(
-          createFailedFetchAction(
-            'ユーザーの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
-          )
-        );
-      }
-    },
-    []
-  );
 
   return (
-    <TableRow key={user.uid}>
-      <TableCell component="th" scope="row">
-        {user.uid}
-      </TableCell>
-      <TableCell>{user.username}</TableCell>
-      <TableCell>{user.role}</TableCell>
-      <TableCell className={classes.actionBtn} onClick={handleClickDelete}>
-        削除
-      </TableCell>
-    </TableRow>
+    <TableBody>
+      {props.rows.map((row) => (
+        <TableRow key={row.uid}>
+          <TableCell component="th" scope="row">
+            {row.uid}
+          </TableCell>
+          <TableCell>{row.username}</TableCell>
+          <TableCell>{row.role}</TableCell>
+          <TableCell
+            className={classes.actionBtn}
+            onClick={() => props.onClick(row.uid, row.username, row.role)}
+          >
+            削除
+          </TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
   );
 };
 

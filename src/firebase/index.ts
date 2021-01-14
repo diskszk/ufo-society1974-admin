@@ -13,6 +13,6 @@ export const storage = firebase.storage();
 
 export const FirebaseTimestamp = firebase.firestore.Timestamp;
 
-// constants
+// constans
 export const userRef = db.collection('users');
 export const imagesRef = storage.ref('images');

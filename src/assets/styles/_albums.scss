@@ -5,12 +5,6 @@
     font-size: 18px;
     color: #444;
   }
-
-  > button:disabled {
-    > span {
-      color: rgba(44, 44, 44, 0.4);
-    }
-  }
 }
 
 .album {
@@ -71,3 +65,4 @@
     }
   }
 }
+

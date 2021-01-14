@@ -1,66 +1,76 @@
-import React, { PropsWithChildren, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { withRouter } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from './lib/types';
 import { auth, db } from './firebase';
 import {
-  crateSuccessFetchAction,
-  createRequestFetchAction,
-  createFailedFetchAction,
+  successFetchAction,
+  requestFetchAction,
+  failedFetchAction,
 } from './store/LoadingStatusReducer';
-import { useHistory } from 'react-router-dom';
-import { createLoginAction } from './store/UsersReducer';
-import LoadingModal from './components/LoadingModal';
+import { RouteComponentProps } from 'react-router-dom';
+import { signinAction } from './store/UsersReducer';
 
-interface Props {}
+interface Props extends RouteComponentProps<{}> {}
 
-const Auth: React.FC<Props> = ({ children }: PropsWithChildren<Props>) => {
+const Auth: React.FC<Props> = ({ children, history }): any => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const { isSignedIn } = useSelector<RootStore, User>((state) => state.user);
 
-  const listenAuthState = async () => {
-    return auth.onAuthStateChanged(async (user) => {
-      if (!user) {
-        dispatch(createFailedFetchAction('ユーザーの取得に失敗しました。'));
-        history.push('/login');
-        return;
-      }
-      const uid = user.uid;
+  const listenAuthState = () => {
+    return async (dispatch: any) => {
+      dispatch(requestFetchAction());
 
-      const snapshot = await db.collection('users').doc(uid).get();
-      const data = snapshot.data();
+      return auth.onAuthStateChanged((user) => {
+        if (!user) {
+          history.push('/login');
+          return;
+        } else {
+          const uid = user.uid;
 
-      if (!data) {
-        dispatch(createFailedFetchAction('ユーザーの取得に失敗しました。'));
-        history.push('/login');
-        return;
-      }
-      dispatch(
-        createLoginAction({
-          isSignedIn: true,
-          uid: uid,
-          username: data.username,
-          role: data.role,
-        })
-      );
-    });
+          db.collection('users')
+            .doc(uid)
+            .get()
+            .then((snapshot) => {
+              const data = snapshot.data();
+              if (!data) {
+                return dispatch(
+                  failedFetchAction('ユーザーの取得に失敗しました。')
+                );
+              }
+
+              dispatch(
+                signinAction({
+                  isSignedIn: true,
+                  uid: uid,
+                  username: data.username,
+                  role: data.role,
+                })
+              );
+
+              dispatch(successFetchAction());
+            })
+            .catch((e) => {
+              dispatch(failedFetchAction(e.message));
+              history.push('/');
+              return;
+            });
+        }
+      });
+    };
   };
 
   useEffect(() => {
     if (!isSignedIn) {
-      try {
-        dispatch(createRequestFetchAction());
-        listenAuthState();
-
-        dispatch(crateSuccessFetchAction());
-      } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
-        history.push('/login');
-      }
+      dispatch(listenAuthState());
     }
-  }, [isSignedIn]);
+  }, []);
 
-  return <>{!isSignedIn ? <LoadingModal /> : <>{children}</>}</>;
+  if (!isSignedIn) {
+    return <></>;
+  } else {
+    return children;
+  }
 };
 
-export default Auth;
+export default withRouter(Auth);

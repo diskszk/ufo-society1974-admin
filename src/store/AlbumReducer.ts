@@ -3,8 +3,8 @@ import { Album } from '../lib/types';
 
 const albumInitialState = initialState.album;
 
-const UPDATE_ALBUM = 'UPDATE_ALBUM';
-const CLEAR_ALBUM = 'CLEAR_ALBUM';
+const UPDATE_ALBUM = 'UPDATE_ALBUM',
+  CLEAR_ALBUM = 'CLEAR_ALBUM';
 
 type UpdateAlbumAction = {
   type: typeof UPDATE_ALBUM;
@@ -14,9 +14,9 @@ type ClearAlbumAction = {
   type: typeof CLEAR_ALBUM;
 };
 
-type AlbumActions = UpdateAlbumAction | ClearAlbumAction;
+type AlbumActionTypes = UpdateAlbumAction | ClearAlbumAction;
 
-export const createUpdateAlbumAction = (state: Album): AlbumActions => {
+export const updateAlbumAction = (state: Album): AlbumActionTypes => {
   return {
     type: UPDATE_ALBUM,
     payload: {
@@ -25,7 +25,7 @@ export const createUpdateAlbumAction = (state: Album): AlbumActions => {
   };
 };
 
-export const createClearAlbumAction = (): AlbumActions => {
+export const clearAlbumAction = (): AlbumActionTypes => {
   return {
     type: CLEAR_ALBUM,
   };
@@ -33,7 +33,7 @@ export const createClearAlbumAction = (): AlbumActions => {
 
 export const AlbumReducer = (
   state = albumInitialState,
-  action: AlbumActions
+  action: AlbumActionTypes
 ): Album => {
   switch (action.type) {
     case UPDATE_ALBUM:

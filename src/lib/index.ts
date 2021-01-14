@@ -1,4 +1,3 @@
 export { generateRandomStrings } from './generateRandomStrings';
 export { timeConvert } from './timeConvert';
-export { validatePublishedDate } from './validatePublishedDate';
-export { checkRole } from './checkRole';
+export { validatePublished_date } from './validatePublished_date';

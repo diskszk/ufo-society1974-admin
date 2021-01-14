@@ -1,129 +1,108 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory, RouteComponentProps } from 'react-router-dom';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { CustomButton, TextInput } from '../components/UIKit';
+import { PrimalyButton, TextInput } from '../components/UIKit';
 import { getSingleSong, getSongs, saveSong } from '../lib/songs';
-import { SongUploadForm } from '../components/songs/';
-import { File, Song, RootStore, User } from '../lib/types';
+import SongUploadForm from '../components/songs/SongUploadForm';
+import { File, Song, RootStore } from '../lib/types';
 import {
-  createUpdateSongFileAction,
+  updateSongFileAction,
   clearSongFileAction,
 } from '../store/SongFileReducer';
 import {
-  createDisplayMessage,
-  createFailedFetchAction,
-  createRequestFetchAction,
-  crateSuccessFetchAction,
+  displayMessage,
+  failedFetchAction,
+  requestFetchAction,
+  successFetchAction,
 } from '../store/LoadingStatusReducer';
-import { ROLE } from '../constants';
-import { checkRole } from '../lib/helpers';
 
-interface Props
-  extends RouteComponentProps<{ albumId: string; songId: string }> {}
-
-const SongEdit: React.FC<Props> = ({ match }) => {
+interface Props extends RouteComponentProps<{}> {}
+const SongEdit: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
-  const albumId = match.params.albumId;
-  const songId = match.params.songId;
 
-  const { role } = useSelector<RootStore, User>((state) => state.user);
+  const albumId = useMemo(
+    () => window.location.pathname.split('/albums/detail')[1].split('/')[1],
+    []
+  );
+  let songId = window.location.pathname.split(
+    `/albums/detail/${albumId}/edit`
+  )[1];
+  if (songId !== '') {
+    songId = songId.split('/')[1];
+  }
 
   const songFile = useSelector<RootStore, File>((state) => state.songFile);
 
-  const [id, setId] = useState('');
-  const [title, setTitle] = useState('');
-  const [story, setStory] = useState('無し');
-  const [lyric, setLyric] = useState('');
-  const [wordsRights, setWordsRights] = useState('amane toda');
-  const [musicRights, setMusicRights] = useState('amane toda');
-
-  const [disabled, setDisabled] = useState(true);
+  const [id, setId] = useState(''),
+    [title, setTitle] = useState(''),
+    [story, setStory] = useState('無し'),
+    [lyric, setLyric] = useState(''),
+    [wordsRights, setWordsRights] = useState('amane toda'),
+    [musicRights, setMusicRights] = useState('amane toda');
 
   const inputId = useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setId(ev.target.value);
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setId(e.target.value);
     },
     [setId]
   );
   const inputTitle = useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setTitle(ev.target.value);
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setTitle(e.target.value);
     },
     [setTitle]
   );
   const inputStory = useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setStory(ev.target.value);
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setStory(e.target.value);
     },
     [setStory]
   );
   const inputLyric = useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setLyric(ev.target.value);
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setLyric(e.target.value);
     },
     [setLyric]
   );
   const inputWordsRights = useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setWordsRights(ev.target.value);
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setWordsRights(e.target.value);
     },
     [setWordsRights]
   );
   const inputMusicRights = useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setMusicRights(ev.target.value);
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setMusicRights(e.target.value);
     },
     [setMusicRights]
   );
 
-  const handleClickSaveButton = useCallback(
-    async (
-      _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ): Promise<void> => {
-      // 権限チェック
-      const isAllowed = checkRole(ROLE.EDITOR, role);
+  const clickSave = async () => {
+    // validation
+    if (id === '') {
+      dispatch(displayMessage('IDを入力してください。'));
+      return;
+    }
+    if (title === '') {
+      dispatch(displayMessage('タイトルを入力してください。'));
+      return;
+    }
 
-      if (!isAllowed) {
-        dispatch(
-          createDisplayMessage('アカウントにアクセス権限がありません。')
-        );
-        return;
-      }
-      // validations
+    const leftJustifiedId = ('0000' + id).slice(-4);
 
-      if (id === '') {
-        dispatch(createDisplayMessage('IDを入力してください。'));
-        return;
-      }
-      if (title === '') {
-        dispatch(createDisplayMessage('タイトルを入力してください。'));
-        return;
-      }
-
-      const leftJustifiedId = ('0000' + id).slice(-4);
-
-      const newSong: Song = {
-        id: leftJustifiedId,
-        title: title,
-        songFile: songFile,
-        story: story,
-        lyric: lyric,
-        wordsRights: wordsRights,
-        musicRights: musicRights,
-      };
-
-      try {
-        dispatch(createRequestFetchAction());
-        await saveSong(newSong, albumId);
-        history.push(`/albums/detail/${albumId}`);
-        dispatch(crateSuccessFetchAction());
-      } catch {
-        dispatch(createFailedFetchAction('曲の保存に失敗しました。'));
-      }
-    },
-    [id, title, story, lyric, wordsRights, musicRights]
-  );
+    const newSong: Song = {
+      id: leftJustifiedId,
+      title: title,
+      songFile: songFile,
+      story: story,
+      lyric: lyric,
+      wordsRights: wordsRights,
+      musicRights: musicRights,
+    };
+    await dispatch(saveSong(newSong, albumId));
+    history.push(`/albums/detail/${albumId}`);
+  };
 
   useEffect(() => {
     // New
@@ -131,22 +110,21 @@ const SongEdit: React.FC<Props> = ({ match }) => {
       try {
         const songList = await getSongs(albumId);
         const latestId = (songList.length + 1).toString();
-
         setId(latestId);
 
         dispatch(clearSongFileAction());
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
+        dispatch(failedFetchAction(e.message));
       }
     };
     // Edit
     const editSongSetUp = async () => {
       try {
-        dispatch(createRequestFetchAction());
+        dispatch(requestFetchAction());
         const song = await getSingleSong(albumId, songId);
 
         if (!song) {
-          dispatch(createFailedFetchAction('曲が存在しません。'));
+          dispatch(failedFetchAction('曲が存在しません。'));
           history.push(`/albums/detail/${albumId}`);
           return;
         } else {
@@ -157,16 +135,16 @@ const SongEdit: React.FC<Props> = ({ match }) => {
           setWordsRights(song.wordsRights);
           setMusicRights(song.musicRights);
 
-          dispatch(createUpdateSongFileAction(song.songFile));
-          dispatch(crateSuccessFetchAction());
+          dispatch(updateSongFileAction(song.songFile));
+          dispatch(successFetchAction());
         }
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
+        dispatch(failedFetchAction(e.message));
         history.push(`/albums/detail/${albumId}`);
       }
     };
 
-    if (songId === 'new') {
+    if (songId === '') {
       // New
       createSongSetUp();
     } else {
@@ -174,23 +152,6 @@ const SongEdit: React.FC<Props> = ({ match }) => {
       editSongSetUp();
     }
   }, [albumId, songId]);
-
-  // 保存ボタンの活性・非活性
-  useEffect(() => {
-    if (role === ROLE.EDITOR) {
-      if (
-        id !== '' &&
-        title !== '' &&
-        wordsRights !== '' &&
-        musicRights !== '' &&
-        story !== ''
-      ) {
-        setDisabled(false);
-      } else {
-        setDisabled(true);
-      }
-    }
-  }, [id, title, wordsRights, musicRights, story, setDisabled]);
 
   return (
     <section>
@@ -224,7 +185,11 @@ const SongEdit: React.FC<Props> = ({ match }) => {
         <SongUploadForm albumId={albumId} songId={id} />
         {songFile.filename && (
           <div className="music=player">
-            <audio controls controlsList="nodownload" src={songFile.path} />
+            <audio
+              controls
+              // controlsList="nodownload"
+              src={songFile.path}
+            />
           </div>
         )}
 
@@ -272,21 +237,15 @@ const SongEdit: React.FC<Props> = ({ match }) => {
         />
 
         <div className="button-container-row">
-          <CustomButton
+          <PrimalyButton
             label="もどる"
-            onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-              history.push(`/albums/detail/${albumId}`)
-            }
+            onClick={() => history.push(`/albums/detail/${albumId}`)}
           />
-          <CustomButton
-            label="保存する"
-            disable={disabled}
-            onClick={handleClickSaveButton}
-          />
+          <PrimalyButton label="保存する" onClick={() => clickSave()} />
         </div>
       </div>
     </section>
   );
 };
 
-export default SongEdit;
+export default withRouter(SongEdit);

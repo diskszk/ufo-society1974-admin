@@ -1,64 +1,61 @@
 import React, { useCallback, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { CustomButton, TextInput } from '../components/UIKit';
+import { RouteComponentProps } from 'react-router-dom';
+import { PrimalyButton, TextInput } from '../components/UIKit';
 import { login } from '../lib/users';
 import { useDispatch } from 'react-redux';
 import {
-  createDisplayMessage,
-  createFailedFetchAction,
-  createRequestFetchAction,
-  crateSuccessFetchAction,
+  displayMessage,
+  failedFetchAction,
+  requestFetchAction,
+  successFetchAction,
 } from '../store/LoadingStatusReducer';
-import { ROLE } from '../constants';
-import { createLoginAction } from '../store/UsersReducer';
+import { ROLE } from '../constans';
+import { signinAction } from '../store/UsersReducer';
+
+interface Props extends RouteComponentProps<{}> {}
 
 // Login with e-mail & password
-const Login: React.FC = () => {
+const Login: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const history = useHistory();
+  const [email, setEmail] = useState(''),
+    [password, setPassword] = useState('');
 
   const inputEmail = useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setEmail(ev.target.value);
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEmail(e.target.value);
     },
     [setEmail]
   );
 
   const inputPassword = useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setPassword(ev.target.value);
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPassword(e.target.value);
     },
     [setPassword]
   );
 
-  const handleClickLoginButton = useCallback(
-    async (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      // Validations
-      if (email === '' || password === '') {
-        dispatch(createDisplayMessage('必須項目が未入力です。'));
-        return;
-      }
-      try {
-        dispatch(createRequestFetchAction());
-        const user = await login(email, password);
+  const handleClickLoginButton = async () => {
+    // Validation
+    if (email === '' || password === '') {
+      dispatch(displayMessage('必須項目が未入力です。'));
+      return;
+    }
+    try {
+      dispatch(requestFetchAction());
+      const user = await login(email, password);
+      dispatch(signinAction({ ...user }));
+      dispatch(successFetchAction());
 
-        dispatch(createLoginAction({ ...user }));
-        dispatch(crateSuccessFetchAction());
-
-        if (user.role === ROLE.MASTER) {
-          history.push('/users/create');
-        } else {
-          history.push('/');
-        }
-      } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
+      if (user.role === ROLE.MASTER) {
+        history.push('/signup');
+      } else {
+        history.push('/');
       }
-    },
-    [email, password]
-  );
+    } catch (e) {
+      dispatch(failedFetchAction(e.message));
+    }
+  };
 
   return (
     <section className="login page">
@@ -87,14 +84,14 @@ const Login: React.FC = () => {
 
         <div className="spacing-div" />
         <div className="button-container">
-          <CustomButton label="ログイン" onClick={handleClickLoginButton} />
+          <PrimalyButton label="ログイン" onClick={handleClickLoginButton} />
         </div>
         <div className="spacing-div" />
-
-        <Link to="/reset">パスワードをリセットする</Link>
+        <a onClick={() => history.push('/reset')}>
+          <p>パスワードをリセットする</p>
+        </a>
       </div>
     </section>
   );
 };
-
 export default Login;

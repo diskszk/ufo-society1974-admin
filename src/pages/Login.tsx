@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { CustomButton, TextInput } from '../components/UIKit';
 import { login } from '../lib/users';
 import { useDispatch } from 'react-redux';
@@ -90,13 +90,8 @@ const Login: React.FC = () => {
           <CustomButton label="ログイン" onClick={handleClickLoginButton} />
         </div>
         <div className="spacing-div" />
-        <a
-          onClick={(_ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>) =>
-            history.push('/reset')
-          }
-        >
-          <p>パスワードをリセットする</p>
-        </a>
+
+        <Link to="/reset">パスワードをリセットする</Link>
       </div>
     </section>
   );

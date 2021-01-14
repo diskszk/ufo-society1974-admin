@@ -13,6 +13,7 @@ import {
   createRequestFetchAction,
   crateSuccessFetchAction,
 } from '../../store/LoadingStatusReducer';
+import { checkRole } from '../../lib/helpers';
 
 const useStyles = makeStyles({
   table: {
@@ -40,6 +41,10 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
 
   const handlePlayMusic = useCallback(
     (_ev: React.MouseEvent<HTMLTableCellElement, MouseEvent>): void => {
+      if (audio.error) {
+        dispatch(createDisplayMessage('曲がアップロードされていません。'));
+        return;
+      }
       if (audio.paused) {
         audio.play();
       } else {
@@ -53,7 +58,9 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
     async (
       _ev: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>
     ): Promise<void> => {
-      if (role !== ROLE.EDITOR) {
+      const allowed = checkRole(ROLE.EDITOR, role);
+
+      if (!allowed) {
         dispatch(createDisplayMessage('編集者のみ曲を削除できます。'));
         return;
       }
@@ -88,7 +95,7 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
       <TableCell>{song.title}</TableCell>
       <TableCell>{song.story}</TableCell>
       <TableCell className={classes.actionBtn} onClick={handlePlayMusic}>
-        {audio.paused ? <p>再生</p> : <p>停止</p>}
+        <p>再生</p>
       </TableCell>
       <TableCell
         className={classes.actionBtn}

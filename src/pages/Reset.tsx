@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { CustomButton, TextInput } from '../components/UIKit';
 import { useDispatch } from 'react-redux';
@@ -15,6 +15,8 @@ const Reset: React.FC = () => {
   const history = useHistory();
 
   const [email, setEmail] = useState('');
+
+  const [disabled, setDisabled] = useState(true);
 
   const inputEmail = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +52,14 @@ const Reset: React.FC = () => {
     []
   );
 
+  useEffect(() => {
+    if (email !== '') {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [setDisabled, email]);
+
   return (
     <section className="reset page">
       <h1>パスワードリセット</h1>
@@ -66,7 +76,11 @@ const Reset: React.FC = () => {
         />
 
         <div className="button-container">
-          <CustomButton label="リセット" onClick={handleClickResetButton} />
+          <CustomButton
+            disable={disabled}
+            label="リセット"
+            onClick={handleClickResetButton}
+          />
         </div>
       </div>
     </section>

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CustomButton, TextInput } from '../components/UIKit';
 import { getSingleSong, getSongs, saveSong } from '../lib/songs';
 import { SongUploadForm } from '../components/songs/';
-import { File, Song, RootStore } from '../lib/types';
+import { File, Song, RootStore, User } from '../lib/types';
 import {
   createUpdateSongFileAction,
   clearSongFileAction,
@@ -15,14 +15,19 @@ import {
   createRequestFetchAction,
   crateSuccessFetchAction,
 } from '../store/LoadingStatusReducer';
+import { ROLE } from '../constants';
+import { checkRole } from '../lib/helpers';
 
 interface Props
   extends RouteComponentProps<{ albumId: string; songId: string }> {}
+
 const SongEdit: React.FC<Props> = ({ match }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const albumId = match.params.albumId;
   const songId = match.params.songId;
+
+  const { role } = useSelector<RootStore, User>((state) => state.user);
 
   const songFile = useSelector<RootStore, File>((state) => state.songFile);
 
@@ -32,6 +37,8 @@ const SongEdit: React.FC<Props> = ({ match }) => {
   const [lyric, setLyric] = useState('');
   const [wordsRights, setWordsRights] = useState('amane toda');
   const [musicRights, setMusicRights] = useState('amane toda');
+
+  const [disabled, setDisabled] = useState(true);
 
   const inputId = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +81,17 @@ const SongEdit: React.FC<Props> = ({ match }) => {
     async (
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
+      // 権限チェック
+      const isAllowed = checkRole(ROLE.EDITOR, role);
+
+      if (!isAllowed) {
+        dispatch(
+          createDisplayMessage('アカウントにアクセス権限がありません。')
+        );
+        return;
+      }
       // validations
+
       if (id === '') {
         dispatch(createDisplayMessage('IDを入力してください。'));
         return;
@@ -157,6 +174,23 @@ const SongEdit: React.FC<Props> = ({ match }) => {
       editSongSetUp();
     }
   }, [albumId, songId]);
+
+  // 保存ボタンの活性・非活性
+  useEffect(() => {
+    if (role === ROLE.EDITOR) {
+      if (
+        id !== '' &&
+        title !== '' &&
+        wordsRights !== '' &&
+        musicRights !== '' &&
+        story !== ''
+      ) {
+        setDisabled(false);
+      } else {
+        setDisabled(true);
+      }
+    }
+  }, [id, title, wordsRights, musicRights, story, setDisabled]);
 
   return (
     <section>
@@ -244,7 +278,11 @@ const SongEdit: React.FC<Props> = ({ match }) => {
               history.push(`/albums/detail/${albumId}`)
             }
           />
-          <CustomButton label="保存する" onClick={handleClickSaveButton} />
+          <CustomButton
+            label="保存する"
+            disable={disabled}
+            onClick={handleClickSaveButton}
+          />
         </div>
       </div>
     </section>

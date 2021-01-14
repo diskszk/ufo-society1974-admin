@@ -19,11 +19,12 @@ import {
   createRequestFetchAction,
   crateSuccessFetchAction,
 } from '../store/LoadingStatusReducer';
-import { validatePublishedDate } from '../lib/helpers';
+import { checkRole, validatePublishedDate } from '../lib/helpers';
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
-// Edit or Add Album only
+// URIからアルバムのIDを取得する
+// IDがからの場合は新規作成となる
 const AlbumEdit: React.FC<Props> = ({ match }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -39,6 +40,9 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
   const [spotifyURL, setSpotifyURL] = useState('');
   const [iTunesURL, setITunesURL] = useState('');
   const [bandcampURL, setBandcampURL] = useState('');
+
+  const [disable, setDisable] = useState(true);
+  const deleteIconDisabled: boolean = role !== ROLE.EDITOR;
 
   const inputDescription = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,6 +104,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
         );
         return;
       }
+      // TODO: リネーム
       const services: PublishPlatform = {
         AppleMusic: appleMusicURL,
         Spotify: spotifyURL,
@@ -149,7 +154,9 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
     async (
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
-      if (role !== ROLE.EDITOR) {
+      const allowed = checkRole(ROLE.EDITOR, role);
+
+      if (!allowed) {
         dispatch(createDisplayMessage('削除権限がありません。'));
         return;
       }
@@ -173,7 +180,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
   );
 
   useEffect(() => {
-    if (id === '') {
+    if (id === 'new') {
       // New
       dispatch(createClearImageAction());
     } else {
@@ -208,14 +215,25 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
     }
   }, [id]);
 
+  // title, publishedDateが空だと保存ボタン非活性
+  useEffect(() => {
+    if (role === ROLE.EDITOR) {
+      if (title !== '' && publishedDate !== '') {
+        setDisable(false);
+      } else {
+        setDisable(true);
+      }
+    }
+  });
+
   return (
     <section className="album-edit">
       <h1>アルバムを追加・編集</h1>
       <div className="inputs-container">
-        {id && (
+        {id !== 'new' && (
           <div className="delete-icon">
             <span>アルバムを削除する</span>
-            <IconButton onClick={handleDelete}>
+            <IconButton disabled={deleteIconDisabled} onClick={handleDelete}>
               <DeleteOutlineIcon />
             </IconButton>
           </div>
@@ -302,7 +320,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
         <div className="button-container-row">
           <CustomButton label={'もどる'} onClick={handleBack} />
           <CustomButton
-            disable={false}
+            disable={disable}
             label={'保存する'}
             onClick={handleSave}
           />

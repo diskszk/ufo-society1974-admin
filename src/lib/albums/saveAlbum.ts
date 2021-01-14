@@ -13,7 +13,7 @@ export const saveAlbum = async (
   albumId: string
 ): Promise<void> => {
   const timestamp = FirebaseTimestamp.now();
-  const id = albumId !== '' ? albumId : generateRandomStrings();
+  const id = albumId !== 'new' ? albumId : generateRandomStrings();
 
   const data: Album = {
     createdAt: timestamp,

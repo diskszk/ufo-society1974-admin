@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import BackupIcon from '@material-ui/icons/Backup';
 import { makeStyles } from '@material-ui/core';
-import { File, RootStore } from '../../lib/types';
+import { File, RootStore, User } from '../../lib/types';
 import { generateRandomStrings } from '../../lib/helpers/generateRandomStrings';
 import {
   clearSongFileAction,
@@ -17,6 +17,8 @@ import {
   createRequestFetchAction,
   crateSuccessFetchAction,
 } from '../../store/LoadingStatusReducer';
+import { ROLE } from '../../constants';
+import { checkRole } from '../../lib/helpers';
 
 const useStyles = makeStyles({
   icon: {
@@ -24,6 +26,11 @@ const useStyles = makeStyles({
     width: 48,
     lineHeight: 48,
     cursor: 'pointer',
+    '&:disabled': {
+      '& > span': {
+        color: 'rgba(44, 44, 44, 0.4)',
+      },
+    },
   },
   cursor: {
     cursor: 'pointer',
@@ -39,10 +46,20 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { filename } = useSelector<RootStore, File>((state) => state.songFile);
+  const { role } = useSelector<RootStore, User>((state) => state.user);
+
+  const disabled: boolean = ROLE.EDITOR !== role;
 
   const handleChangeUploadSongButton = async (
     ev: React.ChangeEvent<HTMLInputElement>
   ): Promise<void> => {
+    const isAllowed = checkRole(ROLE.EDITOR, role);
+
+    if (!isAllowed) {
+      dispatch(createDisplayMessage('アカウントに権限がありません。'));
+      return;
+    }
+
     const fileList = ev.target.files;
 
     if (!fileList) {
@@ -78,6 +95,12 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
     async (
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
+      const isAllowed = checkRole(ROLE.EDITOR, role);
+
+      if (!isAllowed) {
+        dispatch(createDisplayMessage('アカウントに権限がありません。'));
+        return;
+      }
       if (filename === '') {
         dispatch(
           createDisplayMessage('ファイルがアップロードされていません。')
@@ -108,7 +131,7 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
       <p>曲をアップロード</p>
       {filename === '' ? (
         // add song file
-        <IconButton className={classes.icon}>
+        <IconButton className={classes.icon} disabled={disabled}>
           <label htmlFor="upload-music">
             <BackupIcon className={classes.cursor} />
             <input
@@ -124,6 +147,7 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
         // delete song file
         <IconButton
           className={classes.icon}
+          disabled={disabled}
           onClick={handleDeleteSongFileButton}
         >
           <DeleteOutlineIcon className={classes.cursor} />

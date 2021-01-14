@@ -23,7 +23,7 @@ export const AddIconButton: React.FC<Props> = ({
     } else {
       setDisable(true);
     }
-  }, []);
+  }, [setDisable]);
 
   return (
     <>

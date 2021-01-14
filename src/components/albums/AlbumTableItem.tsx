@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { Album } from '../../lib/types';
+import { Album, RootStore, User } from '../../lib/types';
 import { createUpdateAlbumAction } from '../../store/AlbumReducer';
 import IconButton from '@material-ui/core/IconButton';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
+import { ROLE } from '../../constants';
 
 type Props = {
   album: Album;
@@ -13,6 +14,7 @@ type Props = {
 export const AlbumTableItem: React.FC<Props> = ({ album }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { role } = useSelector<RootStore, User>((state) => state.user);
 
   const handleEditAlbumClick = useCallback(
     (
@@ -39,12 +41,20 @@ export const AlbumTableItem: React.FC<Props> = ({ album }) => {
         <img src={album.imageFile.path} alt={`${album.title} image`} />
       </div>
       <div className="album-image-footer">
-        <span>アルバムを編集する</span>
+        {role === ROLE.EDITOR ? (
+          <span>アルバムを編集する</span>
+        ) : (
+          <span>アルバムを閲覧する</span>
+        )}
         <IconButton onClick={handleEditAlbumClick}>
           <BorderColorIcon />
         </IconButton>
         <br />
-        <span>アルバムの曲を編集する</span>
+        {role === ROLE.EDITOR ? (
+          <span>アルバムの曲を編集する</span>
+        ) : (
+          <span>アルバムの曲を閲覧する</span>
+        )}
         <IconButton onClick={handleDetailAlbumClick}>
           <BorderColorIcon />
         </IconButton>

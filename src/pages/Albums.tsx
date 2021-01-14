@@ -19,7 +19,7 @@ const Albums: React.FC = () => {
   const dispatch = useDispatch();
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
-  const disable: boolean = role !== ROLE.EDITOR;
+  const disabled: boolean = role !== ROLE.EDITOR;
   const history = useHistory();
 
   const handleClickPublishButton = useCallback(
@@ -53,7 +53,7 @@ const Albums: React.FC = () => {
 
   const handleClickAddIcon = useCallback(
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-      const isAllowed = checkRole(ROLE.MASTER, role);
+      const isAllowed = checkRole(ROLE.EDITOR, role);
 
       if (!isAllowed) {
         dispatch(
@@ -63,7 +63,7 @@ const Albums: React.FC = () => {
       }
 
       dispatch(createClearAlbumAction());
-      history.push('/albums/edit');
+      history.push('/albums/edit/new');
     },
     []
   );
@@ -97,7 +97,7 @@ const Albums: React.FC = () => {
             }
           />
           <CustomButton
-            disable={disable}
+            disable={disabled}
             label="公開する"
             onClick={handleClickPublishButton}
           />

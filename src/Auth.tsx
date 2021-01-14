@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { PropsWithChildren, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from './lib/types';
 import { auth, db } from './firebase';
@@ -9,10 +9,11 @@ import {
 } from './store/LoadingStatusReducer';
 import { useHistory } from 'react-router-dom';
 import { createLoginAction } from './store/UsersReducer';
+import LoadingModal from './components/LoadingModal';
 
 interface Props {}
 
-const Auth: React.FC<Props> = ({ children }): any => {
+const Auth: React.FC<Props> = ({ children }: PropsWithChildren<Props>) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { isSignedIn } = useSelector<RootStore, User>((state) => state.user);
@@ -59,11 +60,7 @@ const Auth: React.FC<Props> = ({ children }): any => {
     }
   }, [isSignedIn]);
 
-  if (!isSignedIn) {
-    return <></>;
-  } else {
-    return children;
-  }
+  return <>{!isSignedIn ? <LoadingModal /> : <>{children}</>}</>;
 };
 
 export default Auth;

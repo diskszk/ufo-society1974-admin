@@ -11,7 +11,11 @@ export const pushGSO = () => {
   if (!window.confirm('GSOを追加')) {
     return;
   }
-  const ALBUM_ID = 'QHOtTDUofVeYUkaI';
+  const ALBUM_ID = '';
+
+  if (!ALBUM_ID) {
+    alert('idがからです');
+  }
 
   GSOdatas.map(async (song: Song) => {
     try {

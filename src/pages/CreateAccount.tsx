@@ -32,7 +32,7 @@ const CreateAccount: React.FC = () => {
 
   const user = useSelector<RootStore, User>((state) => state.user);
   const history = useHistory();
-  const [disabled, setDisabled] = useState(false);
+  const [disable, setDisable] = useState(true);
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -79,6 +79,14 @@ const CreateAccount: React.FC = () => {
     async (
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
+      // check role
+      if (user.role !== ROLE.MASTER) {
+        dispatch(
+          createDisplayMessage('アカウントを作成する権限がありません。')
+        );
+        return;
+      }
+
       // Validations
       if (
         username === '' ||
@@ -129,9 +137,21 @@ const CreateAccount: React.FC = () => {
 
   useEffect(() => {
     if (user.role !== ROLE.MASTER) {
-      setDisabled(true);
+      setDisable(true);
     }
-  }, [setDisabled, user.role]);
+  }, [setDisable, user.role]);
+
+  // 入力フォームがどれか１つでも空だと作成ボタン非活性
+  useEffect(() => {
+    if (
+      username !== '' &&
+      email !== '' &&
+      password !== '' &&
+      confirmPassword !== ''
+    ) {
+      setDisable(false);
+    }
+  }, [username, email, password, confirmPassword]);
 
   return (
     <section className="sign-up page">
@@ -194,7 +214,7 @@ const CreateAccount: React.FC = () => {
             }
           />
           <CustomButton
-            disable={disabled}
+            disable={disable}
             label="登録する"
             onClick={handleClickCreateAccount}
           />

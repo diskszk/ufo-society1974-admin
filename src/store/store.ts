@@ -3,12 +3,11 @@ import {
   combineReducers,
   applyMiddleware,
 } from 'redux';
-import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
 // import reducers
 import { UsersReducer } from './UsersReducer';
-import { ImagesReducer } from './ImgaeReducer';
+import { ImagesReducer } from './ImageReducer';
 import { AlbumReducer } from './AlbumReducer';
 import { SongsReducer } from './SongsReducer';
 import { SongFileReducer } from './SongFileReducer';
@@ -24,6 +23,6 @@ export const createStore = () => {
       songs: SongsReducer,
       loadingStatus: LoadingStatusReducer,
     }),
-    applyMiddleware(thunk, logger)
+    applyMiddleware(logger)
   );
 };

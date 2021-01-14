@@ -1,37 +1,37 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../../lib/types';
-import { UFO_SOCIETY_OFFISIAL } from '../../constans';
+import { UFO_SOCIETY_OFFICIAL } from '../../constants';
 import {
-  requestFetchAction,
-  displayMessage,
-  successFetchAction,
-  failedFetchAction,
+  createRequestFetchAction,
+  createDisplayMessage,
+  crateSuccessFetchAction,
+  createFailedFetchAction,
 } from '../../store/LoadingStatusReducer';
 import { auth } from '../../firebase';
-import { logOutAction } from '../../store/UsersReducer';
+import { createLogOutAction } from '../../store/UsersReducer';
 
-interface Props extends RouteComponentProps<{}> {}
-
-const Header: React.FC<Props> = ({ history }) => {
+export const Header: React.FC = () => {
   const dispatch = useDispatch();
   const { isSignedIn, username, role } = useSelector<RootStore, User>(
     (state) => state.user
   );
+  const history = useHistory();
 
-  const handleClickLogOut = async () => {
+  const handleClickLogOut = async (
+    _ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ): Promise<void> => {
     try {
-      dispatch(requestFetchAction());
+      dispatch(createRequestFetchAction());
       await auth.signOut();
-      dispatch(logOutAction());
-      dispatch(displayMessage('ログアウトしました。'));
-      dispatch(successFetchAction());
+      dispatch(createLogOutAction());
+      dispatch(createDisplayMessage('ログアウトしました。'));
+      dispatch(crateSuccessFetchAction());
       history.push('/login');
     } catch {
       dispatch(
-        failedFetchAction(`ログアウトに失敗しました。\n
+        createFailedFetchAction(`ログアウトに失敗しました。\n
       通信環境をご確認の上再度お試しください。`)
       );
     }
@@ -42,20 +42,16 @@ const Header: React.FC<Props> = ({ history }) => {
       <div className="header">
         <div className="header-content-left">
           <a
-            href={UFO_SOCIETY_OFFISIAL}
+            href={UFO_SOCIETY_OFFICIAL}
             target="_blank"
             rel="noopener noreferrer"
           >
             UFO Societyホームページ
           </a>
           {!isSignedIn ? (
-            <a role="button" onClick={() => history.push('/login')}>
-              ログイン
-            </a>
+            <Link to="/login">ログイン</Link>
           ) : (
-            <a role="button" onClick={handleClickLogOut}>
-              ログアウト
-            </a>
+            <a onClick={handleClickLogOut}>ログアウト</a>
           )}
         </div>
         {isSignedIn && (
@@ -68,5 +64,3 @@ const Header: React.FC<Props> = ({ history }) => {
     </header>
   );
 };
-
-export default withRouter(Header);

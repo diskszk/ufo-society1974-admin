@@ -1,14 +1,13 @@
 import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootStore, User } from '../lib/types';
-import { PrimalyButton } from '../components/UIKit';
+import { CustomButton } from '../components/UIKit';
 import meido from '../assets/images/job_maid_meido_kissa.png';
 
-interface Props extends RouteComponentProps<{}> {}
-
-const Home: React.FC<Props> = (props) => {
+const Home: React.FC = () => {
   const { username } = useSelector<RootStore, User>((state) => state.user);
+  const history = useHistory();
 
   return (
     <section className="home page">
@@ -30,13 +29,17 @@ const Home: React.FC<Props> = (props) => {
       <div className="spacing-div"></div>
 
       <div className="button-container">
-        <PrimalyButton
+        <CustomButton
           label="ユーザー管理"
-          onClick={() => props.history.push('/users')}
+          onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+            history.push('/users')
+          }
         />
-        <PrimalyButton
+        <CustomButton
           label="アルバムを管理"
-          onClick={() => props.history.push('/albums')}
+          onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+            history.push('/albums')
+          }
         />
       </div>
     </section>

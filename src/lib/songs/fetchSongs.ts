@@ -18,6 +18,7 @@ export const fetchSongs = async (
         return doc.data();
       }
     );
+
     return dataList;
   }
 };

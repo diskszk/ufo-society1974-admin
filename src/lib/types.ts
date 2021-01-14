@@ -19,6 +19,10 @@ export type User = {
   uid: string;
   username: string;
   role: string;
+  createdAt?: firebase.firestore.Timestamp;
+  email?: string;
+  updatedAt?: firebase.firestore.Timestamp;
+  isDeleted?: boolean;
 };
 
 export type File = {
@@ -27,13 +31,14 @@ export type File = {
 };
 
 export type Album = {
-  discription: string;
+  description: string;
   imageFile: File;
-  id: string; // random
-  publish_date: string; // YYYY-MM-DD
+  id: string;
+  publishedDate: string;
   songs?: Song[];
   title: string;
-  services: Services;
+  publishPlatform: PublishPlatform;
+  createdAt?: firebase.firestore.Timestamp;
 };
 
 export type Song = {
@@ -44,10 +49,10 @@ export type Song = {
   title: string;
   wordsRights: string;
   musicRights: string;
-  created_at?: firebase.firestore.Timestamp;
+  createdAt?: firebase.firestore.Timestamp;
 };
 
-export type Services = {
+export type PublishPlatform = {
   AppleMusic: string;
   Spotify: string;
   iTunes: string;

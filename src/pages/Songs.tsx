@@ -1,48 +1,55 @@
-import React, { useEffect, useMemo } from 'react';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useHistory, RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { PrimalyButton } from '../components/UIKit';
-import SongTable from '../components/songs/SongTable';
-import { Album, RootStore } from '../lib/types';
-import AlbumInfo from '../components/songs/AlbumInfo';
+import { CustomButton } from '../components/UIKit';
+import { Album, RootStore, User } from '../lib/types';
+import { SongTable, AlbumInfo } from '../components/songs';
 import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
-import { updateAlbumAction } from '../store/AlbumReducer';
+import { createUpdateAlbumAction } from '../store/AlbumReducer';
 import {
-  displayMessage,
-  failedFetchAction,
-  requestFetchAction,
-  successFetchAction,
+  createDisplayMessage,
+  createFailedFetchAction,
+  createRequestFetchAction,
+  crateSuccessFetchAction,
 } from '../store/LoadingStatusReducer';
+import { ROLE } from '../constants';
 
-interface Props extends RouteComponentProps<{}> {}
+interface Props extends RouteComponentProps<{ albumId: string }> {}
 
-const Songs: React.FC<Props> = ({ history }) => {
+const Songs: React.FC<Props> = ({ match }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const albumId = useMemo(
-    () => window.location.pathname.split(`albums/detail`)[1].split('/')[1],
-    []
-  );
+  const albumId = match.params.albumId;
 
   const album = useSelector<RootStore, Album>((state) => state.album);
+  const { role } = useSelector<RootStore, User>((state) => state.user);
+
+  let editButtonLabel: 'アルバム編集' | 'アルバム閲覧' | '' = '';
+
+  if (role === ROLE.EDITOR) {
+    editButtonLabel = 'アルバム編集';
+  } else {
+    editButtonLabel = 'アルバム閲覧';
+  }
 
   useEffect(() => {
     const fetch = async () => {
-      dispatch(requestFetchAction());
+      dispatch(createRequestFetchAction());
 
       try {
         const album = await getSingleAlbum(albumId);
+
         if (!album) {
-          dispatch(failedFetchAction('アルバムが存在しません。'));
+          dispatch(createFailedFetchAction('アルバムが存在しません。'));
           history.push('/albums');
           return;
         } else {
-          dispatch(updateAlbumAction(album));
-          dispatch(successFetchAction());
+          dispatch(createUpdateAlbumAction(album));
+          dispatch(crateSuccessFetchAction());
         }
       } catch (e) {
-        dispatch(failedFetchAction(e.message));
+        dispatch(createFailedFetchAction(e.message));
         history.push('/albums');
       }
     };
@@ -50,7 +57,7 @@ const Songs: React.FC<Props> = ({ history }) => {
     if (albumId !== '') {
       fetch();
     } else {
-      dispatch(displayMessage('アルバムが登録されていません。'));
+      dispatch(createDisplayMessage('アルバムが登録されていません。'));
       history.push('/albums');
     }
   }, []);
@@ -62,17 +69,24 @@ const Songs: React.FC<Props> = ({ history }) => {
 
       <div className="spacing-div"></div>
       <AlbumInfo album={album} />
-      <SongTable />
+      <SongTable albumId={albumId} />
 
       <div className="button-container-row">
-        <PrimalyButton label="もどる" onClick={() => history.push('/albums')} />
-        <PrimalyButton
-          label="アルバム編集"
-          onClick={() => history.push(`/albums/edit/${albumId}`)}
+        <CustomButton
+          label="もどる"
+          onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+            history.push('/albums')
+          }
+        />
+        <CustomButton
+          label={editButtonLabel}
+          onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+            history.push(`/albums/edit/${albumId}`)
+          }
         />
       </div>
     </section>
   );
 };
 
-export default withRouter(Songs);
+export default Songs;

@@ -6,7 +6,7 @@ export { default as Reset } from './Reset';
 
 // Users
 export { default as Users } from './Users';
-export { default as SignUp } from './SignUp';
+export { default as CreateAccount } from './CreateAccount';
 
 // Albums
 export { default as Albums } from './Albums';

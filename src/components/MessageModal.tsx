@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { clearMessageAction } from '../store/LoadingStatusReducer';
-import { PrimalyButton } from './UIKit';
+import { createClearMessageAction } from '../store/LoadingStatusReducer';
+import { CustomButton } from './UIKit';
 
 type Props = {
   message: string;
@@ -9,16 +9,21 @@ type Props = {
 
 const MessageModal: React.FC<Props> = ({ message }) => {
   const dispatch = useDispatch();
+
+  const handleClickCloseModal = useCallback(
+    (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      dispatch(createClearMessageAction());
+    },
+    []
+  );
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
         <h3>{message}</h3>
         <div className="spacing-div" />
         <div className="spacing-div" />
-        <PrimalyButton
-          label="閉じる"
-          onClick={() => dispatch(clearMessageAction())}
-        />
+        <CustomButton label="閉じる" onClick={handleClickCloseModal} />
       </div>
     </div>
   );

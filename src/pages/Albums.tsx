@@ -3,9 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from '../lib/types';
 import { deletePublishedAlbums, publishAlbums } from '../lib/albums';
-import LibraryAddOutlinedIcon from '@material-ui/icons/LibraryAddOutlined';
-import { CustomButton } from '../components/UIKit';
-import IconButton from '@material-ui/core/IconButton';
+import { AddIconButton, CustomButton } from '../components/UIKit';
 import { AlbumTable } from '../components/albums/';
 import { ROLE } from '../constants';
 import { createClearAlbumAction } from '../store/AlbumReducer';
@@ -15,6 +13,7 @@ import {
   createFailedFetchAction,
   crateSuccessFetchAction,
 } from '../store/LoadingStatusReducer';
+import { checkRole } from '../lib/helpers';
 
 const Albums: React.FC = () => {
   const dispatch = useDispatch();
@@ -52,8 +51,17 @@ const Albums: React.FC = () => {
     []
   );
 
-  const handleClickAddButton = useCallback(
+  const handleClickAddIcon = useCallback(
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+      const isAllowed = checkRole(ROLE.MASTER, role);
+
+      if (!isAllowed) {
+        dispatch(
+          createDisplayMessage('アカウントにアクセス権限がありません。')
+        );
+        return;
+      }
+
       dispatch(createClearAlbumAction());
       history.push('/albums/edit');
     },
@@ -68,32 +76,32 @@ const Albums: React.FC = () => {
       <div className="spacing-div"></div>
 
       <div className="album-container">
-        {role === ROLE.EDITOR && (
-          <div className="add-icon-button">
-            <span>アルバムを追加</span>
-            <IconButton onClick={handleClickAddButton}>
-              <LibraryAddOutlinedIcon fontSize="large" />
-            </IconButton>
-            <div className="spacing-div"></div>
-          </div>
-        )}
+        <div className="add-icon-button">
+          <AddIconButton
+            allowedRole={ROLE.EDITOR}
+            currentRole={role}
+            onClick={handleClickAddIcon}
+            label="アルバムを追加"
+          />
+        </div>
+
         <AlbumTable />
-      </div>
 
-      <div className="spacing-div"></div>
+        <div className="spacing-div"></div>
 
-      <div className="button-container-row">
-        <CustomButton
-          label="もどる"
-          onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            history.push('/')
-          }
-        />
-        <CustomButton
-          disable={disable}
-          label="公開する"
-          onClick={handleClickPublishButton}
-        />
+        <div className="button-container-row">
+          <CustomButton
+            label="もどる"
+            onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+              history.push('/')
+            }
+          />
+          <CustomButton
+            disable={disable}
+            label="公開する"
+            onClick={handleClickPublishButton}
+          />
+        </div>
       </div>
     </section>
   );

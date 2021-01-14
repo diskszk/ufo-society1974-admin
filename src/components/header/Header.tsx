@@ -51,9 +51,7 @@ export const Header: React.FC = () => {
           {!isSignedIn ? (
             <Link to="/login">ログイン</Link>
           ) : (
-            <a role="button" onClick={handleClickLogOut}>
-              ログアウト
-            </a>
+            <a onClick={handleClickLogOut}>ログアウト</a>
           )}
         </div>
         {isSignedIn && (

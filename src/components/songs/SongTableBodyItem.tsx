@@ -96,7 +96,7 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
           history.push(`/albums/detail/${albumId}/edit/${song.id}`)
         }
       >
-        編集
+        {role === ROLE.EDITOR ? <p>編集</p> : <p>閲覧</p>}
       </TableCell>
       <TableCell className={classes.actionBtn} onClick={handleDeleteSong}>
         削除

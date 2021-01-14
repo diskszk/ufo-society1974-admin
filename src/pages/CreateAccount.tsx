@@ -79,7 +79,7 @@ const CreateAccount: React.FC = () => {
     async (
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
-      // check role
+      // 権限をチェック
       if (user.role !== ROLE.MASTER) {
         dispatch(
           createDisplayMessage('アカウントを作成する権限がありません。')
@@ -132,26 +132,33 @@ const CreateAccount: React.FC = () => {
         dispatch(createFailedFetchAction(e.message));
       }
     },
-    [username, email, password, confirmPassword, role]
+    [
+      username,
+      email,
+      password,
+      confirmPassword,
+      role,
+      dispatch,
+      history,
+      user.role,
+    ]
   );
 
   useEffect(() => {
-    if (user.role !== ROLE.MASTER) {
-      setDisable(true);
+    if (user.role === ROLE.MASTER) {
+      // 入力フォームがどれか１つでも空だと作成ボタン非活性
+      if (
+        username !== '' &&
+        email !== '' &&
+        password !== '' &&
+        confirmPassword !== ''
+      ) {
+        setDisable(false);
+      } else {
+        setDisable(true);
+      }
     }
-  }, [setDisable, user.role]);
-
-  // 入力フォームがどれか１つでも空だと作成ボタン非活性
-  useEffect(() => {
-    if (
-      username !== '' &&
-      email !== '' &&
-      password !== '' &&
-      confirmPassword !== ''
-    ) {
-      setDisable(false);
-    }
-  }, [username, email, password, confirmPassword]);
+  }, [setDisable, username, email, password, confirmPassword, user.role]);
 
   return (
     <section className="sign-up page">

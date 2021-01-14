@@ -20,7 +20,7 @@ type Props = {
   disable?: boolean;
 };
 
-const CustomButton: React.FC<Props> = ({ label, onClick, disable }) => {
+const CustomButton: React.FC<Props> = ({ label, onClick, disable = false }) => {
   const classes = useStyles();
 
   return (

@@ -59,7 +59,7 @@ const Songs: React.FC<Props> = ({ match }) => {
 
       <div className="spacing-div"></div>
       <AlbumInfo album={album} />
-      <SongTable />
+      <SongTable albumId={albumId} />
 
       <div className="button-container-row">
         <CustomButton

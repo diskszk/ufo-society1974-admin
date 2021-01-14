@@ -16,7 +16,7 @@ type Props = {
 const useStyles = makeStyles({
   selector: {
     margin: '1.5em 0',
-    width: '40em',
+    width: '80%',
   },
 });
 

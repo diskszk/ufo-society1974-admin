@@ -149,7 +149,7 @@ const SongEdit: React.FC<Props> = ({ match }) => {
       }
     };
 
-    if (songId === '') {
+    if (songId === 'new') {
       // New
       createSongSetUp();
     } else {

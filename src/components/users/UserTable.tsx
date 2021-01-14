@@ -23,6 +23,7 @@ import {
 import { AddIconButton } from '../UIKit';
 import { ROLE } from '../../constants';
 import { checkRole } from '../../lib/helpers';
+import { db } from '../../firebase';
 
 const useStyles = makeStyles({
   table: {
@@ -72,6 +73,26 @@ const UserTable: React.FC = () => {
 
     fetch();
   }, [setUsers]);
+
+  useEffect(() => {
+    const unSub = db.collection('users').onSnapshot((snapshot) => {
+      const userList = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        const user: User = {
+          isSignedIn: data.isSignedIn,
+          uid: data.uid,
+          username: data.username,
+          role: data.role,
+        };
+
+        return user;
+      });
+
+      setUsers(userList);
+
+      return () => unSub();
+    });
+  }, []);
 
   return (
     <div className="user-table">

@@ -7,14 +7,12 @@ export const getAlbums = async (): Promise<Album[]> => {
   const albumList: Album[] = dataList.map(
     (data: firebase.firestore.DocumentData) => {
       return {
-        // description: data.description,
-        description: data.discription,
+        description: data.description,
         imageFile: data.imageFile,
         id: data.id,
-        publishedDate: data.publish_date,
-        // publishedDate: data.publishedDate,
+        publishedDate: data.publishedDate,
         title: data.title,
-        publishPlatform: data.services,
+        publishPlatform: data.publishPlatform,
       };
     }
   );

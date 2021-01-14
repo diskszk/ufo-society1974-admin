@@ -104,8 +104,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
         );
         return;
       }
-      // TODO: リネーム
-      const services: PublishPlatform = {
+      const publishedPlatform: PublishPlatform = {
         AppleMusic: appleMusicURL,
         Spotify: spotifyURL,
         iTunes: iTunesURL,
@@ -114,7 +113,14 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
 
       try {
         dispatch(createRequestFetchAction());
-        saveAlbum(title, imageFile, description, services, publishedDate, id);
+        saveAlbum(
+          title,
+          imageFile,
+          description,
+          publishedPlatform,
+          publishedDate,
+          id
+        );
         dispatch(createDisplayMessage(`アルバムを保存しました。`));
         dispatch(crateSuccessFetchAction());
         history.push('/albums');

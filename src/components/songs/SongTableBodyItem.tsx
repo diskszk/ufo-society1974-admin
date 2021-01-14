@@ -71,7 +71,7 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
         dispatch(createRequestFetchAction());
         await deleteSong(albumId, song.id);
 
-        // TODO: 削除後にリストを更新する
+        // 削除後にリストを更新する
         const songList = await getSongs(albumId);
 
         dispatch(createUpdateSongsAction(songList));

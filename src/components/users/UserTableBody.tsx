@@ -60,8 +60,6 @@ const UserTableBody: React.FC<Props> = ({ user }) => {
         await deleteUser(user.uid);
         dispatch(createDisplayMessage('ユーザーが削除されました。'));
 
-        // TODO: 削除後にリストをリフレッシュする
-
         dispatch(crateSuccessFetchAction());
       } catch (e) {
         dispatch(

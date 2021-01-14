@@ -14,7 +14,12 @@ import { SongTableBody } from './';
 import { RootStore, User, Song } from '../../lib/types';
 import { ROLE } from '../../constants';
 import { createUpdateSongsAction } from '../../store/SongsReducer';
-import { createDisplayMessage } from '../../store/LoadingStatusReducer';
+import {
+  createDisplayMessage,
+  createRequestFetchAction,
+  crateSuccessFetchAction,
+  createFailedFetchAction,
+} from '../../store/LoadingStatusReducer';
 import { getSongs } from '../../lib/songs';
 import { AddIconButton } from '../UIKit';
 import { checkRole } from '../../lib/helpers';
@@ -57,10 +62,23 @@ export const SongTable: React.FC<Props> = ({ albumId }) => {
     []
   );
 
+  async function fetch() {
+    const dataList: Song[] = await getSongs(albumId);
+
+    dispatch(createUpdateSongsAction(dataList));
+  }
   useEffect(() => {
-    getSongs(albumId).then((dataList: Song[]) => {
-      dispatch(createUpdateSongsAction(dataList));
-    });
+    try {
+      dispatch(createRequestFetchAction());
+      fetch();
+      dispatch(crateSuccessFetchAction());
+    } catch {
+      dispatch(
+        createFailedFetchAction(
+          '曲の取得に失敗しました。\n通信環境をご確認の上再度お試しください。'
+        )
+      );
+    }
   }, []);
 
   return (

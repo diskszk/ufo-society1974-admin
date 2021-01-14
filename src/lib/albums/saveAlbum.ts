@@ -8,7 +8,7 @@ export const saveAlbum = async (
   title: string,
   imageFile: File,
   description: string,
-  services: PublishPlatform,
+  publishPlatform: PublishPlatform,
   publishedDate: string,
   albumId: string
 ): Promise<void> => {
@@ -25,7 +25,7 @@ export const saveAlbum = async (
     },
     publishedDate: publishedDate,
     title: title,
-    publishPlatform: services,
+    publishPlatform: publishPlatform,
   };
 
   await albumsRef.doc(id).set(data, { merge: true });

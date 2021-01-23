@@ -28,7 +28,7 @@ export const AlbumTable: React.FC = () => {
     };
 
     fetch();
-  }, [setAlbums]);
+  }, [setAlbums, dispatch]);
 
   return (
     <ul className="album-list">

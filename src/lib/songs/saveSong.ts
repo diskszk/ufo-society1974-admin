@@ -1,7 +1,7 @@
 import { db, FirebaseTimestamp } from '../../firebase';
 import { Song } from '../types';
 
-export const saveSong = async (song: Song, albumId: string) => {
+export const saveSong = async (song: Song, albumId: string): Promise<void> => {
   const songsRef = db
     .collection('albums')
     .doc(albumId)

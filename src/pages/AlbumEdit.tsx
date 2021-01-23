@@ -21,10 +21,10 @@ import {
 } from '../store/LoadingStatusReducer';
 import { checkRole, validatePublishedDate } from '../lib/helpers';
 
-interface Props extends RouteComponentProps<{ id: string }> {}
+type Props = RouteComponentProps<{ id: string }>;
 
-// URIからアルバムのIDを取得する
-// IDがからの場合は新規作成となる
+// URLからアルバムのIDを取得する
+// IDが"new"の場合は新規作成となる
 const AlbumEdit: React.FC<Props> = ({ match }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -134,17 +134,21 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
       }
     },
     [
+      dispatch,
+      history,
       description,
-      title,
+      id,
       imageFile,
       publishedDate,
       appleMusicURL,
       spotifyURL,
       iTunesURL,
       bandcampURL,
+      title,
     ]
   );
 
+  // WANT: 確認モーダルも自作したい
   const handleBack = useCallback(
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
       if (window.confirm('編集を破棄します。')) {
@@ -153,7 +157,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
         return;
       }
     },
-    []
+    [history]
   );
 
   const handleDelete = useCallback(
@@ -182,7 +186,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
         );
       }
     },
-    []
+    [dispatch, history, id, role]
   );
 
   useEffect(() => {
@@ -219,7 +223,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
 
       fetch();
     }
-  }, [id]);
+  }, [dispatch, history, id]);
 
   // title, publishedDateが空だと保存ボタン非活性
   useEffect(() => {
@@ -230,7 +234,18 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
         setDisable(true);
       }
     }
-  });
+  }, [role, title, publishedDate]);
+
+  // title, publishedDateが空だと保存ボタン非活性
+  useEffect(() => {
+    if (role === ROLE.EDITOR) {
+      if (title !== '' && publishedDate !== '') {
+        setDisable(false);
+      } else {
+        setDisable(true);
+      }
+    }
+  }, [role, title, publishedDate]);
 
   return (
     <section className="album-edit">

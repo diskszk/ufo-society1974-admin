@@ -14,7 +14,7 @@ const MessageModal: React.FC<Props> = ({ message }) => {
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       dispatch(createClearMessageAction());
     },
-    []
+    [dispatch]
   );
 
   return (

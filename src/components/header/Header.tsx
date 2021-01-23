@@ -57,7 +57,9 @@ export const Header: React.FC = () => {
         {isSignedIn && (
           <div className="header-content-right">
             <p>ユーザー: {username}</p>
-            <p>権限　　: {role}</p>
+            <p>
+              {`権限　　`}: {role}
+            </p>
           </div>
         )}
       </div>

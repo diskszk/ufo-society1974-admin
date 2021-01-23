@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Auth from './Auth';
 import {
@@ -13,7 +13,7 @@ import {
   AlbumEdit,
 } from './pages';
 
-const Routes = () => {
+const Routes = (): JSX.Element => {
   return (
     <Switch>
       <Route exact path={'/login'} component={Login} />

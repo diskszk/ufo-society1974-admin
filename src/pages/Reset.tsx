@@ -49,7 +49,7 @@ const Reset: React.FC = () => {
         dispatch(createFailedFetchAction(e.message));
       }
     },
-    []
+    [dispatch, history, email]
   );
 
   useEffect(() => {

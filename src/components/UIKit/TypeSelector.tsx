@@ -10,7 +10,7 @@ type Props = {
   label: string;
   role: string;
   required: boolean;
-  onChange: (_event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const useStyles = makeStyles({

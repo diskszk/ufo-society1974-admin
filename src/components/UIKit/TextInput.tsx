@@ -10,7 +10,7 @@ type Props = {
   rows: number;
   value: string;
   type: string;
-  onChange: (_event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const useStyles = makeStyles({

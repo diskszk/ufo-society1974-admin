@@ -48,7 +48,7 @@ const Albums: React.FC = () => {
         );
       }
     },
-    []
+    [dispatch, role]
   );
 
   const handleClickAddIcon = useCallback(
@@ -65,7 +65,7 @@ const Albums: React.FC = () => {
       dispatch(createClearAlbumAction());
       history.push('/albums/edit/new');
     },
-    []
+    [dispatch, history, role]
   );
 
   return (

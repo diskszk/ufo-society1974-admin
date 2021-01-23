@@ -23,7 +23,7 @@ export const AlbumTableItem: React.FC<Props> = ({ album }) => {
       dispatch(createUpdateAlbumAction(album));
       history.push(`/albums/edit/${album.id}`);
     },
-    []
+    [dispatch, history, album]
   );
 
   const handleDetailAlbumClick = useCallback(
@@ -31,14 +31,14 @@ export const AlbumTableItem: React.FC<Props> = ({ album }) => {
       dispatch(createUpdateAlbumAction(album));
       history.push(`/albums/detail/${album.id}`);
     },
-    []
+    [dispatch, history, album]
   );
 
   return (
     <li className="album-item">
       <p>{album.title}</p>
       <div className="album-image" onClick={handleEditAlbumClick}>
-        <img src={album.imageFile.path} alt={`${album.title} image`} />
+        <img src={album.imageFile.path} alt={'アルバムの画像'} />
       </div>
       <div className="album-image-footer">
         {role === ROLE.EDITOR ? (

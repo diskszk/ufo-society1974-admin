@@ -18,8 +18,7 @@ import {
 import { ROLE } from '../constants';
 import { checkRole } from '../lib/helpers';
 
-interface Props
-  extends RouteComponentProps<{ albumId: string; songId: string }> {}
+type Props = RouteComponentProps<{ albumId: string; songId: string }>;
 
 const SongEdit: React.FC<Props> = ({ match }) => {
   const dispatch = useDispatch();
@@ -122,7 +121,19 @@ const SongEdit: React.FC<Props> = ({ match }) => {
         dispatch(createFailedFetchAction('曲の保存に失敗しました。'));
       }
     },
-    [id, title, story, lyric, wordsRights, musicRights]
+    [
+      dispatch,
+      history,
+      albumId,
+      id,
+      title,
+      story,
+      lyric,
+      wordsRights,
+      musicRights,
+      role,
+      songFile,
+    ]
   );
 
   useEffect(() => {
@@ -173,7 +184,7 @@ const SongEdit: React.FC<Props> = ({ match }) => {
       // Edit
       editSongSetUp();
     }
-  }, [albumId, songId]);
+  }, [dispatch, history, albumId, songId]);
 
   // 保存ボタンの活性・非活性
   useEffect(() => {
@@ -190,7 +201,44 @@ const SongEdit: React.FC<Props> = ({ match }) => {
         setDisabled(true);
       }
     }
-  }, [id, title, wordsRights, musicRights, story, setDisabled]);
+  }, [
+    dispatch,
+    history,
+    albumId,
+    id,
+    title,
+    wordsRights,
+    musicRights,
+    story,
+    role,
+  ]);
+
+  // 保存ボタンの活性・非活性
+  useEffect(() => {
+    if (role === ROLE.EDITOR) {
+      if (
+        id !== '' &&
+        title !== '' &&
+        wordsRights !== '' &&
+        musicRights !== '' &&
+        story !== ''
+      ) {
+        setDisabled(false);
+      } else {
+        setDisabled(true);
+      }
+    }
+  }, [
+    dispatch,
+    history,
+    albumId,
+    id,
+    title,
+    wordsRights,
+    musicRights,
+    story,
+    role,
+  ]);
 
   return (
     <section>

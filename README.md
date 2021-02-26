@@ -10,15 +10,28 @@
     - TypeScript: 3.7.2
     - firebase: 7.X
 
-  - インストール方法  
-    1. リポジトリをクローン  
+  - インストール方法
+    - リポジトリをクローンしてください  
     `$ git clone https://github.com/diskszk/ufo-society1974-admin.git`  
-    1. 作業ディレクトリに移動  
+    - 作業ディレクトリに移動してください  
     `$ cd ufo-society1974-admin`
-    1. 必要なライブラリをインストール  
+    - 必要なライブラリをインストールしてください  
     `$ npm install`
-    1. デベロップサーバーを起動  
+    - ローカル環境に.envファイルを作成し、下記コードを貼り付け、それぞれの右辺にfirebaseより値を取得して入力してください  
+    `$ touch .env`  
+      ```
+      REACT_APP_FIREBASE_KEY=
+      REACT_APP_FIREBASE_APP_ID=
+      REACT_APP_FIREBASE_MEASUREMENT_ID=
+      ```
+    - デベロップサーバーを起動してください  
     `$ npm run start`
+
+    - 下記メールアドレス/パスワードでサインインできます
+      ```
+      メールアドレス    : test@example.com
+      パスワード       : test1234
+      ``` 
 
 ## コードの概要
   - 友人が参加しているバンド「UFO Society」が制作したWebページの管理機能を持つWebアプリケーション

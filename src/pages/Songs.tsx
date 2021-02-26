@@ -14,7 +14,7 @@ import {
 } from '../store/LoadingStatusReducer';
 import { ROLE } from '../constants';
 
-interface Props extends RouteComponentProps<{ albumId: string }> {}
+type Props = RouteComponentProps<{ albumId: string }>;
 
 const Songs: React.FC<Props> = ({ match }) => {
   const dispatch = useDispatch();
@@ -60,7 +60,7 @@ const Songs: React.FC<Props> = ({ match }) => {
       dispatch(createDisplayMessage('アルバムが登録されていません。'));
       history.push('/albums');
     }
-  }, []);
+  }, [dispatch, history, albumId]);
 
   return (
     <section className="page">

@@ -59,15 +59,16 @@ export const SongTable: React.FC<Props> = ({ albumId }) => {
 
       history.push(`/albums/detail/${albumId}/edit/new`);
     },
-    []
+    [albumId, dispatch, history, role]
   );
 
-  async function fetch() {
-    const dataList: Song[] = await getSongs(albumId);
-
-    dispatch(createUpdateSongsAction(dataList));
-  }
   useEffect(() => {
+    async function fetch() {
+      const dataList: Song[] = await getSongs(albumId);
+
+      dispatch(createUpdateSongsAction(dataList));
+    }
+
     try {
       dispatch(createRequestFetchAction());
       fetch();
@@ -79,7 +80,7 @@ export const SongTable: React.FC<Props> = ({ albumId }) => {
         )
       );
     }
-  }, []);
+  }, [dispatch, albumId]);
 
   return (
     <div className="song-table">

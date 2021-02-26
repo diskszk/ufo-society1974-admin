@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 import { GSOdatas } from './GSOdata';
 import { saveSong } from '../../lib/songs';
 import { Song } from '../../lib/types';
 
-export const pushGSO = () => {
+export const pushGSO = async (): Promise<void> => {
   if (GSOdatas.length !== 30) {
     alert('there are not 30 songs');
     return;

@@ -54,7 +54,7 @@ const UserTable: React.FC = () => {
       }
       history.push('/users/create');
     },
-    []
+    [dispatch, history, role]
   );
 
   useEffect(() => {
@@ -72,7 +72,27 @@ const UserTable: React.FC = () => {
     };
 
     fetch();
-  }, [setUsers]);
+  }, [setUsers, dispatch, history]);
+
+  useEffect(() => {
+    const unSub = db.collection('users').onSnapshot((snapshot) => {
+      const userList = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        const user: User = {
+          isSignedIn: data.isSignedIn,
+          uid: data.uid,
+          username: data.username,
+          role: data.role,
+        };
+
+        return user;
+      });
+
+      setUsers(userList);
+
+      return () => unSub();
+    });
+  }, []);
 
   useEffect(() => {
     const unSub = db.collection('users').onSnapshot((snapshot) => {

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,7 +37,9 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
   const albumId = album.id;
 
   const songId = parseInt(song.id, 10).toString();
-  const audio = new Audio(song.songFile.path);
+  const audio: HTMLAudioElement = useMemo(() => {
+    return new Audio(song.songFile.path);
+  }, [song.songFile.path]);
 
   const handlePlayMusic = useCallback(
     (_ev: React.MouseEvent<HTMLTableCellElement, MouseEvent>): void => {
@@ -51,7 +53,7 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
         audio.pause();
       }
     },
-    [audio]
+    [audio, dispatch]
   );
 
   const handleDeleteSong = useCallback(
@@ -84,7 +86,7 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
         );
       }
     },
-    []
+    [dispatch, albumId, song, role]
   );
 
   return (
@@ -95,6 +97,7 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
       <TableCell>{song.title}</TableCell>
       <TableCell>{song.story}</TableCell>
       <TableCell className={classes.actionBtn} onClick={handlePlayMusic}>
+        {/* want: 再生/停止 で切り替わるようにしたい */}
         <p>再生</p>
       </TableCell>
       <TableCell

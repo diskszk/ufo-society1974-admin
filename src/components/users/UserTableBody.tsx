@@ -69,7 +69,7 @@ const UserTableBody: React.FC<Props> = ({ user }) => {
         );
       }
     },
-    []
+    [dispatch, user, currentRole, currentUser.uid]
   );
 
   return (

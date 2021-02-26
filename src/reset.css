@@ -1,3 +1,8 @@
+/*
+  modern-css-resetを使用
+  https://github.com/hankchizljaw/modern-css-reset/blob/master/dist/reset.css
+*/
+
 body {
   margin: 0;
   padding: 0;

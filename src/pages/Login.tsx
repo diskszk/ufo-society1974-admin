@@ -57,7 +57,7 @@ const Login: React.FC = () => {
         dispatch(createFailedFetchAction(e.message));
       }
     },
-    [email, password]
+    [email, password, dispatch, history]
   );
 
   return (

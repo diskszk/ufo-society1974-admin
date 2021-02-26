@@ -23,6 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 .firebase
+firestore-debug.log
 
 # build css files
 /src/assets/styles/style.css

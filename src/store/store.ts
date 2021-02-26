@@ -2,6 +2,7 @@ import {
   createStore as reduxCreateStore,
   combineReducers,
   applyMiddleware,
+  Store,
 } from 'redux';
 import logger from 'redux-logger';
 
@@ -13,7 +14,7 @@ import { SongsReducer } from './SongsReducer';
 import { SongFileReducer } from './SongFileReducer';
 import { LoadingStatusReducer } from './LoadingStatusReducer';
 
-export const createStore = () => {
+export const createStore = (): Store => {
   return reduxCreateStore(
     combineReducers({
       user: UsersReducer,

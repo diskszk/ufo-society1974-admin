@@ -123,7 +123,7 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
         );
       }
     },
-    []
+    [dispatch, albumId, filename, songId, role]
   );
 
   return (

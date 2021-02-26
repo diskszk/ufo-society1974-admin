@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore, User } from './lib/types';
 import { auth, db } from './firebase';
@@ -11,21 +11,19 @@ import { useHistory } from 'react-router-dom';
 import { createLoginAction } from './store/UsersReducer';
 import LoadingModal from './components/LoadingModal';
 
-interface Props {}
-
-const Auth: React.FC<Props> = ({ children }: PropsWithChildren<Props>) => {
+const Auth: React.FC = ({ children }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { isSignedIn } = useSelector<RootStore, User>((state) => state.user);
 
-  const listenAuthState = async () => {
+  const listenAuthState = useCallback(async () => {
     return auth.onAuthStateChanged(async (user) => {
       if (!user) {
         dispatch(createFailedFetchAction('ユーザーの取得に失敗しました。'));
         history.push('/login');
         return;
       }
-      const uid = user.uid;
+      const { uid } = user;
 
       const snapshot = await db.collection('users').doc(uid).get();
       const data = snapshot.data();
@@ -44,7 +42,7 @@ const Auth: React.FC<Props> = ({ children }: PropsWithChildren<Props>) => {
         })
       );
     });
-  };
+  }, [dispatch, history]);
 
   useEffect(() => {
     if (!isSignedIn) {
@@ -58,7 +56,7 @@ const Auth: React.FC<Props> = ({ children }: PropsWithChildren<Props>) => {
         history.push('/login');
       }
     }
-  }, [isSignedIn]);
+  }, [isSignedIn, dispatch, history, listenAuthState]);
 
   return <>{!isSignedIn ? <LoadingModal /> : <>{children}</>}</>;
 };

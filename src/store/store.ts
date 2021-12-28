@@ -13,6 +13,7 @@ import { AlbumReducer } from './AlbumReducer';
 import { SongsReducer } from './SongsReducer';
 import { SongFileReducer } from './SongFileReducer';
 import { LoadingStatusReducer } from './LoadingStatusReducer';
+import { AudioReducer } from './AudioReducer';
 
 export const createStore = (): Store => {
   return reduxCreateStore(
@@ -23,6 +24,7 @@ export const createStore = (): Store => {
       songFile: SongFileReducer,
       songs: SongsReducer,
       loadingStatus: LoadingStatusReducer,
+      audio: AudioReducer,
     }),
     applyMiddleware(logger)
   );

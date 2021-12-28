@@ -7,6 +7,7 @@ export type RootStore = {
   songs: Song[];
 
   loadingStatus: LoadingStatus;
+  audio: Audio;
 };
 
 export type LoadingStatus = {
@@ -57,4 +58,9 @@ export type PublishPlatform = {
   Spotify: string;
   iTunes: string;
   Bandcamp: string;
+};
+
+export type Audio = {
+  src: string;
+  isPaused: boolean;
 };

@@ -51,4 +51,8 @@ export const initialState: RootStore = {
     isLoading: false,
     message: null,
   },
+  audio: {
+    src: '',
+    isPaused: true,
+  },
 };

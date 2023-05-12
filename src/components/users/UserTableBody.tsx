@@ -1,8 +1,7 @@
 import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
+import { makeStyles } from "@mui/styles";
+import { TableCell, TableRow } from "@mui/material";
 import {
   createDisplayMessage,
   createRequestFetchAction,

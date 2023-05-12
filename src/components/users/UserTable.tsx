@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 import {
   Table,
   TableCell,
@@ -10,7 +10,7 @@ import {
   TableRow,
   Paper,
   TableBody,
-} from "@material-ui/core";
+} from "@mui/material";
 import UserTableBody from "./UserTableBody";
 import { RootStore, User } from "../../lib/types";
 import { getUsers } from "../../lib/users/getUsers";

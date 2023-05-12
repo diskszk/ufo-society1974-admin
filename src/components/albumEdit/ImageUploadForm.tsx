@@ -2,9 +2,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { imagesRef } from "../../firebase";
 
-import { makeStyles } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
+import { makeStyles } from "@mui/styles";
+import { IconButton } from "@mui/material";
+import { AddPhotoAlternate } from "@mui/icons-material";
 
 import { generateRandomStrings } from "../../lib/helpers/generateRandomStrings";
 import { deleteAlbumImage } from "../../lib/albums";
@@ -108,7 +108,7 @@ export const ImageUploadForm: React.FC<Props> = ({ image }) => {
         <span>画像を変更する</span>
         <IconButton className={classes.icon} disabled={disabled}>
           <label htmlFor="upload-image">
-            <AddPhotoAlternateIcon fontSize={"large"} />
+            <AddPhotoAlternate fontSize={"large"} />
             <input
               className={"display-none"}
               type="file"

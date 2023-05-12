@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Album, RootStore, User } from "../../lib/types";
 import { createUpdateAlbumAction } from "../../store/AlbumReducer";
-import IconButton from "@material-ui/core/IconButton";
-import BorderColorIcon from "@material-ui/icons/BorderColor";
+import { IconButton } from "@mui/material";
+import { BorderColor } from "@mui/icons-material";
 import { ROLE } from "../../constants";
 
 type Props = {
@@ -47,7 +47,7 @@ export const AlbumTableItem: React.FC<Props> = ({ album }) => {
           <span>アルバムを閲覧する</span>
         )}
         <IconButton onClick={handleEditAlbumClick}>
-          <BorderColorIcon />
+          <BorderColor />
         </IconButton>
         <br />
         {role === ROLE.EDITOR ? (
@@ -56,7 +56,7 @@ export const AlbumTableItem: React.FC<Props> = ({ album }) => {
           <span>アルバムの曲を閲覧する</span>
         )}
         <IconButton onClick={handleDetailAlbumClick}>
-          <BorderColorIcon />
+          <BorderColor />
         </IconButton>
       </div>
     </li>

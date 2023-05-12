@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 import { RootStore, Album, Song, User } from "../../lib/types";
-import { TableCell, TableRow } from "@material-ui/core/";
+import { TableCell, TableRow } from "@mui/material";
 import { ROLE } from "../../constants";
 import { createUpdateSongsAction } from "../../store/SongsReducer";
 import { deleteSong, getSongs } from "../../lib/songs";

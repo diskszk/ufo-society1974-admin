@@ -147,7 +147,8 @@ const SongEdit: React.FC<Props> = ({ match }) => {
 
         dispatch(clearSongFileAction());
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
+        // dispatch(createFailedFetchAction(e.message));
+        dispatch(createFailedFetchAction('error message'));
       }
     };
     // Edit
@@ -172,7 +173,9 @@ const SongEdit: React.FC<Props> = ({ match }) => {
           dispatch(crateSuccessFetchAction());
         }
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
+        // dispatch(createFailedFetchAction(e.message));
+        dispatch(createFailedFetchAction('error message'));
+
         history.push(`/albums/detail/${albumId}`);
       }
     };

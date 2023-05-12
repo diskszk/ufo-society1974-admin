@@ -11,7 +11,11 @@ import { useHistory } from 'react-router-dom';
 import { createLoginAction } from './store/UsersReducer';
 import LoadingModal from './components/LoadingModal';
 
-const Auth: React.FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+};
+
+const Auth: React.FC<Props> = ({ children }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { isSignedIn } = useSelector<RootStore, User>((state) => state.user);
@@ -52,7 +56,8 @@ const Auth: React.FC = ({ children }) => {
 
         dispatch(crateSuccessFetchAction());
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
+        // dispatch(createFailedFetchAction(e.message));
+        dispatch(createFailedFetchAction('error message'));
         history.push('/login');
       }
     }

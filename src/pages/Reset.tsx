@@ -46,7 +46,8 @@ const Reset: React.FC = () => {
         history.push('/login');
         return;
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
+        // dispatch(createFailedFetchAction(e.message));
+        dispatch(createFailedFetchAction('error message'));
       }
     },
     [dispatch, history, email]

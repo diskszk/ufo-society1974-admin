@@ -49,7 +49,9 @@ const Songs: React.FC<Props> = ({ match }) => {
           dispatch(crateSuccessFetchAction());
         }
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
+        // dispatch(createFailedFetchAction(e.message));
+        dispatch(createFailedFetchAction('error message'));
+
         history.push('/albums');
       }
     };

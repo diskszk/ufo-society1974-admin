@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Album } from '../../lib/types';
-import { getAlbums } from '../../lib/albums/getAlbums';
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Album } from "../../lib/types";
+import { getAlbums } from "../../lib/albums/getAlbums";
 import {
   createRequestFetchAction,
   createFailedFetchAction,
   crateSuccessFetchAction,
-} from '../../store/LoadingStatusReducer';
+} from "../../store/LoadingStatusReducer";
 
-import { AlbumTableItem } from './';
+import { AlbumTableItem } from "./";
 
 export const AlbumTable: React.FC = () => {
   const [albums, setAlbums] = useState<Album[]>([]);
@@ -24,7 +24,7 @@ export const AlbumTable: React.FC = () => {
         dispatch(crateSuccessFetchAction());
       } catch (e) {
         // dispatch(createFailedFetchAction(e.message));
-        dispatch(createFailedFetchAction('error message'));
+        dispatch(createFailedFetchAction("error message"));
       }
     };
 

@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Album, RootStore, User } from '../../lib/types';
-import { createUpdateAlbumAction } from '../../store/AlbumReducer';
-import IconButton from '@material-ui/core/IconButton';
-import BorderColorIcon from '@material-ui/icons/BorderColor';
-import { ROLE } from '../../constants';
+import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { Album, RootStore, User } from "../../lib/types";
+import { createUpdateAlbumAction } from "../../store/AlbumReducer";
+import IconButton from "@material-ui/core/IconButton";
+import BorderColorIcon from "@material-ui/icons/BorderColor";
+import { ROLE } from "../../constants";
 
 type Props = {
   album: Album;
@@ -38,7 +38,7 @@ export const AlbumTableItem: React.FC<Props> = ({ album }) => {
     <li className="album-item">
       <p>{album.title}</p>
       <div className="album-image" onClick={handleEditAlbumClick}>
-        <img src={album.imageFile.path} alt={'アルバムの画像'} />
+        <img src={album.imageFile.path} alt={"アルバムの画像"} />
       </div>
       <div className="album-image-footer">
         {role === ROLE.EDITOR ? (

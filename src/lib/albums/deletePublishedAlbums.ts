@@ -1,4 +1,4 @@
-import { publishedAlbumsRef } from './publishAlbums';
+import { publishedAlbumsRef } from "./publishAlbums";
 
 export const deletePublishedAlbums = async (): Promise<void> => {
   const publishedAlbums = await publishedAlbumsRef.get();
@@ -6,7 +6,7 @@ export const deletePublishedAlbums = async (): Promise<void> => {
   publishedAlbums.docs.map(async (doc) => {
     const albumId = doc.id;
 
-    const songRef = publishedAlbumsRef.doc(albumId).collection('songs');
+    const songRef = publishedAlbumsRef.doc(albumId).collection("songs");
     const publishedSongs = await songRef.get();
 
     publishedSongs.docs.map(async (song) => {

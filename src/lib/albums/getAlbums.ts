@@ -1,5 +1,5 @@
-import { Album } from '../types';
-import { fetchAlbums } from './fetchAlbums';
+import { Album } from "../types";
+import { fetchAlbums } from "./fetchAlbums";
 
 export const getAlbums = async (): Promise<Album[]> => {
   const dataList = await fetchAlbums();

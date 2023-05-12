@@ -1,9 +1,9 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootStore, User } from '../lib/types';
-import { CustomButton } from '../components/UIKit';
-import meido from '../assets/images/job_maid_meido_kissa.png';
+import React from "react";
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootStore, User } from "../lib/types";
+import { CustomButton } from "../components/UIKit";
+import meido from "../assets/images/job_maid_meido_kissa.png";
 
 const Home: React.FC = () => {
   const { username } = useSelector<RootStore, User>((state) => state.user);
@@ -32,13 +32,13 @@ const Home: React.FC = () => {
         <CustomButton
           label="ユーザー管理"
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            history.push('/users')
+            history.push("/users")
           }
         />
         <CustomButton
           label="アルバムを管理"
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            history.push('/albums')
+            history.push("/albums")
           }
         />
       </div>

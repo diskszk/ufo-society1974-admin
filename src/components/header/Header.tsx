@@ -1,16 +1,16 @@
-import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootStore, User } from '../../lib/types';
-import { UFO_SOCIETY_OFFICIAL } from '../../constants';
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootStore, User } from "../../lib/types";
+import { UFO_SOCIETY_OFFICIAL } from "../../constants";
 import {
   createRequestFetchAction,
   createDisplayMessage,
   crateSuccessFetchAction,
   createFailedFetchAction,
-} from '../../store/LoadingStatusReducer';
-import { auth } from '../../firebase';
-import { createLogOutAction } from '../../store/UsersReducer';
+} from "../../store/LoadingStatusReducer";
+import { auth } from "../../firebase";
+import { createLogOutAction } from "../../store/UsersReducer";
 
 export const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -26,9 +26,9 @@ export const Header: React.FC = () => {
       dispatch(createRequestFetchAction());
       await auth.signOut();
       dispatch(createLogOutAction());
-      dispatch(createDisplayMessage('ログアウトしました。'));
+      dispatch(createDisplayMessage("ログアウトしました。"));
       dispatch(crateSuccessFetchAction());
-      history.push('/login');
+      history.push("/login");
     } catch {
       dispatch(
         createFailedFetchAction(`ログアウトに失敗しました。\n

@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { CustomButton, TextInput, TypeSelector } from '../components/UIKit';
-import { createAccount, registerAccount } from '../lib/users';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootStore, User } from '../lib/types';
-import { ROLE } from '../constants';
+import React, { useCallback, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { CustomButton, TextInput, TypeSelector } from "../components/UIKit";
+import { createAccount, registerAccount } from "../lib/users";
+import { useDispatch, useSelector } from "react-redux";
+import { RootStore, User } from "../lib/types";
+import { ROLE } from "../constants";
 import {
   crateSuccessFetchAction,
   createRequestFetchAction,
   createFailedFetchAction,
   createDisplayMessage,
-} from '../store/LoadingStatusReducer';
+} from "../store/LoadingStatusReducer";
 
 const roles = [
   {
@@ -34,11 +34,11 @@ const CreateAccount: React.FC = () => {
   const history = useHistory();
   const [disable, setDisable] = useState(true);
 
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState('editor');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("editor");
 
   const inputUsername = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,29 +82,29 @@ const CreateAccount: React.FC = () => {
       // 権限をチェック
       if (user.role !== ROLE.MASTER) {
         dispatch(
-          createDisplayMessage('アカウントを作成する権限がありません。')
+          createDisplayMessage("アカウントを作成する権限がありません。")
         );
         return;
       }
 
       // Validations
       if (
-        username === '' ||
-        email === '' ||
-        password === '' ||
-        confirmPassword === '' ||
-        role === ''
+        username === "" ||
+        email === "" ||
+        password === "" ||
+        confirmPassword === "" ||
+        role === ""
       ) {
-        dispatch(createDisplayMessage('必須項目が未入力です。'));
+        dispatch(createDisplayMessage("必須項目が未入力です。"));
         return;
       }
 
       if (password !== confirmPassword) {
-        dispatch(createDisplayMessage('パスワードが一致していません。'));
+        dispatch(createDisplayMessage("パスワードが一致していません。"));
         return;
       }
 
-      if (!window.confirm('ユーザーを新規作成しログインし直します。')) {
+      if (!window.confirm("ユーザーを新規作成しログインし直します。")) {
         return;
       }
       try {
@@ -114,7 +114,7 @@ const CreateAccount: React.FC = () => {
         if (!newAccount) {
           dispatch(
             createFailedFetchAction(
-              'ユーザーの作成に失敗しました。\n通信環境をご確認お上再度お試しください。'
+              "ユーザーの作成に失敗しました。\n通信環境をご確認お上再度お試しください。"
             )
           );
           return;
@@ -126,11 +126,11 @@ const CreateAccount: React.FC = () => {
         dispatch(
           createDisplayMessage(`${newAccount.username}を作成しました。`)
         );
-        history.push('/');
+        history.push("/");
         return;
       } catch (e) {
         // dispatch(createFailedFetchAction(e.message));
-        dispatch(createFailedFetchAction('error message'));
+        dispatch(createFailedFetchAction("error message"));
       }
     },
     [
@@ -149,10 +149,10 @@ const CreateAccount: React.FC = () => {
     if (user.role === ROLE.MASTER) {
       // 入力フォームがどれか１つでも空だと作成ボタン非活性
       if (
-        username !== '' &&
-        email !== '' &&
-        password !== '' &&
-        confirmPassword !== ''
+        username !== "" &&
+        email !== "" &&
+        password !== "" &&
+        confirmPassword !== ""
       ) {
         setDisable(false);
       } else {
@@ -167,48 +167,48 @@ const CreateAccount: React.FC = () => {
       <div className="inputs-container">
         <TextInput
           fullWidth={false}
-          label={'お名前'}
+          label={"お名前"}
           multiline={false}
           required={true}
           rows={1}
           value={username}
-          type={'text'}
+          type={"text"}
           onChange={inputUsername}
         />
         <TextInput
           fullWidth={true}
-          label={'E-mail'}
+          label={"E-mail"}
           multiline={false}
           required={true}
           rows={1}
           value={email}
-          type={'email'}
+          type={"email"}
           onChange={inputEmail}
         />
         <TextInput
           fullWidth={true}
-          label={'パスワード'}
+          label={"パスワード"}
           multiline={false}
           required={true}
           rows={1}
           value={password}
-          type={'password'}
+          type={"password"}
           onChange={inputPassword}
         />
         <TextInput
           fullWidth={true}
-          label={'パスワード(確認)'}
+          label={"パスワード(確認)"}
           multiline={false}
           required={true}
           rows={1}
           value={confirmPassword}
-          type={'password'}
+          type={"password"}
           onChange={inputConfirmPassword}
         />
 
         <TypeSelector
           roles={roles}
-          label={'役職'}
+          label={"役職"}
           role={role}
           required={true}
           onChange={selectRole}
@@ -218,7 +218,7 @@ const CreateAccount: React.FC = () => {
           <CustomButton
             label="もどる"
             onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-              history.push('/users')
+              history.push("/users")
             }
           />
           <CustomButton

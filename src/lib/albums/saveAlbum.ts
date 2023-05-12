@@ -1,8 +1,8 @@
-import { db, FirebaseTimestamp } from '../../firebase';
-import { Album, File, PublishPlatform } from '../types';
-import { generateRandomStrings } from '../helpers/generateRandomStrings';
+import { db, FirebaseTimestamp } from "../../firebase";
+import { Album, File, PublishPlatform } from "../types";
+import { generateRandomStrings } from "../helpers/generateRandomStrings";
 
-const albumsRef = db.collection('albums');
+const albumsRef = db.collection("albums");
 
 export const saveAlbum = async (
   title: string,
@@ -13,7 +13,7 @@ export const saveAlbum = async (
   albumId: string
 ): Promise<void> => {
   const timestamp = FirebaseTimestamp.now();
-  const id = albumId !== 'new' ? albumId : generateRandomStrings();
+  const id = albumId !== "new" ? albumId : generateRandomStrings();
 
   const data: Album = {
     createdAt: timestamp,

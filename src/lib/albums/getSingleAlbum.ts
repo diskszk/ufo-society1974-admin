@@ -1,5 +1,5 @@
-import { getAlbums } from './getAlbums';
-import { Album } from '../types';
+import { getAlbums } from "./getAlbums";
+import { Album } from "../types";
 
 export const getSingleAlbum = async (
   albumId: string

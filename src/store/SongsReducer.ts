@@ -1,9 +1,9 @@
-import { initialState } from './initialState';
-import { Song } from '../lib/types';
+import { initialState } from "./initialState";
+import { Song } from "../lib/types";
 
 const songsInitialState = initialState.songs;
 
-const UPDATE_SONGS = 'UPDATE_SONGS';
+const UPDATE_SONGS = "UPDATE_SONGS";
 
 type SongsAction = {
   type: typeof UPDATE_SONGS;

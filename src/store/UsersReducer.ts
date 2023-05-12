@@ -1,10 +1,10 @@
-import { User } from '../lib/types';
-import { initialState } from './initialState';
+import { User } from "../lib/types";
+import { initialState } from "./initialState";
 
 const userInitialState = initialState.user;
 
-const LOG_IN = 'LOG_IN';
-const LOG_OUT = 'LOG_OUT';
+const LOG_IN = "LOG_IN";
+const LOG_OUT = "LOG_OUT";
 
 type SignInAction = {
   type: typeof LOG_IN;
@@ -33,9 +33,9 @@ export const createLogOutAction = (): UserActions => {
     type: LOG_OUT,
     payload: {
       isSignedIn: false,
-      role: '',
-      username: '',
-      uid: '',
+      role: "",
+      username: "",
+      uid: "",
     },
   };
 };

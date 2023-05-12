@@ -1,24 +1,24 @@
-import React, { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
+import React, { useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
 import {
   createDisplayMessage,
   createRequestFetchAction,
   createFailedFetchAction,
   crateSuccessFetchAction,
-} from '../../store/LoadingStatusReducer';
-import { ROLE } from '../../constants';
-import { RootStore, User } from '../../lib/types';
-import { deleteUser } from '../../lib/users/deleteUser';
+} from "../../store/LoadingStatusReducer";
+import { ROLE } from "../../constants";
+import { RootStore, User } from "../../lib/types";
+import { deleteUser } from "../../lib/users/deleteUser";
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
   actionBtn: {
-    cursor: 'pointer',
+    cursor: "pointer",
   },
 });
 
@@ -38,7 +38,7 @@ const UserTableBody: React.FC<Props> = ({ user }) => {
     ): Promise<void> => {
       if (currentRole !== ROLE.MASTER) {
         dispatch(
-          createDisplayMessage('ユーザー管理者のみユーザーを削除できます。')
+          createDisplayMessage("ユーザー管理者のみユーザーを削除できます。")
         );
         return;
       }
@@ -47,24 +47,24 @@ const UserTableBody: React.FC<Props> = ({ user }) => {
       }
       // role: masterは消せない
       if (user.role === ROLE.MASTER) {
-        dispatch(createDisplayMessage('このユーザーは削除できません。'));
+        dispatch(createDisplayMessage("このユーザーは削除できません。"));
         return;
       }
       if (user.uid === currentUser.uid) {
-        dispatch(createDisplayMessage('このユーザーは削除できません。'));
+        dispatch(createDisplayMessage("このユーザーは削除できません。"));
         return;
       }
 
       try {
         dispatch(createRequestFetchAction());
         await deleteUser(user.uid);
-        dispatch(createDisplayMessage('ユーザーが削除されました。'));
+        dispatch(createDisplayMessage("ユーザーが削除されました。"));
 
         dispatch(crateSuccessFetchAction());
       } catch (e) {
         dispatch(
           createFailedFetchAction(
-            'ユーザーの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
+            "ユーザーの削除に失敗しました。\n通信環境をご確認の上再度お試しください。"
           )
         );
       }

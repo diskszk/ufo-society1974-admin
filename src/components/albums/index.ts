@@ -1,2 +1,2 @@
-export { AlbumTable } from './AlbumTable';
-export { AlbumTableItem } from './AlbumTableItem';
+export { AlbumTable } from "./AlbumTable";
+export { AlbumTableItem } from "./AlbumTableItem";

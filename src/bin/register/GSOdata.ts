@@ -1,12 +1,12 @@
-import { FirebaseTimestamp } from '../../firebase';
-import { Song } from '../../lib/types';
+import { FirebaseTimestamp } from "../../firebase";
+import { Song } from "../../lib/types";
 const timestamp = FirebaseTimestamp.now();
 
 export const GSOdatas: Song[] = [
   // ここから
   {
     createdAt: timestamp,
-    id: '0001', // 00XXの形で
+    id: "0001", // 00XXの形で
     lyric: `ちゃちな指輪で 夢を見せるように
 さみしい公園で描いた迷路
 
@@ -29,27 +29,27 @@ export const GSOdatas: Song[] = [
 きみの手で 白い手で
 空をこじあけて`,
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
     story: 'TR-3B, Masuo TV, "レストー夫人"',
-    title: 'カイト',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    title: "カイト",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
   },
   // ここまでコピー
 
   {
     createdAt: timestamp,
-    id: '0002', // 00XXの形で
+    id: "0002", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '谷川俊太郎',
-    title: 'ヤング',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "谷川俊太郎",
+    title: "ヤング",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `わかいおまえが
 そんなに多くを知っているとは思えない
 そのささやかな出口を通るものは何だと言う
@@ -71,15 +71,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0003', // 00XXの形で
+    id: "0003", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '無し',
-    title: 'プラスチック・チルドレン',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "無し",
+    title: "プラスチック・チルドレン",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `子どもらが駆けてゆく
 笑っていたんだ
 
@@ -96,15 +96,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0004', // 00XXの形で
+    id: "0004", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
     story: '"悲しみよ こんにちは"',
-    title: 'サガン',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    title: "サガン",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `海や川をきみは愛せるか
 老いて知るは有名な歌か
 
@@ -121,15 +121,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0005', // 00XXの形で
+    id: "0005", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
     story: '"インディゴ地平線"',
-    title: 'セスナ',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    title: "セスナ",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `翼は凍りついて
 彼の基地はクズの砦
 なにかがおかしいから
@@ -150,15 +150,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0006', // 00XXの形で
+    id: "0006", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
     story: '"我らコンタクティ", ボイジャー',
-    title: 'ゴールデン・レコード',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    title: "ゴールデン・レコード",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `トンツーは雑音にまみれていた
 肝心なところが拾えない
 
@@ -179,15 +179,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0007', // 00XXの形で
+    id: "0007", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '無し',
-    title: 'アーハ',
-    wordsRights: 'amane toda',
-    musicRights: 'hiroyoshi kojima',
+    story: "無し",
+    title: "アーハ",
+    wordsRights: "amane toda",
+    musicRights: "hiroyoshi kojima",
     lyric: `わずかな未来もめちゃくちゃになる
     うれしさ以外の感情しだいで
     
@@ -204,15 +204,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0008', // 00XXの形で
+    id: "0008", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '海無し県',
-    title: 'ウィズ・ノー・シー',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "海無し県",
+    title: "ウィズ・ノー・シー",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `花をもって 通りを歩いても
 短い日はどうにもならないし
 
@@ -240,15 +240,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0009', // 00XXの形で
+    id: "0009", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
     story: '"ネムルバカ"',
-    title: 'ギア',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    title: "ギア",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `こしゃくな ばか夕日に
 また はりぼてとばらされた
 ぶざまな形だった
@@ -266,15 +266,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0010', // 00XXの形で
+    id: "0010", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '飲酒行為',
-    title: 'レトリバー',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "飲酒行為",
+    title: "レトリバー",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `きみは夕闇を歩く
 意味の無い事をしてる
 よどんだ川
@@ -292,15 +292,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0011', // 00XXの形で
+    id: "0011", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '広くて無い草原',
-    title: 'オール・ドックズ・アー・ユア・フレンズ',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "広くて無い草原",
+    title: "オール・ドックズ・アー・ユア・フレンズ",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `どこかの線路がきしむ音を目指して
 巨大なけものの足跡を避けながら
 
@@ -325,15 +325,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0012', // 00XXの形で
+    id: "0012", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '無し',
-    title: 'タイニー・ゴースト',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "無し",
+    title: "タイニー・ゴースト",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `まるくて黒い目した
 あなたはかわいい幽霊
 
@@ -354,15 +354,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0013', // 00XXの形で
+    id: "0013", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '知らない有名な人',
-    title: 'トップ・オブ・ザ・ワールド',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "知らない有名な人",
+    title: "トップ・オブ・ザ・ワールド",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `トップ・オブ・ザ・ワールド
 きみの事は誰だってよく知っている
 トップ・オブ・ザ・ワールド
@@ -387,15 +387,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0014', // 00XXの形で
+    id: "0014", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '飲酒行為, 投石機',
-    title: 'カタパルト',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "飲酒行為, 投石機",
+    title: "カタパルト",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `ひどく酔っていた
 このざまなら
 まだここに居られそう
@@ -410,15 +410,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0015', // 00XXの形で
+    id: "0015", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '無し',
-    title: 'ポート',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "無し",
+    title: "ポート",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `港には やせぎすの男が
 まだ来ない嵐を待つように居る
 かんたんな薄い外套だけ
@@ -442,15 +442,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0016', // 00XXの形で
+    id: "0016", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '無し',
-    title: 'ロング',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "無し",
+    title: "ロング",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `間違えた 確かにそうさ
 間違えて こんなになった
 
@@ -461,15 +461,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0017', // 00XXの形で
+    id: "0017", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: 'そういった精神疾患',
-    title: 'エヴリウェア・ユー・ゴー',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "そういった精神疾患",
+    title: "エヴリウェア・ユー・ゴー",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `とても外に出る気にはなれない
 見上げればいつも飛行船があるんだ
 さも正しそうに`,
@@ -478,15 +478,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0018', // 00XXの形で
+    id: "0018", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '無し',
-    title: 'フラワーズ',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "無し",
+    title: "フラワーズ",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `荒れかけた庭に立ち
 ひとたちは泣いている
 おだやかな日々のすえ
@@ -506,15 +506,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0019', // 00XXの形で
+    id: "0019", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
     story: '"春は青いバスに乗って"',
-    title: 'ブルー',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    title: "ブルー",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `ひとでなしの青いバスが
 きみの事を迎えにくる
 やけにけむたく晴れた町
@@ -540,15 +540,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0020', // 00XXの形で
+    id: "0020", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
     story: '"夢見る魚", "素晴らしき日々～不連続存在～"',
-    title: 'ドリーミー・フィッシュ',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    title: "ドリーミー・フィッシュ",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `少しの晴れ間だった
 欄干に立ったせいだ
 ほかの星に棲む魚の夢を傍受した
@@ -558,15 +558,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0021', // 00XXの形で
+    id: "0021", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '無し',
-    title: 'ディス・イズ・ノット・ア・サマー・ソング',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "無し",
+    title: "ディス・イズ・ノット・ア・サマー・ソング",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `有名な感情で
 夏の日々を歌うんだよ
 そんな歌 いいかもね
@@ -595,15 +595,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0022', // 00XXの形で
+    id: "0022", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
     story: '松澤小巻, "ラジオコントロールド・サテライト"',
-    title: 'レディオ・ウェーヴズ',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    title: "レディオ・ウェーヴズ",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `おまえは違う生きものになるために
 そんな行為をする
 なにかと交信しようとしている
@@ -621,15 +621,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0023', // 00XXの形で
+    id: "0023", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
     story: '飲酒行為, "Brand New Love", "Not A Friend',
-    title: 'ニュー・ラヴ',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    title: "ニュー・ラヴ",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `次ぐ朝おれは床で目覚めた
 おれの頭を何も通らない
 好きだったものを忘れにいこうかな
@@ -655,15 +655,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0024', // 00XXの形で
+    id: "0024", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '見た夢',
-    title: 'ブイ・エイチ・エス・ソサエティ',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "見た夢",
+    title: "ブイ・エイチ・エス・ソサエティ",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `死んだ友だちの夢
 レンズを向ければ
 海がうつった
@@ -681,15 +681,15 @@ export const GSOdatas: Song[] = [
 
   {
     createdAt: timestamp,
-    id: '0025', // 00XXの形で
+    id: "0025", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '無し',
-    title: 'ステイ',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "無し",
+    title: "ステイ",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `遮った陽は 道ばたに戻るんだ
 VHS 巻き戻し 早送り
 
@@ -718,15 +718,15 @@ VHS 巻き戻し 早送り
 
   {
     createdAt: timestamp,
-    id: '0026', // 00XXの形で
+    id: "0026", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
     story: '"青い欠如"',
-    title: 'チムニー',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    title: "チムニー",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `病気のふりも無く花を見る
 手紙の文字がただの棒になる
 
@@ -739,15 +739,15 @@ VHS 巻き戻し 早送り
 
   {
     createdAt: timestamp,
-    id: '0028', // 00XXの形で
+    id: "0028", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
     story: '"Hardcore UFOs"',
-    title: 'ナイト・ブラインド',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    title: "ナイト・ブラインド",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `ゆうべ おまえは
 何よりしなやかな鳥になり
 絵を描いていた
@@ -773,15 +773,15 @@ VHS 巻き戻し 早送り
 
   {
     createdAt: timestamp,
-    id: '0028', // 00XXの形で
+    id: "0028", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: 'いしわたり淳治, 不忍池の活動家',
-    title: 'ゴー・サウス',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "いしわたり淳治, 不忍池の活動家",
+    title: "ゴー・サウス",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `めちゃくちゃになってみて
 おまえがわかったろ
 どうすればいいかも知れただろ
@@ -806,15 +806,15 @@ VHS 巻き戻し 早送り
 
   {
     createdAt: timestamp,
-    id: '0029', // 00XXの形で
+    id: "0029", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '無し',
-    title: 'リバーベッド',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "無し",
+    title: "リバーベッド",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `誰もさわれない川底で
 海に出ないまま眠る石
 
@@ -835,15 +835,15 @@ VHS 巻き戻し 早送り
 
   {
     createdAt: timestamp,
-    id: '0030', // 00XXの形で
+    id: "0030", // 00XXの形で
     songFile: {
-      filename: '', // 空欄
-      path: '', // 空欄
+      filename: "", // 空欄
+      path: "", // 空欄
     },
-    story: '無し',
-    title: 'ユー・エフ・オー・ソサエティ',
-    wordsRights: 'amane toda',
-    musicRights: 'amane toda',
+    story: "無し",
+    title: "ユー・エフ・オー・ソサエティ",
+    wordsRights: "amane toda",
+    musicRights: "amane toda",
     lyric: `ローテク骨ばり型 どうにかできて
 安心ばかりの町 どうにか出て行く
 老人はへんな軌道

@@ -1,9 +1,9 @@
-import { db } from '../../firebase';
-import { Album, Song } from '../../lib/types';
-import { getSongs } from '../songs';
-import { getAlbums } from './getAlbums';
+import { db } from "../../firebase";
+import { Album, Song } from "../../lib/types";
+import { getSongs } from "../songs";
+import { getAlbums } from "./getAlbums";
 
-export const publishedAlbumsRef = db.collection('published_albums');
+export const publishedAlbumsRef = db.collection("published_albums");
 
 export const publishAlbums = async (): Promise<void> => {
   const unpublishedAlbumList = await getAlbums();
@@ -22,7 +22,7 @@ export const publishAlbums = async (): Promise<void> => {
       unpublishedSongs.map(async (unpublishedSong: Song) => {
         await publishedAlbumsRef
           .doc(publishedAlbumId)
-          .collection('songs')
+          .collection("songs")
           .add(unpublishedSong);
       });
     });

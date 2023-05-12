@@ -1,31 +1,31 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { imagesRef } from '../../firebase';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { imagesRef } from "../../firebase";
 
-import { makeStyles } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
+import { makeStyles } from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
+import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 
-import { generateRandomStrings } from '../../lib/helpers/generateRandomStrings';
-import { deleteAlbumImage } from '../../lib/albums';
-import { File, RootStore, User } from '../../lib/types';
-import { createUpdateImageAction } from '../../store/ImageReducer';
+import { generateRandomStrings } from "../../lib/helpers/generateRandomStrings";
+import { deleteAlbumImage } from "../../lib/albums";
+import { File, RootStore, User } from "../../lib/types";
+import { createUpdateImageAction } from "../../store/ImageReducer";
 import {
   createRequestFetchAction,
   createDisplayMessage,
   createFailedFetchAction,
   crateSuccessFetchAction,
-} from '../../store/LoadingStatusReducer';
-import { ROLE } from '../../constants';
-import { checkRole } from '../../lib/helpers';
+} from "../../store/LoadingStatusReducer";
+import { ROLE } from "../../constants";
+import { checkRole } from "../../lib/helpers";
 
 const useStyles = makeStyles({
   icon: {
     height: 48,
     width: 48,
-    '&:disabled': {
-      '& > span': {
-        color: 'rgba(44, 44, 44, 0.4)',
+    "&:disabled": {
+      "& > span": {
+        color: "rgba(44, 44, 44, 0.4)",
       },
     },
   },
@@ -47,14 +47,14 @@ export const ImageUploadForm: React.FC<Props> = ({ image }) => {
     const isAllowed = checkRole(ROLE.EDITOR, role);
 
     if (!isAllowed) {
-      dispatch(createDisplayMessage('アカウントに権限がありません。'));
+      dispatch(createDisplayMessage("アカウントに権限がありません。"));
       return;
     }
 
     const fileList = ev.target.files;
 
     if (!fileList) {
-      dispatch(createDisplayMessage('ファイルが選択されていません。'));
+      dispatch(createDisplayMessage("ファイルが選択されていません。"));
       return;
     }
 
@@ -65,14 +65,14 @@ export const ImageUploadForm: React.FC<Props> = ({ image }) => {
     }
 
     // すでにローカルステートに登録されている場合はstorageの元の画像を削除
-    if (image.filename !== '') {
+    if (image.filename !== "") {
       try {
         dispatch(createRequestFetchAction());
         await deleteAlbumImage(image.filename);
       } catch (e) {
         dispatch(
           createFailedFetchAction(
-            '画像のアップロードに失敗しました。\n通信状態をご確認の上再度お試しください。'
+            "画像のアップロードに失敗しました。\n通信状態をご確認の上再度お試しください。"
           )
         );
       }
@@ -91,12 +91,12 @@ export const ImageUploadForm: React.FC<Props> = ({ image }) => {
 
       dispatch(createUpdateImageAction(newImage));
 
-      dispatch(createDisplayMessage('画像のアップロードが完了しました。'));
+      dispatch(createDisplayMessage("画像のアップロードが完了しました。"));
       dispatch(crateSuccessFetchAction());
     } catch {
       dispatch(
         createFailedFetchAction(
-          '画像のアップロードに失敗しました。\n通信状態をご確認の上再度お試しください。'
+          "画像のアップロードに失敗しました。\n通信状態をご確認の上再度お試しください。"
         )
       );
     }
@@ -108,9 +108,9 @@ export const ImageUploadForm: React.FC<Props> = ({ image }) => {
         <span>画像を変更する</span>
         <IconButton className={classes.icon} disabled={disabled}>
           <label htmlFor="upload-image">
-            <AddPhotoAlternateIcon fontSize={'large'} />
+            <AddPhotoAlternateIcon fontSize={"large"} />
             <input
-              className={'display-none'}
+              className={"display-none"}
               type="file"
               id="upload-image"
               accept="image/png, image/jpeg, image/jpg"

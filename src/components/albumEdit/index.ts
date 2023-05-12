@@ -1,1 +1,1 @@
-export { ImageUploadForm } from './ImageUploadForm';
+export { ImageUploadForm } from "./ImageUploadForm";

@@ -1,5 +1,5 @@
-import { Switch, Route } from 'react-router-dom';
-import Auth from './Auth';
+import { Switch, Route } from "react-router-dom";
+import Auth from "./Auth";
 import {
   Home,
   Login,
@@ -10,24 +10,24 @@ import {
   Users,
   Albums,
   AlbumEdit,
-} from './pages';
+} from "./pages";
 
 const Routes = (): JSX.Element => {
   return (
     <Switch>
-      <Route exact path={'/login'} component={Login} />
-      <Route exact path={'/reset'} component={Reset} />
+      <Route exact path={"/login"} component={Login} />
+      <Route exact path={"/reset"} component={Reset} />
 
       <Auth>
-        <Route exact path={'(/)?'} component={Home} />
+        <Route exact path={"(/)?"} component={Home} />
 
         {/* Users */}
-        <Route exact path={'/users'} component={Users} />
-        <Route exact path={'/users/create'} component={CreateAccount} />
+        <Route exact path={"/users"} component={Users} />
+        <Route exact path={"/users/create"} component={CreateAccount} />
 
         {/* Albums */}
-        <Route exact path={'/albums'} component={Albums} />
-        <Route path={'/albums/edit/:id'} component={AlbumEdit} />
+        <Route exact path={"/albums"} component={Albums} />
+        <Route path={"/albums/edit/:id"} component={AlbumEdit} />
 
         {/* Songs */}
         <Route

@@ -1,39 +1,39 @@
-import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import BackupIcon from '@material-ui/icons/Backup';
-import { makeStyles } from '@material-ui/core';
-import { File, RootStore, User } from '../../lib/types';
-import { generateRandomStrings } from '../../lib/helpers/generateRandomStrings';
+import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import BackupIcon from "@material-ui/icons/Backup";
+import { makeStyles } from "@material-ui/core";
+import { File, RootStore, User } from "../../lib/types";
+import { generateRandomStrings } from "../../lib/helpers/generateRandomStrings";
 import {
   clearSongFileAction,
   createUpdateSongFileAction,
-} from '../../store/SongFileReducer';
-import { deleteSongFile, uploadSongFile } from '../../lib/songs';
+} from "../../store/SongFileReducer";
+import { deleteSongFile, uploadSongFile } from "../../lib/songs";
 import {
   createDisplayMessage,
   createFailedFetchAction,
   createRequestFetchAction,
   crateSuccessFetchAction,
-} from '../../store/LoadingStatusReducer';
-import { ROLE } from '../../constants';
-import { checkRole } from '../../lib/helpers';
+} from "../../store/LoadingStatusReducer";
+import { ROLE } from "../../constants";
+import { checkRole } from "../../lib/helpers";
 
 const useStyles = makeStyles({
   icon: {
     height: 48,
     width: 48,
     lineHeight: 48,
-    cursor: 'pointer',
-    '&:disabled': {
-      '& > span': {
-        color: 'rgba(44, 44, 44, 0.4)',
+    cursor: "pointer",
+    "&:disabled": {
+      "& > span": {
+        color: "rgba(44, 44, 44, 0.4)",
       },
     },
   },
   cursor: {
-    cursor: 'pointer',
+    cursor: "pointer",
   },
 });
 
@@ -56,14 +56,14 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
     const isAllowed = checkRole(ROLE.EDITOR, role);
 
     if (!isAllowed) {
-      dispatch(createDisplayMessage('アカウントに権限がありません。'));
+      dispatch(createDisplayMessage("アカウントに権限がありません。"));
       return;
     }
 
     const fileList = ev.target.files;
 
     if (!fileList) {
-      dispatch(createDisplayMessage('ファイルが選択されていません。'));
+      dispatch(createDisplayMessage("ファイルが選択されていません。"));
       return;
     }
 
@@ -79,13 +79,13 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
       const newSongFile = await uploadSongFile(file, newFileName);
 
       dispatch(createUpdateSongFileAction(newSongFile));
-      dispatch(createDisplayMessage('ファイルがアップロードされました。'));
+      dispatch(createDisplayMessage("ファイルがアップロードされました。"));
 
       dispatch(crateSuccessFetchAction());
     } catch {
       dispatch(
         createFailedFetchAction(
-          'ファイルのアップロードに失敗しました。\n通信環境をご確認の上再度お試しください。'
+          "ファイルのアップロードに失敗しました。\n通信環境をご確認の上再度お試しください。"
         )
       );
     }
@@ -98,16 +98,16 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
       const isAllowed = checkRole(ROLE.EDITOR, role);
 
       if (!isAllowed) {
-        dispatch(createDisplayMessage('アカウントに権限がありません。'));
+        dispatch(createDisplayMessage("アカウントに権限がありません。"));
         return;
       }
-      if (filename === '') {
+      if (filename === "") {
         dispatch(
-          createDisplayMessage('ファイルがアップロードされていません。')
+          createDisplayMessage("ファイルがアップロードされていません。")
         );
         return;
       }
-      if (!window.confirm('ファイルを削除しますか？')) {
+      if (!window.confirm("ファイルを削除しますか？")) {
         return;
       }
       try {
@@ -118,7 +118,7 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
       } catch {
         dispatch(
           createFailedFetchAction(
-            'ファイルの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
+            "ファイルの削除に失敗しました。\n通信環境をご確認の上再度お試しください。"
           )
         );
       }
@@ -129,7 +129,7 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
   return (
     <div className="song-upload-form">
       <p>曲をアップロード</p>
-      {filename === '' ? (
+      {filename === "" ? (
         // add song file
         <IconButton className={classes.icon} disabled={disabled}>
           <label htmlFor="upload-music">
@@ -138,7 +138,7 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
               type="file"
               className="display-none"
               accept=".mp3"
-              id={'upload-music'}
+              id={"upload-music"}
               onChange={(ev) => handleChangeUploadSongButton(ev)}
             />
           </label>

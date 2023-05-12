@@ -1,25 +1,25 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { useHistory, RouteComponentProps } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import { CustomButton, TextInput } from '../components/UIKit';
-import { ImageUploadForm } from '../components/albumEdit';
-import { RootStore, File, User, PublishPlatform } from '../lib/types';
-import { saveAlbum, deleteAlbum } from '../lib/albums';
-import { ROLE } from '../constants';
-import { getSingleAlbum } from '../lib/albums/getSingleAlbum';
+import React, { useCallback, useState, useEffect } from "react";
+import { useHistory, RouteComponentProps } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import { CustomButton, TextInput } from "../components/UIKit";
+import { ImageUploadForm } from "../components/albumEdit";
+import { RootStore, File, User, PublishPlatform } from "../lib/types";
+import { saveAlbum, deleteAlbum } from "../lib/albums";
+import { ROLE } from "../constants";
+import { getSingleAlbum } from "../lib/albums/getSingleAlbum";
 import {
   createUpdateImageAction,
   createClearImageAction,
-} from '../store/ImageReducer';
+} from "../store/ImageReducer";
 import {
   createDisplayMessage,
   createFailedFetchAction,
   createRequestFetchAction,
   crateSuccessFetchAction,
-} from '../store/LoadingStatusReducer';
-import { checkRole, validatePublishedDate } from '../lib/helpers';
+} from "../store/LoadingStatusReducer";
+import { checkRole, validatePublishedDate } from "../lib/helpers";
 
 type Props = RouteComponentProps<{ id: string }>;
 
@@ -33,13 +33,13 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const imageFile = useSelector<RootStore, File>((state) => state.image);
 
-  const [description, setDescription] = useState('');
-  const [publishedDate, setPublishedDate] = useState('');
-  const [title, setTitle] = useState('');
-  const [appleMusicURL, setAppleMusicURL] = useState('');
-  const [spotifyURL, setSpotifyURL] = useState('');
-  const [iTunesURL, setITunesURL] = useState('');
-  const [bandcampURL, setBandcampURL] = useState('');
+  const [description, setDescription] = useState("");
+  const [publishedDate, setPublishedDate] = useState("");
+  const [title, setTitle] = useState("");
+  const [appleMusicURL, setAppleMusicURL] = useState("");
+  const [spotifyURL, setSpotifyURL] = useState("");
+  const [iTunesURL, setITunesURL] = useState("");
+  const [bandcampURL, setBandcampURL] = useState("");
 
   const [disable, setDisable] = useState(true);
   const deleteIconDisabled: boolean = role !== ROLE.EDITOR;
@@ -93,7 +93,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
       const validatedPublishedDateResult = validatePublishedDate(publishedDate);
 
       if (!title || !publishedDate) {
-        dispatch(createDisplayMessage('必須項目が未入力です。'));
+        dispatch(createDisplayMessage("必須項目が未入力です。"));
         return;
       }
       if (!validatedPublishedDateResult) {
@@ -123,11 +123,11 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
         );
         dispatch(createDisplayMessage(`アルバムを保存しました。`));
         dispatch(crateSuccessFetchAction());
-        history.push('/albums');
+        history.push("/albums");
       } catch {
         dispatch(
           createFailedFetchAction(
-            'アルバムの保存に失敗しました。\n通信環境をご確認の上再度お試しください。'
+            "アルバムの保存に失敗しました。\n通信環境をご確認の上再度お試しください。"
           )
         );
         return;
@@ -151,8 +151,8 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
   // WANT: 確認モーダルも自作したい
   const handleBack = useCallback(
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-      if (window.confirm('編集を破棄します。')) {
-        history.push('/albums');
+      if (window.confirm("編集を破棄します。")) {
+        history.push("/albums");
       } else {
         return;
       }
@@ -167,21 +167,21 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
       const allowed = checkRole(ROLE.EDITOR, role);
 
       if (!allowed) {
-        dispatch(createDisplayMessage('削除権限がありません。'));
+        dispatch(createDisplayMessage("削除権限がありません。"));
         return;
       }
-      if (!window.confirm('アルバムを削除しますか？')) {
+      if (!window.confirm("アルバムを削除しますか？")) {
         return;
       }
       try {
         dispatch(createRequestFetchAction());
         await deleteAlbum(id);
         dispatch(crateSuccessFetchAction());
-        history.push('/albums');
+        history.push("/albums");
       } catch {
         dispatch(
           createFailedFetchAction(
-            'アルバムの削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
+            "アルバムの削除に失敗しました。\n通信環境をご確認の上再度お試しください。"
           )
         );
       }
@@ -190,7 +190,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
   );
 
   useEffect(() => {
-    if (id === 'new') {
+    if (id === "new") {
       // New
       dispatch(createClearImageAction());
     } else {
@@ -202,7 +202,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
           const res = await getSingleAlbum(id);
 
           if (!res) {
-            throw new Error('アルバムが存在しません。');
+            throw new Error("アルバムが存在しません。");
           } else {
             setTitle(res.title);
             setDescription(res.description);
@@ -217,8 +217,8 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
           dispatch(crateSuccessFetchAction());
         } catch (e) {
           // dispatch(createFailedFetchAction(e.message));
-          dispatch(createFailedFetchAction('error message'));
-          history.push('/albums');
+          dispatch(createFailedFetchAction("error message"));
+          history.push("/albums");
         }
       };
 
@@ -229,7 +229,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
   // title, publishedDateが空だと保存ボタン非活性
   useEffect(() => {
     if (role === ROLE.EDITOR) {
-      if (title !== '' && publishedDate !== '') {
+      if (title !== "" && publishedDate !== "") {
         setDisable(false);
       } else {
         setDisable(true);
@@ -240,7 +240,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
   // title, publishedDateが空だと保存ボタン非活性
   useEffect(() => {
     if (role === ROLE.EDITOR) {
-      if (title !== '' && publishedDate !== '') {
+      if (title !== "" && publishedDate !== "") {
         setDisable(false);
       } else {
         setDisable(true);
@@ -252,7 +252,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
     <section className="album-edit">
       <h1>アルバムを追加・編集</h1>
       <div className="inputs-container">
-        {id !== 'new' && (
+        {id !== "new" && (
           <div className="delete-icon">
             <span>アルバムを削除する</span>
             <IconButton disabled={deleteIconDisabled} onClick={handleDelete}>
@@ -262,12 +262,12 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
         )}
         <TextInput
           fullWidth={false}
-          label={'アルバムタイトル'}
+          label={"アルバムタイトル"}
           multiline={false}
           required={true}
           rows={1}
           value={title}
-          type={'text'}
+          type={"text"}
           onChange={inputTitle}
         />
         <ImageUploadForm image={imageFile} />
@@ -276,12 +276,12 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
         <div className="album-discription__input">
           <TextInput
             fullWidth={false}
-            label={'説明'}
+            label={"説明"}
             multiline={true}
             required={false}
             rows={8}
             value={description}
-            type={'text'}
+            type={"text"}
             onChange={inputDescription}
           />
         </div>
@@ -289,61 +289,61 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
 
         <TextInput
           fullWidth={false}
-          label={'Apple Music'}
+          label={"Apple Music"}
           multiline={false}
           required={false}
           rows={1}
           value={appleMusicURL}
-          type={'text'}
+          type={"text"}
           onChange={inputAppleMusicURL}
         />
         <TextInput
           fullWidth={false}
-          label={'Spotify'}
+          label={"Spotify"}
           multiline={false}
           required={false}
           rows={1}
           value={spotifyURL}
-          type={'text'}
+          type={"text"}
           onChange={inputSpotifyURL}
         />
         <TextInput
           fullWidth={false}
-          label={'iTunes'}
+          label={"iTunes"}
           multiline={false}
           required={false}
           rows={1}
           value={iTunesURL}
-          type={'text'}
+          type={"text"}
           onChange={inputITunesURL}
         />
         <TextInput
           fullWidth={false}
-          label={'Bandcamp'}
+          label={"Bandcamp"}
           multiline={false}
           required={false}
           rows={1}
           value={bandcampURL}
-          type={'text'}
+          type={"text"}
           onChange={inputBandcampURL}
         />
 
         <TextInput
           fullWidth={false}
-          label={'公開日(YYYY-MM-DD)'}
+          label={"公開日(YYYY-MM-DD)"}
           multiline={false}
           required={true}
           rows={1}
           value={publishedDate}
-          type={'text'}
+          type={"text"}
           onChange={inputPublishedDate}
         />
 
         <div className="button-container-row">
-          <CustomButton label={'もどる'} onClick={handleBack} />
+          <CustomButton label={"もどる"} onClick={handleBack} />
           <CustomButton
             disable={disable}
-            label={'保存する'}
+            label={"保存する"}
             onClick={handleSave}
           />
         </div>

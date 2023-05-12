@@ -1,13 +1,13 @@
-import { initialState } from './initialState';
-import { LoadingStatus } from '../lib/types';
+import { initialState } from "./initialState";
+import { LoadingStatus } from "../lib/types";
 
 const loadingStatusInitialState = initialState.loadingStatus;
 
-const REQUEST_FETCH = 'REQUEST_FETCH';
-const SUCCESS_FETCH = 'SUCCESS_FETCH';
-const FAILED_FETCH = 'FAILED_FETCH';
-const DISPLAY_MESSAGE = 'DISPLAY_MESSAGE';
-const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
+const REQUEST_FETCH = "REQUEST_FETCH";
+const SUCCESS_FETCH = "SUCCESS_FETCH";
+const FAILED_FETCH = "FAILED_FETCH";
+const DISPLAY_MESSAGE = "DISPLAY_MESSAGE";
+const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 
 type RequestFetchAction = {
   type: typeof REQUEST_FETCH;

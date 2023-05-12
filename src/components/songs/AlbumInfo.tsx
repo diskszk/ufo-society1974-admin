@@ -1,5 +1,5 @@
-import React from 'react';
-import { Album } from '../../lib/types';
+import React from "react";
+import { Album } from "../../lib/types";
 
 type Props = {
   album: Album;

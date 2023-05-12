@@ -1,13 +1,13 @@
-import { db } from '../../firebase';
+import { db } from "../../firebase";
 
 export const deleteSong = async (
   albumId: string,
   songId: string
 ): Promise<void> => {
   await db
-    .collection('albums')
+    .collection("albums")
     .doc(albumId)
-    .collection('songs')
+    .collection("songs")
     .doc(songId)
     .delete();
 };

@@ -1,7 +1,7 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { CustomButton } from '../components/UIKit';
-import UserTable from '../components/users/UserTable';
+import React from "react";
+import { useHistory } from "react-router-dom";
+import { CustomButton } from "../components/UIKit";
+import UserTable from "../components/users/UserTable";
 
 const Users: React.FC = () => {
   const history = useHistory();
@@ -19,7 +19,7 @@ const Users: React.FC = () => {
           disable={false}
           label="もどる"
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            history.push('/')
+            history.push("/")
           }
         />
       </div>

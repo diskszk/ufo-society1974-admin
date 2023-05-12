@@ -1,7 +1,7 @@
-import React, { useEffect, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect, useCallback } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableCell,
@@ -9,20 +9,20 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from '@material-ui/core/';
-import { SongTableBody } from './';
-import { RootStore, User, Song } from '../../lib/types';
-import { ROLE } from '../../constants';
-import { createUpdateSongsAction } from '../../store/SongsReducer';
+} from "@material-ui/core/";
+import { SongTableBody } from "./";
+import { RootStore, User, Song } from "../../lib/types";
+import { ROLE } from "../../constants";
+import { createUpdateSongsAction } from "../../store/SongsReducer";
 import {
   createDisplayMessage,
   createRequestFetchAction,
   crateSuccessFetchAction,
   createFailedFetchAction,
-} from '../../store/LoadingStatusReducer';
-import { getSongs } from '../../lib/songs';
-import { AddIconButton } from '../UIKit';
-import { checkRole } from '../../lib/helpers';
+} from "../../store/LoadingStatusReducer";
+import { getSongs } from "../../lib/songs";
+import { AddIconButton } from "../UIKit";
+import { checkRole } from "../../lib/helpers";
 
 const useStyles = makeStyles({
   table: {
@@ -52,7 +52,7 @@ export const SongTable: React.FC<Props> = ({ albumId }) => {
 
       if (!isAllowed) {
         dispatch(
-          createDisplayMessage('アカウントにアクセス権限がありません。')
+          createDisplayMessage("アカウントにアクセス権限がありません。")
         );
         return;
       }
@@ -76,7 +76,7 @@ export const SongTable: React.FC<Props> = ({ albumId }) => {
     } catch {
       dispatch(
         createFailedFetchAction(
-          '曲の取得に失敗しました。\n通信環境をご確認の上再度お試しください。'
+          "曲の取得に失敗しました。\n通信環境をご確認の上再度お試しください。"
         )
       );
     }

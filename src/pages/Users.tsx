@@ -2,9 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { CustomButton } from "../components/UIKit";
 import UserTable from "../components/users/UserTable";
+import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
 
 const Users: React.FC = () => {
   const navigate = useNavigate();
+
+  useRedirectWithinSignedIn();
 
   return (
     <section className="page">

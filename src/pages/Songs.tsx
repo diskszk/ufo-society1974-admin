@@ -13,18 +13,17 @@ import {
   crateSuccessFetchAction,
 } from "../store/LoadingStatusReducer";
 import { ROLE } from "../constants";
+import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
 
 const Songs: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useRedirectWithinSignedIn();
+
   const urlParams = useParams<{ id: string }>();
 
-  const { id: albumId } = urlParams;
-
-  if (!albumId) {
-    return null;
-  }
+  const albumId = urlParams.id || "";
 
   const album = useSelector<RootStore, Album>((state) => state.album);
   const { role } = useSelector<RootStore, User>((state) => state.user);

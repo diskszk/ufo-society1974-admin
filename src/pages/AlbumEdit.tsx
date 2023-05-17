@@ -20,6 +20,7 @@ import {
   crateSuccessFetchAction,
 } from "../store/LoadingStatusReducer";
 import { checkRole, validatePublishedDate } from "../lib/helpers";
+import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
 
 // URLからアルバムのIDを取得する
 // IDが"new"の場合は新規作成となる
@@ -27,12 +28,11 @@ const AlbumEdit: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const urlParams = useParams<{ id: string }>();
-  const { id } = urlParams;
+  useRedirectWithinSignedIn();
 
-  if (!id) {
-    return null;
-  }
+  const urlParams = useParams<{ id: string }>();
+
+  const id = urlParams.id || "";
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const imageFile = useSelector<RootStore, File>((state) => state.image);

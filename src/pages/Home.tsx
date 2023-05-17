@@ -4,8 +4,11 @@ import { useSelector } from "react-redux";
 import { RootStore, User } from "../lib/types";
 import { CustomButton } from "../components/UIKit";
 import meido from "../assets/images/job_maid_meido_kissa.png";
+import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
 
 const Home: React.FC = () => {
+  useRedirectWithinSignedIn();
+
   const { username } = useSelector<RootStore, User>((state) => state.user);
   const navigate = useNavigate();
 

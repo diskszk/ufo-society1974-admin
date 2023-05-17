@@ -11,6 +11,7 @@ import {
   createFailedFetchAction,
   createDisplayMessage,
 } from "../store/LoadingStatusReducer";
+import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
 
 const roles = [
   {
@@ -29,6 +30,8 @@ const roles = [
 
 const CreateAccount: React.FC = () => {
   const dispatch = useDispatch();
+
+  useRedirectWithinSignedIn();
 
   const user = useSelector<RootStore, User>((state) => state.user);
   const navigate = useNavigate();

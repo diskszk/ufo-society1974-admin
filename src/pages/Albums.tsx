@@ -14,9 +14,12 @@ import {
   crateSuccessFetchAction,
 } from "../store/LoadingStatusReducer";
 import { checkRole } from "../lib/helpers";
+import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
 
 const Albums: React.FC = () => {
   const dispatch = useDispatch();
+
+  useRedirectWithinSignedIn();
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const disabled: boolean = role !== ROLE.EDITOR;

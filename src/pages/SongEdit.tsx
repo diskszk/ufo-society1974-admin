@@ -17,18 +17,18 @@ import {
 } from "../store/LoadingStatusReducer";
 import { ROLE } from "../constants";
 import { checkRole } from "../lib/helpers";
+import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
 
 const SongEdit: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useRedirectWithinSignedIn();
+
   const urlParams = useParams<{ albumId: string; songId: string }>();
 
-  const { albumId, songId } = urlParams;
-
-  if (!albumId || !songId) {
-    return null;
-  }
+  const albumId = urlParams.albumId || "";
+  const songId = urlParams.songId || "";
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
 

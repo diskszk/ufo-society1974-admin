@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CustomButton, TextInput, TypeSelector } from "../components/UIKit";
 import { createAccount, registerAccount } from "../lib/users";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +31,7 @@ const CreateAccount: React.FC = () => {
   const dispatch = useDispatch();
 
   const user = useSelector<RootStore, User>((state) => state.user);
-  const history = useHistory();
+  const navigate = useNavigate();
   const [disable, setDisable] = useState(true);
 
   const [username, setUsername] = useState("");
@@ -126,7 +126,7 @@ const CreateAccount: React.FC = () => {
         dispatch(
           createDisplayMessage(`${newAccount.username}を作成しました。`)
         );
-        history.push("/");
+        navigate("/");
         return;
       } catch (e) {
         // dispatch(createFailedFetchAction(e.message));
@@ -140,7 +140,7 @@ const CreateAccount: React.FC = () => {
       confirmPassword,
       role,
       dispatch,
-      history,
+      navigate,
       user.role,
     ]
   );
@@ -218,7 +218,7 @@ const CreateAccount: React.FC = () => {
           <CustomButton
             label="もどる"
             onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-              history.push("/users")
+              navigate("/users")
             }
           />
           <CustomButton

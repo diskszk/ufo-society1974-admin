@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useHistory, RouteComponentProps } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { IconButton } from "@mui/material";
 import { DeleteOutlined } from "@mui/icons-material";
@@ -21,14 +21,18 @@ import {
 } from "../store/LoadingStatusReducer";
 import { checkRole, validatePublishedDate } from "../lib/helpers";
 
-type Props = RouteComponentProps<{ id: string }>;
-
 // URLからアルバムのIDを取得する
 // IDが"new"の場合は新規作成となる
-const AlbumEdit: React.FC<Props> = ({ match }) => {
+const AlbumEdit: React.FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
-  const id = match.params.id;
+  const navigate = useNavigate();
+
+  const urlParams = useParams<{ id: string }>();
+  const { id } = urlParams;
+
+  if (!id) {
+    return null;
+  }
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const imageFile = useSelector<RootStore, File>((state) => state.image);
@@ -123,7 +127,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
         );
         dispatch(createDisplayMessage(`アルバムを保存しました。`));
         dispatch(crateSuccessFetchAction());
-        history.push("/albums");
+        navigate("/albums");
       } catch {
         dispatch(
           createFailedFetchAction(
@@ -135,7 +139,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
     },
     [
       dispatch,
-      history,
+      navigate,
       description,
       id,
       imageFile,
@@ -152,12 +156,12 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
   const handleBack = useCallback(
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
       if (window.confirm("編集を破棄します。")) {
-        history.push("/albums");
+        navigate("/albums");
       } else {
         return;
       }
     },
-    [history]
+    [navigate]
   );
 
   const handleDelete = useCallback(
@@ -177,7 +181,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
         dispatch(createRequestFetchAction());
         await deleteAlbum(id);
         dispatch(crateSuccessFetchAction());
-        history.push("/albums");
+        navigate("/albums");
       } catch {
         dispatch(
           createFailedFetchAction(
@@ -186,7 +190,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
         );
       }
     },
-    [dispatch, history, id, role]
+    [dispatch, navigate, id, role]
   );
 
   useEffect(() => {
@@ -218,13 +222,13 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
         } catch (e) {
           // dispatch(createFailedFetchAction(e.message));
           dispatch(createFailedFetchAction("error message"));
-          history.push("/albums");
+          navigate("/albums");
         }
       };
 
       fetch();
     }
-  }, [dispatch, history, id]);
+  }, [dispatch, navigate, id]);
 
   // title, publishedDateが空だと保存ボタン非活性
   useEffect(() => {

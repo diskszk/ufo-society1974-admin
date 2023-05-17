@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Album, RootStore, User } from "../../lib/types";
 import { createUpdateAlbumAction } from "../../store/AlbumReducer";
 import { IconButton } from "@mui/material";
@@ -13,7 +13,7 @@ type Props = {
 
 export const AlbumTableItem: React.FC<Props> = ({ album }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { role } = useSelector<RootStore, User>((state) => state.user);
 
   const handleEditAlbumClick = useCallback(
@@ -21,17 +21,17 @@ export const AlbumTableItem: React.FC<Props> = ({ album }) => {
       _ev: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>
     ): void => {
       dispatch(createUpdateAlbumAction(album));
-      history.push(`/albums/edit/${album.id}`);
+      navigate(`/albums/edit/${album.id}`);
     },
-    [dispatch, history, album]
+    [dispatch, navigate, album]
   );
 
   const handleDetailAlbumClick = useCallback(
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
       dispatch(createUpdateAlbumAction(album));
-      history.push(`/albums/detail/${album.id}`);
+      navigate(`/albums/detail/${album.id}`);
     },
-    [dispatch, history, album]
+    [dispatch, navigate, album]
   );
 
   return (

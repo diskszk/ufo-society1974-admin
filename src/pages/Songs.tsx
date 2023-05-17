@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useHistory, RouteComponentProps } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CustomButton } from "../components/UIKit";
 import { Album, RootStore, User } from "../lib/types";
@@ -14,13 +14,17 @@ import {
 } from "../store/LoadingStatusReducer";
 import { ROLE } from "../constants";
 
-type Props = RouteComponentProps<{ albumId: string }>;
-
-const Songs: React.FC<Props> = ({ match }) => {
+const Songs: React.FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const albumId = match.params.albumId;
+  const urlParams = useParams<{ id: string }>();
+
+  const { id: albumId } = urlParams;
+
+  if (!albumId) {
+    return null;
+  }
 
   const album = useSelector<RootStore, Album>((state) => state.album);
   const { role } = useSelector<RootStore, User>((state) => state.user);
@@ -42,7 +46,7 @@ const Songs: React.FC<Props> = ({ match }) => {
 
         if (!album) {
           dispatch(createFailedFetchAction("アルバムが存在しません。"));
-          history.push("/albums");
+          navigate("/albums");
           return;
         } else {
           dispatch(createUpdateAlbumAction(album));
@@ -52,7 +56,7 @@ const Songs: React.FC<Props> = ({ match }) => {
         // dispatch(createFailedFetchAction(e.message));
         dispatch(createFailedFetchAction("error message"));
 
-        history.push("/albums");
+        navigate("/albums");
       }
     };
 
@@ -60,9 +64,9 @@ const Songs: React.FC<Props> = ({ match }) => {
       fetch();
     } else {
       dispatch(createDisplayMessage("アルバムが登録されていません。"));
-      history.push("/albums");
+      navigate("/albums");
     }
-  }, [dispatch, history, albumId]);
+  }, [dispatch, navigate, albumId]);
 
   return (
     <section className="page">
@@ -77,13 +81,13 @@ const Songs: React.FC<Props> = ({ match }) => {
         <CustomButton
           label="もどる"
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            history.push("/albums")
+            navigate("/albums")
           }
         />
         <CustomButton
           label={editButtonLabel}
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            history.push(`/albums/edit/${albumId}`)
+            navigate(`/albums/edit/${albumId}`)
           }
         />
       </div>

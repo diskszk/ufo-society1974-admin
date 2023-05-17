@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@mui/styles";
 import { RootStore, Album, Song, User } from "../../lib/types";
@@ -32,7 +32,7 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { role } = useSelector<RootStore, User>((state) => state.user);
-  const history = useHistory();
+  const navigate = useNavigate();
   const album = useSelector<RootStore, Album>((state) => state.album);
   const albumId = album.id;
 
@@ -103,7 +103,7 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
       <TableCell
         className={classes.actionBtn}
         onClick={(_ev: React.MouseEvent<HTMLTableCellElement, MouseEvent>) =>
-          history.push(`/albums/detail/${albumId}/edit/${song.id}`)
+          navigate(`/albums/detail/${albumId}/edit/${song.id}`)
         }
       >
         {role === ROLE.EDITOR ? <p>編集</p> : <p>閲覧</p>}

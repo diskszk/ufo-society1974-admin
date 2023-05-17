@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore, User } from "../lib/types";
 import { deletePublishedAlbums, publishAlbums } from "../lib/albums";
@@ -20,7 +20,7 @@ const Albums: React.FC = () => {
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const disabled: boolean = role !== ROLE.EDITOR;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleClickPublishButton = useCallback(
     async (
@@ -63,9 +63,9 @@ const Albums: React.FC = () => {
       }
 
       dispatch(createClearAlbumAction());
-      history.push("/albums/edit/new");
+      navigate("/albums/edit/new");
     },
-    [dispatch, history, role]
+    [dispatch, navigate, role]
   );
 
   return (
@@ -93,7 +93,7 @@ const Albums: React.FC = () => {
           <CustomButton
             label="もどる"
             onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-              history.push("/")
+              navigate("/")
             }
           />
           <CustomButton

@@ -1,10 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CustomButton } from "../components/UIKit";
 import UserTable from "../components/users/UserTable";
 
 const Users: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <section className="page">
@@ -19,7 +19,7 @@ const Users: React.FC = () => {
           disable={false}
           label="もどる"
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            history.push("/")
+            navigate("/")
           }
         />
       </div>

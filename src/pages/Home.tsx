@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootStore, User } from "../lib/types";
 import { CustomButton } from "../components/UIKit";
@@ -7,7 +7,7 @@ import meido from "../assets/images/job_maid_meido_kissa.png";
 
 const Home: React.FC = () => {
   const { username } = useSelector<RootStore, User>((state) => state.user);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <section className="home page">
@@ -32,13 +32,13 @@ const Home: React.FC = () => {
         <CustomButton
           label="ユーザー管理"
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            history.push("/users")
+            navigate("/users")
           }
         />
         <CustomButton
           label="アルバムを管理"
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            history.push("/albums")
+            navigate("/albums")
           }
         />
       </div>

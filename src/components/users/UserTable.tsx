@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@mui/styles";
 import {
@@ -38,7 +38,7 @@ const UserTable: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [users, setUsers] = useState<User[]>([]);
-  const history = useHistory();
+  const navigate = useNavigate();
   const { role } = useSelector<RootStore, User>((state) => state.user);
 
   const handleClickAddIcon = useCallback(
@@ -52,9 +52,9 @@ const UserTable: React.FC = () => {
         );
         return;
       }
-      history.push("/users/create");
+      navigate("/users/create");
     },
-    [dispatch, history, role]
+    [dispatch, navigate, role]
   );
 
   useEffect(() => {
@@ -68,12 +68,12 @@ const UserTable: React.FC = () => {
       } catch (e) {
         // dispatch(createFailedFetchAction(e.message));
         dispatch(createFailedFetchAction("error message"));
-        history.push("/");
+        navigate("/");
       }
     };
 
     fetch();
-  }, [setUsers, dispatch, history]);
+  }, [setUsers, dispatch, navigate]);
 
   useEffect(() => {
     const unSub = db.collection("users").onSnapshot((snapshot) => {

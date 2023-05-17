@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useHistory, RouteComponentProps } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CustomButton, TextInput } from "../components/UIKit";
 import { getSingleSong, getSongs, saveSong } from "../lib/songs";
@@ -18,13 +18,17 @@ import {
 import { ROLE } from "../constants";
 import { checkRole } from "../lib/helpers";
 
-type Props = RouteComponentProps<{ albumId: string; songId: string }>;
-
-const SongEdit: React.FC<Props> = ({ match }) => {
+const SongEdit: React.FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
-  const albumId = match.params.albumId;
-  const songId = match.params.songId;
+  const navigate = useNavigate();
+
+  const urlParams = useParams<{ albumId: string; songId: string }>();
+
+  const { albumId, songId } = urlParams;
+
+  if (!albumId || !songId) {
+    return null;
+  }
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
 
@@ -115,7 +119,7 @@ const SongEdit: React.FC<Props> = ({ match }) => {
       try {
         dispatch(createRequestFetchAction());
         await saveSong(newSong, albumId);
-        history.push(`/albums/detail/${albumId}`);
+        navigate(`/albums/detail/${albumId}`);
         dispatch(crateSuccessFetchAction());
       } catch {
         dispatch(createFailedFetchAction("曲の保存に失敗しました。"));
@@ -123,7 +127,7 @@ const SongEdit: React.FC<Props> = ({ match }) => {
     },
     [
       dispatch,
-      history,
+      navigate,
       albumId,
       id,
       title,
@@ -159,7 +163,7 @@ const SongEdit: React.FC<Props> = ({ match }) => {
 
         if (!song) {
           dispatch(createFailedFetchAction("曲が存在しません。"));
-          history.push(`/albums/detail/${albumId}`);
+          navigate(`/albums/detail/${albumId}`);
           return;
         } else {
           setId(parseInt(song.id, 10).toString());
@@ -176,7 +180,7 @@ const SongEdit: React.FC<Props> = ({ match }) => {
         // dispatch(createFailedFetchAction(e.message));
         dispatch(createFailedFetchAction("error message"));
 
-        history.push(`/albums/detail/${albumId}`);
+        navigate(`/albums/detail/${albumId}`);
       }
     };
 
@@ -187,7 +191,7 @@ const SongEdit: React.FC<Props> = ({ match }) => {
       // Edit
       editSongSetUp();
     }
-  }, [dispatch, history, albumId, songId]);
+  }, [dispatch, navigate, albumId, songId]);
 
   // 保存ボタンの活性・非活性
   useEffect(() => {
@@ -206,7 +210,7 @@ const SongEdit: React.FC<Props> = ({ match }) => {
     }
   }, [
     dispatch,
-    history,
+    navigate,
     albumId,
     id,
     title,
@@ -233,7 +237,7 @@ const SongEdit: React.FC<Props> = ({ match }) => {
     }
   }, [
     dispatch,
-    history,
+    navigate,
     albumId,
     id,
     title,
@@ -326,7 +330,7 @@ const SongEdit: React.FC<Props> = ({ match }) => {
           <CustomButton
             label="もどる"
             onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-              history.push(`/albums/detail/${albumId}`)
+              navigate(`/albums/detail/${albumId}`)
             }
           />
           <CustomButton

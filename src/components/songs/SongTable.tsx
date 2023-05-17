@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@mui/styles";
 import {
@@ -40,7 +40,7 @@ type Props = {
 export const SongTable: React.FC<Props> = ({ albumId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const songs = useSelector<RootStore, Song[]>((state) => state.songs);
@@ -57,9 +57,9 @@ export const SongTable: React.FC<Props> = ({ albumId }) => {
         return;
       }
 
-      history.push(`/albums/detail/${albumId}/edit/new`);
+      navigate(`/albums/detail/${albumId}/edit/new`);
     },
-    [albumId, dispatch, history, role]
+    [albumId, dispatch, navigate, role]
   );
 
   useEffect(() => {

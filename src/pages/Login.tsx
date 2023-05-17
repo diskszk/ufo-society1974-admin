@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CustomButton, TextInput } from "../components/UIKit";
 import { login } from "../lib/users";
 import { useDispatch } from "react-redux";
@@ -18,7 +18,7 @@ const Login: React.FC = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const inputEmail = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,16 +49,16 @@ const Login: React.FC = () => {
         dispatch(crateSuccessFetchAction());
 
         if (user.role === ROLE.MASTER) {
-          history.push("/users/create");
+          navigate("/users/create");
         } else {
-          history.push("/");
+          navigate("/");
         }
       } catch (e) {
         // dispatch(createFailedFetchAction(e.message));
         dispatch(createFailedFetchAction("error message"));
       }
     },
-    [email, password, dispatch, history]
+    [email, password, dispatch, navigate]
   );
 
   return (

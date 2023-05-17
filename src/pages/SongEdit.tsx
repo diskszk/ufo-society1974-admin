@@ -1,41 +1,45 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory, RouteComponentProps } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { CustomButton, TextInput } from '../components/UIKit';
-import { getSingleSong, getSongs, saveSong } from '../lib/songs';
-import { SongUploadForm } from '../components/songs/';
-import { File, Song, RootStore, User } from '../lib/types';
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { CustomButton, TextInput } from "../components/UIKit";
+import { getSingleSong, getSongs, saveSong } from "../lib/songs";
+import { SongUploadForm } from "../components/songs/";
+import { File, Song, RootStore, User } from "../lib/types";
 import {
   createUpdateSongFileAction,
   clearSongFileAction,
-} from '../store/SongFileReducer';
+} from "../store/SongFileReducer";
 import {
   createDisplayMessage,
   createFailedFetchAction,
   createRequestFetchAction,
   crateSuccessFetchAction,
-} from '../store/LoadingStatusReducer';
-import { ROLE } from '../constants';
-import { checkRole } from '../lib/helpers';
+} from "../store/LoadingStatusReducer";
+import { ROLE } from "../constants";
+import { checkRole } from "../lib/helpers";
+import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
 
-type Props = RouteComponentProps<{ albumId: string; songId: string }>;
-
-const SongEdit: React.FC<Props> = ({ match }) => {
+const SongEdit: React.FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
-  const albumId = match.params.albumId;
-  const songId = match.params.songId;
+  const navigate = useNavigate();
+
+  useRedirectWithinSignedIn();
+
+  const urlParams = useParams<{ albumId: string; songId: string }>();
+
+  const albumId = urlParams.albumId || "";
+  const songId = urlParams.songId || "";
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
 
   const songFile = useSelector<RootStore, File>((state) => state.songFile);
 
-  const [id, setId] = useState('');
-  const [title, setTitle] = useState('');
-  const [story, setStory] = useState('無し');
-  const [lyric, setLyric] = useState('');
-  const [wordsRights, setWordsRights] = useState('amane toda');
-  const [musicRights, setMusicRights] = useState('amane toda');
+  const [id, setId] = useState("");
+  const [title, setTitle] = useState("");
+  const [story, setStory] = useState("無し");
+  const [lyric, setLyric] = useState("");
+  const [wordsRights, setWordsRights] = useState("amane toda");
+  const [musicRights, setMusicRights] = useState("amane toda");
 
   const [disabled, setDisabled] = useState(true);
 
@@ -85,22 +89,22 @@ const SongEdit: React.FC<Props> = ({ match }) => {
 
       if (!isAllowed) {
         dispatch(
-          createDisplayMessage('アカウントにアクセス権限がありません。')
+          createDisplayMessage("アカウントにアクセス権限がありません。")
         );
         return;
       }
       // validations
 
-      if (id === '') {
-        dispatch(createDisplayMessage('IDを入力してください。'));
+      if (id === "") {
+        dispatch(createDisplayMessage("IDを入力してください。"));
         return;
       }
-      if (title === '') {
-        dispatch(createDisplayMessage('タイトルを入力してください。'));
+      if (title === "") {
+        dispatch(createDisplayMessage("タイトルを入力してください。"));
         return;
       }
 
-      const leftJustifiedId = ('0000' + id).slice(-4);
+      const leftJustifiedId = ("0000" + id).slice(-4);
 
       const newSong: Song = {
         id: leftJustifiedId,
@@ -115,15 +119,15 @@ const SongEdit: React.FC<Props> = ({ match }) => {
       try {
         dispatch(createRequestFetchAction());
         await saveSong(newSong, albumId);
-        history.push(`/albums/detail/${albumId}`);
+        navigate(`/albums/detail/${albumId}`);
         dispatch(crateSuccessFetchAction());
       } catch {
-        dispatch(createFailedFetchAction('曲の保存に失敗しました。'));
+        dispatch(createFailedFetchAction("曲の保存に失敗しました。"));
       }
     },
     [
       dispatch,
-      history,
+      navigate,
       albumId,
       id,
       title,
@@ -147,7 +151,8 @@ const SongEdit: React.FC<Props> = ({ match }) => {
 
         dispatch(clearSongFileAction());
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
+        // dispatch(createFailedFetchAction(e.message));
+        dispatch(createFailedFetchAction("error message"));
       }
     };
     // Edit
@@ -157,8 +162,8 @@ const SongEdit: React.FC<Props> = ({ match }) => {
         const song = await getSingleSong(albumId, songId);
 
         if (!song) {
-          dispatch(createFailedFetchAction('曲が存在しません。'));
-          history.push(`/albums/detail/${albumId}`);
+          dispatch(createFailedFetchAction("曲が存在しません。"));
+          navigate(`/albums/detail/${albumId}`);
           return;
         } else {
           setId(parseInt(song.id, 10).toString());
@@ -172,29 +177,31 @@ const SongEdit: React.FC<Props> = ({ match }) => {
           dispatch(crateSuccessFetchAction());
         }
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
-        history.push(`/albums/detail/${albumId}`);
+        // dispatch(createFailedFetchAction(e.message));
+        dispatch(createFailedFetchAction("error message"));
+
+        navigate(`/albums/detail/${albumId}`);
       }
     };
 
-    if (songId === 'new') {
+    if (songId === "new") {
       // New
       createSongSetUp();
     } else {
       // Edit
       editSongSetUp();
     }
-  }, [dispatch, history, albumId, songId]);
+  }, [dispatch, navigate, albumId, songId]);
 
   // 保存ボタンの活性・非活性
   useEffect(() => {
     if (role === ROLE.EDITOR) {
       if (
-        id !== '' &&
-        title !== '' &&
-        wordsRights !== '' &&
-        musicRights !== '' &&
-        story !== ''
+        id !== "" &&
+        title !== "" &&
+        wordsRights !== "" &&
+        musicRights !== "" &&
+        story !== ""
       ) {
         setDisabled(false);
       } else {
@@ -203,7 +210,7 @@ const SongEdit: React.FC<Props> = ({ match }) => {
     }
   }, [
     dispatch,
-    history,
+    navigate,
     albumId,
     id,
     title,
@@ -217,11 +224,11 @@ const SongEdit: React.FC<Props> = ({ match }) => {
   useEffect(() => {
     if (role === ROLE.EDITOR) {
       if (
-        id !== '' &&
-        title !== '' &&
-        wordsRights !== '' &&
-        musicRights !== '' &&
-        story !== ''
+        id !== "" &&
+        title !== "" &&
+        wordsRights !== "" &&
+        musicRights !== "" &&
+        story !== ""
       ) {
         setDisabled(false);
       } else {
@@ -230,7 +237,7 @@ const SongEdit: React.FC<Props> = ({ match }) => {
     }
   }, [
     dispatch,
-    history,
+    navigate,
     albumId,
     id,
     title,
@@ -247,12 +254,12 @@ const SongEdit: React.FC<Props> = ({ match }) => {
       <div className="inputs-container">
         <TextInput
           fullWidth={false}
-          label={'トラックID(表示する順番)'}
+          label={"トラックID(表示する順番)"}
           multiline={false}
           required={true}
           rows={1}
           value={id}
-          type={'number'}
+          type={"number"}
           onChange={inputId}
         />
         <p className="inputs-container-description">
@@ -261,12 +268,12 @@ const SongEdit: React.FC<Props> = ({ match }) => {
 
         <TextInput
           fullWidth={false}
-          label={'タイトル'}
+          label={"タイトル"}
           multiline={false}
           required={false}
           rows={1}
           value={title}
-          type={'text'}
+          type={"text"}
           onChange={inputTitle}
         />
         <SongUploadForm albumId={albumId} songId={id} />
@@ -279,43 +286,43 @@ const SongEdit: React.FC<Props> = ({ match }) => {
         <div className="input-author">
           <TextInput
             fullWidth={false}
-            label={'作詞者'}
+            label={"作詞者"}
             multiline={false}
             required={false}
             rows={1}
             value={wordsRights}
-            type={'text'}
+            type={"text"}
             onChange={inputWordsRights}
           />
           <TextInput
             fullWidth={false}
-            label={'作曲者'}
+            label={"作曲者"}
             multiline={false}
             required={false}
             rows={1}
             value={musicRights}
-            type={'text'}
+            type={"text"}
             onChange={inputMusicRights}
           />
         </div>
         <TextInput
           fullWidth={false}
-          label={'元ネタ'}
+          label={"元ネタ"}
           multiline={false}
           required={false}
           rows={1}
           value={story}
-          type={'text'}
+          type={"text"}
           onChange={inputStory}
         />
         <TextInput
           fullWidth={false}
-          label={'歌詞'}
+          label={"歌詞"}
           multiline={true}
           required={false}
           rows={16}
           value={lyric}
-          type={'text'}
+          type={"text"}
           onChange={inputLyric}
         />
 
@@ -323,7 +330,7 @@ const SongEdit: React.FC<Props> = ({ match }) => {
           <CustomButton
             label="もどる"
             onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-              history.push(`/albums/detail/${albumId}`)
+              navigate(`/albums/detail/${albumId}`)
             }
           />
           <CustomButton

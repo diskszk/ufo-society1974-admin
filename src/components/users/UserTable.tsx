@@ -1,7 +1,7 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useCallback, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { makeStyles } from "@mui/styles";
 import {
   Table,
   TableCell,
@@ -10,20 +10,20 @@ import {
   TableRow,
   Paper,
   TableBody,
-} from '@material-ui/core';
-import UserTableBody from './UserTableBody';
-import { RootStore, User } from '../../lib/types';
-import { getUsers } from '../../lib/users/getUsers';
+} from "@mui/material";
+import UserTableBody from "./UserTableBody";
+import { RootStore, User } from "../../lib/types";
+import { getUsers } from "../../lib/users/getUsers";
 import {
   createRequestFetchAction,
   createFailedFetchAction,
   crateSuccessFetchAction,
   createDisplayMessage,
-} from '../../store/LoadingStatusReducer';
-import { AddIconButton } from '../UIKit';
-import { ROLE } from '../../constants';
-import { checkRole } from '../../lib/helpers';
-import { db } from '../../firebase';
+} from "../../store/LoadingStatusReducer";
+import { AddIconButton } from "../UIKit";
+import { ROLE } from "../../constants";
+import { checkRole } from "../../lib/helpers";
+import { db } from "../../firebase";
 
 const useStyles = makeStyles({
   table: {
@@ -38,7 +38,7 @@ const UserTable: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [users, setUsers] = useState<User[]>([]);
-  const history = useHistory();
+  const navigate = useNavigate();
   const { role } = useSelector<RootStore, User>((state) => state.user);
 
   const handleClickAddIcon = useCallback(
@@ -48,13 +48,13 @@ const UserTable: React.FC = () => {
 
       if (!isAllowed) {
         dispatch(
-          createDisplayMessage('アカウントにアクセス権限がありません。')
+          createDisplayMessage("アカウントにアクセス権限がありません。")
         );
         return;
       }
-      history.push('/users/create');
+      navigate("/users/create");
     },
-    [dispatch, history, role]
+    [dispatch, navigate, role]
   );
 
   useEffect(() => {
@@ -66,16 +66,17 @@ const UserTable: React.FC = () => {
         setUsers(userList);
         dispatch(crateSuccessFetchAction());
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
-        history.push('/');
+        // dispatch(createFailedFetchAction(e.message));
+        dispatch(createFailedFetchAction("error message"));
+        navigate("/");
       }
     };
 
     fetch();
-  }, [setUsers, dispatch, history]);
+  }, [setUsers, dispatch, navigate]);
 
   useEffect(() => {
-    const unSub = db.collection('users').onSnapshot((snapshot) => {
+    const unSub = db.collection("users").onSnapshot((snapshot) => {
       const userList = snapshot.docs.map((doc) => {
         const data = doc.data();
         const user: User = {
@@ -95,7 +96,7 @@ const UserTable: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const unSub = db.collection('users').onSnapshot((snapshot) => {
+    const unSub = db.collection("users").onSnapshot((snapshot) => {
       const userList = snapshot.docs.map((doc) => {
         const data = doc.data();
         const user: User = {

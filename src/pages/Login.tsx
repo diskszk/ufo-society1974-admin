@@ -1,24 +1,24 @@
-import React, { useCallback, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { CustomButton, TextInput } from '../components/UIKit';
-import { login } from '../lib/users';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { CustomButton, TextInput } from "../components/UIKit";
+import { login } from "../lib/users";
+import { useDispatch } from "react-redux";
 import {
   createDisplayMessage,
   createFailedFetchAction,
   createRequestFetchAction,
   crateSuccessFetchAction,
-} from '../store/LoadingStatusReducer';
-import { ROLE } from '../constants';
-import { createLoginAction } from '../store/UsersReducer';
+} from "../store/LoadingStatusReducer";
+import { ROLE } from "../constants";
+import { createLoginAction } from "../store/UsersReducer";
 
 // Login with e-mail & password
 const Login: React.FC = () => {
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const inputEmail = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,8 +37,8 @@ const Login: React.FC = () => {
   const handleClickLoginButton = useCallback(
     async (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       // Validations
-      if (email === '' || password === '') {
-        dispatch(createDisplayMessage('必須項目が未入力です。'));
+      if (email === "" || password === "") {
+        dispatch(createDisplayMessage("必須項目が未入力です。"));
         return;
       }
       try {
@@ -49,15 +49,16 @@ const Login: React.FC = () => {
         dispatch(crateSuccessFetchAction());
 
         if (user.role === ROLE.MASTER) {
-          history.push('/users/create');
+          navigate("/users/create");
         } else {
-          history.push('/');
+          navigate("/");
         }
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
+        // dispatch(createFailedFetchAction(e.message));
+        dispatch(createFailedFetchAction("error message"));
       }
     },
-    [email, password, dispatch, history]
+    [email, password, dispatch, navigate]
   );
 
   return (
@@ -66,22 +67,22 @@ const Login: React.FC = () => {
       <div className="inputs-container">
         <TextInput
           fullWidth={true}
-          label={'E-mail'}
+          label={"E-mail"}
           multiline={false}
           required={true}
           rows={1}
           value={email}
-          type={'email'}
+          type={"email"}
           onChange={inputEmail}
         />
         <TextInput
           fullWidth={true}
-          label={'パスワード'}
+          label={"パスワード"}
           multiline={false}
           required={true}
           rows={1}
           value={password}
-          type={'password'}
+          type={"password"}
           onChange={inputPassword}
         />
 

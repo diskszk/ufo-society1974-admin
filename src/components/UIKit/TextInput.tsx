@@ -1,6 +1,6 @@
-import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/styles';
+import React from "react";
+import { makeStyles } from "@mui/styles";
+import { TextField } from "@mui/material";
 
 type Props = {
   fullWidth: boolean;
@@ -15,8 +15,8 @@ type Props = {
 
 const useStyles = makeStyles({
   input: {
-    margin: '1.5em 0',
-    width: '80%',
+    margin: "1.5em 0",
+    width: "80%",
   },
 });
 

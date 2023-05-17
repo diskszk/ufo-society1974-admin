@@ -1,5 +1,5 @@
-import { auth, FirebaseTimestamp } from '../../firebase';
-import { User } from '../types';
+import { auth, FirebaseTimestamp } from "../../firebase";
+import { User } from "../types";
 
 export const createAccount = async (
   username: string,

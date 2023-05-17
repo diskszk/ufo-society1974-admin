@@ -1,18 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore } from './store/store';
-import App from './App';
-import './reset.css';
-import { BrowserRouter } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./reset.css";
 
-export const store = createStore();
+import { Provider } from "react-redux";
+import { createStore } from "./store/store";
+import { BrowserRouter } from "react-router-dom";
 
-ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById('root')
+const store = createStore();
+
+const container = document.getElementById("root");
+
+if (!container) {
+  throw new Error("Can not find app root.");
+}
+
+ReactDOM.createRoot(container).render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </React.StrictMode>
 );

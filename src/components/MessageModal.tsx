@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { createClearMessageAction } from '../store/LoadingStatusReducer';
-import { CustomButton } from './UIKit';
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { createClearMessageAction } from "../store/LoadingStatusReducer";
+import { CustomButton } from "./UIKit";
 
 type Props = {
   message: string;

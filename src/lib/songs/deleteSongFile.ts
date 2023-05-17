@@ -1,22 +1,22 @@
-import { db, storage } from '../../firebase';
+import { db, storage } from "../../firebase";
 
 export const deleteSongFile = async (
   filename: string,
   albumId: string,
   songId: string
 ): Promise<void> => {
-  const storageRef = storage.ref('musics').child(filename);
+  const storageRef = storage.ref("musics").child(filename);
 
   await storageRef.delete();
 
   const songFileRef = db
-    .collection('albums')
+    .collection("albums")
     .doc(albumId)
-    .collection('songs')
+    .collection("songs")
     .doc(songId);
   const songFileData = {
-    filename: '',
-    path: '',
+    filename: "",
+    path: "",
   };
 
   await songFileRef.set(songFileData, { merge: true });

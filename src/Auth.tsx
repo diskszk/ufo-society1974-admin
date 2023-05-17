@@ -1,36 +1,40 @@
-import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootStore, User } from './lib/types';
-import { auth, db } from './firebase';
+import React, { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootStore, User } from "./lib/types";
+import { auth, db } from "./firebase";
 import {
   crateSuccessFetchAction,
   createRequestFetchAction,
   createFailedFetchAction,
-} from './store/LoadingStatusReducer';
-import { useHistory } from 'react-router-dom';
-import { createLoginAction } from './store/UsersReducer';
-import LoadingModal from './components/LoadingModal';
+} from "./store/LoadingStatusReducer";
+import { useNavigate } from "react-router-dom";
+import { createLoginAction } from "./store/UsersReducer";
+import LoadingModal from "./components/LoadingModal";
 
-const Auth: React.FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+};
+
+const Auth: React.FC<Props> = ({ children }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { isSignedIn } = useSelector<RootStore, User>((state) => state.user);
 
   const listenAuthState = useCallback(async () => {
     return auth.onAuthStateChanged(async (user) => {
       if (!user) {
-        dispatch(createFailedFetchAction('ユーザーの取得に失敗しました。'));
-        history.push('/login');
+        dispatch(createFailedFetchAction("ユーザーの取得に失敗しました。"));
+        navigate("/login");
         return;
       }
       const { uid } = user;
 
-      const snapshot = await db.collection('users').doc(uid).get();
+      const snapshot = await db.collection("users").doc(uid).get();
       const data = snapshot.data();
 
       if (!data) {
-        dispatch(createFailedFetchAction('ユーザーの取得に失敗しました。'));
-        history.push('/login');
+        dispatch(createFailedFetchAction("ユーザーの取得に失敗しました。"));
+        navigate("/login");
         return;
       }
       dispatch(
@@ -42,7 +46,7 @@ const Auth: React.FC = ({ children }) => {
         })
       );
     });
-  }, [dispatch, history]);
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     if (!isSignedIn) {
@@ -52,11 +56,12 @@ const Auth: React.FC = ({ children }) => {
 
         dispatch(crateSuccessFetchAction());
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
-        history.push('/login');
+        // dispatch(createFailedFetchAction(e.message));
+        dispatch(createFailedFetchAction("error message"));
+        navigate("/login");
       }
     }
-  }, [isSignedIn, dispatch, history, listenAuthState]);
+  }, [isSignedIn, dispatch, navigate, listenAuthState]);
 
   return <>{!isSignedIn ? <LoadingModal /> : <>{children}</>}</>;
 };

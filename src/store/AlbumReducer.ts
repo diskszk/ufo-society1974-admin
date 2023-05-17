@@ -1,10 +1,10 @@
-import { initialState } from './initialState';
-import { Album } from '../lib/types';
+import { initialState } from "./initialState";
+import { Album } from "../lib/types";
 
 const albumInitialState = initialState.album;
 
-const UPDATE_ALBUM = 'UPDATE_ALBUM';
-const CLEAR_ALBUM = 'CLEAR_ALBUM';
+const UPDATE_ALBUM = "UPDATE_ALBUM";
+const CLEAR_ALBUM = "CLEAR_ALBUM";
 
 type UpdateAlbumAction = {
   type: typeof UPDATE_ALBUM;

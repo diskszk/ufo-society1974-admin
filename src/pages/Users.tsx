@@ -1,10 +1,13 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { CustomButton } from '../components/UIKit';
-import UserTable from '../components/users/UserTable';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { CustomButton } from "../components/UIKit";
+import UserTable from "../components/users/UserTable";
+import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
 
 const Users: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
+
+  useRedirectWithinSignedIn();
 
   return (
     <section className="page">
@@ -19,7 +22,7 @@ const Users: React.FC = () => {
           disable={false}
           label="もどる"
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            history.push('/')
+            navigate("/")
           }
         />
       </div>

@@ -1,15 +1,15 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/styles';
+import React from "react";
+import { makeStyles } from "@mui/styles";
+import { Button } from "@mui/material";
 
 const useStyles = makeStyles({
   button: {
-    backgroundColor: '#efefef',
-    color: '#000',
-    fontSize: '1em',
-    height: '3em',
-    marginBottom: '2.25em',
-    width: '12em',
+    backgroundColor: "#efefef",
+    color: "#000",
+    fontSize: "1em",
+    height: "3em",
+    marginBottom: "2.25em",
+    width: "12em",
     zIndex: 0,
   },
 });

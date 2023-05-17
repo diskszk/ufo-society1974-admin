@@ -1,36 +1,39 @@
-import React, { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootStore, User } from '../lib/types';
-import { deletePublishedAlbums, publishAlbums } from '../lib/albums';
-import { AddIconButton, CustomButton } from '../components/UIKit';
-import { AlbumTable } from '../components/albums/';
-import { ROLE } from '../constants';
-import { createClearAlbumAction } from '../store/AlbumReducer';
+import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootStore, User } from "../lib/types";
+import { deletePublishedAlbums, publishAlbums } from "../lib/albums";
+import { AddIconButton, CustomButton } from "../components/UIKit";
+import { AlbumTable } from "../components/albums/";
+import { ROLE } from "../constants";
+import { createClearAlbumAction } from "../store/AlbumReducer";
 import {
   createRequestFetchAction,
   createDisplayMessage,
   createFailedFetchAction,
   crateSuccessFetchAction,
-} from '../store/LoadingStatusReducer';
-import { checkRole } from '../lib/helpers';
+} from "../store/LoadingStatusReducer";
+import { checkRole } from "../lib/helpers";
+import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
 
 const Albums: React.FC = () => {
   const dispatch = useDispatch();
 
+  useRedirectWithinSignedIn();
+
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const disabled: boolean = role !== ROLE.EDITOR;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleClickPublishButton = useCallback(
     async (
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
       if (role !== ROLE.EDITOR) {
-        dispatch(createDisplayMessage('編集者のみ編集内容を公開できます。'));
+        dispatch(createDisplayMessage("編集者のみ編集内容を公開できます。"));
         return;
       }
-      if (!window.confirm('編集内容を公開しますか？')) {
+      if (!window.confirm("編集内容を公開しますか？")) {
         return;
       }
 
@@ -38,12 +41,12 @@ const Albums: React.FC = () => {
         dispatch(createRequestFetchAction());
         await deletePublishedAlbums();
         await publishAlbums();
-        dispatch(createDisplayMessage('編集内容を公開しました。'));
+        dispatch(createDisplayMessage("編集内容を公開しました。"));
         dispatch(crateSuccessFetchAction());
       } catch (e) {
         dispatch(
           createFailedFetchAction(
-            '公開に失敗しました。\n通信環境をご確認の上再度お試しください。'
+            "公開に失敗しました。\n通信環境をご確認の上再度お試しください。"
           )
         );
       }
@@ -57,15 +60,15 @@ const Albums: React.FC = () => {
 
       if (!isAllowed) {
         dispatch(
-          createDisplayMessage('アカウントにアクセス権限がありません。')
+          createDisplayMessage("アカウントにアクセス権限がありません。")
         );
         return;
       }
 
       dispatch(createClearAlbumAction());
-      history.push('/albums/edit/new');
+      navigate("/albums/edit/new");
     },
-    [dispatch, history, role]
+    [dispatch, navigate, role]
   );
 
   return (
@@ -93,7 +96,7 @@ const Albums: React.FC = () => {
           <CustomButton
             label="もどる"
             onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-              history.push('/')
+              navigate("/")
             }
           />
           <CustomButton

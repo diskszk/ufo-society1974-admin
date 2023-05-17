@@ -1,10 +1,10 @@
-import { File } from '../lib/types';
-import { initialState } from './initialState';
+import { File } from "../lib/types";
+import { initialState } from "./initialState";
 
 const songFileInitialState = initialState.songFile;
 
-const UPDATE_SONG_FILE = 'UPDATE_SONG_FILE';
-const CLEAR_SONG_FILE = 'CLEAR_SONG_FILE';
+const UPDATE_SONG_FILE = "UPDATE_SONG_FILE";
+const CLEAR_SONG_FILE = "CLEAR_SONG_FILE";
 
 type UpdateSongFileAction = {
   type: typeof UPDATE_SONG_FILE;
@@ -30,8 +30,8 @@ export const clearSongFileAction = (): SongFileActions => {
   return {
     type: CLEAR_SONG_FILE,
     payload: {
-      filename: '',
-      path: '',
+      filename: "",
+      path: "",
     },
   };
 };

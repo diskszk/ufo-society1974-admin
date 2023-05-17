@@ -1,20 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { CustomButton, TextInput } from '../components/UIKit';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { CustomButton, TextInput } from "../components/UIKit";
+import { useDispatch } from "react-redux";
 import {
   createDisplayMessage,
   createFailedFetchAction,
   createRequestFetchAction,
   crateSuccessFetchAction,
-} from '../store/LoadingStatusReducer';
-import { resetPassword } from '../lib/users/';
+} from "../store/LoadingStatusReducer";
+import { resetPassword } from "../lib/users/";
 
 const Reset: React.FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
   const [disabled, setDisabled] = useState(true);
 
@@ -30,8 +30,8 @@ const Reset: React.FC = () => {
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
       // validations
-      if (email === '') {
-        dispatch(createDisplayMessage('必須項目が未入力です。'));
+      if (email === "") {
+        dispatch(createDisplayMessage("必須項目が未入力です。"));
         return;
       }
       try {
@@ -39,21 +39,22 @@ const Reset: React.FC = () => {
         await resetPassword(email);
         dispatch(
           createDisplayMessage(
-            '入力されたアドレスにパスワードリセット用のメールを送信しました。'
+            "入力されたアドレスにパスワードリセット用のメールを送信しました。"
           )
         );
         dispatch(crateSuccessFetchAction());
-        history.push('/login');
+        navigate("/login");
         return;
       } catch (e) {
-        dispatch(createFailedFetchAction(e.message));
+        // dispatch(createFailedFetchAction(e.message));
+        dispatch(createFailedFetchAction("error message"));
       }
     },
-    [dispatch, history, email]
+    [dispatch, navigate, email]
   );
 
   useEffect(() => {
-    if (email !== '') {
+    if (email !== "") {
       setDisabled(false);
     } else {
       setDisabled(true);
@@ -66,12 +67,12 @@ const Reset: React.FC = () => {
       <div className="inputs-container">
         <TextInput
           fullWidth={true}
-          label={'E-mail'}
+          label={"E-mail"}
           multiline={false}
           required={true}
           rows={1}
           value={email}
-          type={'email'}
+          type={"email"}
           onChange={inputEmail}
         />
 

@@ -1,49 +1,49 @@
-import { RootStore } from '../lib/types';
-import { NO_IMAGE } from '../constants';
+import { RootStore } from "../lib/types";
+import { NO_IMAGE } from "../constants";
 
 export const initialState: RootStore = {
   user: {
     isSignedIn: false,
-    uid: '',
-    username: '',
-    role: '',
+    uid: "",
+    username: "",
+    role: "",
   },
   image: {
-    filename: '',
+    filename: "",
     path: NO_IMAGE,
   },
   album: {
-    description: '',
+    description: "",
     imageFile: {
-      filename: '',
+      filename: "",
       path: NO_IMAGE,
     },
-    id: '',
-    publishedDate: '',
-    title: '',
+    id: "",
+    publishedDate: "",
+    title: "",
     publishPlatform: {
-      AppleMusic: '',
-      Spotify: '',
-      iTunes: '',
-      Bandcamp: '',
+      AppleMusic: "",
+      Spotify: "",
+      iTunes: "",
+      Bandcamp: "",
     },
   },
   songFile: {
-    filename: '',
-    path: '',
+    filename: "",
+    path: "",
   },
   songs: [
     {
-      id: '',
-      lyric: '',
+      id: "",
+      lyric: "",
       songFile: {
-        filename: '',
-        path: '',
+        filename: "",
+        path: "",
       },
-      story: '',
-      title: '',
-      wordsRights: 'amane toda',
-      musicRights: 'amane toda',
+      story: "",
+      title: "",
+      wordsRights: "amane toda",
+      musicRights: "amane toda",
     },
   ],
 
@@ -52,7 +52,7 @@ export const initialState: RootStore = {
     message: null,
   },
   audio: {
-    src: '',
+    src: "",
     isPaused: true,
   },
 };

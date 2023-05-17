@@ -1,9 +1,9 @@
-import firebase from 'firebase/app';
+import firebase from "firebase/app";
 
-import 'firebase/auth';
-import 'firebase/firestore';
-import 'firebase/storage';
-import { firebaseConfig } from './config';
+import "firebase/auth";
+import "firebase/firestore";
+import "firebase/storage";
+import { firebaseConfig } from "./config";
 
 firebase.initializeApp(firebaseConfig);
 
@@ -14,5 +14,5 @@ export const storage = firebase.storage();
 export const FirebaseTimestamp = firebase.firestore.Timestamp;
 
 // constants
-export const userRef = db.collection('users');
-export const imagesRef = storage.ref('images');
+export const userRef = db.collection("users");
+export const imagesRef = storage.ref("images");

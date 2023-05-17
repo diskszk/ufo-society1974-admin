@@ -1,8 +1,8 @@
-import { userRef } from '../../firebase';
-import { User } from '../types';
+import { userRef } from "../../firebase";
+import { User } from "../types";
 
 const fetchUsers = async (): Promise<firebase.firestore.DocumentData[]> => {
-  const res = await userRef.where('isDeleted', '!=', true).get();
+  const res = await userRef.where("isDeleted", "!=", true).get();
 
   if (res.empty) {
     return [];
@@ -21,7 +21,7 @@ export const getUsers = async (): Promise<User[]> => {
 
   if (userList.length === 0) {
     throw new Error(
-      'ユーザー情報の取得に失敗しました。\n通信環境をご確認の上再度お試しください。'
+      "ユーザー情報の取得に失敗しました。\n通信環境をご確認の上再度お試しください。"
     );
   }
 

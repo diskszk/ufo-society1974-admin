@@ -1,26 +1,26 @@
-import React, { useCallback, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import { RootStore, Album, Song, User } from '../../lib/types';
-import { TableCell, TableRow } from '@material-ui/core/';
-import { ROLE } from '../../constants';
-import { createUpdateSongsAction } from '../../store/SongsReducer';
-import { deleteSong, getSongs } from '../../lib/songs';
+import React, { useCallback, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { makeStyles } from "@mui/styles";
+import { RootStore, Album, Song, User } from "../../lib/types";
+import { TableCell, TableRow } from "@mui/material";
+import { ROLE } from "../../constants";
+import { createUpdateSongsAction } from "../../store/SongsReducer";
+import { deleteSong, getSongs } from "../../lib/songs";
 import {
   createDisplayMessage,
   createFailedFetchAction,
   createRequestFetchAction,
   crateSuccessFetchAction,
-} from '../../store/LoadingStatusReducer';
-import { checkRole } from '../../lib/helpers';
+} from "../../store/LoadingStatusReducer";
+import { checkRole } from "../../lib/helpers";
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
   actionBtn: {
-    cursor: 'pointer',
+    cursor: "pointer",
   },
 });
 
@@ -32,7 +32,7 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { role } = useSelector<RootStore, User>((state) => state.user);
-  const history = useHistory();
+  const navigate = useNavigate();
   const album = useSelector<RootStore, Album>((state) => state.album);
   const albumId = album.id;
 
@@ -44,7 +44,7 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
   const handlePlayMusic = useCallback(
     (_ev: React.MouseEvent<HTMLTableCellElement, MouseEvent>): void => {
       if (audio.error) {
-        dispatch(createDisplayMessage('曲がアップロードされていません。'));
+        dispatch(createDisplayMessage("曲がアップロードされていません。"));
         return;
       }
       if (audio.paused) {
@@ -63,7 +63,7 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
       const allowed = checkRole(ROLE.EDITOR, role);
 
       if (!allowed) {
-        dispatch(createDisplayMessage('編集者のみ曲を削除できます。'));
+        dispatch(createDisplayMessage("編集者のみ曲を削除できます。"));
         return;
       }
       if (!window.confirm(`${song.title}を削除しますか?`)) {
@@ -81,7 +81,7 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
       } catch {
         dispatch(
           createFailedFetchAction(
-            '曲の削除に失敗しました。\n通信環境をご確認の上再度お試しください。'
+            "曲の削除に失敗しました。\n通信環境をご確認の上再度お試しください。"
           )
         );
       }
@@ -103,7 +103,7 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
       <TableCell
         className={classes.actionBtn}
         onClick={(_ev: React.MouseEvent<HTMLTableCellElement, MouseEvent>) =>
-          history.push(`/albums/detail/${albumId}/edit/${song.id}`)
+          navigate(`/albums/detail/${albumId}/edit/${song.id}`)
         }
       >
         {role === ROLE.EDITOR ? <p>編集</p> : <p>閲覧</p>}

@@ -1,4 +1,4 @@
-import { db } from '../../firebase';
+import { db } from "../../firebase";
 
 export const fetchSongs = async (
   albumId: string
@@ -7,10 +7,10 @@ export const fetchSongs = async (
     return [];
   } else {
     const songsRef = db
-      .collection('albums')
+      .collection("albums")
       .doc(albumId)
-      .collection('songs')
-      .orderBy('id');
+      .collection("songs")
+      .orderBy("id");
 
     const snapshot = await songsRef.get();
     const dataList: firebase.firestore.DocumentData[] = snapshot.docs.map(

@@ -1,11 +1,11 @@
-import { Audio } from '../lib/types';
-import { initialState } from './initialState';
+import { Audio } from "../lib/types";
+import { initialState } from "./initialState";
 
 const audioInitialState: Audio = initialState.audio;
 
-const UPDATE_AUDIO = 'UPDATE_AUDIO';
-const PLAY_AUDIO = 'PLAY_AUDIO';
-const PAUSE_AUDIO = 'PAUSE_AUDIO';
+const UPDATE_AUDIO = "UPDATE_AUDIO";
+const PLAY_AUDIO = "PLAY_AUDIO";
+const PAUSE_AUDIO = "PAUSE_AUDIO";
 
 type UpdateAudioAction = {
   type: typeof UPDATE_AUDIO;

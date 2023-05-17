@@ -1,5 +1,5 @@
-import { Song } from '../types';
-import { getSongs } from './getSongs';
+import { Song } from "../types";
+import { getSongs } from "./getSongs";
 
 export const getSingleSong = async (
   albumId: string,

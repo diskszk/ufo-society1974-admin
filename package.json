@@ -8,10 +8,14 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "clean": "rimraf dist",
+    "build": "tsc && yarn clean && vite build",
     "preview": "vite preview",
     "test": "jest",
-    "lint": "eslint src/ --ext .ts,.tsx"
+    "lint": "run-s -c lint:*",
+    "lint:eslint": "eslint src/ --ext .ts,.tsx,.js,.jsx",
+    "lint:tsc": "tsc --noEmit",
+    "host:staged": "yarn lint && yarn build && firebase deploy --only hosting"
   },
   "browserslist": {
     "production": [
@@ -55,11 +59,13 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "firebase": "^7.24.0",
     "lint-staged": "^13.2.2",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.1.2",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.1",
     "redux": "^4.2.1",
     "redux-logger": "^3.0.6",
+    "rimraf": "^5.0.0",
     "sass": "^1.32.0",
     "typescript": "^5.0.4",
     "vite": "^4.3.5",

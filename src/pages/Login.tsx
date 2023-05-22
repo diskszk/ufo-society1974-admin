@@ -58,7 +58,7 @@ const Login: React.FC = () => {
         dispatch(createFailedFetchAction("error message"));
       }
     },
-    [email, password, dispatch, history]
+    [email, password, dispatch, navigate]
   );
 
   return (

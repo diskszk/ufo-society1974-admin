@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, ReactNode } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore, User } from "./lib/types";
 import { auth, db } from "./firebase";
@@ -12,7 +12,7 @@ import { createLoginAction } from "./store/UsersReducer";
 import LoadingModal from "./components/LoadingModal";
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const Auth: React.FC<Props> = ({ children }) => {

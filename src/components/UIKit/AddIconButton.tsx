@@ -29,7 +29,7 @@ export const AddIconButton: React.FC<Props> = ({
     <>
       <span>{label}</span>
       <IconButton disabled={disable} onClick={onClick}>
-        <LibraryAddOutlinedIcon fontSize={"large"} />
+        <LibraryAddOutlinedIcon fontSize={'large'} />
       </IconButton>
     </>
   );

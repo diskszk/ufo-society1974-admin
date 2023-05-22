@@ -28,6 +28,7 @@ const Albums: React.FC = () => {
     ): Promise<void> => {
       if (role !== ROLE.EDITOR) {
         dispatch(createDisplayMessage("編集者のみ編集内容を公開できます。"));
+        dispatch(createDisplayMessage("編集者のみ編集内容を公開できます。"));
         return;
       }
       if (!window.confirm("編集内容を公開しますか？")) {

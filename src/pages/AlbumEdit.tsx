@@ -28,18 +28,19 @@ type Props = RouteComponentProps<{ id: string }>;
 const AlbumEdit: React.FC<Props> = ({ match }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+
   const id = match.params.id;
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const imageFile = useSelector<RootStore, File>((state) => state.image);
 
-  const [description, setDescription] = useState("");
-  const [publishedDate, setPublishedDate] = useState("");
-  const [title, setTitle] = useState("");
-  const [appleMusicURL, setAppleMusicURL] = useState("");
-  const [spotifyURL, setSpotifyURL] = useState("");
-  const [iTunesURL, setITunesURL] = useState("");
-  const [bandcampURL, setBandcampURL] = useState("");
+  const [description, setDescription] = useState('');
+  const [publishedDate, setPublishedDate] = useState('');
+  const [title, setTitle] = useState('');
+  const [appleMusicURL, setAppleMusicURL] = useState('');
+  const [spotifyURL, setSpotifyURL] = useState('');
+  const [iTunesURL, setITunesURL] = useState('');
+  const [bandcampURL, setBandcampURL] = useState('');
 
   const [disable, setDisable] = useState(true);
   const deleteIconDisabled: boolean = role !== ROLE.EDITOR;
@@ -93,7 +94,7 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
       const validatedPublishedDateResult = validatePublishedDate(publishedDate);
 
       if (!title || !publishedDate) {
-        dispatch(createDisplayMessage("必須項目が未入力です。"));
+        dispatch(createDisplayMessage('必須項目が未入力です。'));
         return;
       }
       if (!validatedPublishedDateResult) {
@@ -135,7 +136,6 @@ const AlbumEdit: React.FC<Props> = ({ match }) => {
     },
     [
       dispatch,
-      history,
       description,
       id,
       imageFile,

@@ -12,7 +12,7 @@ import {
   AlbumEdit,
 } from "./pages";
 
-const Routes = (): JSX.Element => {
+const Routes: React.FC = () => {
   return (
     <Switch>
       <Route exact path={"/login"} component={Login} />

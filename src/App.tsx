@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import "./assets/styles/style.scss";
 import { Header } from "./components/header";
-import Routes from "./Router";
+import Routes from "./Routes";
 import { RootStore, LoadingStatus } from "./lib/types";
 
 import LoadingModal from "./components/LoadingModal";

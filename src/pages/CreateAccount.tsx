@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { CustomButton, TextInput, TypeSelector } from "../components/UIKit";
 import { createAccount, registerAccount } from "../lib/users";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,6 @@ import {
   createFailedFetchAction,
   createDisplayMessage,
 } from "../store/LoadingStatusReducer";
-import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
 
 const roles = [
   {
@@ -31,10 +30,8 @@ const roles = [
 const CreateAccount: React.FC = () => {
   const dispatch = useDispatch();
 
-  useRedirectWithinSignedIn();
-
   const user = useSelector<RootStore, User>((state) => state.user);
-  const navigate = useNavigate();
+  const history = useHistory();
   const [disable, setDisable] = useState(true);
 
   const [username, setUsername] = useState("");
@@ -129,7 +126,7 @@ const CreateAccount: React.FC = () => {
         dispatch(
           createDisplayMessage(`${newAccount.username}を作成しました。`)
         );
-        navigate("/");
+        history.push("/");
         return;
       } catch (e) {
         // dispatch(createFailedFetchAction(e.message));
@@ -143,7 +140,7 @@ const CreateAccount: React.FC = () => {
       confirmPassword,
       role,
       dispatch,
-      navigate,
+      history,
       user.role,
     ]
   );
@@ -221,7 +218,7 @@ const CreateAccount: React.FC = () => {
           <CustomButton
             label="もどる"
             onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-              navigate("/users")
+              history.push("/users")
             }
           />
           <CustomButton

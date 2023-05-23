@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableCell,
@@ -10,7 +10,7 @@ import {
   TableRow,
   Paper,
   TableBody,
-} from "@mui/material";
+} from "@material-ui/core";
 import UserTableBody from "./UserTableBody";
 import { RootStore, User } from "../../lib/types";
 import { getUsers } from "../../lib/users/getUsers";
@@ -38,7 +38,7 @@ const UserTable: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [users, setUsers] = useState<User[]>([]);
-  const navigate = useNavigate();
+  const history = useHistory();
   const { role } = useSelector<RootStore, User>((state) => state.user);
 
   const handleClickAddIcon = useCallback(
@@ -52,9 +52,9 @@ const UserTable: React.FC = () => {
         );
         return;
       }
-      navigate("/users/create");
+      history.push("/users/create");
     },
-    [dispatch, navigate, role]
+    [dispatch, history, role]
   );
 
   useEffect(() => {
@@ -68,12 +68,12 @@ const UserTable: React.FC = () => {
       } catch (e) {
         // dispatch(createFailedFetchAction(e.message));
         dispatch(createFailedFetchAction("error message"));
-        navigate("/");
+        history.push("/");
       }
     };
 
     fetch();
-  }, [setUsers, dispatch, navigate]);
+  }, [setUsers, dispatch, history]);
 
   useEffect(() => {
     const unSub = db.collection("users").onSnapshot((snapshot) => {

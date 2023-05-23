@@ -1,8 +1,9 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@mui/styles";
-import { IconButton } from "@mui/material";
-import { Backup, DeleteOutline } from "@mui/icons-material";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import BackupIcon from "@material-ui/icons/Backup";
+import { makeStyles } from "@material-ui/core";
 import { File, RootStore, User } from "../../lib/types";
 import { generateRandomStrings } from "../../lib/helpers/generateRandomStrings";
 import {
@@ -132,7 +133,7 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
         // add song file
         <IconButton className={classes.icon} disabled={disabled}>
           <label htmlFor="upload-music">
-            <Backup className={classes.cursor} />
+            <BackupIcon className={classes.cursor} />
             <input
               type="file"
               className="display-none"
@@ -149,7 +150,7 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
           disabled={disabled}
           onClick={handleDeleteSongFileButton}
         >
-          <DeleteOutline className={classes.cursor} />
+          <DeleteOutlineIcon className={classes.cursor} />
         </IconButton>
       )}
     </div>

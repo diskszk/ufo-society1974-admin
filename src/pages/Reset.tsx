@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { CustomButton, TextInput } from "../components/UIKit";
 import { useDispatch } from "react-redux";
 import {
@@ -12,7 +12,7 @@ import { resetPassword } from "../lib/users/";
 
 const Reset: React.FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const [email, setEmail] = useState("");
 
@@ -43,14 +43,14 @@ const Reset: React.FC = () => {
           )
         );
         dispatch(crateSuccessFetchAction());
-        navigate("/login");
+        history.push("/login");
         return;
       } catch (e) {
         // dispatch(createFailedFetchAction(e.message));
         dispatch(createFailedFetchAction("error message"));
       }
     },
-    [dispatch, navigate, email]
+    [dispatch, history, email]
   );
 
   useEffect(() => {

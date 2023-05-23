@@ -1,16 +1,13 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootStore, User } from "../lib/types";
 import { CustomButton } from "../components/UIKit";
 import meido from "../assets/images/job_maid_meido_kissa.png";
-import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
 
 const Home: React.FC = () => {
-  useRedirectWithinSignedIn();
-
   const { username } = useSelector<RootStore, User>((state) => state.user);
-  const navigate = useNavigate();
+  const history = useHistory();
 
   return (
     <section className="home page">
@@ -35,13 +32,13 @@ const Home: React.FC = () => {
         <CustomButton
           label="ユーザー管理"
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            navigate("/users")
+            history.push("/users")
           }
         />
         <CustomButton
           label="アルバムを管理"
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            navigate("/albums")
+            history.push("/albums")
           }
         />
       </div>

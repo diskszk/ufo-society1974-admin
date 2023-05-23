@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, ReactNode } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore, User } from "./lib/types";
 import { auth, db } from "./firebase";
@@ -7,24 +7,24 @@ import {
   createRequestFetchAction,
   createFailedFetchAction,
 } from "./store/LoadingStatusReducer";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { createLoginAction } from "./store/UsersReducer";
 import LoadingModal from "./components/LoadingModal";
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const Auth: React.FC<Props> = ({ children }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const history = useHistory();
   const { isSignedIn } = useSelector<RootStore, User>((state) => state.user);
 
   const listenAuthState = useCallback(async () => {
     return auth.onAuthStateChanged(async (user) => {
       if (!user) {
         dispatch(createFailedFetchAction("ユーザーの取得に失敗しました。"));
-        navigate("/login");
+        history.push("/login");
         return;
       }
       const { uid } = user;
@@ -34,7 +34,7 @@ const Auth: React.FC<Props> = ({ children }) => {
 
       if (!data) {
         dispatch(createFailedFetchAction("ユーザーの取得に失敗しました。"));
-        navigate("/login");
+        history.push("/login");
         return;
       }
       dispatch(
@@ -46,7 +46,7 @@ const Auth: React.FC<Props> = ({ children }) => {
         })
       );
     });
-  }, [dispatch, navigate]);
+  }, [dispatch, history]);
 
   useEffect(() => {
     if (!isSignedIn) {
@@ -58,10 +58,10 @@ const Auth: React.FC<Props> = ({ children }) => {
       } catch (e) {
         // dispatch(createFailedFetchAction(e.message));
         dispatch(createFailedFetchAction("error message"));
-        navigate("/login");
+        history.push("/login");
       }
     }
-  }, [isSignedIn, dispatch, navigate, listenAuthState]);
+  }, [isSignedIn, dispatch, history, listenAuthState]);
 
   return <>{!isSignedIn ? <LoadingModal /> : <>{children}</>}</>;
 };

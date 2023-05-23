@@ -1,6 +1,6 @@
 import React from "react";
-import { makeStyles } from "@mui/styles";
-import { TextField } from "@mui/material";
+import TextField from "@material-ui/core/TextField";
+import { makeStyles } from "@material-ui/styles";
 
 type Props = {
   fullWidth: boolean;

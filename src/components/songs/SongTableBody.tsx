@@ -1,6 +1,6 @@
 import React from "react";
 import { Song } from "../../lib/types";
-import { TableBody } from "@mui/material";
+import { TableBody } from "@material-ui/core/";
 import { SongTableBodyItem } from "./";
 
 type Props = {

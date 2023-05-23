@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableCell,
@@ -9,7 +9,7 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from "@mui/material";
+} from "@material-ui/core/";
 import { SongTableBody } from "./";
 import { RootStore, User, Song } from "../../lib/types";
 import { ROLE } from "../../constants";
@@ -40,7 +40,7 @@ type Props = {
 export const SongTable: React.FC<Props> = ({ albumId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const songs = useSelector<RootStore, Song[]>((state) => state.songs);
@@ -57,9 +57,9 @@ export const SongTable: React.FC<Props> = ({ albumId }) => {
         return;
       }
 
-      navigate(`/albums/detail/${albumId}/edit/new`);
+      history.push(`/albums/detail/${albumId}/edit/new`);
     },
-    [albumId, dispatch, navigate, role]
+    [albumId, dispatch, history, role]
   );
 
   useEffect(() => {

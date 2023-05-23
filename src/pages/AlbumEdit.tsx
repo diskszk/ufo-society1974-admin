@@ -1,8 +1,8 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useHistory, RouteComponentProps } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButton } from "@mui/material";
-import { DeleteOutlined } from "@mui/icons-material";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { CustomButton, TextInput } from "../components/UIKit";
 import { ImageUploadForm } from "../components/albumEdit";
 import { RootStore, File, User, PublishPlatform } from "../lib/types";
@@ -20,19 +20,16 @@ import {
   crateSuccessFetchAction,
 } from "../store/LoadingStatusReducer";
 import { checkRole, validatePublishedDate } from "../lib/helpers";
-import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
+
+type Props = RouteComponentProps<{ id: string }>;
 
 // URLからアルバムのIDを取得する
 // IDが"new"の場合は新規作成となる
-const AlbumEdit: React.FC = () => {
+const AlbumEdit: React.FC<Props> = ({ match }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const history = useHistory();
 
-  useRedirectWithinSignedIn();
-
-  const urlParams = useParams<{ id: string }>();
-
-  const id = urlParams.id || "";
+  const id = match.params.id;
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const imageFile = useSelector<RootStore, File>((state) => state.image);
@@ -127,7 +124,7 @@ const AlbumEdit: React.FC = () => {
         );
         dispatch(createDisplayMessage(`アルバムを保存しました。`));
         dispatch(crateSuccessFetchAction());
-        navigate("/albums");
+        history.push("/albums");
       } catch {
         dispatch(
           createFailedFetchAction(
@@ -138,17 +135,17 @@ const AlbumEdit: React.FC = () => {
       }
     },
     [
-      dispatch,
-      navigate,
-      description,
-      id,
-      imageFile,
       publishedDate,
+      title,
       appleMusicURL,
       spotifyURL,
       iTunesURL,
       bandcampURL,
-      title,
+      dispatch,
+      imageFile,
+      description,
+      id,
+      history,
     ]
   );
 
@@ -156,12 +153,12 @@ const AlbumEdit: React.FC = () => {
   const handleBack = useCallback(
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
       if (window.confirm("編集を破棄します。")) {
-        navigate("/albums");
+        history.push("/albums");
       } else {
         return;
       }
     },
-    [navigate]
+    [history]
   );
 
   const handleDelete = useCallback(
@@ -181,7 +178,7 @@ const AlbumEdit: React.FC = () => {
         dispatch(createRequestFetchAction());
         await deleteAlbum(id);
         dispatch(crateSuccessFetchAction());
-        navigate("/albums");
+        history.push("/albums");
       } catch {
         dispatch(
           createFailedFetchAction(
@@ -190,7 +187,7 @@ const AlbumEdit: React.FC = () => {
         );
       }
     },
-    [dispatch, navigate, id, role]
+    [dispatch, history, id, role]
   );
 
   useEffect(() => {
@@ -222,13 +219,13 @@ const AlbumEdit: React.FC = () => {
         } catch (e) {
           // dispatch(createFailedFetchAction(e.message));
           dispatch(createFailedFetchAction("error message"));
-          navigate("/albums");
+          history.push("/albums");
         }
       };
 
       fetch();
     }
-  }, [dispatch, navigate, id]);
+  }, [dispatch, history, id]);
 
   // title, publishedDateが空だと保存ボタン非活性
   useEffect(() => {
@@ -260,7 +257,7 @@ const AlbumEdit: React.FC = () => {
           <div className="delete-icon">
             <span>アルバムを削除する</span>
             <IconButton disabled={deleteIconDisabled} onClick={handleDelete}>
-              <DeleteOutlined />
+              <DeleteOutlineIcon />
             </IconButton>
           </div>
         )}

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore, User } from "../../lib/types";
 import { UFO_SOCIETY_OFFICIAL } from "../../constants";
@@ -17,7 +17,7 @@ export const Header: React.FC = () => {
   const { isSignedIn, username, role } = useSelector<RootStore, User>(
     (state) => state.user
   );
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const handleClickLogOut = async (
     _ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -28,7 +28,7 @@ export const Header: React.FC = () => {
       dispatch(createLogOutAction());
       dispatch(createDisplayMessage("ログアウトしました。"));
       dispatch(crateSuccessFetchAction());
-      navigate("/login");
+      history.push("/login");
     } catch {
       dispatch(
         createFailedFetchAction(`ログアウトに失敗しました。\n

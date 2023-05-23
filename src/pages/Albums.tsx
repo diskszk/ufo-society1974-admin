@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore, User } from "../lib/types";
 import { deletePublishedAlbums, publishAlbums } from "../lib/albums";
@@ -14,22 +14,20 @@ import {
   crateSuccessFetchAction,
 } from "../store/LoadingStatusReducer";
 import { checkRole } from "../lib/helpers";
-import { useRedirectWithinSignedIn } from "../lib/users/useRedirectWithinSignedIn";
 
 const Albums: React.FC = () => {
   const dispatch = useDispatch();
 
-  useRedirectWithinSignedIn();
-
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const disabled: boolean = role !== ROLE.EDITOR;
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const handleClickPublishButton = useCallback(
     async (
       _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ): Promise<void> => {
       if (role !== ROLE.EDITOR) {
+        dispatch(createDisplayMessage("編集者のみ編集内容を公開できます。"));
         dispatch(createDisplayMessage("編集者のみ編集内容を公開できます。"));
         return;
       }
@@ -66,9 +64,9 @@ const Albums: React.FC = () => {
       }
 
       dispatch(createClearAlbumAction());
-      navigate("/albums/edit/new");
+      history.push("/albums/edit/new");
     },
-    [dispatch, navigate, role]
+    [dispatch, history, role]
   );
 
   return (
@@ -96,7 +94,7 @@ const Albums: React.FC = () => {
           <CustomButton
             label="もどる"
             onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-              navigate("/")
+              history.push("/")
             }
           />
           <CustomButton

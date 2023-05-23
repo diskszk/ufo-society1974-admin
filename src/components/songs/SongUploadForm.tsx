@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import BackupIcon from '@material-ui/icons/Backup';
-import { makeStyles } from '@material-ui/core';
-import { File, RootStore, User } from '../../lib/types';
-import { generateRandomStrings } from '../../lib/helpers/generateRandomStrings';
+import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import BackupIcon from "@material-ui/icons/Backup";
+import { makeStyles } from "@material-ui/core";
+import { File, RootStore, User } from "../../lib/types";
+import { generateRandomStrings } from "../../lib/helpers/generateRandomStrings";
 import {
   clearSongFileAction,
   createUpdateSongFileAction,
@@ -25,10 +25,10 @@ const useStyles = makeStyles({
     height: 48,
     width: 48,
     lineHeight: 48,
-    cursor: 'pointer',
-    '&:disabled': {
-      '& > span': {
-        color: 'rgba(44, 44, 44, 0.4)',
+    cursor: "pointer",
+    "&:disabled": {
+      "& > span": {
+        color: "rgba(44, 44, 44, 0.4)",
       },
     },
   },

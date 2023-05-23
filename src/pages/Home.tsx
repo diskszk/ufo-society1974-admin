@@ -6,7 +6,6 @@ import { CustomButton } from "../components/UIKit";
 import meido from "../assets/images/job_maid_meido_kissa.png";
 
 const Home: React.FC = () => {
-
   const { username } = useSelector<RootStore, User>((state) => state.user);
   const history = useHistory();
 

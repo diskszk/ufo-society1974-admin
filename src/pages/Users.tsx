@@ -4,9 +4,7 @@ import { CustomButton } from "../components/UIKit";
 import UserTable from "../components/users/UserTable";
 
 const Users: React.FC = () => {
-  const navigate = useNavigate();
-
-  useRedirectWithinSignedIn();
+  const history = useHistory();
 
   return (
     <section className="page">

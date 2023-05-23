@@ -10,7 +10,7 @@ import {
   createRequestFetchAction,
   createFailedFetchAction,
   createDisplayMessage,
-} from '../store/LoadingStatusReducer';
+} from "../store/LoadingStatusReducer";
 
 const roles = [
   {
@@ -30,10 +30,8 @@ const roles = [
 const CreateAccount: React.FC = () => {
   const dispatch = useDispatch();
 
-  useRedirectWithinSignedIn();
-
   const user = useSelector<RootStore, User>((state) => state.user);
-  const navigate = useNavigate();
+  const history = useHistory();
   const [disable, setDisable] = useState(true);
 
   const [username, setUsername] = useState("");
@@ -142,7 +140,7 @@ const CreateAccount: React.FC = () => {
       confirmPassword,
       role,
       dispatch,
-      navigate,
+      history,
       user.role,
     ]
   );

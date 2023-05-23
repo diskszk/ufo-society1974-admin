@@ -1,9 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { imagesRef } from "../../firebase";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { imagesRef } from "../../firebase";
 
 import { makeStyles } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";

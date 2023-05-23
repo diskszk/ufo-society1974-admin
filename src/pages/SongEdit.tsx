@@ -18,16 +18,14 @@ import {
 import { ROLE } from "../constants";
 import { checkRole } from "../lib/helpers";
 
-const SongEdit: React.FC = () => {
+type Props = RouteComponentProps<{ albumId: string; songId: string }>;
+
+const SongEdit: React.FC<Props> = ({ match }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const history = useHistory();
 
-  useRedirectWithinSignedIn();
-
-  const urlParams = useParams<{ albumId: string; songId: string }>();
-
-  const albumId = urlParams.albumId || "";
-  const songId = urlParams.songId || "";
+  const albumId = match.params.albumId;
+  const songId = match.params.songId;
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
 
@@ -118,7 +116,7 @@ const SongEdit: React.FC = () => {
       try {
         dispatch(createRequestFetchAction());
         await saveSong(newSong, albumId);
-        navigate(`/albums/detail/${albumId}`);
+        history.push(`/albums/detail/${albumId}`);
         dispatch(crateSuccessFetchAction());
       } catch {
         dispatch(createFailedFetchAction("曲の保存に失敗しました。"));
@@ -126,7 +124,7 @@ const SongEdit: React.FC = () => {
     },
     [
       dispatch,
-      navigate,
+      history,
       albumId,
       id,
       title,
@@ -178,7 +176,6 @@ const SongEdit: React.FC = () => {
       } catch (e) {
         // dispatch(createFailedFetchAction(e.message));
         dispatch(createFailedFetchAction("error message"));
-
         history.push(`/albums/detail/${albumId}`);
       }
     };
@@ -190,7 +187,7 @@ const SongEdit: React.FC = () => {
       // Edit
       editSongSetUp();
     }
-  }, [dispatch, navigate, albumId, songId]);
+  }, [dispatch, history, albumId, songId]);
 
   // 保存ボタンの活性・非活性
   useEffect(() => {
@@ -209,7 +206,7 @@ const SongEdit: React.FC = () => {
     }
   }, [
     dispatch,
-    navigate,
+    history,
     albumId,
     id,
     title,
@@ -236,7 +233,7 @@ const SongEdit: React.FC = () => {
     }
   }, [
     dispatch,
-    navigate,
+    history,
     albumId,
     id,
     title,
@@ -329,7 +326,7 @@ const SongEdit: React.FC = () => {
           <CustomButton
             label="もどる"
             onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-              navigate(`/albums/detail/${albumId}`)
+              history.push(`/albums/detail/${albumId}`)
             }
           />
           <CustomButton

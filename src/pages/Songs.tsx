@@ -14,15 +14,13 @@ import {
 } from "../store/LoadingStatusReducer";
 import { ROLE } from "../constants";
 
-const Songs: React.FC = () => {
+type Props = RouteComponentProps<{ albumId: string }>;
+
+const Songs: React.FC<Props> = ({ match }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const history = useHistory();
 
-  useRedirectWithinSignedIn();
-
-  const urlParams = useParams<{ id: string }>();
-
-  const albumId = urlParams.id || "";
+  const albumId = match.params.albumId;
 
   const album = useSelector<RootStore, Album>((state) => state.album);
   const { role } = useSelector<RootStore, User>((state) => state.user);
@@ -64,7 +62,7 @@ const Songs: React.FC = () => {
       dispatch(createDisplayMessage("アルバムが登録されていません。"));
       history.push("/albums");
     }
-  }, [dispatch, navigate, albumId]);
+  }, [dispatch, history, albumId]);
 
   return (
     <section className="page">
@@ -85,7 +83,7 @@ const Songs: React.FC = () => {
         <CustomButton
           label={editButtonLabel}
           onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            navigate(`/albums/edit/${albumId}`)
+            history.push(`/albums/edit/${albumId}`)
           }
         />
       </div>

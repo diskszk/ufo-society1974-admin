@@ -12,7 +12,7 @@ import { resetPassword } from "../lib/users/";
 
 const Reset: React.FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const [email, setEmail] = useState("");
 
@@ -50,7 +50,7 @@ const Reset: React.FC = () => {
         dispatch(createFailedFetchAction("error message"));
       }
     },
-    [dispatch, navigate, email]
+    [dispatch, history, email]
   );
 
   useEffect(() => {

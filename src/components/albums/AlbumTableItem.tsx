@@ -21,17 +21,17 @@ export const AlbumTableItem: React.FC<Props> = ({ album }) => {
       _ev: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>
     ): void => {
       dispatch(createUpdateAlbumAction(album));
-      navigate(`/albums/edit/${album.id}`);
+      history.push(`/albums/edit/${album.id}`);
     },
-    [dispatch, navigate, album]
+    [dispatch, history, album]
   );
 
   const handleDetailAlbumClick = useCallback(
     (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
       dispatch(createUpdateAlbumAction(album));
-      navigate(`/albums/detail/${album.id}`);
+      history.push(`/albums/detail/${album.id}`);
     },
-    [dispatch, navigate, album]
+    [dispatch, history, album]
   );
 
   return (

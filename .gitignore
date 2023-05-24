@@ -30,3 +30,5 @@ firestore-debug.log
 # build css files
 /src/assets/styles/style.css
 /src/assets/styles/style.css.map
+
+build-storybook.log

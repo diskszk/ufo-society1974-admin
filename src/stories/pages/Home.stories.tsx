@@ -10,6 +10,6 @@ export default meta;
 
 type Story = StoryObj<typeof Home>;
 
-export const Primary: Story = {
+export const Default: Story = {
   render: () => <Home username="サンプルユーザー" />,
 };

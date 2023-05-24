@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useHistory, RouteComponentProps } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CustomButton, TextInput } from "../components/UIKit";
 import { getSingleSong, getSongs, saveSong } from "../lib/songs";
@@ -18,14 +18,11 @@ import {
 import { ROLE } from "../constants";
 import { checkRole } from "../lib/helpers";
 
-type Props = RouteComponentProps<{ albumId: string; songId: string }>;
-
-const SongEdit: React.FC<Props> = ({ match }) => {
+const SongEdit: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const albumId = match.params.albumId;
-  const songId = match.params.songId;
+  const { albumId, songId } = useParams<{ songId: string; albumId: string }>();
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
 

@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useHistory, RouteComponentProps } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
@@ -21,15 +21,13 @@ import {
 } from "../store/LoadingStatusReducer";
 import { checkRole, validatePublishedDate } from "../lib/helpers";
 
-type Props = RouteComponentProps<{ id: string }>;
-
 // URLからアルバムのIDを取得する
 // IDが"new"の場合は新規作成となる
-const AlbumEdit: React.FC<Props> = ({ match }) => {
+const AlbumEdit: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const id = match.params.id;
+  const { id } = useParams<{ id: string }>();
 
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const imageFile = useSelector<RootStore, File>((state) => state.image);

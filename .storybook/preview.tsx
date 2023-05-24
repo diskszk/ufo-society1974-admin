@@ -1,9 +1,10 @@
 import type { Preview } from "@storybook/react";
 import "../src/assets/styles/style.css";
 
+import React from "react";
 import { Provider } from "react-redux";
 import { createStore } from "../src/store/store";
-import React from "react";
+import { MemoryRouter } from "react-router-dom";
 
 const store = createStore();
 
@@ -20,7 +21,9 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <Provider store={store}>
-        <Story />
+        <MemoryRouter>
+          <Story />
+        </MemoryRouter>
       </Provider>
     ),
   ],

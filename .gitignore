@@ -1,3 +1,4 @@
+
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -29,3 +30,5 @@ firestore-debug.log
 # build css files
 /src/assets/styles/style.css
 /src/assets/styles/style.css.map
+
+build-storybook.log

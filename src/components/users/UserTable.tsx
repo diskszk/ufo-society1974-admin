@@ -34,8 +34,52 @@ const useStyles = makeStyles({
   },
 });
 
-const UserTable: React.FC = () => {
+type PresentationProps = {
+  role: string;
+  handleClickAddIcon: (
+    _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+  users: User[];
+};
+
+export const Presentation: React.FC<PresentationProps> = ({
+  role,
+  handleClickAddIcon,
+  users,
+}) => {
   const classes = useStyles();
+
+  return (
+    <div className="user-table">
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>ユーザーID</TableCell>
+              <TableCell>お名前</TableCell>
+              <TableCell>役職</TableCell>
+              <TableCell className="">
+                <AddIconButton
+                  allowedRole={ROLE.MASTER}
+                  currentRole={role}
+                  onClick={handleClickAddIcon}
+                  label="アカウント作成"
+                />
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users.map((user, key) => {
+              return <UserTableBody user={user} key={key} />;
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
+  );
+};
+
+const UserTable: React.FC = () => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState<User[]>([]);
   const history = useHistory();
@@ -116,32 +160,11 @@ const UserTable: React.FC = () => {
   }, []);
 
   return (
-    <div className="user-table">
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>ユーザーID</TableCell>
-              <TableCell>お名前</TableCell>
-              <TableCell>役職</TableCell>
-              <TableCell className="">
-                <AddIconButton
-                  allowedRole={ROLE.MASTER}
-                  currentRole={role}
-                  onClick={handleClickAddIcon}
-                  label="アカウント作成"
-                />
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {users.map((user, key) => {
-              return <UserTableBody user={user} key={key} />;
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </div>
+    <Presentation
+      role={role}
+      handleClickAddIcon={handleClickAddIcon}
+      users={users}
+    />
   );
 };
 

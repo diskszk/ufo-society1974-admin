@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useHistory, RouteComponentProps } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CustomButton } from "../components/UIKit";
 import { Album, RootStore, User } from "../lib/types";
@@ -14,13 +14,50 @@ import {
 } from "../store/LoadingStatusReducer";
 import { ROLE } from "../constants";
 
-type Props = RouteComponentProps<{ albumId: string }>;
+type PresentationProps = {
+  album: Album;
+  albumId: string;
+  editButtonLabel: string;
+};
+export const Presentation: React.FC<PresentationProps> = ({
+  album,
+  albumId,
+  editButtonLabel,
+}) => {
+  const history = useHistory();
 
-const Songs: React.FC<Props> = ({ match }) => {
+  return (
+    <section className="page">
+      <h1>曲の管理ページ</h1>
+      <div className="spacing-div"></div>
+
+      <div className="spacing-div"></div>
+      <AlbumInfo album={album} />
+      <SongTable albumId={albumId} />
+
+      <div className="button-container-row">
+        <CustomButton
+          label="もどる"
+          onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+            history.push("/albums")
+          }
+        />
+        <CustomButton
+          label={editButtonLabel}
+          onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+            history.push(`/albums/edit/${albumId}`)
+          }
+        />
+      </div>
+    </section>
+  );
+};
+
+const Songs: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const albumId = match.params.albumId;
+  const { albumId } = useParams<{ albumId: string }>();
 
   const album = useSelector<RootStore, Album>((state) => state.album);
   const { role } = useSelector<RootStore, User>((state) => state.user);
@@ -65,29 +102,11 @@ const Songs: React.FC<Props> = ({ match }) => {
   }, [dispatch, history, albumId]);
 
   return (
-    <section className="page">
-      <h1>曲の管理ページ</h1>
-      <div className="spacing-div"></div>
-
-      <div className="spacing-div"></div>
-      <AlbumInfo album={album} />
-      <SongTable albumId={albumId} />
-
-      <div className="button-container-row">
-        <CustomButton
-          label="もどる"
-          onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            history.push("/albums")
-          }
-        />
-        <CustomButton
-          label={editButtonLabel}
-          onClick={(_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            history.push(`/albums/edit/${albumId}`)
-          }
-        />
-      </div>
-    </section>
+    <Presentation
+      album={album}
+      albumId={albumId}
+      editButtonLabel={editButtonLabel}
+    />
   );
 };
 

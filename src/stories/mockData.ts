@@ -1,4 +1,4 @@
-import { Album, Song } from "./../lib/types";
+import { Album, Song, User } from "./../lib/types";
 import altImage from "../assets/images/no_image.jpg";
 
 const lyric = {
@@ -24,6 +24,7 @@ const lyric = {
 きみの手で 白い手で
 空をこじあけて`,
 };
+
 export const mockSongs: Song[] = [
   {
     id: "1",
@@ -80,3 +81,24 @@ export const mockAlbum: Album = {
     Bandcamp: "",
   },
 };
+
+export const mockUsers: User[] = [
+  {
+    isSignedIn: false,
+    uid: "uid001",
+    username: "テストユーザー1",
+    role: "editor",
+  },
+  {
+    isSignedIn: false,
+    uid: "uid002",
+    username: "テストユーザー2",
+    role: "watcher",
+  },
+  {
+    isSignedIn: false,
+    uid: "uid003",
+    username: "テストユーザー3",
+    role: "master",
+  },
+];

@@ -33,12 +33,54 @@ const useStyles = makeStyles({
   },
 });
 
+type PresentationProps = {
+  role: string;
+  handleClickAddIcon: (
+    _ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+  songs: Song[];
+};
+
+export const Presentation: React.FC<PresentationProps> = ({
+  role,
+  handleClickAddIcon,
+  songs,
+}) => {
+  const classes = useStyles();
+
+  return (
+    <div className="song-table">
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="right">No.</TableCell>
+              <TableCell>タイトル</TableCell>
+              <TableCell>元ネタ</TableCell>
+              <TableCell>再生</TableCell>
+              <TableCell></TableCell>
+              <TableCell className={classes.addButton}>
+                <AddIconButton
+                  allowedRole={ROLE.EDITOR}
+                  currentRole={role}
+                  onClick={handleClickAddIcon}
+                  label="曲を追加"
+                />
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <SongTableBody songs={songs} />
+        </Table>
+      </TableContainer>
+    </div>
+  );
+};
+
 type Props = {
   albumId: string;
 };
 
 export const SongTable: React.FC<Props> = ({ albumId }) => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -83,29 +125,10 @@ export const SongTable: React.FC<Props> = ({ albumId }) => {
   }, [dispatch, albumId]);
 
   return (
-    <div className="song-table">
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="right">No.</TableCell>
-              <TableCell>タイトル</TableCell>
-              <TableCell>元ネタ</TableCell>
-              <TableCell>再生</TableCell>
-              <TableCell></TableCell>
-              <TableCell className={classes.addButton}>
-                <AddIconButton
-                  allowedRole={ROLE.EDITOR}
-                  currentRole={role}
-                  onClick={handleClickAddIcon}
-                  label="曲を追加"
-                />
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <SongTableBody songs={songs} />
-        </Table>
-      </TableContainer>
-    </div>
+    <Presentation
+      role={role}
+      handleClickAddIcon={handleClickAddIcon}
+      songs={songs}
+    />
   );
 };

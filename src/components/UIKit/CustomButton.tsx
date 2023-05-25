@@ -1,18 +1,4 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/styles";
-
-const useStyles = makeStyles({
-  button: {
-    backgroundColor: "#efefef",
-    color: "#000",
-    fontSize: "1em",
-    height: "3em",
-    marginBottom: "2.25em",
-    width: "12em",
-    zIndex: 0,
-  },
-});
+import { Button } from "@mui/material";
 
 type Props = {
   label: string;
@@ -21,12 +7,18 @@ type Props = {
 };
 
 const CustomButton: React.FC<Props> = ({ label, onClick, disable = false }) => {
-  const classes = useStyles();
-
   return (
     <Button
       disabled={disable}
-      className={classes.button}
+      sx={{
+        backgroundColor: "#efefef",
+        color: "#000",
+        fontSize: "1em",
+        height: "3em",
+        marginBottom: "2.25em",
+        width: "12em",
+        zIndex: 0,
+      }}
       variant="contained"
       onClick={onClick}
     >

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import IconButton from "@material-ui/core/IconButton";
-import LibraryAddOutlinedIcon from "@material-ui/icons/LibraryAddOutlined";
+import { IconButton } from "@mui/material";
+import { LibraryAddOutlined } from "@mui/icons-material";
 
 type Props = {
   allowedRole: string;
@@ -29,7 +29,7 @@ export const AddIconButton: React.FC<Props> = ({
     <>
       <span>{label}</span>
       <IconButton disabled={disable} onClick={onClick}>
-        <LibraryAddOutlinedIcon fontSize={"large"} />
+        <LibraryAddOutlined fontSize={"large"} />
       </IconButton>
     </>
   );

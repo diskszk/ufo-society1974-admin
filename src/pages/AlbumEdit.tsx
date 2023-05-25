@@ -1,8 +1,8 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import { IconButton } from "@mui/material";
+import { DeleteOutline } from "@mui/icons-material";
 import { CustomButton, TextInput } from "../components/UIKit";
 import { ImageUploadForm } from "../components/albumEdit";
 import { RootStore, File, User, PublishPlatform } from "../lib/types";
@@ -255,7 +255,7 @@ const AlbumEdit: React.FC = () => {
           <div className="delete-icon">
             <span>アルバムを削除する</span>
             <IconButton disabled={deleteIconDisabled} onClick={handleDelete}>
-              <DeleteOutlineIcon />
+              <DeleteOutline />
             </IconButton>
           </div>
         )}

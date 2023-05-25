@@ -69,7 +69,7 @@ const CreateAccount: React.FC = () => {
   );
 
   const selectRole = useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
+    (ev: React.ChangeEvent<HTMLSelectElement>) => {
       setRole(ev.target.value);
     },
     [setRole]

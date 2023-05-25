@@ -2,10 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { imagesRef } from "../../firebase";
 
-import { makeStyles } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
-
+import { IconButton } from "@mui/material";
+import { AddPhotoAlternate } from "@mui/icons-material";
 import { generateRandomStrings } from "../../lib/helpers/generateRandomStrings";
 import { deleteAlbumImage } from "../../lib/albums";
 import { File, RootStore, User } from "../../lib/types";
@@ -19,23 +17,10 @@ import {
 import { ROLE } from "../../constants";
 import { checkRole } from "../../lib/helpers";
 
-const useStyles = makeStyles({
-  icon: {
-    height: 48,
-    width: 48,
-    "&:disabled": {
-      "& > span": {
-        color: "rgba(44, 44, 44, 0.4)",
-      },
-    },
-  },
-});
-
 type Props = {
   image: File;
 };
 export const ImageUploadForm: React.FC<Props> = ({ image }) => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const { role } = useSelector<RootStore, User>((state) => state.user);
 
@@ -106,9 +91,20 @@ export const ImageUploadForm: React.FC<Props> = ({ image }) => {
     <div className="album-edit-image">
       <div className="album-edit-image__select">
         <span>画像を変更する</span>
-        <IconButton className={classes.icon} disabled={disabled}>
+        <IconButton
+          disabled={disabled}
+          sx={{
+            height: 48,
+            width: 48,
+            "&:disabled": {
+              "& > span": {
+                color: "rgba(44, 44, 44, 0.4)",
+              },
+            },
+          }}
+        >
           <label htmlFor="upload-image">
-            <AddPhotoAlternateIcon fontSize={"large"} />
+            <AddPhotoAlternate fontSize={"large"} />
             <input
               className={"display-none"}
               type="file"

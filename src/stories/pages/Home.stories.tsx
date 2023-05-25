@@ -11,5 +11,7 @@ export default meta;
 type Story = StoryObj<typeof Home>;
 
 export const Default: Story = {
-  render: () => <Home username="サンプルユーザー" />,
+  args: {
+    username: "サンプルユーザー",
+  },
 };

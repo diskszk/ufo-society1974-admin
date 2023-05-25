@@ -11,5 +11,5 @@ export default meta;
 type Story = StoryObj<typeof Reset>;
 
 export const Default: Story = {
-  render: () => <Reset />,
+  args: {},
 };

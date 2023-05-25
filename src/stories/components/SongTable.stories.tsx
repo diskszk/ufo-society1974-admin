@@ -12,11 +12,9 @@ export default meta;
 type Story = StoryObj<typeof SongTable>;
 
 export const HasThreeSongs: Story = {
-  render: () => (
-    <SongTable
-      role={"editor"}
-      handleClickAddIcon={() => void 0}
-      songs={mockSongs}
-    />
-  ),
+  args: {
+    role: "editor",
+    handleClickAddIcon: () => void 0,
+    songs: mockSongs,
+  },
 };

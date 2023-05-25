@@ -11,5 +11,5 @@ export default meta;
 type Story = StoryObj<typeof AlbumEdit>;
 
 export const Default: Story = {
-  render: () => <AlbumEdit />,
+  args: {},
 };

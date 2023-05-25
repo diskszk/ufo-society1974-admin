@@ -12,11 +12,9 @@ export default meta;
 type Story = StoryObj<typeof UserTable>;
 
 export const HasThreeUsers: Story = {
-  render: () => (
-    <UserTable
-      role={"editor"}
-      handleClickAddIcon={() => void 0}
-      users={mockUsers}
-    />
-  ),
+  args: {
+    role: "editor",
+    handleClickAddIcon: () => void 0,
+    users: mockUsers,
+  },
 };

@@ -27,8 +27,12 @@ yarn-error.log*
 .firebase
 firestore-debug.log
 
+# Storybook build outputs
+.out
+.storybook-out
+storybook-static
+build-storybook.log
+
 # build css files
 /src/assets/styles/style.css
 /src/assets/styles/style.css.map
-
-build-storybook.log

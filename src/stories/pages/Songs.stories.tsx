@@ -11,21 +11,17 @@ export default meta;
 
 type Story = StoryObj<typeof Songs>;
 
-export const アルバム編集: Story = {
-  render: () => (
-    <Songs
-      album={mockAlbum}
-      albumId="album-id-01"
-      editButtonLabel="アルバム編集"
-    />
-  ),
+export const AlbumEdit: Story = {
+  args: {
+    album: mockAlbum,
+    albumId: "album-id-01",
+    editButtonLabel: "アルバム編集",
+  },
 };
-export const アルバム閲覧: Story = {
-  render: () => (
-    <Songs
-      album={mockAlbum}
-      albumId="album-id-01"
-      editButtonLabel="アルバム閲覧"
-    />
-  ),
+export const AlbumWatch: Story = {
+  args: {
+    album: mockAlbum,
+    albumId: "album-id-01",
+    editButtonLabel: "アルバム閲覧",
+  },
 };

@@ -1,8 +1,6 @@
 import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
+import { TableCell, TableRow } from "@mui/material";
 import {
   createDisplayMessage,
   createRequestFetchAction,
@@ -13,21 +11,11 @@ import { ROLE } from "../../constants";
 import { RootStore, User } from "../../lib/types";
 import { deleteUser } from "../../lib/users/deleteUser";
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-  actionBtn: {
-    cursor: "pointer",
-  },
-});
-
 type Props = {
   user: User;
 };
 
 const UserTableBody: React.FC<Props> = ({ user }) => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const currentUser = useSelector<RootStore, User>((state) => state.user);
   const currentRole = currentUser.role;
@@ -79,7 +67,12 @@ const UserTableBody: React.FC<Props> = ({ user }) => {
       </TableCell>
       <TableCell>{user.username}</TableCell>
       <TableCell>{user.role}</TableCell>
-      <TableCell className={classes.actionBtn} onClick={handleClickDelete}>
+      <TableCell
+        sx={{
+          cursor: "pointer",
+        }}
+        onClick={handleClickDelete}
+      >
         削除
       </TableCell>
     </TableRow>

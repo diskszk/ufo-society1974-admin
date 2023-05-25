@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableCell,
@@ -10,7 +9,7 @@ import {
   TableRow,
   Paper,
   TableBody,
-} from "@material-ui/core";
+} from "@mui/material";
 import UserTableBody from "./UserTableBody";
 import { RootStore, User } from "../../lib/types";
 import { getUsers } from "../../lib/users/getUsers";
@@ -25,15 +24,6 @@ import { ROLE } from "../../constants";
 import { checkRole } from "../../lib/helpers";
 import { db } from "../../firebase";
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-  addButton: {
-    padding: 0,
-  },
-});
-
 type PresentationProps = {
   role: string;
   handleClickAddIcon: (
@@ -47,18 +37,21 @@ export const Presentation: React.FC<PresentationProps> = ({
   handleClickAddIcon,
   users,
 }) => {
-  const classes = useStyles();
-
   return (
     <div className="user-table">
       <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
+        <Table
+          sx={{
+            minWidth: 650,
+          }}
+          aria-label="simple table"
+        >
           <TableHead>
             <TableRow>
               <TableCell>ユーザーID</TableCell>
               <TableCell>お名前</TableCell>
               <TableCell>役職</TableCell>
-              <TableCell className="">
+              <TableCell>
                 <AddIconButton
                   allowedRole={ROLE.MASTER}
                   currentRole={role}

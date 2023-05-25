@@ -1,6 +1,4 @@
-import React from "react";
-import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/styles";
+import { TextField } from "@mui/material";
 
 type Props = {
   fullWidth: boolean;
@@ -13,19 +11,13 @@ type Props = {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const useStyles = makeStyles({
-  input: {
-    margin: "1.5em 0",
-    width: "80%",
-  },
-});
-
 const TextInput: React.FC<Props> = (props: Props) => {
-  const classes = useStyles();
-
   return (
     <TextField
-      className={classes.input}
+      sx={{
+        margin: "1.5em 0",
+        width: "80%",
+      }}
       fullWidth={props.fullWidth}
       label={props.label}
       margin="dense"

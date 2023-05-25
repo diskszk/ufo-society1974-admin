@@ -1,6 +1,4 @@
-import React from "react";
-import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/styles";
+import { TextField } from "@mui/material";
 
 type Props = {
   roles: {
@@ -13,19 +11,13 @@ type Props = {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const useStyles = makeStyles({
-  selector: {
-    margin: "1.5em 0",
-    width: "80%",
-  },
-});
-
 export const TypeSelector: React.FC<Props> = (props: Props) => {
-  const classes = useStyles();
-
   return (
     <TextField
-      className={classes.selector}
+      sx={{
+        margin: "1.5em 0",
+        width: "80%",
+      }}
       id="standard-select-currency-native"
       select
       label={props.label}

@@ -1,9 +1,7 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import BackupIcon from "@material-ui/icons/Backup";
-import { makeStyles } from "@material-ui/core";
+import { IconButton } from "@mui/material";
+import { DeleteOutline, Backup } from "@mui/icons-material";
 import { File, RootStore, User } from "../../lib/types";
 import { generateRandomStrings } from "../../lib/helpers/generateRandomStrings";
 import {
@@ -20,30 +18,12 @@ import {
 import { ROLE } from "../../constants";
 import { checkRole } from "../../lib/helpers";
 
-const useStyles = makeStyles({
-  icon: {
-    height: 48,
-    width: 48,
-    lineHeight: 48,
-    cursor: "pointer",
-    "&:disabled": {
-      "& > span": {
-        color: "rgba(44, 44, 44, 0.4)",
-      },
-    },
-  },
-  cursor: {
-    cursor: "pointer",
-  },
-});
-
 type Props = {
   albumId: string;
   songId: string;
 };
 
 export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const { filename } = useSelector<RootStore, File>((state) => state.songFile);
   const { role } = useSelector<RootStore, User>((state) => state.user);
@@ -131,9 +111,22 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
       <p>曲をアップロード</p>
       {filename === "" ? (
         // add song file
-        <IconButton className={classes.icon} disabled={disabled}>
+        <IconButton
+          sx={{
+            height: 48,
+            width: 48,
+            lineHeight: 48,
+            cursor: "pointer",
+            "&:disabled": {
+              "& > span": {
+                color: "rgba(44, 44, 44, 0.4)",
+              },
+            },
+          }}
+          disabled={disabled}
+        >
           <label htmlFor="upload-music">
-            <BackupIcon className={classes.cursor} />
+            <Backup />
             <input
               type="file"
               className="display-none"
@@ -146,11 +139,21 @@ export const SongUploadForm: React.FC<Props> = ({ albumId, songId }) => {
       ) : (
         // delete song file
         <IconButton
-          className={classes.icon}
+          sx={{
+            height: 48,
+            width: 48,
+            lineHeight: 48,
+            cursor: "pointer",
+            "&:disabled": {
+              "& > span": {
+                color: "rgba(44, 44, 44, 0.4)",
+              },
+            },
+          }}
           disabled={disabled}
           onClick={handleDeleteSongFileButton}
         >
-          <DeleteOutlineIcon className={classes.cursor} />
+          <DeleteOutline />
         </IconButton>
       )}
     </div>

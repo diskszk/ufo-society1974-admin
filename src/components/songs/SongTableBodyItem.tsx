@@ -1,9 +1,8 @@
 import React, { useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 import { RootStore, Album, Song, User } from "../../lib/types";
-import { TableCell, TableRow } from "@material-ui/core/";
+import { TableCell, TableRow } from "@mui/material";
 import { ROLE } from "../../constants";
 import { createUpdateSongsAction } from "../../store/SongsReducer";
 import { deleteSong, getSongs } from "../../lib/songs";
@@ -15,21 +14,11 @@ import {
 } from "../../store/LoadingStatusReducer";
 import { checkRole } from "../../lib/helpers";
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-  actionBtn: {
-    cursor: "pointer",
-  },
-});
-
 type Props = {
   song: Song;
 };
 
 export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const { role } = useSelector<RootStore, User>((state) => state.user);
   const history = useHistory();
@@ -96,21 +85,37 @@ export const SongTableBodyItem: React.FC<Props> = ({ song }) => {
       </TableCell>
       <TableCell>{song.title}</TableCell>
       <TableCell>{song.story}</TableCell>
-      <TableCell className={classes.actionBtn} onClick={handlePlayMusic}>
+      <TableCell
+        sx={{
+          cursor: "pointer",
+        }}
+        onClick={handlePlayMusic}
+      >
         {/* want: 再生/停止 で切り替わるようにしたい */}
         <p>再生</p>
       </TableCell>
       <TableCell
-        className={classes.actionBtn}
+        sx={{
+          cursor: "pointer",
+        }}
         onClick={(_ev: React.MouseEvent<HTMLTableCellElement, MouseEvent>) =>
           history.push(`/albums/detail/${albumId}/edit/${song.id}`)
         }
       >
         {role === ROLE.EDITOR ? <p>編集</p> : <p>閲覧</p>}
       </TableCell>
-      <TableCell className={classes.actionBtn} onClick={handleDeleteSong}>
+      <TableCell
+        sx={{
+          cursor: "pointer",
+        }}
+        onClick={handleDeleteSong}
+      >
         削除
       </TableCell>
     </TableRow>
   );
 };
+
+<td>
+  <button>The table body</button>
+</td>;

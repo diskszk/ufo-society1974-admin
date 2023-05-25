@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableCell,
@@ -9,7 +8,7 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from "@material-ui/core/";
+} from "@mui/material";
 import { SongTableBody } from "./";
 import { RootStore, User, Song } from "../../lib/types";
 import { ROLE } from "../../constants";
@@ -24,15 +23,6 @@ import { getSongs } from "../../lib/songs";
 import { AddIconButton } from "../UIKit";
 import { checkRole } from "../../lib/helpers";
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-  addButton: {
-    padding: 0,
-  },
-});
-
 type PresentationProps = {
   role: string;
   handleClickAddIcon: (
@@ -46,12 +36,15 @@ export const Presentation: React.FC<PresentationProps> = ({
   handleClickAddIcon,
   songs,
 }) => {
-  const classes = useStyles();
-
   return (
     <div className="song-table">
       <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
+        <Table
+          sx={{
+            minWidth: 650,
+          }}
+          aria-label="simple table"
+        >
           <TableHead>
             <TableRow>
               <TableCell align="right">No.</TableCell>
@@ -59,7 +52,11 @@ export const Presentation: React.FC<PresentationProps> = ({
               <TableCell>元ネタ</TableCell>
               <TableCell>再生</TableCell>
               <TableCell></TableCell>
-              <TableCell className={classes.addButton}>
+              <TableCell
+                sx={{
+                  padding: 0,
+                }}
+              >
                 <AddIconButton
                   allowedRole={ROLE.EDITOR}
                   currentRole={role}

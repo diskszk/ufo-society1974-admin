@@ -9,6 +9,4 @@ const meta: Meta<typeof LoadingModal> = {
 export default meta;
 
 type Story = StoryObj<typeof LoadingModal>;
-export const Default: Story = {
-  render: () => <LoadingModal />,
-};
+export const Default: Story = {};

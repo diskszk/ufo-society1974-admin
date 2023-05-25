@@ -27,6 +27,7 @@ const TextInput: React.FC<Props> = (props: Props) => {
       value={props.value}
       type={props.type}
       onChange={props.onChange}
+      variant="standard"
     />
   );
 };

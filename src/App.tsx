@@ -1,27 +1,28 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import "./assets/styles/style.scss";
+import "./reset.css";
+
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { createStore } from "./store/store";
+
 import { Header } from "./components/header";
 import Routes from "./Routes";
-import { RootStore, LoadingStatus } from "./lib/types";
 
-import LoadingModal from "./components/LoadingModal";
-import MessageModal from "./components/MessageModal";
+const store = createStore();
 
 const App: React.FC = () => {
-  const { isLoading, message } = useSelector<RootStore, LoadingStatus>(
-    (state) => state.loadingStatus
-  );
-
   return (
-    <>
-      {isLoading && <LoadingModal />}
-      {message && <MessageModal message={message} />}
-      <Header />
-      <main>
-        <Routes />
-      </main>
-    </>
+    <React.StrictMode>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Header />
+          <main>
+            <Routes />
+          </main>
+        </BrowserRouter>
+      </Provider>
+    </React.StrictMode>
   );
 };
 

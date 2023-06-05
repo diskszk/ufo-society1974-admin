@@ -6,9 +6,11 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 import { Provider } from "react-redux";
 import { createStore } from "./store/store";
+
+import LoadingModal from "./components/LoadingModal";
+import { ErrorModal } from "./components/ErrorModal";
 
 import { Header } from "./components/header";
 import Routes from "./Routes";
@@ -25,32 +27,27 @@ const client = new QueryClient({
 const App: React.FC = () => {
   return (
     <React.StrictMode>
-      <QueryErrorResetBoundary>
-        {({ reset }) => (
-          <ErrorBoundary
-            onReset={reset}
-            fallbackRender={({ resetErrorBoundary }) => (
-              <div>
-                There was an error!
-                <button onClick={() => resetErrorBoundary()}>Try again</button>
-              </div>
-            )}
-          >
-            <BrowserRouter>
-              <QueryClientProvider client={client}>
-                <Suspense fallback={<div>Loading...</div>}>
+      <BrowserRouter>
+        <Suspense fallback={<LoadingModal />}>
+          <QueryErrorResetBoundary>
+            {({ reset }) => (
+              <ErrorBoundary
+                onReset={reset}
+                fallbackRender={({ error }) => <ErrorModal error={error} />}
+              >
+                <QueryClientProvider client={client}>
                   <Provider store={store}>
                     <Header />
                     <main>
                       <Routes />
                     </main>
                   </Provider>
-                </Suspense>
-              </QueryClientProvider>
-            </BrowserRouter>
-          </ErrorBoundary>
-        )}
-      </QueryErrorResetBoundary>
+                </QueryClientProvider>
+              </ErrorBoundary>
+            )}
+          </QueryErrorResetBoundary>
+        </Suspense>
+      </BrowserRouter>
     </React.StrictMode>
   );
 };

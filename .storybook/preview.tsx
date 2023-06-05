@@ -5,8 +5,10 @@ import React from "react";
 import { Provider } from "react-redux";
 import { createStore } from "../src/store/store";
 import { MemoryRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const store = createStore();
+const client = new QueryClient();
 
 const preview: Preview = {
   parameters: {
@@ -22,7 +24,9 @@ const preview: Preview = {
     (Story) => (
       <Provider store={store}>
         <MemoryRouter>
-          <Story />
+          <QueryClientProvider client={client}>
+            <Story />
+          </QueryClientProvider>
         </MemoryRouter>
       </Provider>
     ),

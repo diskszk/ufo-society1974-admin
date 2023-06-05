@@ -1,27 +1,54 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { Suspense } from "react";
 import "./assets/styles/style.scss";
-import { Header } from "./components/header";
-import Routes from "./Routes";
-import { RootStore, LoadingStatus } from "./lib/types";
+import "./reset.css";
+
+import { BrowserRouter } from "react-router-dom";
+import { QueryErrorResetBoundary } from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Provider } from "react-redux";
+import { createStore } from "./store/store";
 
 import LoadingModal from "./components/LoadingModal";
-import MessageModal from "./components/MessageModal";
+import { ErrorModal } from "./components/ErrorModal";
+
+import { Header } from "./components/header";
+import Routes from "./Routes";
+
+const store = createStore();
+const client = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+    },
+  },
+});
 
 const App: React.FC = () => {
-  const { isLoading, message } = useSelector<RootStore, LoadingStatus>(
-    (state) => state.loadingStatus
-  );
-
   return (
-    <>
-      {isLoading && <LoadingModal />}
-      {message && <MessageModal message={message} />}
-      <Header />
-      <main>
-        <Routes />
-      </main>
-    </>
+    <React.StrictMode>
+      <BrowserRouter>
+        <Suspense fallback={<LoadingModal />}>
+          <QueryErrorResetBoundary>
+            {({ reset }) => (
+              <ErrorBoundary
+                onReset={reset}
+                fallbackRender={({ error }) => <ErrorModal error={error} />}
+              >
+                <QueryClientProvider client={client}>
+                  <Provider store={store}>
+                    <Header />
+                    <main>
+                      <Routes />
+                    </main>
+                  </Provider>
+                </QueryClientProvider>
+              </ErrorBoundary>
+            )}
+          </QueryErrorResetBoundary>
+        </Suspense>
+      </BrowserRouter>
+    </React.StrictMode>
   );
 };
 

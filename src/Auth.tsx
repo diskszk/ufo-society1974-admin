@@ -1,75 +1,44 @@
-import React, { useCallback, useEffect, ReactNode } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootStore, User } from "./lib/types";
-import { auth, db } from "./firebase";
-import {
-  crateSuccessFetchAction,
-  createRequestFetchAction,
-  createFailedFetchAction,
-} from "./store/LoadingStatusReducer";
+import React, { useEffect, ReactNode } from "react";
+import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { createLoginAction } from "./store/UsersReducer";
-import LoadingModal from "./components/LoadingModal";
+import { auth } from "./firebase";
+import { fetchUser } from "./lib/users/fetchUser";
+import { useSignedInUserState } from "./hooks/useSignedInUserState";
 
 type Props = {
   children: ReactNode;
 };
 
-// 2. firebaseAuthからsignInしたuser<Firebase.User>情報を取得する
-// ↑ここまで
-// 3. user<Firebase.User>のuidを使ってWebAPIからuser<User>を取得する
-// 4. user<Firebase.User>からidTokenを取得してAxiosのheaderにセットする
-// 5. user<User>からroleを取得してAxiosのheaderにセットする
-// 5. ログイン中のuserとしてglobal stateに設定する
 const Auth: React.FC<Props> = ({ children }) => {
-  const dispatch = useDispatch();
   const history = useHistory();
-  const { isSignedIn } = useSelector<RootStore, User>((state) => state.user);
 
-  const listenAuthState = useCallback(async () => {
-    return auth.onAuthStateChanged(async (user) => {
-      if (!user) {
-        dispatch(createFailedFetchAction("ユーザーの取得に失敗しました。"));
-        history.push("/signin");
-        return;
-      }
-      const { uid } = user;
-
-      const snapshot = await db.collection("users").doc(uid).get();
-      const data = snapshot.data();
-
-      if (!data) {
-        dispatch(createFailedFetchAction("ユーザーの取得に失敗しました。"));
-        history.push("/signin");
-        return;
-      }
-      dispatch(
-        createLoginAction({
-          isSignedIn: true,
-          uid: uid,
-          username: data.username,
-          role: data.role,
-        })
-      );
-    });
-  }, [dispatch, history]);
+  const { setSignedInUser, setSignOut } = useSignedInUserState();
 
   useEffect(() => {
-    if (!isSignedIn) {
-      try {
-        dispatch(createRequestFetchAction());
-        listenAuthState();
-
-        dispatch(crateSuccessFetchAction());
-      } catch (e) {
-        // dispatch(createFailedFetchAction(e.message));
-        dispatch(createFailedFetchAction("error message"));
+    const unsubscribed = auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        setSignOut();
         history.push("/signin");
+        return;
       }
-    }
-  }, [isSignedIn, dispatch, history, listenAuthState]);
+      const idToken = await user.getIdToken();
 
-  return <>{!isSignedIn ? <LoadingModal /> : <>{children}</>}</>;
+      const newSignedInUser = await fetchUser(user.uid);
+
+      setSignedInUser(newSignedInUser);
+
+      axios.defaults.headers.common["Authorization"] = idToken;
+      axios.defaults.headers.common["role"] = newSignedInUser.role;
+
+      return;
+    });
+
+    return () => {
+      unsubscribed();
+    };
+  }, [history, setSignOut, setSignedInUser]);
+
+  return <>{children}</>;
 };
 
 export default Auth;

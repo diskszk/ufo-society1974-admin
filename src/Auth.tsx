@@ -15,6 +15,12 @@ type Props = {
   children: ReactNode;
 };
 
+// 2. firebaseAuthからsignInしたuser<Firebase.User>情報を取得する
+// ↑ここまで
+// 3. user<Firebase.User>のuidを使ってWebAPIからuser<User>を取得する
+// 4. user<Firebase.User>からidTokenを取得してAxiosのheaderにセットする
+// 5. user<User>からroleを取得してAxiosのheaderにセットする
+// 5. ログイン中のuserとしてglobal stateに設定する
 const Auth: React.FC<Props> = ({ children }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -24,7 +30,7 @@ const Auth: React.FC<Props> = ({ children }) => {
     return auth.onAuthStateChanged(async (user) => {
       if (!user) {
         dispatch(createFailedFetchAction("ユーザーの取得に失敗しました。"));
-        history.push("/login");
+        history.push("/signin");
         return;
       }
       const { uid } = user;
@@ -34,7 +40,7 @@ const Auth: React.FC<Props> = ({ children }) => {
 
       if (!data) {
         dispatch(createFailedFetchAction("ユーザーの取得に失敗しました。"));
-        history.push("/login");
+        history.push("/signin");
         return;
       }
       dispatch(
@@ -58,7 +64,7 @@ const Auth: React.FC<Props> = ({ children }) => {
       } catch (e) {
         // dispatch(createFailedFetchAction(e.message));
         dispatch(createFailedFetchAction("error message"));
-        history.push("/login");
+        history.push("/signin");
       }
     }
   }, [isSignedIn, dispatch, history, listenAuthState]);

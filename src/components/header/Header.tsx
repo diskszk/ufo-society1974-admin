@@ -25,7 +25,7 @@ export const Header: React.FC = () => {
 
     setSignOut();
     dispatch(createDisplayMessage("ログアウトしました。"));
-    history.push("/login");
+    history.push("/signin");
   };
 
   return (
@@ -40,7 +40,7 @@ export const Header: React.FC = () => {
             UFO Societyホームページ
           </a>
           {!signedInUser.uid ? (
-            <Link to="/login">ログイン</Link>
+            <Link to="/signin">ログイン</Link>
           ) : (
             <a onClick={handleClickLogOut}>ログアウト</a>
           )}

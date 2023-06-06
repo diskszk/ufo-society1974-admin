@@ -1,4 +1,4 @@
-export { default as Login } from "./Login";
+export { SignIn } from "./SignIn";
 
 // need authentication
 export { default as Home } from "./Home";

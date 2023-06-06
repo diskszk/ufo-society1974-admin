@@ -2,7 +2,7 @@ import { Switch, Route } from "react-router-dom";
 import Auth from "./Auth";
 import {
   Home,
-  Login,
+  SignIn,
   CreateAccount,
   Reset,
   Songs,
@@ -15,7 +15,7 @@ import {
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route exact path={"/login"} component={Login} />
+      <Route exact path={"/signin"} component={SignIn} />
       <Route exact path={"/reset"} component={Reset} />
 
       <Auth>

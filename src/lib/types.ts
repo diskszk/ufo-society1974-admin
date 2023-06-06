@@ -16,7 +16,7 @@ export type LoadingStatus = {
 };
 
 export type User = {
-  isSignedIn: boolean;
+  isSignedIn?: boolean;
   uid: string;
   username: string;
   role: string;

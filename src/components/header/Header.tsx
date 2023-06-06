@@ -1,40 +1,31 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { RootStore, User } from "../../lib/types";
+import { useDispatch } from "react-redux";
 import { UFO_SOCIETY_OFFICIAL } from "../../constants";
-import {
-  createRequestFetchAction,
-  createDisplayMessage,
-  crateSuccessFetchAction,
-  createFailedFetchAction,
-} from "../../store/LoadingStatusReducer";
-import { auth } from "../../firebase";
-import { createLogOutAction } from "../../store/UsersReducer";
+import { createDisplayMessage } from "../../store/LoadingStatusReducer";
+import { useSignedInUserState } from "../../hooks/useSignedInUserState";
+import { signOut } from "../../lib/auth";
+import { useMutation } from "@tanstack/react-query";
 
 export const Header: React.FC = () => {
   const dispatch = useDispatch();
-  const { isSignedIn, username, role } = useSelector<RootStore, User>(
-    (state) => state.user
-  );
   const history = useHistory();
 
-  const handleClickLogOut = async (
+  const { signedInUser, setSignOut } = useSignedInUserState();
+  const { mutate: signOutMutate } = useMutation(signOut, {
+    onError: () => {
+      throw new Error("サインアウトに失敗しました。");
+    },
+  });
+
+  const handleClickLogOut = (
     _ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ): Promise<void> => {
-    try {
-      dispatch(createRequestFetchAction());
-      await auth.signOut();
-      dispatch(createLogOutAction());
-      dispatch(createDisplayMessage("ログアウトしました。"));
-      dispatch(crateSuccessFetchAction());
-      history.push("/login");
-    } catch {
-      dispatch(
-        createFailedFetchAction(`ログアウトに失敗しました。\n
-      通信環境をご確認の上再度お試しください。`)
-      );
-    }
+  ): void => {
+    signOutMutate();
+
+    setSignOut();
+    dispatch(createDisplayMessage("ログアウトしました。"));
+    history.push("/login");
   };
 
   return (
@@ -48,17 +39,17 @@ export const Header: React.FC = () => {
           >
             UFO Societyホームページ
           </a>
-          {!isSignedIn ? (
+          {!signedInUser.uid ? (
             <Link to="/login">ログイン</Link>
           ) : (
             <a onClick={handleClickLogOut}>ログアウト</a>
           )}
         </div>
-        {isSignedIn && (
+        {signedInUser.uid && (
           <div className="header-content-right">
-            <p>ユーザー: {username}</p>
+            <p>ユーザー: {signedInUser.username}</p>
             <p>
-              {`権限　　`}: {role}
+              {`権限 `}: {signedInUser.role}
             </p>
           </div>
         )}

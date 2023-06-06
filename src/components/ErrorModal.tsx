@@ -22,7 +22,6 @@ export const ErrorModal: React.FC<Props> = ({ error }) => {
   } else if (error.message === "Internal Server Error.") {
     setErrorMessage("サーバー側でエラーが発生しました。");
   }
-
   // TODO: サーバーが起動していないときのネットワークエラーを追記する
 
   const handlePopState = useCallback(() => {

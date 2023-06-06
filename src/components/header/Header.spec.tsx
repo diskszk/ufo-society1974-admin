@@ -42,7 +42,7 @@ describe("Header", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText("ログアウト")).toBeInTheDocument();
+      expect(screen.getByText("サインアウト")).toBeInTheDocument();
     });
   });
 
@@ -61,7 +61,7 @@ describe("Header", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText("ログアウト")).toBeInTheDocument();
+      expect(screen.getByText("サインアウト")).toBeInTheDocument();
     });
 
     act(() => {
@@ -69,7 +69,7 @@ describe("Header", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText("ログイン")).toBeInTheDocument();
+      expect(screen.getByText("サインイン")).toBeInTheDocument();
     });
   });
 });

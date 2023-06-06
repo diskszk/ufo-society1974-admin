@@ -1,21 +1,24 @@
 import React, { useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { createClearMessageAction } from "../store/LoadingStatusReducer";
 import { Modal } from "./Modal";
+import { useMessageModalState } from "../hooks/useMessageModalState";
 
-type Props = {
-  message: string;
-};
-
-const MessageModal: React.FC<Props> = ({ message }) => {
-  const dispatch = useDispatch();
+const MessageModal: React.FC = () => {
+  const { isOpen, displayMessage, closeMessageModal } = useMessageModalState();
 
   const handleClickCloseModal = useCallback(() => {
-    dispatch(createClearMessageAction());
-  }, [dispatch]);
+    closeMessageModal();
+  }, [closeMessageModal]);
+
+  if (!isOpen) {
+    return null;
+  }
 
   return (
-    <Modal message={message} handleClickCloseModal={handleClickCloseModal} />
+    <Modal
+      data-testid="message-modal"
+      message={displayMessage}
+      handleClickCloseModal={handleClickCloseModal}
+    />
   );
 };
 

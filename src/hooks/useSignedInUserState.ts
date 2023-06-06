@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { User } from "../lib/types";
 import { Dispatch, SetStateAction } from "react";
 
-const SIGNED_IN_USER = "signedInUser";
+const SIGNED_IN_USER = "signedInUser" as const;
 
 const initialUserState: User = {
   uid: "",
@@ -30,6 +30,7 @@ export function useSignedInUserState(): {
     if (typeof arg === "function") {
       const prevValue = queryClient.getQueryData<User>([SIGNED_IN_USER]);
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       newValue = (arg as any)(prevValue);
     } else {
       newValue = arg;
@@ -39,7 +40,7 @@ export function useSignedInUserState(): {
   };
 
   const setSignOut = (): void => {
-    queryClient.setQueriesData<User>([SIGNED_IN_USER], initialUserState);
+    queryClient.setQueryData<User>([SIGNED_IN_USER], initialUserState);
   };
 
   return { signedInUser, setSignedInUser, setSignOut };

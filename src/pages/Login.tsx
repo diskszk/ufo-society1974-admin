@@ -34,6 +34,14 @@ const Login: React.FC = () => {
     [setPassword]
   );
 
+  // 1. email,pwでfirebaseAuthを使ってsignInする
+  // auth.onAuthStateChangedが動く
+  // 2. firebaseAuthからsignInしたuser<Firebase.User>情報を取得する
+  // ↑ここまで
+  // 3. user<Firebase.User>のuidを使ってWebAPIからuser<User>を取得する
+  // 4. user<Firebase.User>からidTokenを取得してAxiosのheaderにセットする
+  // 5. user<User>からroleを取得してAxiosのheaderにセットする
+  // 5. ログイン中のuserとしてglobal stateに設定する
   const handleClickLoginButton = useCallback(
     async (_ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       // Validations

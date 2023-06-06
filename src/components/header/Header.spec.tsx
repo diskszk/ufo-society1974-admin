@@ -4,6 +4,7 @@ import {
   render,
   renderHook,
   screen,
+  waitFor,
 } from "@testing-library/react";
 import { Header } from ".";
 import { Wrapper } from "../../test-utils";
@@ -14,11 +15,13 @@ jest.mock("../../lib/auth", () => ({
 }));
 
 describe("Header", () => {
-  const ui = (
-    <Wrapper>
-      <Header />
-    </Wrapper>
-  );
+  beforeEach(() => {
+    render(
+      <Wrapper>
+        <Header />
+      </Wrapper>
+    );
+  });
 
   afterEach(() => {
     cleanup();
@@ -38,13 +41,13 @@ describe("Header", () => {
       });
     });
 
-    render(ui);
-
-    expect(screen.getByText("ログアウト")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("ログアウト")).toBeInTheDocument();
+    });
   });
 
-  test("サインインしていない状態の場合、`サインイン`のリンクを表示する", async () => {
-    const { result, rerender } = renderHook(() => useSignedInUserState(), {
+  test("サインイン状態からサインアウトした場合、`サインイン`のリンクを表示する", async () => {
+    const { result } = renderHook(() => useSignedInUserState(), {
       wrapper: Wrapper,
     });
 
@@ -57,13 +60,16 @@ describe("Header", () => {
       });
     });
 
-    rerender();
+    await waitFor(() => {
+      expect(screen.getByText("ログアウト")).toBeInTheDocument();
+    });
+
     act(() => {
       result.current.setSignOut();
     });
 
-    render(ui);
-
-    expect(screen.getByText("ログイン")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("ログイン")).toBeInTheDocument();
+    });
   });
 });

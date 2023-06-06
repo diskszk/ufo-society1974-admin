@@ -19,12 +19,8 @@ export async function createAccountInFirebaseAuth(
 export async function signIn(
   email: string,
   password: string
-): Promise<firebase.User> {
+): Promise<firebase.User | null> {
   const { user } = await auth.signInWithEmailAndPassword(email, password);
-
-  if (!user) {
-    throw new Error("サインインに失敗しました。");
-  }
 
   return user;
 }

@@ -15,6 +15,11 @@ export type LoadingStatus = {
   message: string | null;
 };
 
+export type MessageModalState = {
+  isOpen: boolean;
+  message: string;
+};
+
 export type User = {
   isSignedIn?: boolean;
   uid: string;

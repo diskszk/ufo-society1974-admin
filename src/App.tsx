@@ -14,6 +14,7 @@ import { ErrorModal } from "./components/ErrorModal";
 
 import { Header } from "./components/header";
 import Routes from "./Routes";
+import MessageModal from "./components/MessageModal";
 
 const store = createStore();
 const client = new QueryClient({
@@ -37,6 +38,7 @@ const App: React.FC = () => {
               >
                 <QueryClientProvider client={client}>
                   <Provider store={store}>
+                    <MessageModal />
                     <Header />
                     <main>
                       <Routes />

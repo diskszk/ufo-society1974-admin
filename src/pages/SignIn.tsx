@@ -21,7 +21,10 @@ export const SignIn: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({
-    defaultValues: {},
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   const validationRules = {

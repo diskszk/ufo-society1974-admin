@@ -1,6 +1,7 @@
 import { TextField, TextFieldProps } from "@mui/material";
+import { ComponentPropsWithoutRef, forwardRef } from "react";
 
-type Props = {
+type _Props = {
   fullWidth: boolean;
   label: string;
   multiline: boolean;
@@ -11,7 +12,7 @@ type Props = {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const TextInput: React.FC<Props> = (props: Props) => {
+const TextInput: React.FC<_Props> = (props: _Props) => {
   return (
     <TextField
       sx={{
@@ -34,12 +35,20 @@ const TextInput: React.FC<Props> = (props: Props) => {
 
 export default TextInput;
 
-export const StyledTextField: React.FC<TextFieldProps> = (props) => (
-  <TextField
-    sx={{
-      margin: "1.5em 0",
-      width: "80%",
-    }}
-    {...props}
-  />
+type Props = ComponentPropsWithoutRef<"input"> & TextFieldProps;
+
+// eslint-disable-next-line react/display-name
+export const StyledTextField = forwardRef<HTMLInputElement, Props>(
+  ({ ...props }, ref) => {
+    return (
+      <TextField
+        sx={{
+          margin: "1.5em 0",
+          width: "80%",
+        }}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
 );

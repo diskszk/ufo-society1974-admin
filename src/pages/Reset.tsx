@@ -21,9 +21,11 @@ export const Reset: React.FC = () => {
   const {
     control,
     handleSubmit,
-    formState: { isDirty, errors },
+    formState: { isDirty },
   } = useForm<Inputs>({
-    defaultValues: {},
+    defaultValues: {
+      email: "",
+    },
   });
 
   const validationRules = {
@@ -60,7 +62,7 @@ export const Reset: React.FC = () => {
             name="email"
             control={control}
             rules={validationRules.email}
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <StyledTextField
                 {...field}
                 fullWidth={true}
@@ -69,7 +71,7 @@ export const Reset: React.FC = () => {
                 required={true}
                 rows={1}
                 type={"email"}
-                error={errors.email !== undefined}
+                error={fieldState.invalid}
               />
             )}
           />

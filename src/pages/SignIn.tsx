@@ -51,20 +51,15 @@ export const SignIn: React.FC = () => {
   );
 
   const handleClickLoginButton: SubmitHandler<Inputs> = useCallback(
-    async ({ email, password }) => {
-      // Validations
-      if (email === "" || password === "") {
-        openMessageModalWithMessage("必須項目が未入力です。");
-      }
-
+    ({ email, password }) => {
       signInMutate({ email, password });
     },
-    [openMessageModalWithMessage, signInMutate]
+    [signInMutate]
   );
 
   return (
-    <section className="login page">
-      <h1>ログイン</h1>
+    <div className="login page">
+      <h1>サインイン</h1>
       <div className="inputs-container">
         <form onSubmit={handleSubmit(handleClickLoginButton)}>
           <Controller
@@ -111,6 +106,6 @@ export const SignIn: React.FC = () => {
 
         <Link to="/reset">パスワードをリセットする</Link>
       </div>
-    </section>
+    </div>
   );
 };

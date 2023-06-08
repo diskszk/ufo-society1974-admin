@@ -1,3 +1,5 @@
+import { Theme, SxProps } from "@mui/material";
+
 // variables
 export const ROLE = {
   MASTER: "master",
@@ -14,3 +16,8 @@ export const WEB_API_BASE_URL =
   process.env.NODE_ENV === "production"
     ? process.env.REACT_APP_API_BASE_URL
     : process.env.REACT_APP_API_DEV_URL;
+
+export const textFieldSx: SxProps<Theme> = {
+  margin: "1.5em 0",
+  width: "80%",
+} as const;

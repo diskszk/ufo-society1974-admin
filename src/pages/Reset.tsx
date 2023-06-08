@@ -3,10 +3,11 @@ import { useErrorBoundary } from "react-error-boundary";
 import { useMutation } from "@tanstack/react-query";
 import { useHistory } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { StyledTextField } from "../components/UIKit/TextInput";
 import { StyledButton } from "../components/UIKit/CustomButton";
 import { useMessageModalState } from "../hooks/useMessageModalState";
 import { resetPassword } from "../lib/auth";
+import { TextField } from "@mui/material";
+import { textFieldSx } from "../constants";
 
 type Inputs = {
   email: string;
@@ -52,7 +53,8 @@ export const Reset: React.FC = () => {
       <h1>パスワードリセット</h1>
       <div className="inputs-container">
         <form onSubmit={handleSubmit(handleClickResetButton)}>
-          <StyledTextField
+          <TextField
+            sx={textFieldSx}
             {...register("email")}
             label={"E-mail"}
             type={"email"}

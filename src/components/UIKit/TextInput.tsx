@@ -1,5 +1,4 @@
 import { TextField, TextFieldProps } from "@mui/material";
-import { ComponentPropsWithoutRef, forwardRef } from "react";
 
 type _Props = {
   fullWidth: boolean;
@@ -35,20 +34,12 @@ const TextInput: React.FC<_Props> = (props: _Props) => {
 
 export default TextInput;
 
-type Props = ComponentPropsWithoutRef<"input"> & TextFieldProps;
-
-// eslint-disable-next-line react/display-name
-export const StyledTextField = forwardRef<HTMLInputElement, Props>(
-  ({ ...props }, ref) => {
-    return (
-      <TextField
-        sx={{
-          margin: "1.5em 0",
-          width: "80%",
-        }}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
+export const StyledTextField: React.FC<TextFieldProps> = (props) => (
+  <TextField
+    {...props}
+    sx={{
+      margin: "1.5em 0",
+      width: "80%",
+    }}
+  />
 );

@@ -2,6 +2,7 @@ import type { Preview } from "@storybook/react";
 import "../src/assets/styles/style.css";
 
 import React from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { Provider } from "react-redux";
 import { createStore } from "../src/store/store";
 import { MemoryRouter } from "react-router-dom";
@@ -22,13 +23,15 @@ const preview: Preview = {
   },
   decorators: [
     (Story) => (
-      <Provider store={store}>
-        <MemoryRouter>
-          <QueryClientProvider client={client}>
-            <Story />
-          </QueryClientProvider>
-        </MemoryRouter>
-      </Provider>
+      <ErrorBoundary fallback={<p>Something Error</p>}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <QueryClientProvider client={client}>
+              <Story />
+            </QueryClientProvider>
+          </MemoryRouter>
+        </Provider>
+      </ErrorBoundary>
     ),
   ],
 };

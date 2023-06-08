@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { signIn } from "../lib/auth";
 import { useMessageModalState } from "../hooks/useMessageModalState";
 import { StyledTextField } from "../components/UIKit/TextInput";
@@ -16,25 +16,12 @@ export const SignIn: React.FC = () => {
   const { openMessageModalWithMessage } = useMessageModalState();
   const history = useHistory();
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>({
+  const { handleSubmit, register } = useForm<Inputs>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
-
-  const validationRules = {
-    email: {
-      required: "メールアドレスを入力してください。",
-    },
-    password: {
-      required: "パスワードを入力してください。",
-    },
-  };
 
   const { mutate: signInMutate } = useMutation(
     ({ email, password }: { email: string; password: string }) =>
@@ -65,39 +52,17 @@ export const SignIn: React.FC = () => {
       <h1>サインイン</h1>
       <div className="inputs-container">
         <form onSubmit={handleSubmit(handleClickLoginButton)}>
-          <Controller
-            name="email"
-            control={control}
-            rules={validationRules.email}
-            render={({ field }) => (
-              <StyledTextField
-                {...field}
-                fullWidth={true}
-                label={"E-mail"}
-                multiline={false}
-                required={true}
-                rows={1}
-                type={"email"}
-                error={errors.email !== undefined}
-              />
-            )}
+          <StyledTextField
+            {...register("email")}
+            label={"E-mail"}
+            type={"email"}
+            required
           />
-          <Controller
-            name="password"
-            control={control}
-            rules={validationRules.password}
-            render={({ field }) => (
-              <StyledTextField
-                {...field}
-                fullWidth={true}
-                label={"パスワード"}
-                multiline={false}
-                required={true}
-                rows={1}
-                type={"password"}
-                error={errors.password !== undefined}
-              />
-            )}
+          <StyledTextField
+            {...register("password")}
+            label={"パスワード"}
+            type={"password"}
+            required
           />
 
           <div className="spacing-div" />

@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useMutation } from "@tanstack/react-query";
 import { useHistory } from "react-router-dom";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { StyledTextField } from "../components/UIKit/TextInput";
 import { StyledButton } from "../components/UIKit/CustomButton";
 import { useMessageModalState } from "../hooks/useMessageModalState";
@@ -19,8 +19,8 @@ export const Reset: React.FC = () => {
   const history = useHistory();
 
   const {
-    control,
     handleSubmit,
+    register,
     formState: { isDirty },
   } = useForm<Inputs>({
     defaultValues: {
@@ -28,14 +28,8 @@ export const Reset: React.FC = () => {
     },
   });
 
-  const validationRules = {
-    email: {
-      required: "メールアドレスを入力してください。",
-    },
-  };
-
-  const { mutate: resetPasswordMutate } = useMutation((email: string) =>
-    resetPassword(email)
+  const { mutate: resetPasswordMutate } = useMutation(
+    async (email: string) => await resetPassword(email)
   );
 
   const handleClickResetButton: SubmitHandler<Inputs> = useCallback(
@@ -58,22 +52,11 @@ export const Reset: React.FC = () => {
       <h1>パスワードリセット</h1>
       <div className="inputs-container">
         <form onSubmit={handleSubmit(handleClickResetButton)}>
-          <Controller
-            name="email"
-            control={control}
-            rules={validationRules.email}
-            render={({ field, fieldState }) => (
-              <StyledTextField
-                {...field}
-                fullWidth={true}
-                label={"E-mail"}
-                multiline={false}
-                required={true}
-                rows={1}
-                type={"email"}
-                error={fieldState.invalid}
-              />
-            )}
+          <StyledTextField
+            {...register("email")}
+            label={"E-mail"}
+            type={"email"}
+            required
           />
           <div className="button-container">
             <StyledButton disabled={!isDirty} type="submit">

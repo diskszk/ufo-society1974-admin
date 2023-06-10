@@ -17,6 +17,7 @@ export const Textbox = forwardRef<HTMLInputElement, Props>(function Textbox(
         width: "80%",
       }}
       type="text"
+      defaultValue=""
       {...props}
       ref={ref}
     />

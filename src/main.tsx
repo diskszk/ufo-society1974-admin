@@ -7,4 +7,10 @@ if (!container) {
   throw new Error("Can not find app root.");
 }
 
+if (process.env.NODE_ENV === "development") {
+  import("./mocks/browser").then(({ worker }) => {
+    worker.start();
+  });
+}
+
 ReactDOM.createRoot(container).render(<App />);

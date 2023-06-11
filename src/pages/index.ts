@@ -2,7 +2,7 @@ export { SignIn } from "./SignIn";
 
 // need authentication
 export { default as Home } from "./Home";
-export { Reset } from "./Reset";
+export { ResetPage as Reset } from "./Reset";
 
 // Users
 export { default as Users } from "./Users";

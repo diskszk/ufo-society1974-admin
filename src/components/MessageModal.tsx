@@ -15,7 +15,6 @@ const MessageModal: React.FC = () => {
 
   return (
     <Modal
-      data-testid="message-modal"
       message={displayMessage}
       handleClickCloseModal={handleClickCloseModal}
     />

@@ -2,28 +2,16 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { composeStories } from "@storybook/react";
 import * as stories from "./stories";
-import { ResetPartial, Inputs } from "./Reset";
+import { ResetPartial } from "./Reset";
 
 const user = userEvent.setup();
 
-const setup = async (injectValues?: Partial<Inputs>) => {
-  const mockFn = jest.fn();
-
+const mockFn = jest.fn();
+const setup = () => {
   render(<ResetPartial onSubmit={mockFn} />);
-
-  const input: Inputs = {
-    email: "test@example.com",
-    ...injectValues,
-  };
-
-  const email = screen.getByRole("textbox", { name: "E-mail" });
-  const button = screen.getByRole("button", { name: "リセット" });
-
-  await user.type(email, input.email);
-  await user.click(button);
 };
 
-test("何も入力されていない場合、ログインボタンは非活性である", () => {
+test("何も入力されていない場合、ログインボタンは非活性である", async () => {
   setup();
 
   expect(screen.getByRole("button", { name: "リセット" })).toBeDisabled();
@@ -40,4 +28,20 @@ test("メールアドレス以外の文字列が入力された場合、エラ�
     expect(getByText(/不正なメールアドレス形式です。/)).toBeInTheDocument();
     expect(screen.getByRole("textbox", { name: "E-mail" })).toBeInvalid();
   });
+});
+
+test("正しくメールアドレスが入力された場合、ログインボタンをクリックできる", async () => {
+  setup();
+
+  const email = screen.getByRole("textbox", { name: "E-mail" });
+  const button = screen.getByRole("button", { name: "リセット" });
+
+  await user.type(email, "test@example.com");
+  await user.click(button);
+
+  await waitFor(() => {
+    expect(email).toBeValid();
+  });
+  expect(button).toBeEnabled();
+  expect(mockFn).toHaveBeenCalledTimes(1);
 });

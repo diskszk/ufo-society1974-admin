@@ -38,7 +38,6 @@ export const CreateAccountPartial: React.FC<Props> = ({
     control,
     handleSubmit,
     register,
-    getValues,
     formState: { errors, isSubmitting, isDirty },
   } = useForm<CreateAccountInputs>({
     resolver: zodResolver(createUserSchema),
@@ -101,13 +100,6 @@ export const CreateAccountPartial: React.FC<Props> = ({
           <StyledButton disabled={!isDirty && isSubmitting} type="submit">
             登録する
           </StyledButton>
-          <button
-            onClick={() => {
-              console.log(getValues());
-            }}
-          >
-            getValues
-          </button>
         </div>
       </form>
     </div>

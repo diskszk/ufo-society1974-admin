@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { composeStories } from "@storybook/react";
-import * as stories from "./stories";
+import * as stories from "./Reset.stories";
 import { ResetPartial } from "./Reset";
 
 const user = userEvent.setup();
@@ -11,7 +11,7 @@ const setup = () => {
   render(<ResetPartial onSubmit={mockFn} />);
 };
 
-test("何も入力されていない場合、ログインボタンは非活性である", async () => {
+test("何も入力されていない場合、ボタンは非活性である", async () => {
   setup();
 
   expect(screen.getByRole("button", { name: "リセット" })).toBeDisabled();
@@ -30,7 +30,7 @@ test("メールアドレス以外の文字列が入力された場合、エラ�
   });
 });
 
-test("正しくメールアドレスが入力された場合、ログインボタンをクリックできる", async () => {
+test("正しくメールアドレスが入力された場合、リセットボタンをクリックできる", async () => {
   setup();
 
   const email = screen.getByRole("textbox", { name: "E-mail" });

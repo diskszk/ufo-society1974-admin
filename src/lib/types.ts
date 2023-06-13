@@ -69,3 +69,6 @@ export type Audio = {
   src: string;
   isPaused: boolean;
 };
+
+export type SelectOption = { label: string; value: string };
+export type SelectOptions = SelectOption[];

@@ -1,10 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { rest } from "msw";
-import { server } from "../../mocks/server";
 import { Wrapper } from "../../test-utils";
 import { ResetPage } from ".";
-import { WEB_API_BASE_URL } from "../../constants";
 import MessageModal from "../../components/MessageModal";
 
 const user = userEvent.setup();
@@ -18,7 +15,7 @@ const setup = async (injectValue?: Partial<{ email: string }>) => {
   );
 
   const input = {
-    email: "valid@example.com",
+    email: "editor@example.com",
     ...injectValue,
   };
 
@@ -29,27 +26,11 @@ const setup = async (injectValue?: Partial<{ email: string }>) => {
 
 jest.mock("../../lib/auth", () => ({
   resetPassword: (_email: string) => {
-    null;
+    return;
   },
 }));
 
-test("存在するユーザーのメールアドレスが入力された場合、モーダルに成功した旨を表示する", async () => {
-  console.log(WEB_API_BASE_URL, "env");
-
-  server.use(
-    rest.get(`${WEB_API_BASE_URL}/users`, (_req, res, ctx) => {
-      return res(
-        ctx.status(200),
-        ctx.json({
-          uid: "valid-user-id",
-          username: "valid user",
-          role: "editor",
-          email: "valid@example.com",
-        })
-      );
-    })
-  );
-
+test("存在するユーザーのメールアドレスが入力されてリセットボタンがクリックされた場合、モーダルに成功した旨を表示する", async () => {
   await setup();
 
   await waitFor(() => {
@@ -59,15 +40,7 @@ test("存在するユーザーのメールアドレスが入力された場合�
   });
 });
 
-test("存在しないユーザーのメールアドレスが入力された場合、エラーメッセージを表示する", async () => {
-  console.log(WEB_API_BASE_URL, "env");
-
-  server.use(
-    rest.get(`${WEB_API_BASE_URL}/users`, (_req, res, ctx) => {
-      return res(ctx.status(404));
-    })
-  );
-
+test("存在しないユーザーのメールアドレスが入力されたリセットボタンがクリックされた場合、エラーメッセージを表示する", async () => {
   await setup({ email: "notfound@test.com" });
 
   await waitFor(() => {

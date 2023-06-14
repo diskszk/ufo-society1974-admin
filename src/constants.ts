@@ -14,8 +14,8 @@ export const UFO_SOCIETY_OFFICIAL =
 
 export const WEB_API_BASE_URL =
   process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_API_BASE_URL
-    : process.env.REACT_APP_API_DEV_URL;
+    ? process.env.VITE_API_BASE_URL
+    : process.env.VITE_API_DEV_URL;
 
 export const textFieldSx: SxProps<Theme> = {
   margin: "1.5em 0",

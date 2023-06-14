@@ -34,6 +34,8 @@ jest.mock("../../lib/auth", () => ({
 }));
 
 test("存在するユーザーのメールアドレスが入力された場合、モーダルに成功した旨を表示する", async () => {
+  console.log(WEB_API_BASE_URL, "env");
+
   server.use(
     rest.get(`${WEB_API_BASE_URL}/users`, (_req, res, ctx) => {
       return res(
@@ -58,6 +60,8 @@ test("存在するユーザーのメールアドレスが入力された場合�
 });
 
 test("存在しないユーザーのメールアドレスが入力された場合、エラーメッセージを表示する", async () => {
+  console.log(WEB_API_BASE_URL, "env");
+
   server.use(
     rest.get(`${WEB_API_BASE_URL}/users`, (_req, res, ctx) => {
       return res(ctx.status(404));

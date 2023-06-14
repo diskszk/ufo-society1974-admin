@@ -97,7 +97,7 @@ export const CreateAccountPartial: React.FC<Props> = ({
 
         <div className="button-container-row">
           <StyledButton onClick={handleClickBackButton}>もどる</StyledButton>
-          <StyledButton disabled={!isDirty && isSubmitting} type="submit">
+          <StyledButton disabled={isSubmitting || !isDirty} type="submit">
             登録する
           </StyledButton>
         </div>

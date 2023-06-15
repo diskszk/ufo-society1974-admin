@@ -2,14 +2,12 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Wrapper } from "../../test-utils";
 import { ResetPage } from ".";
-import MessageModal from "../../components/MessageModal";
 
 const user = userEvent.setup();
 
 const setup = async (injectValue?: Partial<{ email: string }>) => {
   render(
     <Wrapper>
-      <MessageModal />
       <ResetPage />
     </Wrapper>
   );

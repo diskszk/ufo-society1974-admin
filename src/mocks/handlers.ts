@@ -1,14 +1,13 @@
 import { rest } from "msw";
 import mockUsers from "./resolvers/users";
+import { WEB_API_BASE_URL } from "../constants";
 
 const baseUrl = (path: string) => {
-  return new URL(
-    path,
-    "http://127.0.0.1:5001/ufo-society-1974/asia-northeast2/api"
-  ).toString();
+  return WEB_API_BASE_URL + path;
 };
 
 export const handlers = [
   rest.get(baseUrl("/users"), mockUsers.get),
   rest.get(baseUrl("/users/:id"), mockUsers.getById),
+  rest.post(baseUrl("/users"), mockUsers.create),
 ];

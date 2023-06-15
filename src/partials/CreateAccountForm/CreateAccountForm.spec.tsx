@@ -208,4 +208,17 @@ describe("valid inputs", () => {
 
     expect(await form.submitButton).toBeDisabled();
   });
+
+  test("ボタンをクリックした後、入力欄はすべて空になる", async () => {
+    const { clickSubmitButton, form } = await setup();
+
+    await clickSubmitButton();
+
+    await waitFor(() => {
+      expect(form.username).toHaveValue("");
+      expect(form.email).toHaveValue("");
+      expect(form.password).toHaveValue("");
+      expect(form.confirmPassword).toHaveValue("");
+    });
+  });
 });

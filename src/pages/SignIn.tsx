@@ -4,8 +4,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { signIn } from "../lib/auth";
 import { useMessageModalState } from "../hooks/useMessageModalState";
-import { StyledTextField } from "../components/UIKit/TextInput";
 import { StyledButton } from "../components/UIKit/CustomButton";
+import { Textbox } from "../components/Textbox";
 
 type Inputs = {
   email: string;
@@ -42,6 +42,7 @@ export const SignIn: React.FC = () => {
 
   const handleClickLoginButton: SubmitHandler<Inputs> = useCallback(
     ({ email, password }) => {
+      console.log(email, password);
       signInMutate({ email, password });
     },
     [signInMutate]
@@ -52,13 +53,13 @@ export const SignIn: React.FC = () => {
       <h1>サインイン</h1>
       <div className="inputs-container">
         <form onSubmit={handleSubmit(handleClickLoginButton)}>
-          <StyledTextField
+          <Textbox
             {...register("email")}
             label={"E-mail"}
             type={"email"}
             required
           />
-          <StyledTextField
+          <Textbox
             {...register("password")}
             label={"パスワード"}
             type={"password"}

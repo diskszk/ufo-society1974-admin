@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
@@ -23,8 +24,15 @@ export const ResetForm: React.FC<Props> = ({ onSubmit }) => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isDirty },
+    reset,
+    formState: { errors, isDirty, isSubmitSuccessful, isSubmitting },
   } = useForm<Inputs>({ resolver: zodResolver(schema), mode: "onBlur" });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <div className="inputs-container">
@@ -39,7 +47,7 @@ export const ResetForm: React.FC<Props> = ({ onSubmit }) => {
           aria-invalid={errors?.email ? true : false}
         />
         <div className="button-container">
-          <StyledButton disabled={!isDirty} type="submit">
+          <StyledButton disabled={isSubmitting || !isDirty} type="submit">
             リセット
           </StyledButton>
         </div>

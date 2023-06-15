@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import { Textbox } from "../../components/Textbox";
@@ -38,7 +39,8 @@ export const CreateAccountForm: React.FC<Props> = ({
     control,
     handleSubmit,
     register,
-    formState: { errors, isSubmitting, isDirty },
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful, isDirty },
   } = useForm<CreateAccountInputs>({
     resolver: zodResolver(createUserSchema),
     mode: "onBlur",
@@ -46,6 +48,12 @@ export const CreateAccountForm: React.FC<Props> = ({
       roleType: ROLE.EDITOR,
     },
   });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <div className="inputs-container">

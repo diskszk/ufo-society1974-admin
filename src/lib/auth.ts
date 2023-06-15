@@ -11,7 +11,9 @@ export async function createAccountInFirebaseAuth(
   const { user } = await auth.createUserWithEmailAndPassword(email, password);
 
   if (!user) {
-    throw new Error("ユーザーの作成に失敗しました。");
+    throw new Error(
+      "ユーザーの作成に失敗しました。\n通信環境をご確認お上再度お試しください。"
+    );
   }
   return user;
 }

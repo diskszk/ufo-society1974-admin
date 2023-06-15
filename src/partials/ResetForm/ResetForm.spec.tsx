@@ -9,6 +9,11 @@ const user = userEvent.setup();
 const mockFn = jest.fn();
 const setup = () => {
   render(<ResetForm onSubmit={mockFn} />);
+
+  const email = screen.getByRole("textbox", { name: "E-mail" });
+  const button = screen.getByRole("button", { name: "リセット" });
+
+  return { el: { email, button } };
 };
 
 test("何も入力されていない場合、ボタンは非活性である", async () => {
@@ -31,17 +36,33 @@ test("メールアドレス以外の文字列が入力された場合、エラ�
 });
 
 test("正しくメールアドレスが入力された場合、リセットボタンをクリックできる", async () => {
-  setup();
+  const { el } = setup();
 
-  const email = screen.getByRole("textbox", { name: "E-mail" });
-  const button = screen.getByRole("button", { name: "リセット" });
-
-  await user.type(email, "test@example.com");
-  await user.click(button);
+  await user.type(el.email, "test@example.com");
 
   await waitFor(() => {
-    expect(email).toBeValid();
+    expect(el.email).toBeValid();
+    expect(el.button).toBeEnabled();
   });
-  expect(button).toBeEnabled();
-  expect(mockFn).toHaveBeenCalledTimes(1);
+  await user.click(el.button);
+
+  await waitFor(() => {
+    expect(mockFn).toHaveBeenCalledTimes(1);
+  });
+});
+
+test("正しくメールアドレスが入力されリセットボタンをクリックされた場合、メールアドレス入力欄は空になる", async () => {
+  const { el } = setup();
+
+  await user.type(el.email, "test@example.com");
+  await waitFor(() => {
+    expect(el.email).toBeValid();
+    expect(el.button).toBeEnabled();
+  });
+
+  await user.click(el.button);
+
+  await waitFor(() => {
+    expect(el.email).toHaveValue("");
+  });
 });

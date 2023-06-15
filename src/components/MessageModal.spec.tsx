@@ -1,14 +1,23 @@
 import { render, renderHook, screen, waitFor } from "@testing-library/react";
-import MessageModal from "./MessageModal";
 import { Wrapper } from "../test-utils";
 import { useMessageModalState } from "../hooks/useMessageModalState";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import MessageModal from "./MessageModal";
+const client = new QueryClient({
+  defaultOptions: {
+    queries: {
+      enabled: false,
+      suspense: true,
+    },
+  },
+});
 
 describe("MessageModal", () => {
   beforeEach(() => {
     render(
-      <Wrapper>
+      <QueryClientProvider client={client}>
         <MessageModal />
-      </Wrapper>
+      </QueryClientProvider>
     );
   });
 

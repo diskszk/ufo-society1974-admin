@@ -30,7 +30,7 @@ type Props = {
   onSubmit: SubmitHandler<CreateAccountInputs>;
 };
 
-export const CreateAccountPartial: React.FC<Props> = ({
+export const CreateAccountForm: React.FC<Props> = ({
   handleClickBackButton,
   onSubmit,
 }) => {

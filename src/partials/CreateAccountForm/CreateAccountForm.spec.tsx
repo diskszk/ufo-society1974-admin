@@ -1,8 +1,8 @@
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { composeStories } from "@storybook/react";
-import * as stories from "./CreateAccountPartial.stories";
-import { CreateAccountPartial } from ".";
+import * as stories from "./CreateAccountForm.stories";
+import { CreateAccountForm } from ".";
 import { CreateAccountInputs } from "../../lib/schemas/createUserSchema";
 
 const user = userEvent.setup();
@@ -24,7 +24,7 @@ const input: CreateAccountInputs = {
 
 const setup = async (injectValues?: Partial<CreateAccountInputs>) => {
   render(
-    <CreateAccountPartial
+    <CreateAccountForm
       handleClickBackButton={mockHandleBack}
       onSubmit={mockOnSubmit}
     />
@@ -66,7 +66,7 @@ const setup = async (injectValues?: Partial<CreateAccountInputs>) => {
 describe("invalid inputs", () => {
   test("何も入力されていない場合、ボタンは非活性である", async () => {
     render(
-      <CreateAccountPartial
+      <CreateAccountForm
         handleClickBackButton={mockHandleBack}
         onSubmit={mockOnSubmit}
       />

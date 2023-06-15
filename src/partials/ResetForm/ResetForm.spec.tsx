@@ -1,14 +1,14 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { composeStories } from "@storybook/react";
-import * as stories from "./Reset.stories";
-import { ResetPartial } from "./Reset";
+import * as stories from "./ResetForm.stories";
+import { ResetForm } from "./ResetForm";
 
 const user = userEvent.setup();
 
 const mockFn = jest.fn();
 const setup = () => {
-  render(<ResetPartial onSubmit={mockFn} />);
+  render(<ResetForm onSubmit={mockFn} />);
 };
 
 test("何も入力されていない場合、ボタンは非活性である", async () => {

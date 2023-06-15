@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { SubmitHandler } from "react-hook-form";
-import { ResetPartial } from "../../partials/Reset";
+import { ResetForm } from "../../partials/ResetForm";
 import { useMutation } from "@tanstack/react-query";
 import { findUserByEmail } from "../../lib/users/fetchUser";
 import { resetPassword } from "../../lib/auth";
@@ -46,7 +46,7 @@ export const ResetPage: React.FC = () => {
   return (
     <div className="reset page">
       <h1>パスワードリセット</h1>
-      <ResetPartial onSubmit={onSubmit} />
+      <ResetForm onSubmit={onSubmit} />
     </div>
   );
 };

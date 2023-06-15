@@ -1,17 +1,17 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { CreateAccountPartial } from ".";
+import { CreateAccountForm } from ".";
 import { within, userEvent } from "@storybook/testing-library";
 import { CreateAccountInputs } from "../../lib/schemas/createUserSchema";
 
 // eslint-disable-next-line storybook/story-exports
-const meta: Meta<typeof CreateAccountPartial> = {
+const meta: Meta<typeof CreateAccountForm> = {
   title: "Partials/CreateAccount",
-  component: CreateAccountPartial,
+  component: CreateAccountForm,
 };
 
 export default meta;
 
-type Story = StoryObj<typeof CreateAccountPartial>;
+type Story = StoryObj<typeof CreateAccountForm>;
 
 export const Default: Story = {
   args: {

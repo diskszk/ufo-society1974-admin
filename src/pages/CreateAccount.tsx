@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { SubmitHandler } from "react-hook-form";
-import { CreateAccountPartial } from "../partials/CreateAccount";
+import { CreateAccountForm } from "../partials/CreateAccountForm";
 import { CreateAccountInputs } from "../lib/schemas/createUserSchema";
 
 export const CreateAccount: React.FC = () => {
@@ -76,35 +76,26 @@ export const CreateAccount: React.FC = () => {
   //     user.role,
   //   ]
   // );
-
-  // useEffect(() => {
-  //   if (user.role === ROLE.MASTER) {
-  //     // 入力フォームがどれか１つでも空だと作成ボタン非活性
-  //     if (
-  //       username !== "" &&
-  //       email !== "" &&
-  //       password !== "" &&
-  //       confirmPassword !== ""
-  //     ) {
-  //       setDisable(false);
-  //     } else {
-  //       setDisable(true);
-  //     }
-  //   }
-  // }, [setDisable, username, email, password, confirmPassword, user.role]);
-
   const onSubmit: SubmitHandler<CreateAccountInputs> = (data) => {
+    // roleのチェック
+    // user作成(email,password)=>auth
+    // uid取得
+    // uid+email, name, role,をサーバーにわたす=>registerUser
+    // ok
+    // form内容リセット
+    // `${newAccount.username}を作成しました。`
+    //
     console.log(data);
   };
   const handleClick = () => {
-    history.push("/users");
+    history.goBack();
   };
 
   return (
     <div className="sign-up page">
       <h1>管理者登録</h1>
 
-      <CreateAccountPartial
+      <CreateAccountForm
         handleClickBackButton={handleClick}
         onSubmit={onSubmit}
       />

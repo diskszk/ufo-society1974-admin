@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { ResetPartial } from "./Reset";
+import { ResetForm } from "./ResetForm";
 import { within, userEvent } from "@storybook/testing-library";
 
-const meta: Meta<typeof ResetPartial> = {
+const meta: Meta<typeof ResetForm> = {
   title: "Partials/Reset",
-  component: ResetPartial,
+  component: ResetForm,
 };
 
 export default meta;
 
-type Story = StoryObj<typeof ResetPartial>;
+type Story = StoryObj<typeof ResetForm>;
 
 export const Default: Story = {
   args: {

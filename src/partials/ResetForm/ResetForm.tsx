@@ -19,7 +19,7 @@ type Props = {
   onSubmit: SubmitHandler<Inputs>;
 };
 
-export const ResetPartial: React.FC<Props> = ({ onSubmit }) => {
+export const ResetForm: React.FC<Props> = ({ onSubmit }) => {
   const {
     handleSubmit,
     register,

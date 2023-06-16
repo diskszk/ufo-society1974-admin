@@ -1,8 +1,8 @@
-export { SignIn } from "./SignIn";
+export { SignInPage as SignIn } from "./SignIn";
+export { ResetPage as Reset } from "./Reset";
 
 // need authentication
 export { default as Home } from "./Home";
-export { ResetPage as Reset } from "./Reset";
 
 // Users
 export { default as Users } from "./Users";

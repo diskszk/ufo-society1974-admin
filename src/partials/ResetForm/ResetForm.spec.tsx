@@ -30,18 +30,6 @@ test("メールアドレス以外の文字列が入力された場合、エラ�
     expect(screen.getByRole("textbox", { name: "E-mail" })).toBeInvalid();
   });
 });
-test("メールアドレス以外の文字列が入力された場合、エラーメッセージを表示する", async () => {
-  const { InvalidEmail } = composeStories(stories);
-
-  const { container, getByText } = render(<InvalidEmail />);
-
-  await InvalidEmail.play({ canvasElement: container });
-
-  await waitFor(() => {
-    expect(getByText(/不正なメールアドレス形式です。/)).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: "E-mail" })).toBeInvalid();
-  });
-});
 
 test("正しくメールアドレスが入力された場合、リセットボタンをクリックできる", async () => {
   const { clickResetButton, form } = await setup();

@@ -2,17 +2,17 @@ import React, { useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { signIn } from "../lib/auth";
-import { useMessageModalState } from "../hooks/useMessageModalState";
-import { StyledButton } from "../components/UIKit/CustomButton";
-import { Textbox } from "../components/Textbox";
+import { signIn } from "../../lib/auth";
+import { useMessageModalState } from "../../hooks/useMessageModalState";
+import { StyledButton } from "../../components/UIKit/CustomButton";
+import { Textbox } from "../../components/Textbox";
 
 type Inputs = {
   email: string;
   password: string;
 };
 
-export const SignIn: React.FC = () => {
+export const SignInPage: React.FC = () => {
   const { openMessageModalWithMessage } = useMessageModalState();
   const history = useHistory();
 
@@ -42,7 +42,6 @@ export const SignIn: React.FC = () => {
 
   const handleClickLoginButton: SubmitHandler<Inputs> = useCallback(
     ({ email, password }) => {
-      console.log(email, password);
       signInMutate({ email, password });
     },
     [signInMutate]

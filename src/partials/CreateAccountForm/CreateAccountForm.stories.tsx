@@ -2,11 +2,15 @@ import { Meta, StoryObj } from "@storybook/react";
 import { CreateAccountForm } from ".";
 import { within, userEvent } from "@storybook/testing-library";
 import { CreateAccountInputs } from "../../lib/schemas/createUserSchema";
+import { input } from "../../test-utils/createAccount";
 
 // eslint-disable-next-line storybook/story-exports
 const meta: Meta<typeof CreateAccountForm> = {
   title: "Partials/CreateAccount",
   component: CreateAccountForm,
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
 };
 
 export default meta;
@@ -14,10 +18,13 @@ export default meta;
 type Story = StoryObj<typeof CreateAccountForm>;
 
 export const Default: Story = {
+  parameters: {
+    chromatic: { disableSnapshot: false },
+  },
   args: {
     handleClickBackButton: () => void 0,
-    onSubmit: (data) => {
-      console.log(data);
+    onSubmit: (_data) => {
+      return;
     },
   },
 };
@@ -26,12 +33,8 @@ const setup = async (
   canvasElement: HTMLElement,
   injectValue?: Partial<CreateAccountInputs>
 ) => {
-  const input: CreateAccountInputs = {
-    username: "アリス",
-    email: "alice@example.com",
-    password: "asdf1234",
-    confirmPassword: "asdf1234",
-    roleType: "editor",
+  const validInput: CreateAccountInputs = {
+    ...input,
     ...injectValue,
   };
 
@@ -43,21 +46,13 @@ const setup = async (
   const password = canvas.getByPlaceholderText("8文字以上で入力");
   const confirmPassword = canvas.getByPlaceholderText("8文字以上で入力(確認)");
 
-  await userEvent.type(username, input.username);
-  await userEvent.type(email, input.email);
-  await userEvent.type(password, input.password);
-  await userEvent.type(confirmPassword, input.confirmPassword);
+  await userEvent.type(username, validInput.username);
+  await userEvent.type(email, validInput.email);
+  await userEvent.type(password, validInput.password);
+  await userEvent.type(confirmPassword, validInput.confirmPassword);
 };
 
 export const Valid: Story = {
-  args: {
-    handleClickBackButton: () => {
-      console.log("ok");
-    },
-    onSubmit: (data) => {
-      console.log(data);
-    },
-  },
   play: async ({
     canvasElement,
   }: {

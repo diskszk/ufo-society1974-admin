@@ -1,28 +1,20 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Wrapper } from ".";
 import { CreateAccountInputs } from "../lib/schemas/createUserSchema";
-import { CreateAccountPage } from "../pages/CreateAccount";
 
 const user = userEvent.setup();
 
-const input: CreateAccountInputs = {
+export const input: CreateAccountInputs = {
   username: "アリス",
   email: "alice@example.com",
-  password: "asdf1234X",
-  confirmPassword: "asdf1234X",
+  password: "asdf1234",
+  confirmPassword: "asdf1234",
   roleType: "editor",
 };
 
 export const setupCreateAccount = async (
   injectValues?: Partial<CreateAccountInputs>
 ) => {
-  render(
-    <Wrapper>
-      <CreateAccountPage />
-    </Wrapper>
-  );
-
   const validInput: CreateAccountInputs = {
     ...input,
     ...injectValues,

@@ -5,6 +5,9 @@ import { within, userEvent } from "@storybook/testing-library";
 const meta: Meta<typeof ResetForm> = {
   title: "Partials/Reset",
   component: ResetForm,
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
 };
 
 export default meta;
@@ -12,8 +15,13 @@ export default meta;
 type Story = StoryObj<typeof ResetForm>;
 
 export const Default: Story = {
+  parameters: {
+    chromatic: { disableSnapshot: false },
+  },
   args: {
-    onSubmit: () => void 0,
+    onSubmit: () => {
+      return;
+    },
   },
 };
 

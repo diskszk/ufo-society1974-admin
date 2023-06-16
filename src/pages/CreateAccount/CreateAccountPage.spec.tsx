@@ -1,6 +1,8 @@
-import { cleanup, waitFor, screen } from "@testing-library/react";
+import { cleanup, waitFor, screen, render } from "@testing-library/react";
 import { setupCreateAccount } from "../../test-utils/createAccount";
 import { setupCurrentUser } from "../../test-utils/currentUser";
+import { CreateAccountPage } from ".";
+import { Wrapper } from "../../test-utils";
 
 jest.mock("../../lib/auth", () => ({
   createAccountInFirebaseAuth: (_email: string, _password: string) => {
@@ -10,6 +12,13 @@ jest.mock("../../lib/auth", () => ({
   },
 }));
 
+beforeEach(() => {
+  render(
+    <Wrapper>
+      <CreateAccountPage />
+    </Wrapper>
+  );
+});
 afterEach(() => cleanup());
 
 test("ユーザーのロールがeditorの場合、登録ボタンをクリックするとエラーメッセージを表示する", async () => {
@@ -20,8 +29,7 @@ test("ユーザーのロールがeditorの場合、登録ボタンをクリッ�
   await clickSubmitButton();
 
   waitFor(() => {
-    expect(screen.getByRole("dialog")).toBeTruthy();
-    expect(/権限がありません。/).toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toHaveTextContent(/権限がありません。/);
   });
 });
 
@@ -33,7 +41,8 @@ test("ユーザーロールがmasterの場合、登録ボタンをクリック�
   await clickSubmitButton();
 
   waitFor(() => {
-    expect(screen.getByRole("dialog")).toBeTruthy();
-    expect(/アリスを作成しました。/).toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toHaveTextContent(
+      /アリスを作成しました。/
+    );
   });
 });

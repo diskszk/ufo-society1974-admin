@@ -1,26 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { Wrapper } from "../../test-utils";
 import { ResetPage } from ".";
-
-const user = userEvent.setup();
-
-const setup = async (injectValue?: Partial<{ email: string }>) => {
-  render(
-    <Wrapper>
-      <ResetPage />
-    </Wrapper>
-  );
-
-  const input = {
-    email: "editor@example.com",
-    ...injectValue,
-  };
-
-  await user.type(screen.getByRole("textbox", { name: "E-mail" }), input.email);
-
-  await user.click(screen.getByRole("button", { name: "リセット" }));
-};
+import { setupReset } from "../../test-utils/reset";
 
 jest.mock("../../lib/auth", () => ({
   resetPassword: (_email: string) => {
@@ -28,8 +9,18 @@ jest.mock("../../lib/auth", () => ({
   },
 }));
 
+beforeEach(() => {
+  render(
+    <Wrapper>
+      <ResetPage />
+    </Wrapper>
+  );
+});
+
 test("存在するユーザーのメールアドレスが入力されてリセットボタンがクリックされた場合、モーダルに成功した旨を表示する", async () => {
-  await setup();
+  const { clickResetButton } = await setupReset();
+
+  await clickResetButton();
 
   await waitFor(() => {
     expect(screen.getByRole("dialog")).toHaveTextContent(
@@ -39,7 +30,9 @@ test("存在するユーザーのメールアドレスが入力されてリセ�
 });
 
 test("存在しないユーザーのメールアドレスが入力されたリセットボタンがクリックされた場合、エラーメッセージを表示する", async () => {
-  await setup({ email: "notfound@test.com" });
+  const { clickResetButton } = await setupReset({ email: "notfound@test.com" });
+
+  await clickResetButton();
 
   await waitFor(() => {
     expect(screen.getByRole("dialog")).toHaveTextContent(

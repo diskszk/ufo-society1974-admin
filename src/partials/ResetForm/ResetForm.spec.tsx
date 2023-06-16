@@ -1,23 +1,19 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { composeStories } from "@storybook/react";
 import * as stories from "./ResetForm.stories";
 import { ResetForm } from "./ResetForm";
-
-const user = userEvent.setup();
+import { setupReset } from "../../test-utils/reset";
 
 const mockFn = jest.fn();
-const setup = () => {
+
+const setup = async (injectValue?: Partial<{ email: string }>) => {
   render(<ResetForm onSubmit={mockFn} />);
 
-  const email = screen.getByRole("textbox", { name: "E-mail" });
-  const button = screen.getByRole("button", { name: "リセット" });
-
-  return { el: { email, button } };
+  return await setupReset(injectValue);
 };
 
 test("何も入力されていない場合、ボタンは非活性である", async () => {
-  setup();
+  render(<ResetForm onSubmit={mockFn} />);
 
   expect(screen.getByRole("button", { name: "リセット" })).toBeDisabled();
 });
@@ -34,17 +30,27 @@ test("メールアドレス以外の文字列が入力された場合、エラ�
     expect(screen.getByRole("textbox", { name: "E-mail" })).toBeInvalid();
   });
 });
+test("メールアドレス以外の文字列が入力された場合、エラーメッセージを表示する", async () => {
+  const { InvalidEmail } = composeStories(stories);
 
-test("正しくメールアドレスが入力された場合、リセットボタンをクリックできる", async () => {
-  const { el } = setup();
+  const { container, getByText } = render(<InvalidEmail />);
 
-  await user.type(el.email, "test@example.com");
+  await InvalidEmail.play({ canvasElement: container });
 
   await waitFor(() => {
-    expect(el.email).toBeValid();
-    expect(el.button).toBeEnabled();
+    expect(getByText(/不正なメールアドレス形式です。/)).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: "E-mail" })).toBeInvalid();
   });
-  await user.click(el.button);
+});
+
+test("正しくメールアドレスが入力された場合、リセットボタンをクリックできる", async () => {
+  const { clickResetButton, form } = await setup();
+
+  await waitFor(() => {
+    expect(form.email).toBeValid();
+    expect(form.button).toBeEnabled();
+  });
+  await clickResetButton();
 
   await waitFor(() => {
     expect(mockFn).toHaveBeenCalledTimes(1);
@@ -52,17 +58,16 @@ test("正しくメールアドレスが入力された場合、リセットボ�
 });
 
 test("正しくメールアドレスが入力されリセットボタンをクリックされた場合、メールアドレス入力欄は空になる", async () => {
-  const { el } = setup();
+  const { clickResetButton, form } = await setup();
 
-  await user.type(el.email, "test@example.com");
   await waitFor(() => {
-    expect(el.email).toBeValid();
-    expect(el.button).toBeEnabled();
+    expect(form.email).toBeValid();
+    expect(form.button).toBeEnabled();
   });
 
-  await user.click(el.button);
+  await clickResetButton();
 
   await waitFor(() => {
-    expect(el.email).toHaveValue("");
+    expect(form.email).toHaveValue("");
   });
 });

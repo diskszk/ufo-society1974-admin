@@ -1,4 +1,4 @@
-import { WEB_API_BASE_URL } from "../../constants";
+import { ERROR_MESSAGE, WEB_API_BASE_URL } from "../../constants";
 import { User } from "../types";
 import axios from "axios";
 
@@ -18,10 +18,18 @@ export async function findUserByEmail(email: string): Promise<User> {
   return res.data;
 }
 
-export async function fetchUser(uid: string): Promise<User> {
-  const res = await axios.get<User>(baseUrl(`/users/${uid}`));
+export async function findUserById(uid: string): Promise<User> {
+  try {
+    const res = await axios.get<User>(baseUrl(`/users/${uid}`));
 
-  return res.data;
+    if (!res.data) {
+      throw new Error(ERROR_MESSAGE.notFound("ユーザー"));
+    }
+
+    return res.data;
+  } catch {
+    throw new Error(ERROR_MESSAGE.serverError);
+  }
 }
 
 export async function registerUser(user: User): Promise<void> {

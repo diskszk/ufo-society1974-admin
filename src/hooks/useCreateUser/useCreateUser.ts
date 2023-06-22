@@ -9,7 +9,7 @@ import { ERROR_MESSAGE, ROLE } from "../../constants";
 
 export function useCreateUser() {
   const { openMessageModalWithMessage } = useMessageModalState();
-  const { signInMutate } = useSignIn();
+  const { handleSignIn } = useSignIn();
 
   const { mutateAsync: createUserMutate } = useMutation(
     ({ email, password }: { email: string; password: string }) =>
@@ -52,10 +52,7 @@ export function useCreateUser() {
         `${inputData.username}を作成しました。
           サインインし直します。`
       );
-      await signInMutate({
-        email: inputData.email,
-        password: inputData.password,
-      });
+      await handleSignIn(inputData.email, inputData.password);
     } catch (error) {
       if (error instanceof Error) {
         openMessageModalWithMessage(error.message);

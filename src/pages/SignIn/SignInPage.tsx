@@ -11,20 +11,15 @@ type Inputs = {
 };
 
 export const SignInPage: React.FC = () => {
-  const { handleSubmit, register } = useForm<Inputs>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  const { handleSubmit, register } = useForm<Inputs>();
 
-  const { signInMutate } = useSignIn();
+  const { handleSignIn } = useSignIn();
 
   const handleClickLoginButton: SubmitHandler<Inputs> = useCallback(
     async ({ email, password }) => {
-      await signInMutate({ email, password });
+      await handleSignIn(email, password);
     },
-    [signInMutate]
+    [handleSignIn]
   );
 
   return (

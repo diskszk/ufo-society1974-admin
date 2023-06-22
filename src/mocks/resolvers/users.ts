@@ -3,19 +3,19 @@ import { User } from "../../lib/types";
 
 const dummyUsers: User[] = [
   {
-    uid: "editor1",
+    uid: "DwWHLLDL3KbYtGLP6RrTfUDOYdU2",
     username: "Editor User",
     email: "editor@example.com",
     role: "editor",
   },
   {
-    uid: "master1",
+    uid: "yB1yjkskeybtbuQMmiazb92ZexY2",
     username: "Master User",
     email: "master@example.com",
     role: "master",
   },
   {
-    uid: "watcher1",
+    uid: "Fzva1r7WLXSGJ1V9jZawFRdWe2f2",
     username: "Watcher User",
     email: "watcher@example.com",
     role: "watcher",

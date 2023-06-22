@@ -1,4 +1,4 @@
-import { fetchUser, fetchUsers, findUserByEmail } from "./fetchUser";
+import { findUserById, fetchUsers, findUserByEmail } from "./fetchUser";
 
 test("getUsers => User[]", async () => {
   const users = await fetchUsers();
@@ -27,12 +27,12 @@ describe("findUserByEmail", () => {
 
 describe("fetchUser", () => {
   test("(valid) => User", async () => {
-    const user = await fetchUser("editor1");
+    const user = await findUserById("editor1");
 
     expect(user.username).toBe("Editor User");
   });
 
   test("(invalid) => 404", async () => {
-    expect(async () => fetchUser("notfoundid")).rejects.toThrow();
+    expect(async () => findUserById("notfoundid")).rejects.toThrow();
   });
 });

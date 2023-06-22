@@ -4,7 +4,7 @@ import { composeStories } from "@storybook/react";
 import * as stories from "./CreateUserForm.stories";
 import { CreateUserForm } from "./CreateUserForm";
 import { CreateUserInputs } from "../../lib/schemas/createUserSchema";
-import { setupCreateAccount } from "../../test-utils/createAccount";
+import { setupCreateUser } from "../../test-utils/createUser";
 
 const user = userEvent.setup();
 
@@ -23,7 +23,7 @@ const setup = async (injectValues?: Partial<CreateUserInputs>) => {
       role="master"
     />
   );
-  return await setupCreateAccount(injectValues);
+  return await setupCreateUser(injectValues);
 };
 
 test("何も入力されていない場合、ボタンは非活性である", async () => {

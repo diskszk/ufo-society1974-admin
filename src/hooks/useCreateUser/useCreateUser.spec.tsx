@@ -1,7 +1,7 @@
 import { renderHook, waitFor, screen, act } from "@testing-library/react";
 import { Wrapper } from "../../test-utils";
 import { useCreateUser } from "./useCreateUser";
-import { input } from "../../test-utils/createAccount";
+import { input } from "../../test-utils/createUser";
 
 jest.mock("../../lib/auth", () => ({
   createUserInFirebase: (_email: string, _password: string) => {
@@ -20,7 +20,7 @@ test("[role=master]以外のユーザーが実行した場合、エラーモー�
   });
 
   await act(async () => {
-    await result.current.handleCreateAccount(input, "editor");
+    await result.current.handleCreateUser(input, "editor");
   });
 
   await waitFor(() => {
@@ -34,7 +34,7 @@ test("ユーザーロールがmasterの場合、登録ボタンをクリック�
   });
 
   await act(async () => {
-    await result.current.handleCreateAccount(input, "master");
+    await result.current.handleCreateUser(input, "master");
   });
 
   waitFor(() => {

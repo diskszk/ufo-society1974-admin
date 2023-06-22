@@ -11,14 +11,14 @@ import { useMessageModalState } from "../../hooks/useMessageModalState";
 export const CreateUserPage: React.FC = () => {
   const history = useHistory();
   const { signedInUser } = useSignedInUserState();
-  const { handleCreateAccount } = useCreateUser();
+  const { handleCreateUser } = useCreateUser();
   const { openMessageModalWithMessage } = useMessageModalState();
 
   const onSubmit: SubmitHandler<CreateUserInputs> = useCallback(
     (data) => {
-      handleCreateAccount(data, signedInUser.role);
+      handleCreateUser(data, signedInUser.role);
     },
-    [handleCreateAccount, signedInUser.role]
+    [handleCreateUser, signedInUser.role]
   );
 
   const handleClickBack = useCallback(() => {

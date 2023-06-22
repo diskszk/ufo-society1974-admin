@@ -12,7 +12,7 @@ export const input: CreateUserInputs = {
   roleType: "editor",
 };
 
-export const setupCreateAccount = async (
+export const setupCreateUser = async (
   injectValues?: Partial<CreateUserInputs>
 ) => {
   const validInput: CreateUserInputs = {

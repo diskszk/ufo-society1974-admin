@@ -2,34 +2,7 @@ import React, { useCallback } from "react";
 import { SubmitHandler } from "react-hook-form";
 import { useSignIn } from "../../hooks/useSignIn";
 import { SignInForm } from "../../partials/SignInForm";
-
-const MockSignIn = () => {
-  const pw = "asdf1234";
-  const { handleSignIn } = useSignIn();
-
-  const handleClick = async (email: string) => {
-    await handleSignIn(email, pw);
-  };
-
-  return (
-    <div>
-      <ul>
-        <li>editor</li>
-        <button onClick={() => handleClick("editor@example.com")}>
-          signIn
-        </button>
-        <li>master</li>
-        <button onClick={() => handleClick("master@example.com")}>
-          signIn
-        </button>
-        <li>watcher</li>
-        <button onClick={() => handleClick("watcher@example.com")}>
-          signIn
-        </button>
-      </ul>
-    </div>
-  );
-};
+import { MockSignIn } from "../../mocks/MockSignIn";
 
 type Inputs = {
   email: string;

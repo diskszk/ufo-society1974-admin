@@ -20,7 +20,7 @@ export function useCreateUser() {
     registerUser(user)
   );
 
-  const handleCreateAccount = async (
+  const handleCreateUser = async (
     inputData: CreateUserInputs,
     role: string
   ) => {
@@ -61,5 +61,5 @@ export function useCreateUser() {
     }
   };
 
-  return { handleCreateAccount };
+  return { handleCreateUser };
 }

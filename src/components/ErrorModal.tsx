@@ -1,6 +1,5 @@
 import { useCallback, useState, useEffect } from "react";
 import { Modal } from "./Modal";
-import { useHistory } from "react-router-dom";
 import { useErrorBoundary } from "react-error-boundary";
 
 type Props = {
@@ -9,7 +8,6 @@ type Props = {
 
 export const ErrorModal: React.FC<Props> = ({ error }) => {
   const { resetBoundary } = useErrorBoundary();
-  const history = useHistory();
 
   // 基本サーバーで定義したエラーメッセージを使う
   const [errorMessage, setErrorMessage] = useState(error.message);
@@ -38,8 +36,7 @@ export const ErrorModal: React.FC<Props> = ({ error }) => {
 
   const handleClick = useCallback(() => {
     resetBoundary();
-    history.goBack();
-  }, [history, resetBoundary]);
+  }, [resetBoundary]);
 
   return <Modal message={errorMessage} handleClickCloseModal={handleClick} />;
 };

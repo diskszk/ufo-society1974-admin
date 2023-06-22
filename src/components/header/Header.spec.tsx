@@ -11,7 +11,16 @@ import { Wrapper } from "../../test-utils";
 import { useSignedInUserState } from "../../hooks/useSignedInUserState";
 
 jest.mock("../../lib/auth", () => ({
-  signOut: () => void 0,
+  signOut: () => {
+    return;
+  },
+}));
+
+const mockedHistory = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useHistory: () => mockedHistory,
 }));
 
 describe("Header", () => {
@@ -42,7 +51,7 @@ describe("Header", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText("ログアウト")).toBeInTheDocument();
+      expect(screen.getByText("サインアウト")).toBeInTheDocument();
     });
   });
 
@@ -61,7 +70,7 @@ describe("Header", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText("ログアウト")).toBeInTheDocument();
+      expect(screen.getByText("サインアウト")).toBeInTheDocument();
     });
 
     act(() => {
@@ -69,7 +78,7 @@ describe("Header", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText("ログイン")).toBeInTheDocument();
+      expect(screen.getByText("サインイン")).toBeInTheDocument();
     });
   });
 });

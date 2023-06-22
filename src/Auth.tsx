@@ -2,8 +2,9 @@ import React, { useEffect, ReactNode } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { auth } from "./firebase";
-import { fetchUser } from "./lib/users/fetchUser";
+import { findUserById } from "./lib/users/fetchUser";
 import { useSignedInUserState } from "./hooks/useSignedInUserState";
+import { useMessageModalState } from "./hooks/useMessageModalState";
 
 type Props = {
   children: ReactNode;
@@ -11,36 +12,44 @@ type Props = {
 
 const Auth: React.FC<Props> = ({ children }) => {
   const history = useHistory();
+  const { openMessageModalWithMessage } = useMessageModalState();
 
-  const { setSignedInUser, setSignOut, signedInUser } = useSignedInUserState();
+  const { setSignedInUser, setSignOut } = useSignedInUserState();
 
   useEffect(() => {
-    if (!signedInUser.uid) {
-      return;
-    }
-
     const unsubscribed = auth.onAuthStateChanged(async (user) => {
       if (!user) {
         setSignOut();
         history.push("/signin");
         return;
       }
-      const idToken = await user.getIdToken();
 
-      const newSignedInUser = await fetchUser(user.uid);
+      try {
+        const idToken = await user.getIdToken();
 
-      setSignedInUser(newSignedInUser);
+        const newSignedInUser = await findUserById(user.uid);
 
-      axios.defaults.headers.common["Authorization"] = idToken;
-      axios.defaults.headers.common["role"] = newSignedInUser.role;
+        setSignedInUser(newSignedInUser);
 
-      return;
+        axios.defaults.headers.common["Authorization"] = idToken;
+        axios.defaults.headers.common["role"] = newSignedInUser.role;
+
+        return;
+      } catch (error) {
+        setSignOut();
+        history.push("/signin");
+
+        if (error instanceof Error) {
+          openMessageModalWithMessage(error.message);
+        }
+        return;
+      }
     });
 
     return () => {
       unsubscribed();
     };
-  }, [history, setSignOut, setSignedInUser, signedInUser.uid]);
+  }, [history, openMessageModalWithMessage, setSignOut, setSignedInUser]);
 
   return <>{children}</>;
 };

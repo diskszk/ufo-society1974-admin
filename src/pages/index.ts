@@ -1,12 +1,12 @@
-export { default as Login } from "./Login";
+export { SignInPage as SignIn } from "./SignIn";
+export { ResetPage as Reset } from "./Reset";
 
 // need authentication
 export { default as Home } from "./Home";
-export { default as Reset } from "./Reset";
 
 // Users
 export { default as Users } from "./Users";
-export { default as CreateAccount } from "./CreateAccount";
+export { CreateUserPage as CreateUser } from "./CreateUser";
 
 // Albums
 export { default as Albums } from "./Albums";

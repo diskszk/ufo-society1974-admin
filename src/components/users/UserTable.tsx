@@ -89,6 +89,7 @@ const UserTable: React.FC = () => {
         );
         return;
       }
+      // TODO: 外に出す
       history.push("/users/create");
     },
     [dispatch, history, role]

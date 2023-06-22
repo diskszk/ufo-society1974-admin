@@ -29,13 +29,13 @@ const App: React.FC = () => {
   return (
     <React.StrictMode>
       <BrowserRouter>
-        <Suspense fallback={<LoadingModal />}>
-          <QueryErrorResetBoundary>
-            {({ reset }) => (
-              <ErrorBoundary
-                onReset={reset}
-                fallbackRender={({ error }) => <ErrorModal error={error} />}
-              >
+        <QueryErrorResetBoundary>
+          {({ reset }) => (
+            <ErrorBoundary
+              onReset={reset}
+              fallbackRender={({ error }) => <ErrorModal error={error} />}
+            >
+              <Suspense fallback={<LoadingModal />}>
                 <QueryClientProvider client={client}>
                   <Provider store={store}>
                     <MessageModal />
@@ -45,10 +45,10 @@ const App: React.FC = () => {
                     </main>
                   </Provider>
                 </QueryClientProvider>
-              </ErrorBoundary>
-            )}
-          </QueryErrorResetBoundary>
-        </Suspense>
+              </Suspense>
+            </ErrorBoundary>
+          )}
+        </QueryErrorResetBoundary>
       </BrowserRouter>
     </React.StrictMode>
   );

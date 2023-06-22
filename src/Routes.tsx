@@ -3,7 +3,7 @@ import Auth from "./Auth";
 import {
   Home,
   SignIn,
-  CreateAccount,
+  CreateUser,
   Reset,
   Songs,
   SongEdit,
@@ -23,7 +23,7 @@ const Routes: React.FC = () => {
 
         {/* Users */}
         <Route exact path={"/users"} component={Users} />
-        <Route exact path={"/users/create"} component={CreateAccount} />
+        <Route exact path={"/users/create"} component={CreateUser} />
 
         {/* Albums */}
         <Route exact path={"/albums"} component={Albums} />

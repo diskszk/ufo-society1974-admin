@@ -25,3 +25,8 @@ const WEB_API_DEV_URL =
 
 export const WEB_API_BASE_URL =
   process.env.NODE_ENV === "production" ? WEB_API_PROD_URL : WEB_API_DEV_URL;
+
+export const ERROR_MESSAGE = {
+  serverError: "サーバーでエラーが発生しました。",
+  notFound: (value: string) => `${value}が存在しません。`,
+};

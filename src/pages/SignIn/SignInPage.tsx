@@ -1,11 +1,9 @@
 import React, { useCallback } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { signIn } from "../../lib/auth";
-import { useMessageModalState } from "../../hooks/useMessageModalState";
 import { StyledButton } from "../../components/UIKit/CustomButton";
 import { Textbox } from "../../components/Textbox";
+import { useSignIn } from "../../hooks/useSignIn";
 
 type Inputs = {
   email: string;
@@ -13,9 +11,6 @@ type Inputs = {
 };
 
 export const SignInPage: React.FC = () => {
-  const { openMessageModalWithMessage } = useMessageModalState();
-  const history = useHistory();
-
   const { handleSubmit, register } = useForm<Inputs>({
     defaultValues: {
       email: "",
@@ -23,26 +18,11 @@ export const SignInPage: React.FC = () => {
     },
   });
 
-  const { mutate: signInMutate } = useMutation(
-    ({ email, password }: { email: string; password: string }) =>
-      signIn(email, password),
-    {
-      onSuccess: (user) => {
-        if (!user) {
-          openMessageModalWithMessage("サインインに失敗しました。");
-          return;
-        }
-        history.push("/");
-      },
-      onError: () => {
-        openMessageModalWithMessage("サインインに失敗しました。");
-      },
-    }
-  );
+  const { signInMutate } = useSignIn();
 
   const handleClickLoginButton: SubmitHandler<Inputs> = useCallback(
-    ({ email, password }) => {
-      signInMutate({ email, password });
+    async ({ email, password }) => {
+      await signInMutate({ email, password });
     },
     [signInMutate]
   );

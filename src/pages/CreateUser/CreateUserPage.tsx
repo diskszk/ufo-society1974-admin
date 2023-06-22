@@ -4,24 +4,18 @@ import { SubmitHandler } from "react-hook-form";
 import { CreateAccountForm } from "../../partials/CreateAccountForm";
 import { CreateAccountInputs } from "../../lib/schemas/createUserSchema";
 import { useSignedInUserState } from "../../hooks/useSignedInUserState";
-import { useCreateAccount } from "./useCreateAccount";
-import { useErrorBoundary } from "react-error-boundary";
+import { useCreateUser } from "../../hooks/useCreateUser";
 
-export const CreateAccountPage: React.FC = () => {
-  const { showBoundary } = useErrorBoundary();
+export const CreateUserPage: React.FC = () => {
   const history = useHistory();
   const { signedInUser } = useSignedInUserState();
-  const { handleCreateAccount } = useCreateAccount();
+  const { handleCreateAccount } = useCreateUser();
 
   const onSubmit: SubmitHandler<CreateAccountInputs> = useCallback(
     (data) => {
-      try {
-        handleCreateAccount(data, signedInUser.role);
-      } catch (err) {
-        showBoundary(err);
-      }
+      handleCreateAccount(data, signedInUser.role);
     },
-    [handleCreateAccount, showBoundary, signedInUser.role]
+    [handleCreateAccount, signedInUser.role]
   );
 
   const handleClickBack = useCallback(() => {

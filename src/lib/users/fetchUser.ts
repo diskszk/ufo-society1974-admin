@@ -26,12 +26,11 @@ export async function fetchUser(uid: string): Promise<User> {
 
 export async function registerUser(user: User): Promise<void> {
   const res = await axios.post<User>(baseUrl(`/users`), {
-    user,
+    ...user,
   });
 
   if (res.status > 399) {
     throw new Error("ユーザーの作成に失敗しました。");
   }
-
   return;
 }

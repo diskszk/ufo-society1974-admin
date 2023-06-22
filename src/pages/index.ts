@@ -6,7 +6,7 @@ export { default as Home } from "./Home";
 
 // Users
 export { default as Users } from "./Users";
-export { CreateAccountPage as CreateAccount } from "./CreateAccount";
+export { CreateUserPage as CreateUser } from "./CreateUser";
 
 // Albums
 export { default as Albums } from "./Albums";

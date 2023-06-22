@@ -1,13 +1,13 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { CreateAccountForm } from ".";
+import { CreateUserForm } from ".";
 import { within, userEvent } from "@storybook/testing-library";
-import { CreateAccountInputs } from "../../lib/schemas/createUserSchema";
+import { CreateUserInputs } from "../../lib/schemas/createUserSchema";
 import { input } from "../../test-utils/createAccount";
 
 // eslint-disable-next-line storybook/story-exports
-const meta: Meta<typeof CreateAccountForm> = {
-  title: "Partials/CreateAccount",
-  component: CreateAccountForm,
+const meta: Meta<typeof CreateUserForm> = {
+  title: "Partials/CreateUser",
+  component: CreateUserForm,
   parameters: {
     chromatic: { disableSnapshot: true },
   },
@@ -15,7 +15,7 @@ const meta: Meta<typeof CreateAccountForm> = {
 
 export default meta;
 
-type Story = StoryObj<typeof CreateAccountForm>;
+type Story = StoryObj<typeof CreateUserForm>;
 
 export const Default: Story = {
   parameters: {
@@ -31,9 +31,9 @@ export const Default: Story = {
 
 const setup = async (
   canvasElement: HTMLElement,
-  injectValue?: Partial<CreateAccountInputs>
+  injectValue?: Partial<CreateUserInputs>
 ) => {
-  const validInput: CreateAccountInputs = {
+  const validInput: CreateUserInputs = {
     ...input,
     ...injectValue,
   };

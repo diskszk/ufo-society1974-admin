@@ -38,4 +38,4 @@ export const createUserSchema = z
     }
   });
 
-export type CreateAccountInputs = z.infer<typeof createUserSchema>;
+export type CreateUserInputs = z.infer<typeof createUserSchema>;

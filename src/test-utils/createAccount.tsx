@@ -1,10 +1,10 @@
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { CreateAccountInputs } from "../lib/schemas/createUserSchema";
+import { CreateUserInputs } from "../lib/schemas/createUserSchema";
 
 const user = userEvent.setup();
 
-export const input: CreateAccountInputs = {
+export const input: CreateUserInputs = {
   username: "アリス",
   email: "alice@example.com",
   password: "asdf1234",
@@ -13,9 +13,9 @@ export const input: CreateAccountInputs = {
 };
 
 export const setupCreateAccount = async (
-  injectValues?: Partial<CreateAccountInputs>
+  injectValues?: Partial<CreateUserInputs>
 ) => {
-  const validInput: CreateAccountInputs = {
+  const validInput: CreateUserInputs = {
     ...input,
     ...injectValues,
   };

@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { SignInForm } from "./SignInForm";
-import { CreateAccountForm } from "../CreateAccountForm";
+import { CreateUserForm } from "../CreateUserForm";
 import { SignInInputs } from "../../lib/schemas/signInSchema";
 import { within, userEvent } from "@storybook/testing-library";
 
@@ -15,7 +15,7 @@ const meta: Meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof CreateAccountForm>;
+type Story = StoryObj<typeof CreateUserForm>;
 
 export const Default: Story = {
   parameters: {

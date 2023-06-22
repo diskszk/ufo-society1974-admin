@@ -1,4 +1,4 @@
-import { CreateAccountInputs } from "../../lib/schemas/createUserSchema";
+import { CreateUserInputs } from "../../lib/schemas/createUserSchema";
 import { User } from "../../lib/types";
 import { useMutation } from "@tanstack/react-query";
 import { createUserInFirebase } from "../../lib/auth";
@@ -21,7 +21,7 @@ export function useCreateUser() {
   );
 
   const handleCreateAccount = async (
-    inputData: CreateAccountInputs,
+    inputData: CreateUserInputs,
     role: string
   ) => {
     if (role !== ROLE.MASTER) {

@@ -1,9 +1,9 @@
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { composeStories } from "@storybook/react";
-import * as stories from "./CreateAccountForm.stories";
-import { CreateAccountForm } from ".";
-import { CreateAccountInputs } from "../../lib/schemas/createUserSchema";
+import * as stories from "./CreateUserForm.stories";
+import { CreateUserForm } from "./CreateUserForm";
+import { CreateUserInputs } from "../../lib/schemas/createUserSchema";
 import { setupCreateAccount } from "../../test-utils/createAccount";
 
 const user = userEvent.setup();
@@ -15,11 +15,12 @@ afterEach(() => {
   mockOnSubmit.mockClear();
 });
 
-const setup = async (injectValues?: Partial<CreateAccountInputs>) => {
+const setup = async (injectValues?: Partial<CreateUserInputs>) => {
   render(
-    <CreateAccountForm
+    <CreateUserForm
       handleClickBackButton={mockHandleBack}
       onSubmit={mockOnSubmit}
+      role="master"
     />
   );
   return await setupCreateAccount(injectValues);
@@ -27,9 +28,10 @@ const setup = async (injectValues?: Partial<CreateAccountInputs>) => {
 
 test("何も入力されていない場合、ボタンは非活性である", async () => {
   render(
-    <CreateAccountForm
+    <CreateUserForm
       handleClickBackButton={mockHandleBack}
       onSubmit={mockOnSubmit}
+      role="master"
     />
   );
 

@@ -1,17 +1,20 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { SubmitHandler } from "react-hook-form";
-import { CreateAccountForm } from "../../partials/CreateAccountForm";
-import { CreateAccountInputs } from "../../lib/schemas/createUserSchema";
+import { CreateUserForm } from "../../partials/CreateUserForm";
+import { CreateUserInputs } from "../../lib/schemas/createUserSchema";
 import { useSignedInUserState } from "../../hooks/useSignedInUserState";
 import { useCreateUser } from "../../hooks/useCreateUser";
+import { ROLE } from "../../constants";
+import { useMessageModalState } from "../../hooks/useMessageModalState";
 
 export const CreateUserPage: React.FC = () => {
   const history = useHistory();
   const { signedInUser } = useSignedInUserState();
   const { handleCreateAccount } = useCreateUser();
+  const { openMessageModalWithMessage } = useMessageModalState();
 
-  const onSubmit: SubmitHandler<CreateAccountInputs> = useCallback(
+  const onSubmit: SubmitHandler<CreateUserInputs> = useCallback(
     (data) => {
       handleCreateAccount(data, signedInUser.role);
     },
@@ -22,13 +25,23 @@ export const CreateUserPage: React.FC = () => {
     history.goBack();
   }, [history]);
 
+  useEffect(() => {
+    if (signedInUser) {
+      if (signedInUser.role !== ROLE.MASTER) {
+        openMessageModalWithMessage("このページへのアクセス権がありません。");
+        history.push("/users");
+      }
+    }
+  }, [openMessageModalWithMessage, signedInUser, history]);
+
   return (
     <div className="sign-up page">
       <h1>管理者登録</h1>
 
-      <CreateAccountForm
+      <CreateUserForm
         handleClickBackButton={handleClickBack}
         onSubmit={onSubmit}
+        role={signedInUser.role}
       />
     </div>
   );

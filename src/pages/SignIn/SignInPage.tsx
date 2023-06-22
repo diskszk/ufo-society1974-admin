@@ -1,9 +1,35 @@
 import React, { useCallback } from "react";
-import { Link } from "react-router-dom";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { StyledButton } from "../../components/UIKit/CustomButton";
-import { Textbox } from "../../components/Textbox";
+import { SubmitHandler } from "react-hook-form";
 import { useSignIn } from "../../hooks/useSignIn";
+import { SignInForm } from "../../partials/SignInForm";
+
+const MockSignIn = () => {
+  const pw = "asdf1234";
+  const { handleSignIn } = useSignIn();
+
+  const handleClick = async (email: string) => {
+    await handleSignIn(email, pw);
+  };
+
+  return (
+    <div>
+      <ul>
+        <li>editor</li>
+        <button onClick={() => handleClick("editor@example.com")}>
+          signIn
+        </button>
+        <li>master</li>
+        <button onClick={() => handleClick("master@example.com")}>
+          signIn
+        </button>
+        <li>watcher</li>
+        <button onClick={() => handleClick("watcher@example.com")}>
+          signIn
+        </button>
+      </ul>
+    </div>
+  );
+};
 
 type Inputs = {
   email: string;
@@ -11,8 +37,6 @@ type Inputs = {
 };
 
 export const SignInPage: React.FC = () => {
-  const { handleSubmit, register } = useForm<Inputs>();
-
   const { handleSignIn } = useSignIn();
 
   const handleClickLoginButton: SubmitHandler<Inputs> = useCallback(
@@ -25,30 +49,8 @@ export const SignInPage: React.FC = () => {
   return (
     <div className="login page">
       <h1>サインイン</h1>
-      <div className="inputs-container">
-        <form onSubmit={handleSubmit(handleClickLoginButton)}>
-          <Textbox
-            {...register("email")}
-            label={"E-mail"}
-            type={"email"}
-            required
-          />
-          <Textbox
-            {...register("password")}
-            label={"パスワード"}
-            type={"password"}
-            required
-          />
-
-          <div className="spacing-div" />
-          <div className="button-container">
-            <StyledButton type="submit">サインイン</StyledButton>
-          </div>
-          <div className="spacing-div" />
-        </form>
-
-        <Link to="/reset">パスワードをリセットする</Link>
-      </div>
+      <SignInForm onSubmit={handleClickLoginButton} />
+      {process.env.NODE_ENV === "development" && <MockSignIn />}
     </div>
   );
 };

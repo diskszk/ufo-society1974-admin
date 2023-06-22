@@ -5,7 +5,7 @@ import { Textbox } from "../../components/Textbox";
 import { StyledButton } from "../../components/UIKit/CustomButton";
 import { ROLE } from "../../constants";
 import {
-  CreateAccountInputs,
+  CreateUserInputs,
   createUserSchema,
 } from "../../lib/schemas/createUserSchema";
 import { Select } from "../../components/Select";
@@ -28,12 +28,14 @@ const roles: SelectOptions = [
 
 type Props = {
   handleClickBackButton: () => void;
-  onSubmit: SubmitHandler<CreateAccountInputs>;
+  onSubmit: SubmitHandler<CreateUserInputs>;
+  role: string;
 };
 
-export const CreateAccountForm: React.FC<Props> = ({
+export const CreateUserForm: React.FC<Props> = ({
   handleClickBackButton,
   onSubmit,
+  role,
 }) => {
   const {
     control,
@@ -41,7 +43,7 @@ export const CreateAccountForm: React.FC<Props> = ({
     register,
     reset,
     formState: { errors, isSubmitting, isSubmitSuccessful, isDirty },
-  } = useForm<CreateAccountInputs>({
+  } = useForm<CreateUserInputs>({
     resolver: zodResolver(createUserSchema),
     mode: "onBlur",
     defaultValues: {
@@ -54,6 +56,8 @@ export const CreateAccountForm: React.FC<Props> = ({
       reset();
     }
   }, [isSubmitSuccessful, reset]);
+
+  const isValidUser = role === ROLE.MASTER;
 
   return (
     <div className="inputs-container">
@@ -105,7 +109,10 @@ export const CreateAccountForm: React.FC<Props> = ({
 
         <div className="button-container-row">
           <StyledButton onClick={handleClickBackButton}>もどる</StyledButton>
-          <StyledButton disabled={isSubmitting || !isDirty} type="submit">
+          <StyledButton
+            disabled={isSubmitting || (isValidUser && !isDirty)}
+            type="submit"
+          >
             登録する
           </StyledButton>
         </div>

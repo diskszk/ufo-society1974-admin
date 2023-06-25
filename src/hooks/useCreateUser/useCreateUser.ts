@@ -33,7 +33,7 @@ export function useCreateUser() {
       const fbUser = await createUserMutate({
         email: inputData.email,
         password: inputData.password,
-      }).then((data: firebase.User) => data);
+      });
 
       if (!fbUser) {
         openMessageModalWithMessage(ERROR_MESSAGE.serverError);

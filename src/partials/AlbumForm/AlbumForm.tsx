@@ -11,12 +11,12 @@ import { getDefaultImageFile } from "../../lib/helpers/getDefaultImageFile";
 import { NO_IMAGE, ROLE } from "../../constants";
 
 type Props = {
-  handleBack: () => void;
+  backToHref: string;
   onSubmit: SubmitHandler<AlbumInput>;
   role: string;
 };
 
-export const AlbumForm: React.FC<Props> = ({ handleBack, onSubmit, role }) => {
+export const AlbumForm: React.FC<Props> = ({ backToHref, onSubmit, role }) => {
   const {
     handleSubmit,
     register,
@@ -90,7 +90,7 @@ export const AlbumForm: React.FC<Props> = ({ handleBack, onSubmit, role }) => {
         />
 
         <div className="button-container-row">
-          <StyledButton onClick={handleBack}>もどる</StyledButton>
+          <StyledButton href={backToHref}>もどる</StyledButton>
 
           <StyledButton
             disabled={isSubmitting || (isApprovedUser && !isDirty)}

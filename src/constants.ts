@@ -7,7 +7,7 @@ export const ROLE = {
   WATCHER: "watcher",
 } as const;
 
-import defaultFile from "../../assets/images/no_image.jpg";
+import defaultFile from "./assets/images/no_image.jpg";
 
 export const NO_IMAGE = defaultFile;
 

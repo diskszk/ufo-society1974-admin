@@ -11,6 +11,7 @@ export { CreateUserPage as CreateUser } from "./CreateUser";
 // Albums
 export { default as Albums } from "./Albums";
 export { default as AlbumEdit } from "./AlbumEdit";
+export { CreateAlbum } from "./CreateAlbum";
 
 // Songs
 export { default as Songs } from "./Songs";

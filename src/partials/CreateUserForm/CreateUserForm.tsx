@@ -57,7 +57,7 @@ export const CreateUserForm: React.FC<Props> = ({
     }
   }, [isSubmitSuccessful, reset]);
 
-  const isValidUser = role === ROLE.MASTER;
+  const isApprovedUser = role === ROLE.MASTER;
 
   return (
     <div className="inputs-container">
@@ -110,7 +110,7 @@ export const CreateUserForm: React.FC<Props> = ({
         <div className="button-container-row">
           <StyledButton onClick={handleClickBackButton}>もどる</StyledButton>
           <StyledButton
-            disabled={isSubmitting || (isValidUser && !isDirty)}
+            disabled={isSubmitting || (isApprovedUser && !isDirty)}
             type="submit"
           >
             登録する

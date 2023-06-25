@@ -13,7 +13,7 @@ type SelectProps = ComponentPropsWithRef<"div"> &
     options: SelectOptions;
   };
 
-export const Select = forwardRef<HTMLDivElement, SelectProps>(function TS(
+export const Select = forwardRef<HTMLDivElement, SelectProps>(function Select(
   { options, ...props },
   ref
 ) {

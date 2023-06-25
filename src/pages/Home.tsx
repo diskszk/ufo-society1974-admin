@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { CustomButton } from "../components/UIKit";
 import meido from "../assets/images/job_maid_meido_kissa.png";
 import { useSignedInUserState } from "../hooks/useSignedInUserState";
+import { CircularProgress } from "@mui/material";
 
 type PresentationProps = {
   username: string;
@@ -17,7 +18,11 @@ export const Presentation: React.FC<PresentationProps> = ({ username }) => {
       <div className="spacing-div"></div>
       <div>
         <h2>
-          おかえりなさいませ <span className="username">{username}</span> さま！
+          おかえりなさいませ{" "}
+          <span className="username">
+            {username ? username : <CircularProgress />}
+          </span>
+          さま！
         </h2>
       </div>
       <div className="spacing-div"></div>

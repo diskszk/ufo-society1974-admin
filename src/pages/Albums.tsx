@@ -64,7 +64,7 @@ const Albums: React.FC = () => {
       }
 
       dispatch(createClearAlbumAction());
-      history.push("/albums/edit/new");
+      history.push("/albums/create");
     },
     [dispatch, history, role]
   );

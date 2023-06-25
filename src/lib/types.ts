@@ -37,13 +37,13 @@ export type File = {
 };
 
 export type Album = {
-  description: string;
+  description?: string;
   imageFile: File;
   id: string;
   publishedDate: string;
   songs?: Song[];
   title: string;
-  publishPlatform: PublishPlatform;
+  publishPlatform?: PublishPlatform;
   createdAt?: firebase.firestore.Timestamp;
 };
 

@@ -7,7 +7,9 @@ export const ROLE = {
   WATCHER: "watcher",
 } as const;
 
-export { default as NO_IMAGE } from "./assets/images/no_image.jpg";
+import defaultFile from "../../assets/images/no_image.jpg";
+
+export const NO_IMAGE = defaultFile;
 
 export const UFO_SOCIETY_OFFICIAL =
   "https://ufo-society-1974.web.app/" as const;

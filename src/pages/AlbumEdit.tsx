@@ -203,6 +203,15 @@ const AlbumEdit: React.FC = () => {
           if (!res) {
             throw new Error("アルバムが存在しません。");
           } else {
+            if (
+              !res.createdAt ||
+              !res.description ||
+              !res.publishPlatform ||
+              !res.imageFile
+            ) {
+              return;
+            }
+
             setTitle(res.title);
             setDescription(res.description);
             setPublishedDate(res.publishedDate);
